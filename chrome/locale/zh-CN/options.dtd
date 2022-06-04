@@ -1,0 +1,122 @@
+<!-- 期刊影响因子设置 -->
+<!ENTITY updateifs-preferences "更新期刊信息设置">
+<!ENTITY update-abbr "更新期刊信息">
+<!ENTITY update-journal-abbr "">
+
+<!ENTITY add-update "添加条目时自动更新期刊信息">
+<!ENTITY  all-extra "所有期刊信息放入其它字段">
+<!-- 分区类型设置 -->
+<!ENTITY ifs-type "分区类型设置">
+<!ENTITY ifs-type-desc "你可以选择显示哪个中科院分区版本：">
+<!ENTITY updateifs-ifs-type-label "分区类型设置">
+<!ENTITY basic "基础版">
+<!ENTITY updated "升级版">
+<!-- 南农核心期刊设置 -->
+<!ENTITY njau-core-high-quality "南农大核心期刊及高质量期刊设置（仅含食品科学与工程）">
+<!ENTITY njau-core "显示南农大核心期刊于">
+<!ENTITY njau-high-quality "显示南农大高质量期刊于">
+<!-- 影响因子设置 -->
+<!ENTITY updateifs.ifs.setting "分区和影响因子设置">
+<!ENTITY sci-settings "SCI, EI期刊影响因子设置">
+<!ENTITY sci-settings-desc "设置SCI期刊影响因子是否显示（默认全部显示）：">
+<!ENTITY jcr-qu "显示JCR分区于">
+<!ENTITY cas-qu1 "显示中科院升级区于">
+<!ENTITY cas-qu2 "显示中科院基础分区于">
+<!ENTITY sci-if "显示影响因子于">
+<!ENTITY sci-if5 "显示5年影响因子于">
+<!ENTITY sci-all-extra "将以上所有信息显示在其它字段中">
+<!ENTITY chj-settings "中文期刊影响因子设置">
+<!ENTITY chj-settings-desc "设置SCI期刊影响因子是否显示（默认全部显示）：">
+
+<!ENTITY chj-cscd "显示CSCD于">
+<!ENTITY pku-core "显示北大核心于">
+<!ENTITY sci-core "显示科技核心于">
+<!ENTITY com-if "显示南大核心于">
+<!ENTITY agg-if "显示EI于">
+<!ENTITY chj-all-extra "将以上所有信息显示在其它字段中">
+
+<!ENTITY sci-settings-series "系列">
+<!ENTITY sci-settings-seriesTitle "系列标题">
+<!ENTITY sci-settings-seriesText "系列文本">
+<!ENTITY sci-settings-archive "档案">
+<!ENTITY sci-settings-archiveLocation "存档位置">
+<!ENTITY sci-settings-libraryCatalog "馆藏目录">
+<!ENTITY sci-settings-callNumber "索书号">
+<!ENTITY sci-settings-rights "版权">
+<!ENTITY sci-settings-field "字段">
+<!-- <!ENTITY search-pattern "搜索方式">
+<!ENTITY pubtitle-label "使用期刊名称搜索">
+<!ENTITY issn-label "使用期刊ISSN搜索"> -->
+
+<!-- 工具箱菜单隐藏显示 -->
+
+<!ENTITY updateifs.menu.setting "显示隐藏工具箱子菜单">
+<!ENTITY menu-setting "显示隐藏子菜单">
+<!ENTITY menu-setting-desc "你可以设置显示隐藏工具箱子菜单。">
+<!ENTITY menu-stting-label "勾选你想显示的子菜单（默认全部显示）: ">
+<!ENTITY updateifs-bold-star-label "作者加粗和/或加星">
+<!ENTITY updateifs-remove-bold-label "清除作者加粗">
+<!ENTITY updateifs-remove-star-label "清除作者星号">
+<!ENTITY updateifs-remove-bold-and-star-label "清除作者加粗和星号">
+<!ENTITY updateifs-chang-author-case-label "更改作者姓名词首字母大写">
+<!ENTITY updateifs-swap-author-label "交换作者姓和名">
+<!ENTITY updateifs-chang-title-label "文献题目句首字母大写">
+<!ENTITY updateifs-chang-pub-title-case-label "更改期刊名称词首字母大写">
+<!ENTITY updateifs-chang-pub-title-label "修改期刊名称">
+<!ENTITY updateifs-item-title-find-replace-label "文献题目查找替换">
+<!ENTITY updateifs-show-profile-dir-label "显示配置目录">
+<!ENTITY updateifs-show-data-dir-label "显示数据目录">
+<!ENTITY menu-sep-1 "分隔条 1">
+<!ENTITY menu-sep-2 "分隔条 2">
+
+<!ENTITY updateifs.journal.setting "期刊更新设置">
+<!ENTITY updateifs.author.setting "作者处理设置">
+<!ENTITY updateifs-utils "作者处理小工具">
+<!ENTITY author-process-win "作者姓名处理">
+<!ENTITY author-process "给作者姓名加粗和/或加星">
+<!ENTITY updateifs-author-bold-desc "请根据您的需要勾选加粗或添加星号：">
+<!ENTITY author-bold "加粗">
+<!ENTITY author-bold-btn "加粗">
+<!ENTITY author-bold-btn.tip "仅给作者名字加粗体标识">
+<!ENTITY author-star-add-btn "加星号*">
+<!ENTITY author-star-add-btn.tip "仅给作者名字后加星号(*)">
+<!ENTITY author-bold-star-add-btn "加粗和加星号">
+<!ENTITY author-bold-star-add-btn-tip "同时给作者名字加粗体和星号(*)">
+<!-- <!ENTITY author-regular "常规">
+<!ENTITY author-no-change "保持不变"> -->
+<!ENTITY updateifs-author-star-desc "对作者添加或删除星号 (*)">
+<!ENTITY author-star-add "加星号">
+<!ENTITY author-star-remove "删除">
+<!ENTITY author-bold-star "给作者加粗或加星号">
+<!ENTITY updateifs-author-name1 "请输入加粗加星号作者姓名，姓前名后，中间加英文 ">
+<!ENTITY updateifs-author-name2 "空格，如“张 无忌”: ">
+<!ENTITY author-bold "加粗">
+<!ENTITY author-star "加星号">
+<!ENTITY updateifs-author-name-desc "合并或拆分作者，中文作者请合并（否则姓名之前会有空格），英文作者都可以: ">
+<!-- <!ENTITY one-field "合并">
+<!ENTITY two-field "拆分"> -->
+<!ENTITY process-author "处理作者">
+<!ENTITY updateifs.button.remove.bold.label "去除粗体"> 
+<!ENTITY updateifs.button.remove.boldInfo.label "点击去年作者的加粗标记">
+<!ENTITY updateifs.button.remove.star.label "去除星号">
+<!ENTITY updateifs.button.remove.starInfo.label "点击去除作者后面的星号">
+<!ENTITY updateifs.button.remove.boldStar.label "去除粗体和星号">
+<!ENTITY updateifs.button.remove.boldStarInfo.label "点击同时去除作者的粗体和星号">
+
+<!ENTITY updateifs-change-pub-title "修改期刊名称">
+<!ENTITY change-pub-title "将期刊名称替换为新名称">
+<!ENTITY change-pub-title-desc "修改期刊名称, 如将LWT修改为LWT-Food Science and Technology。">
+<!ENTITY old-title "请输入原期刊名称:">
+<!ENTITY new-title "请输入新期刊名称:">
+<!ENTITY change-title-bn "修改期刊名称">
+
+<!-- 题目查找替换 -->
+<!ENTITY title-search-replace-win "文献题目查找替换">
+<!ENTITY title-search-replace "题目查找替换">
+<!ENTITY updateifs-title-search-replace-label "你可以输入部分或整个需要替换的题目, 查找替换大小写敏感。">
+<!ENTITY updateifs-title-search-replace-old-label "查找: ">
+<!ENTITY updateifs-title-search-replace-new-label "替换为: ">
+
+<!ENTITY updateifs-title-case-ckb-label "Case sentative">
+<!ENTITY updateifs-title-search-replace-btn "替换">
+<!ENTITY updateifs-title-search-replace-btn.tip "点击替换题目中的部分或全部内容。">

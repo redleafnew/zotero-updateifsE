@@ -1,0 +1,54 @@
+<?xml version="1.0"?>
+<?xml-stylesheet href="chrome://global/skin/" type="text/css"?>
+<?xml-stylesheet href="chrome://zotero-platform/content/preferences.css"?>
+
+<!DOCTYPE window SYSTEM "chrome://zoteroupdateifs/locale/options.dtd">
+
+<!--修改期刊名称-->
+<window id="updateifs-change-pub-title" title="&updateifs-change-pub-title;" xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul" >
+	<stringbundleset id="stringbundleset">
+		<stringbundle id="updateifs-options" src="chrome://zotero-updateifs/locale/options.properties"/>
+	</stringbundleset>
+   <!-- <prefpane label="&updateifs-preferences;" id="updateifs-prefpane">  -->
+
+      
+    <groupbox minheight="240">
+      <caption label="&change-pub-title;"/>
+      <description style="width: 300px">&change-pub-title-desc;</description>
+
+      <separator class="thin"/>
+        <hbox style="margin: 0">
+          <label control="id-updateifs-change-pub-title-old" value="&old-title;"/>
+        </hbox>
+        
+        <hbox style="margin: 0"> 
+          <textbox style="margin: 5px 10px 10px 10px" id="id-updateifs-old-title-textbox"  width="300"/>
+        </hbox>
+        <separator class="thin"/>
+        <separator class="thin"/>
+        <hbox style="margin: 0">
+            <label control="id-updateifs-change-pub-title-new" value="&new-title;"/>
+        </hbox>
+           
+        <hbox style="margin: 0"> 
+            <textbox style="margin: 5px 10px 10px 10px" id="id-updateifs-new-title-textbox"  width="300"/>
+        </hbox>
+        
+        <separator class="thin"/>
+      <hbox style="margin: 0"> 
+         <button id="id-updateifs-change-pub-title" style="margin: 0px 10px 10px 80px" label="&change-title-bn;" oncommand="changeTitle()"/>
+    </hbox>
+    </groupbox>
+
+   
+  <!-- </prefpane> -->
+
+ 
+ <script
+    type="application/x-javascript"
+    src="chrome://zoteroupdateifs/content/scripts/options.js"/>
+
+ <script src="options.js"/>
+  <script src="chrome://zotero/content/include.js"/>
+
+</window>

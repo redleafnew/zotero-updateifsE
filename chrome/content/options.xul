@@ -1,0 +1,493 @@
+<?xml version="1.0"?>
+<?xml-stylesheet href="chrome://global/skin/" type="text/css"?>
+<?xml-stylesheet href="chrome://zotero-platform/content/preferences.css"?>
+
+<!DOCTYPE window SYSTEM "chrome://zoteroupdateifs/locale/options.dtd">
+
+
+<!-- onload="updatePreferenceWindow('all');" -->
+<prefwindow id="updateifs-pref" title="&updateifs-preferences;" xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul" onload="setCheckbox()">
+  <stringbundleset id="stringbundleset">
+    <stringbundle id="updateifs-options" src="chrome://zotero-updateifs/locale/options.properties" />
+  </stringbundleset>
+  <prefpane label="&updateifs-preferences;" id="updateifs-prefpane">
+    <!--onpaneload="Zotero.UpdateIFs.initPref();" -->
+    <preferences>
+      <preference id="pref-updateifs-add-update" name="extensions.updateifs.add-update" type="bool" />
+     
+      <preference id="pref-updateifs-all-extra" name="extensions.updateifs.sci-all-extra" type="bool" />
+     
+      <preference id='pref-updateifs-njau-core' name='extensions.updateifs.njau-core' type="bool" />
+      ;
+      <!-- 南农核心 -->
+      <preference id='pref-updateifs-njau-core-field' name='extensions.updateifs.njau-core-field' type="string" />
+      ;
+      <preference id='pref-updateifs-njau-high-quality' name='extensions.updateifs.njau-high-quality' type="bool" />
+      ;
+      <!-- 南农高质量 -->
+      <preference id='pref-updateifs-njau-high-quality-field' name='extensions.updateifs.njau-high-quality-field' type="string" />
+      ;
+      <!-- 影响因子设置 -->
+      <preference id='pref-updateifs-jcr-qu' name='extensions.updateifs.jcr-qu' type="bool" />
+      ;
+      <preference id='pref-updateifs-cas-qu1' name='extensions.updateifs.cas-qu1' type="bool" />
+      ;
+      <preference id='pref-updateifs-cas-qu2' name='extensions.updateifs.cas-qu2' type="bool" />
+      ;
+      <preference id='pref-updateifs-sci-if' name='extensions.updateifs.sci-if' type="bool" />
+      ;
+      <preference id='pref-updateifs-sci-if5' name='extensions.updateifs.sci-if5' type="bool" />
+      ;
+      <preference id='pref-updateifs-chj-cscd' name='extensions.updateifs.chj-cscd' type="bool" />
+      ;
+      <preference id='pref-updateifs-pku-core' name='extensions.updateifs.pku-core' type="bool" />
+      ;
+      <preference id='pref-updateifs-sci-core' name='extensions.updateifs.sci-core' type="bool" />
+      ;
+      <preference id='pref-updateifs-com-if' name='extensions.updateifs.com-if' type="bool" />
+      ;
+      <preference id='pref-updateifs-agg-if' name='extensions.updateifs.agg-if' type="bool" />
+      ;
+      <preference id='pref-updateifs-sci-all-extra' name='extensions.updateifs.sci-all-extra' type="bool" />
+      ;
+      <preference id='pref-updateifs-chj-all-extra' name='extensions.updateifs.chj-all-extra' type="bool" />
+      ;
+      <preference id='pref-updateifs-jcr-qu-field' name='extensions.updateifs.jcr-qu-field' type="string" />
+      ;
+      <preference id='pref-updateifs-cas-qu1-field' name='extensions.updateifs.cas-qu1-field' type="string" />
+      ;
+      <preference id='pref-updateifs-cas-qu2-field' name='extensions.updateifs.cas-qu2-field' type="string" />
+      ;
+      <preference id='pref-updateifs-sci-if-field' name='extensions.updateifs.sci-if-field' type="string" />
+      ;
+      <preference id='pref-updateifs-sci-if5-field' name='extensions.updateifs.sci-if5-field' type="string" />
+      ;
+      <preference id='pref-updateifs-chj-cscd-field' name='extensions.updateifs.chj-cscd-field' type="string" />
+      ;
+      <preference id='pref-updateifs-chj-pku-core-field' name='extensions.updateifschj-pku-field' type="string" />
+      ;
+      <preference id='pref-updateifs-chj-sci-core-field' name='extensions.updateifs.chj-sci-field' type="string" />
+      ;
+      <preference id='pref-updateifs-chj-com-if-field' name='extensions.updateifs.chj-com-field' type="string" />
+      ;
+      <preference id='pref-updateifs-agg-if-field' name='extensions.updateifs.agg-if-field' type="string" />
+      ;
+      <!-- 菜单隐藏 -->
+      <preference id='pref-menu-updateifs-menu-bold-star' name='pref-updateifs-menu-bold-star' type="bool" />
+      ;
+      <preference id='pref-menu-updateifs-menu-clean-bold' name='pref-updateifs-menu-clean-bold' type="bool" />
+      ;
+      <preference id='pref-menu-updateifs-menu-clean-star' name='pref-updateifs-menu-clean-star' type="bool" />
+      ;
+      <preference id='pref-menu-updateifs-menu-clean-bold-star' name='pref-updateifs-menu-clean-bold-star' type="bool" />
+      ;
+      <preference id='pref-menu-updateifs-menu-au-title-case' name='pref-updateifs-menu-au-title-case' type="bool" />
+      ;
+      <preference id='pref-menu-updateifs-menu-swap-au' name='pref-updateifs-menu-swap-au' type="bool" />
+      ;
+      <preference id='pref-menu-updateifs-menu-pub-title' name='pref-updateifs-menu-pub-title' type="bool" />
+      ;
+      <preference id='pref-menu-updateifs-menu-pub-title-case' name='pref-updateifs-menu-pub-title-case' type="bool" />
+      ;
+      <preference id='pref-menu-updateifs-menu-find-replace-item-title' name='pref-updateifs-menu-find-replace-item-title' type="bool" />
+      ;
+      <preference id='pref-menu-updateifs-menu-title-sen-case' name='pref-updateifs-menu-title-sen-case' type="bool" />
+      ;
+      <preference id='pref-menu-updateifs-menu-profile-dir' name='pref-updateifs-menu-profile-dir' type="bool" />
+      ;
+      <preference id='pref-menu-updateifs-data-dir-star' name='pref-updateifs-data-dir-star' type="bool" />
+      ;
+      <preference id='pref-menu-updateifs-sep1' name='pref-updateifs-sep1' type="bool" />
+      ;
+      <preference id='pref-menu-updateifs-sep2' name='pref-updateifs-sep2' type="bool" />
+      ;
+    </preferences>
+
+    <tabbox>
+      <tabs>
+        <tab label="&updateifs.journal.setting;" />
+        <tab label="&updateifs.ifs.setting;" />
+        <tab label="&updateifs.menu.setting;" />
+      </tabs>
+
+      <tabpanels id="zotero-prefpane-updateifs">
+
+        <!-- 期刊、影响因子及缩写设置 -->
+        <tabpanel id="zotero-prefpane-journal-tab">
+          <vbox>
+            <!-- 期刊及缩写设置 -->
+            <groupbox>
+              <caption label="&update-abbr;" />
+              <!-- <separator class='thin'/>  -->
+              <description style="width: 420px">&update-journal-abbr;</description>
+              <!-- <separator class='thin'/>  -->
+              <hbox style="margin: 0">
+                <checkbox id="id-updateifs-add-update" label="&add-update;" preference="pref-updateifs-add-update" />
+              </hbox>
+              <!-- <separator class='thin'/>  -->
+               <!-- 所有信息是否显示Extra -->
+              <hbox style="margin: 0">
+                <checkbox id="id-all-extra" label="&all-extra;" width='470' preference="pref-updateifs-all-extra" />
+              </hbox>
+              <!-- <separator class='thin'/>  -->
+              <!-- <hbox style="margin: 0">
+                <checkbox id="id-updateifs-ch-abbr" label="&ch_abbr;" width='450' preference="pref-updateifs-ch_abbr" />
+              </hbox>-->
+            </groupbox>
+
+            <!-- 影响因子设置 -->
+            <separator class='thin' />
+            <!-- <separator class='thin'/>  -->
+
+            <!--
+           <groupbox >
+              <caption label="&ifs-type;"/>
+              
+              <vbox style="margin: 0">
+                <radiogroup id="id-updateifs-ifs-type" preference="pref-updateifs-ifs-type">
+                  <label control="id-updateifs-ifs-type" value="&updateifs-ifs-type-label;"/>
+                    <radio label="&basic;" value='basic'/>
+                    <radio label="&updated;" value='updated' />
+                </radiogroup>
+       
+               </vbox>
+            </groupbox>
+            -->
+
+            <!-- 南农核心期刊高质量期刊设置 -->
+            <separator class='thin' />
+            <separator class='thin' />
+            <groupbox>
+              <caption label="&njau-core-high-quality;" />
+              <!-- <separator class='thin'/>  -->
+              <!-- <description style="width: 420px">&ifs-type-desc;</description> -->
+              <!-- <separator class='thin'/>  -->
+              <vbox style="margin: 0">
+
+                <hbox style="margin: 0">
+                  <!-- 南农高质量期刊设置 -->
+                  <checkbox id="id-updateifs-njau-high-quality" label="&njau-high-quality;" preference="pref-updateifs-njau-high-quality" />
+
+                  <menulist id="id-updateifs-njau-high-quality-field" preference="pref-updateifs-njau-high-quality-field">
+                    <menupopup>
+                      <menuitem label="&sci-settings-series;" value="series" />
+                      <menuitem label="&sci-settings-seriesTitle;" value="seriesTitle" />
+                      <menuitem label="&sci-settings-seriesText;" value="seriesText" />
+                      <menuitem label="&sci-settings-archive;" value="archive" />
+                      <menuitem label="&sci-settings-archiveLocation;" value="archiveLocation" />
+                      <menuitem label="&sci-settings-libraryCatalog;" value="libraryCatalog" />
+                      <menuitem label="&sci-settings-callNumber;" value="callNumber" />
+                      <menuitem label="&sci-settings-rights;" value="rights" />
+                    </menupopup>
+                  </menulist>
+                  <label value="&sci-settings-field;" control="id-sci-settings-field" />
+                </hbox>
+                <hbox style="margin: 0">
+                  <!-- 南农核心期刊设置 -->
+                  <checkbox id="id-updateifs-njau-core" label="&njau-core;" preference="pref-updateifs-njau-core" />
+
+                  <menulist id="id-updateifs-njau-core-field" preference="pref-updateifs-njau-core-field">
+                    <menupopup>
+                      <menuitem label="&sci-settings-series;" value="series" />
+                      <menuitem label="&sci-settings-seriesTitle;" value="seriesTitle" />
+                      <menuitem label="&sci-settings-seriesText;" value="seriesText" />
+                      <menuitem label="&sci-settings-archive;" value="archive" />
+                      <menuitem label="&sci-settings-archiveLocation;" value="archiveLocation" />
+                      <menuitem label="&sci-settings-libraryCatalog;" value="libraryCatalog" />
+                      <menuitem label="&sci-settings-callNumber;" value="callNumber" />
+                      <menuitem label="&sci-settings-rights;" value="rights" />
+                    </menupopup>
+                  </menulist>
+                  <label value="&sci-settings-field;" control="id-sci-settings-field" />
+                </hbox>
+
+
+              </vbox>
+            </groupbox>
+          </vbox>
+        </tabpanel>
+
+        <!-- 影响因子显示 -->
+        <tabpanel id="zotero-prefpane-ifs-settings-tab">
+          <vbox style="margin: 0">
+            <!-- SCI期刊影响因子设置 -->
+            <groupbox>
+              <caption label="&sci-settings;" />
+              <!-- <separator class='thin'/>  -->
+              <!-- <description style="width: 420px">&sci-settings-desc;</description> -->
+
+              <hbox style="margin: 0">
+                <!-- JCR分区 -->
+                <checkbox id="id-updateifs-jcr-qu" label="&jcr-qu;" preference="pref-updateifs-jcr-qu" />
+                <menulist id="id-updateifs-jcr-qu-field" preference="pref-updateifs-jcr-qu-field">
+                  <menupopup>
+                    <menuitem label="&sci-settings-series;" value="series" />
+                    <menuitem label="&sci-settings-seriesTitle;" value="seriesTitle" />
+                    <menuitem label="&sci-settings-seriesText;" value="seriesText" />
+                    <menuitem label="&sci-settings-archive;" value="archive" />
+                    <menuitem label="&sci-settings-archiveLocation;" value="archiveLocation" />
+                    <menuitem label="&sci-settings-libraryCatalog;" value="libraryCatalog" />
+                    <menuitem label="&sci-settings-callNumber;" value="callNumber" />
+                    <menuitem label="&sci-settings-rights;" value="rights" />
+                  </menupopup>
+                </menulist>
+                <label value="&sci-settings-field;" control="id-sci-settings-field" width='266' />
+              </hbox>
+              <hbox style="margin: 0">
+                <!-- 中科院分区升级版 -->
+                <checkbox id="id-updateifs-cas-qu1" label="&cas-qu1;" preference="pref-updateifs-cas-qu1" />
+                <menulist id="id-updateifs-cas-qu1-field" preference="pref-updateifs-cas-qu1-field">
+                  <menupopup>
+                    <menuitem label="&sci-settings-series;" value="series" />
+                    <menuitem label="&sci-settings-seriesTitle;" value="seriesTitle" />
+                    <menuitem label="&sci-settings-seriesText;" value="seriesText" />
+                    <menuitem label="&sci-settings-archive;" value="archive" />
+                    <menuitem label="&sci-settings-archiveLocation;" value="archiveLocation" />
+                    <menuitem label="&sci-settings-libraryCatalog;" value="libraryCatalog" />
+                    <menuitem label="&sci-settings-callNumber;" value="callNumber" />
+                    <menuitem label="&sci-settings-rights;" value="rights" />
+                  </menupopup>
+                </menulist>
+                <label value="&sci-settings-field;" control="id-sci-settings-field" />
+              </hbox>
+              <hbox style="margin: 0">
+                <!-- 中科院分区基础版 -->
+                <checkbox id="id-updateifs-cas-qu2" label="&cas-qu2;" preference="pref-updateifs-cas-qu2" />
+                <menulist id="id-updateifs-cas-qu2-field" preference="pref-updateifs-cas-qu2-field">
+                  <menupopup>
+                    <menuitem label="&sci-settings-series;" value="series" />
+                    <menuitem label="&sci-settings-seriesTitle;" value="seriesTitle" />
+                    <menuitem label="&sci-settings-seriesText;" value="seriesText" />
+                    <menuitem label="&sci-settings-archive;" value="archive" />
+                    <menuitem label="&sci-settings-archiveLocation;" value="archiveLocation" />
+                    <menuitem label="&sci-settings-libraryCatalog;" value="libraryCatalog" />
+                    <menuitem label="&sci-settings-callNumber;" value="callNumber" />
+                    <menuitem label="&sci-settings-rights;" value="rights" />
+                  </menupopup>
+                </menulist>
+                <label value="&sci-settings-field;" control="id-sci-settings-field" />
+              </hbox>
+              <hbox style="margin: 0">
+                <checkbox id="id-updateifs-sci-if" label="&sci-if;" preference="pref-updateifs-sci-if" />
+
+                <menulist id="id-updateifs-sci-if-field" preference="pref-updateifs-sci-if-field">
+                  <menupopup>
+                    <menuitem label="&sci-settings-series;" value="series" />
+                    <menuitem label="&sci-settings-seriesTitle;" value="seriesTitle" />
+                    <menuitem label="&sci-settings-seriesText;" value="seriesText" />
+                    <menuitem label="&sci-settings-archive;" value="archive" />
+                    <menuitem label="&sci-settings-archiveLocation;" value="archiveLocation" />
+                    <menuitem label="&sci-settings-libraryCatalog;" value="libraryCatalog" />
+                    <menuitem label="&sci-settings-callNumber;" value="callNumber" />
+                    <menuitem label="&sci-settings-rights;" value="rights" />
+                  </menupopup>
+                </menulist>
+                <label value="&sci-settings-field;" control="id-sci-settings-field" />
+              </hbox>
+              <!--五年影响因子-->
+              <hbox style="margin: 0"> 
+                <checkbox id="id-updateifs-sci-if5" label="&sci-if5;" preference="pref-updateifs-sci-if5" />
+
+                <menulist id="id-updateifs-sci-if5-field" preference="pref-updateifs-sci-if5-field">
+                  <menupopup>
+                    <menuitem label="&sci-settings-series;" value="series" />
+                    <menuitem label="&sci-settings-seriesTitle;" value="seriesTitle" />
+                    <menuitem label="&sci-settings-seriesText;" value="seriesText" />
+                    <menuitem label="&sci-settings-archive;" value="archive" />
+                    <menuitem label="&sci-settings-archiveLocation;" value="archiveLocation" />
+                    <menuitem label="&sci-settings-libraryCatalog;" value="libraryCatalog" />
+                    <menuitem label="&sci-settings-callNumber;" value="callNumber" />
+                    <menuitem label="&sci-settings-rights;" value="rights" />
+                  </menupopup>
+                </menulist>
+                <label value="&sci-settings-field;" control="id-sci-settings-field" />
+              </hbox> 
+              <hbox style="margin: 0">
+                <!-- EI -->
+                <checkbox id="id-updateifs-agg-if" label="&agg-if;" preference="pref-updateifs-agg-if" />
+
+                <menulist id="id-updateifs-agg-if-field" preference="pref-updateifs-agg-if-field">
+                  <menupopup>
+                    <menuitem label="&sci-settings-series;" value="series" />
+                    <menuitem label="&sci-settings-seriesTitle;" value="seriesTitle" />
+                    <menuitem label="&sci-settings-seriesText;" value="seriesText" />
+                    <menuitem label="&sci-settings-archive;" value="archive" />
+                    <menuitem label="&sci-settings-archiveLocation;" value="archiveLocation" />
+                    <menuitem label="&sci-settings-libraryCatalog;" value="libraryCatalog" />
+                    <menuitem label="&sci-settings-callNumber;" value="callNumber" />
+                    <menuitem label="&sci-settings-rights;" value="rights" />
+                  </menupopup>
+                </menulist>
+                <label value="&sci-settings-field;" control="id-sci-settings-field" />
+              </hbox>
+              <!-- <hbox style="margin: 0">
+                  <checkbox id="id-updateifs-sci-all-extra" label="&sci-all-extra;"  preference="pref-updateifs-sci-all-extra"/>
+    
+                </hbox> -->
+            </groupbox>
+            <!-- </vbox> -->
+            <!-- 中文期刊影响因子设置 -->
+            <separator class='thin' />
+            <!-- <separator class='thin'/>  -->
+            <!-- <vbox style="margin: 0"> -->
+            <groupbox>
+              <caption label="&chj-settings;" />
+              <!-- <separator class='thin'/>  -->
+              <!-- <description style="width: 420px">&chj-settings-desc;</description> -->
+              <!-- <separator class='thin'/>  -->
+              <!-- <hbox style="margin: 0">
+                <checkbox id="id-updateifs-njau-core" label="&njau-core;"  preference="pref-updateifs-njau-core"/>
+              
+                <menulist id="id-updateifs-njau-core-field" preference="pref-updateifs-njau-core-field">
+                  <menupopup>
+                    <menuitem label="&sci-settings-seriesText;" value="seriesText"/>
+                    <menuitem label="&sci-settings-archive;" value="archive"/>
+                    <menuitem label="&sci-settings-archiveLocation;" value="archiveLocation"/>
+                    <menuitem label="&sci-settings-libraryCatalog;" value="libraryCatalog"/>
+                    <menuitem label="&sci-settings-callNumber;" value="callNumber"/>
+                    <menuitem label="&sci-settings-rights;" value="rights"/>
+                  </menupopup>
+                </menulist>
+                <label value="&sci-settings-field;" control="id-sci-settings-field"/>
+              </hbox> -->
+              <hbox style="margin: 0">
+                <checkbox id="id-updateifs-chj-cscd" label="&chj-cscd;" preference="pref-updateifs-chj-cscd" />
+
+                <menulist id="id-updateifs-chj-cscd-field" preference="pref-updateifs-chj-cscd-field">
+                  <menupopup>
+                    <menuitem label="&sci-settings-series;" value="series" />
+                    <menuitem label="&sci-settings-seriesTitle;" value="seriesTitle" />
+                    <menuitem label="&sci-settings-seriesText;" value="seriesText" />
+                    <menuitem label="&sci-settings-archive;" value="archive" />
+                    <menuitem label="&sci-settings-archiveLocation;" value="archiveLocation" />
+                    <menuitem label="&sci-settings-libraryCatalog;" value="libraryCatalog" />
+                    <menuitem label="&sci-settings-callNumber;" value="callNumber" />
+                    <menuitem label="&sci-settings-rights;" value="rights" />
+                  </menupopup>
+                </menulist>
+                <label value="&sci-settings-field;" control="id-sci-settings-field" />
+              </hbox>
+              <hbox style="margin: 0">
+                <checkbox id="id-updateifs-chj-pku-core" label="&pku-core;" preference="pref-updateifs-pku-core" />
+
+                <menulist id="id-updateifs-chj-pku-core-field" preference="pref-updateifs-chj-pku-core-field">
+                  <menupopup>
+                    <menuitem label="&sci-settings-series;" value="series" />
+                    <menuitem label="&sci-settings-seriesTitle;" value="seriesTitle" />
+                    <menuitem label="&sci-settings-seriesText;" value="seriesText" />
+                    <menuitem label="&sci-settings-archive;" value="archive" />
+                    <menuitem label="&sci-settings-archiveLocation;" value="archiveLocation" />
+                    <menuitem label="&sci-settings-libraryCatalog;" value="libraryCatalog" />
+                    <menuitem label="&sci-settings-callNumber;" value="callNumber" />
+                    <menuitem label="&sci-settings-rights;" value="rights" />
+                  </menupopup>
+                </menulist>
+                <label value="&sci-settings-field;" control="id-sci-settings-field" />
+              </hbox>
+              <hbox style="margin: 0">
+                <!--南大核心 -->
+                <checkbox id="id-updateifs-chj-com-if" label="&com-if;" preference="pref-updateifs-com-if" />
+
+                <menulist id="id-updateifs-chj-com-if-field" preference="pref-updateifs-chj-com-if-field">
+                  <menupopup>
+                    <menuitem label="&sci-settings-series;" value="series" />
+                    <menuitem label="&sci-settings-seriesTitle;" value="seriesTitle" />
+                    <menuitem label="&sci-settings-seriesText;" value="seriesText" />
+                    <menuitem label="&sci-settings-archive;" value="archive" />
+                    <menuitem label="&sci-settings-archiveLocation;" value="archiveLocation" />
+                    <menuitem label="&sci-settings-libraryCatalog;" value="libraryCatalog" />
+                    <menuitem label="&sci-settings-callNumber;" value="callNumber" />
+                    <menuitem label="&sci-settings-rights;" value="rights" />
+                  </menupopup>
+                </menulist>
+                <label value="&sci-settings-field;" control="id-sci-settings-field" />
+              </hbox>
+              <hbox style="margin: 0">
+                <checkbox id="id-updateifs-chj-sci-core" label="&sci-core;" preference="pref-updateifs-sci-core" />
+
+                <menulist id="id-updateifs-chj-sci-core-field" preference="pref-updateifs-chj-sci-core-field">
+                  <menupopup>
+                    <menuitem label="&sci-settings-series;" value="series" />
+                    <menuitem label="&sci-settings-seriesTitle;" value="seriesTitle" />
+                    <menuitem label="&sci-settings-seriesText;" value="seriesText" />
+                    <menuitem label="&sci-settings-archive;" value="archive" />
+                    <menuitem label="&sci-settings-archiveLocation;" value="archiveLocation" />
+                    <menuitem label="&sci-settings-libraryCatalog;" value="libraryCatalog" />
+                    <menuitem label="&sci-settings-callNumber;" value="callNumber" />
+                    <menuitem label="&sci-settings-rights;" value="rights" />
+                  </menupopup>
+                </menulist>
+                <label value="&sci-settings-field;" control="id-sci-settings-field" />
+              </hbox>
+
+
+              <!-- <hbox style="margin: 0">
+                  <checkbox id="id-updateifs-chj-all-extra" label="&chj-all-extra;"  preference="pref-updateifs-chj-all-extra"/>
+    
+                </hbox> -->
+            </groupbox>
+          </vbox>
+          <!-- </vbox> -->
+        </tabpanel>
+
+        <!-- 菜单隐藏显示 -->
+        <tabpanel id="zotero-prefpane-meun-setting-tab">
+
+          <groupbox flex="1">
+            <caption label="&menu-setting;" />
+            <separator class='thin' />
+            <description style="width: 400px">&menu-setting-desc;</description>
+            <separator class="thin" />
+            <hbox style="margin: 0">
+              <label control="id-updateifs-menu-setting" value="&menu-stting-label;" />
+            </hbox>
+            <separator class="thin" />
+            <hbox style="margin: 0">
+              <checkbox id="id-menu-bold-star-ckb" label="&updateifs-bold-star-label;" preference='pref-menu-updateifs-menu-bold-star' width='225' oncommand="showToolboxMenu();Zotero.UpdateIFs.showToolboxMenu()" />
+              <checkbox id="id-menu-clean-bold-ckb" label="&updateifs-remove-bold-label;" preference='pref-menu-updateifs-menu-clean-bold' width='225' oncommand="showToolboxMenu();Zotero.UpdateIFs.showToolboxMenu()" />
+            </hbox>
+            <hbox style="margin: 0">
+              <checkbox id="id-menu-clean-star-ckb" label="&updateifs-remove-star-label;" preference='pref-menu-updateifs-menu-clean-star' width='225' oncommand="showToolboxMenu();Zotero.UpdateIFs.showToolboxMenu()" />
+              <checkbox id="id-menu-clean-bold-star-ckb" label="&updateifs-remove-bold-and-star-label;" preference='pref-menu-updateifs-menu-clean-bold-star' width='225' oncommand="showToolboxMenu();Zotero.UpdateIFs.showToolboxMenu()" />
+            </hbox>
+            <hbox style="margin: 0">
+              <checkbox id="id-menu-chang-author-title-case-ckb" label="&updateifs-chang-author-case-label;" preference='pref-menu-updateifs-menu-au-title-case' width='225' oncommand="showToolboxMenu();Zotero.UpdateIFs.showToolboxMenu()" />
+              <checkbox id="id-menu-swap-author-name-ckb" label="&updateifs-swap-author-label;" preference='pref-menu-updateifs-menu-swap-au' oncommand="showToolboxMenu();Zotero.UpdateIFs.showToolboxMenu()" />
+            </hbox>
+            <hbox style="margin: 0">
+              <checkbox id="id-menu-chang-pub-title-ckb" label="&updateifs-chang-pub-title-label;" preference='pref-menu-updateifs-menu-pub-title' width='225' oncommand="showToolboxMenu();Zotero.UpdateIFs.showToolboxMenu()" />
+              <checkbox id="id-menu-chang-pub-title-case-ckb" label="&updateifs-chang-pub-title-case-label;" preference='pref-menu-updateifs-menu-pub-title-case' width='225' oncommand="showToolboxMenu();Zotero.UpdateIFs.showToolboxMenu()" />
+
+            </hbox>
+            <hbox style="margin: 0">
+              <checkbox id="id-menu-title-sentence-case-ckb" label="&updateifs-chang-title-label;" preference='pref-menu-updateifs-menu-title-sen-case' width='225' oncommand="showToolboxMenu();Zotero.UpdateIFs.showToolboxMenu()" />
+              <checkbox id="id-menu-find-replace-item-title-ckb" label="&updateifs-item-title-find-replace-label;" preference='pref-menu-updateifs-menu-find-replace-item-title' width='225' oncommand="showToolboxMenu();Zotero.UpdateIFs.showToolboxMenu()" />
+            </hbox>
+            <hbox style="margin: 0">
+              <checkbox id="id-menu-show-profile-dir-ckb" label="&updateifs-show-profile-dir-label;" preference='pref-menu-updateifs-menu-profile-dir' width='225' oncommand="showToolboxMenu();Zotero.UpdateIFs.showToolboxMenu()" />
+              <checkbox id="id-meun-show-data-dir-ckb" label="&updateifs-show-data-dir-label;" preference='pref-menu-updateifs-data-dir-star' width='225' oncommand="showToolboxMenu();Zotero.UpdateIFs.showToolboxMenu()" />
+            </hbox>
+            <separator class='thin' />
+            <hbox style="margin: 0">
+              <checkbox id="id-menu-sep-1-ckb" label="&menu-sep-1;" preference='pref-menu-updateifs-sep1' width='225' oncommand="showToolboxMenu();Zotero.UpdateIFs.showToolboxMenu()" />
+              <checkbox id="id-menu-sep-2-ckb" label="&menu-sep-2;" preference='pref-menu-updateifs-sep2' width='225' oncommand="showToolboxMenu();Zotero.UpdateIFs.showToolboxMenu()" />
+            </hbox>
+
+            <separator class='thin' />
+
+          </groupbox>
+
+        </tabpanel>
+
+
+      </tabpanels>
+
+    </tabbox>
+
+  </prefpane>
+  <script type="application/x-javascript" src="chrome://zoteroupdateifs/content/scripts/options.js" />
+  <script type="application/x-javascript" src="chrome://zoteroupdateifs/content/scripts/zoteroupdateifs.js" />
+  <script src="options.js" />
+  <script src="chrome://zotero/content/include.js" />
+
+</prefwindow>

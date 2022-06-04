@@ -1,0 +1,148 @@
+<?xml version="1.0"?>
+
+<!DOCTYPE overlay SYSTEM "chrome://zoteroupdateifs/locale/overlay.dtd">
+
+<overlay
+    id="zoteroupdateifs"
+    xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul">
+
+    <script
+        type="application/x-javascript"
+        src="chrome://zoteroupdateifs/content/scripts/zoteroupdateifs.js"/>
+
+    <keyset>
+        <key id="key-updateifs-clean-extra" modifiers="accel" key="E" oncommand="Zotero.UpdateIFs.cleanExtra()"/> <!--清除其它快捷键 Ctr + E-->
+        <key id="key-updateifs-bold-star" modifiers="accel" key="B" oncommand="Zotero.UpdateIFs.openAuthorProcess()"/> <!--作者加星加粗快捷键 Ctr + B-->
+        <key id="key-updateifs-chang-title-case" modifiers="accel" key="T" oncommand="Zotero.UpdateIFs.changeTitleCase()"/> <!--更改文献题目大小写快捷键 Ctr + T-->
+        <key id="key-updateifs-show-profile-dir" modifiers="accel" key="P" oncommand="Zotero.UpdateIFs.showProfileDir()"/> <!--显示配置目录快捷键 Ctr + P-->
+        <key id="key-updateifs-show-data-dir" modifiers="accel" key="D" oncommand="Zotero.UpdateIFs.showDataDir()"/> <!--显示数据目录快捷键 Ctr + D-->
+    </keyset>   
+
+    <stringbundleset id="stringbundleset">
+        <stringbundle
+            id="zoteroupdateifs-bundle"
+            src="chrome://zoteroupdateifs/locale/zoteroupdateifs.properties"/>
+    </stringbundleset>
+
+
+    <popup id="zotero-collectionmenu">
+        <menuitem
+            id="zotero-collectionmenu-updateifs"
+            label="&zotero.updateifs.update.label;"
+            oncommand="Zotero.UpdateIFs.updateSelectedColl()"/>
+    </popup>
+
+    <popup
+        id="zotero-itemmenu">
+        <menuitem
+            id="zotero-itemmenu-updateifs"
+            label="&zotero.updateifs.update.label;"
+            oncommand="Zotero.UpdateIFs.updateSelectedItems()"/>
+    </popup>
+
+
+  
+    
+
+    <menupopup id="menu_ToolsPopup">
+        <menuitem id="menu_Tools-updateifs-preferences" label="&updateifs-preferences-label;" oncommand="Zotero.UpdateIFs.openPreferenceWindow();"/>
+        <menuitem id="menu_Tools-updateifs-clean-extra" label="&updateifs-clean-extra-label;" oncommand="Zotero.UpdateIFs.cleanExtra();"/>
+           <!--test-->
+        <!-- <menuitem id="menu_Tools-updateifs-test" label="&updateifs-test;" oncommand="test()"/> -->
+        
+        <menu id="menu_Tools-updateifs-menu" label="&updateifs-author-label;"> 
+             <menupopup id="menu_Tools-updateifs-menu-popup">
+               <!--加粗加星-->
+                <menuitem
+                    id="menu_Tools-updateifs-menu-popup-bold-star"
+                    tooltiptext="&updateifs-bold-star-label-tip;"
+                    label="&updateifs-bold-star-label;"
+                    oncommand="Zotero.UpdateIFs.openAuthorProcess();"/>
+                <menuitem
+                    id="menu_Tools-updateifs-menu-popup-remove-bold"
+                    tooltiptext="&updateifs-remove-bold-label-tip;"
+                    label="&updateifs-remove-bold-label;"
+                    oncommand="Zotero.UpdateIFs.cleanBold();"/>
+                <menuitem
+                    id="menu_Tools-updateifs-menu-popup-remove-star"
+                    tooltiptext="&updateifs-remove-star-label-tip;"
+                    label="&updateifs-remove-star-label;"
+                    oncommand="Zotero.UpdateIFs.cleanStar();"/> 
+                <menuitem 
+                    id="menu_Tools-updateifs-menu-remove-bold-and-star"
+                    tooltiptext="&updateifs-remove-bold-and-star-label-tip;"
+                    label="&updateifs-remove-bold-and-star-label;"
+                    oncommand="cleanBoldAndStar()"/> 
+                <!--作者词首大写-->
+                <menuitem 
+                    id="menu_Tools-updateifs-chang-author-case"
+                    tooltiptext="&updateifs-chang-author-case-label-tip;"
+                    label="&updateifs-chang-author-case-label;" 
+                    oncommand="changAuthorCase()"/> 
+                <!-- 交换作者姓和名 -->
+                <menuitem
+                    id="menu_Tools-updateifs-swap-author"
+                    tooltiptext="&updateifs-swap-author-label-tip;"
+                    label="&updateifs-swap-author-label;"
+                    oncommand="swapAuthorName()"/>     
+                <menuseparator id="id-updateifs-separator-1"/>
+
+
+             
+                <!-- 更改文献题目大小写 --> 
+                <menuitem
+                    id="menu_Tools-updateifs-menu-chang-title-case"
+                    tooltiptext="&updateifs-chang-title-label-tip;"
+                    label="&updateifs-chang-title-label;"
+                  
+                    oncommand="Zotero.UpdateIFs.changeTitleCase();"/>   
+                
+                <!-- 文献题目查找替换 --> 
+                <menuitem
+                    id="menu_Tools-updateifs-menu-item-title-find-replace"
+                    tooltiptext="&updateifs-item-title-find-replace-tip;"
+                    label="&updateifs-item-title-find-replace-label;"
+                    oncommand="openTitleFindRelace();"/>                   
+           
+              
+                <!-- 更改期刊名称 -->
+                <menuitem
+                id="menu_Tools-updateifs-chang-pub-title"
+                tooltiptext="&updateifs-chang-pub-title-label.tip;"
+                label="&updateifs-chang-pub-title-label;"
+                oncommand="Zotero.UpdateIFs.openUtilsWindow();"/>     
+                <!-- 更改期刊题目大小写 -->
+                <menuitem
+                    id="id-menu-chang-pub-title-case"
+                    tooltiptext="&updateifs-chang-pub-title-case-label-tip;"
+                    label="&updateifs-chang-pub-title-case-label;"
+                    oncommand="changPubTitleCase()"/>  
+
+                <menuseparator id="id-updateifs-separator-2"/>
+                <!-- 配置数据目录 -->
+                <menuitem
+                    id="menu_Tools-updateifs-menu-show-profile-dir"
+                    tooltiptext="&updateifs-show-profile-dir-label-tip;"
+                    label="&updateifs-show-profile-dir-label;"
+                    oncommand="Zotero.UpdateIFs.showProfileDir();"/>  
+                <menuitem
+                    id="menu_Tools-updateifs-menu-show-data-dir"
+                    tooltiptext="&updateifs-show-data-dir-label-tip;"
+                    label="&updateifs-show-data-dir-label;"
+                    oncommand="Zotero.UpdateIFs.showDataDir();"/>  
+
+               
+
+            </menupopup> 
+           </menu>
+    
+    </menupopup>
+
+    
+<script
+    type="application/x-javascript"
+    src="chrome://zoteroupdateifs/content/scripts/options.js"/>
+
+<script src="options.js"/>
+  <script src="chrome://zotero/content/include.js"/>
+</overlay>
