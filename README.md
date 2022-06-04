@@ -1,4 +1,4 @@
-# zotero-updateifsE
+# Update IFs from easyScholar
 
 感谢[easyScholar](https://easyscholar.cc)提供数据接口，[easyScholar](https://easyscholar.cc)是一个强大的浏览器插件，提供了很多有用期刊数据，详情访问：<https://easyscholar.cc>。
 
