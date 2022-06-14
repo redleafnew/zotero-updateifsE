@@ -1,5 +1,8 @@
  pref('extensions.updateifs.add_update', false);
-
+ pref('extensions.updateifs.up-abbr', true);
+ pref('extensions.updateifs.dot-abbr', false);
+ pref('extensions.updateifs.en-abbr', false);
+ pref('extensions.updateifs.ch-abbr', false);
  //  南农核心设置;
 pref('extensions.updateifs.njau-core', true);
 pref('extensions.updateifs.njau-core-field', 'seriesText');

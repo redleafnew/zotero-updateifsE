@@ -6,6 +6,11 @@
 <!ENTITY update-journal-abbr "">
 
 <!ENTITY add-update "Update journal information when adding item">
+<!ENTITY up_abbr "Update journal abbreviation">
+<!ENTITY dot_abbr "Journal abbreviation with dot">
+<!ENTITY en_abbr "Use full publication title to replace journal abbreviation for English item when the journal is not found">
+<!ENTITY ch_abbr "Use full publication title to replace journal abbreviation for Chinese item">
+
 <!ENTITY all-extra "All journal information save to Extra">
 
 <!-- 分区类型设置 -->

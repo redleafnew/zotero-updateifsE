@@ -390,11 +390,10 @@ Zotero.UpdateIFs.getSelectedItems = function () {
     return items; // 
 };
 
-// 更新期刊影响因子
+// 更新期刊缩写和影响因子
 Zotero.UpdateIFs.updateSelectedItem = async function (items) {
 
     // 得到是否显示南农核心期刊的设置
-
     var njauCore = Zotero.Prefs.get('extensions.updateifs.njau-core', true);
     var njauCoreField = Zotero.Prefs.get('extensions.updateifs.njau-core-field', true);
     var njauHighQulity = Zotero.Prefs.get('extensions.updateifs.njau-high-quality', true);
@@ -434,217 +433,221 @@ Zotero.UpdateIFs.updateSelectedItem = async function (items) {
     var whiteSpace = ' ';
     if (lanUI == 'zh-CN') { whiteSpace = '' };
     var paperName = Zotero.UpdateIFs.getPaperName(items); // publications: tempID 和tempID：publications两个字典
+    // 文献类型为期刊时才写入
+
     var ifs = await Zotero.UpdateIFs.getIFs(paperName);
     var ptID = paperName[1]; // publications: tempID 用于得到后面的tempID
 
     for (i = 0; i < items.length; i++) {
-        var lanItem = items[i].getField('language'); //得到条目语言
-        if (items[i].isRegularItem() && !items[i].isCollection()) {
+        if (Zotero.ItemTypes.getName(items[i].itemTypeID) == 'journalArticle' // 文献类型为期刊
+        ) {
+            await Zotero.UpdateIFs.upJourAbb(items[i]); // 更新期刊缩写
+            var lanItem = items[i].getField('language'); //得到条目语言
+            if (items[i].isRegularItem() && !items[i].isCollection()) {
 
-            if (njauCore) items[i].setField( // 设置南农核心
-                njauCoreField,
-                Zotero.UpdateIFs.NJAU_Core(items[i]));
+                if (njauCore) items[i].setField( // 设置南农核心
+                    njauCoreField,
+                    Zotero.UpdateIFs.NJAU_Core(items[i]));
 
-            if (njauHighQulity) items[i].setField( // 设置南农高质量期刊
-                njauHighQulityField,
-                Zotero.UpdateIFs.NJAU_High_Quality(items[i]));
+                if (njauHighQulity) items[i].setField( // 设置南农高质量期刊
+                    njauHighQulityField,
+                    Zotero.UpdateIFs.NJAU_High_Quality(items[i]));
 
 
 
-            try {
-                var tempID = ptID[items[i].getField('publicationTitle').toUpperCase()]  // 得到期刊题目的tempID
-                var ifc = ifs.filter(e => e.tempID == tempID)[0]; //当前期刊的信息
-                if (ifc !== undefined) {
-                    var sci = ifc['sci']; // JCR分区
-                    var sciUp = ifc['sciUp']; // 中科院分区升级版
-                    var sciBase = ifc['sciBase']; // 中科院分区基础版
-                    var ifCurrent = ifc['sciif']; // 当前影响因子
-                    var if5Year = ifc['sciif5'];//5年平均影响因子
-                    var eiivalue = ifc['eii'];// EI收录
-                    var cssci = ifc['cssci']; // CSSCI南大核心
-                    var cscd = ifc['cscd']; // CSCD
-                    var pku = ifc['pku'] === '1' ? '中文核心期刊' : ''; // 北大核心
-                    var zhongguokejihexin = ifc['zhongguokejihexin']; // 科技核心
+                try {
+                    var tempID = ptID[items[i].getField('publicationTitle').toUpperCase()]  // 得到期刊题目的tempID
+                    var ifc = ifs.filter(e => e.tempID == tempID)[0]; //当前期刊的信息
+                    if (ifc !== undefined) {
+                        var sci = ifc['sci']; // JCR分区
+                        var sciUp = ifc['sciUp']; // 中科院分区升级版
+                        var sciBase = ifc['sciBase']; // 中科院分区基础版
+                        var ifCurrent = ifc['sciif']; // 当前影响因子
+                        var if5Year = ifc['sciif5'];//5年平均影响因子
+                        var eiivalue = ifc['eii'];// EI收录
+                        var cssci = ifc['cssci']; // CSSCI南大核心
+                        var cscd = ifc['cscd']; // CSCD
+                        var pku = ifc['pku'] === '1' ? '中文核心期刊' : ''; // 北大核心
+                        var zhongguokejihexin = ifc['zhongguokejihexin']; // 科技核心
 
-                    var eiivalueExtra = ifc['eii'] == 'EI' ? '是' : '否'; // EI收录 用于放入Extra
-                    var cssciExtra = ifc['cssci'] === 'CSSCI' ? '是' : '否'; // CSSCI南大核心 用于放入Extra
-                    var pkuExtra = ifc['pku'] === '1' ? '是' : '否';// 北大核心 用于放入Extra
-                    var zhongguokejihexinExtra = ifc['zhongguokejihexin'] === '中国科技核心期刊' ? '是' : '否'; // 科技核心 用于放入Extra
+                        var eiivalueExtra = ifc['eii'] == 'EI' ? '是' : '否'; // EI收录 用于放入Extra
+                        var cssciExtra = ifc['cssci'] === 'CSSCI' ? '是' : '否'; // CSSCI南大核心 用于放入Extra
+                        var pkuExtra = ifc['pku'] === '1' ? '是' : '否';// 北大核心 用于放入Extra
+                        var zhongguokejihexinExtra = ifc['zhongguokejihexin'] === '中国科技核心期刊' ? '是' : '否'; // 科技核心 用于放入Extra
 
-                }
+                    }
 
-                // 设置JCR
-                if (jcrQu && sci !== undefined) {
-                    items[i].setField(jcrQuField, sci);
-
-                };
-                //中科院分区分级版
-                if (casQu1 && sciUp !== undefined) {
-                    items[i].setField(casQu1Field, sciUp);
-
-                };
-                //中科院分区基础版
-                if (casQu2 && sciBase !== undefined) {
-                    items[i].setField(casQu2Field, sciBase);
-
-                };
-                //EI
-                if (eiJour && eiivalue !== undefined) {
-                    items[i].setField(eiJourField, eiivalue);
-
-                };
-
-                // 设置影响因子
-                if (sciIf && ifCurrent !== undefined) {
-                    items[i].setField(sciIfField, ifCurrent);
-
-                };
-                // 设置5年影响因子
-                if (sciIf5 && if5Year !== undefined) {
-                    items[i].setField(sciIf5Field, if5Year);
-
-                };
-                //北大中文核心
-                if (pkuCore && pku !== undefined) {
-                    items[i].setField(pkuField, pku);
-
-                };
-                //南大核心
-                if (njuCore && cssci !== undefined) {
-                    items[i].setField(njuField, cssci);
-
-                };
-                //CSCD
-                if (chjCscd && cscd !== undefined) {
-                    items[i].setField(cscdField, cscd);
-
-                };
-                //科技核心
-                if (sciCore && zhongguokejihexin !== undefined) {
-                    items[i].setField(sciCoreField, zhongguokejihexin);
-
-                };
-                // 填充到Extra的字符串前辍
-                var jcrs = '';
-                var casQu1s = ''
-                var casQu2s = ''
-                var eiJours = ''
-                var ifc = '';
-                var if5 = '';
-                var njuCores = ''
-                var pkuCores = ''
-                var cscds = ''
-                var sciTechs = ''
-
-                // 得到Extra
-                if (sciAllExtra) {
-                    if (sci === undefined) {
-                        sci = '未知';
+                    // 设置JCR
+                    if (jcrQu && sci !== undefined) {
+                        items[i].setField(jcrQuField, sci);
                     };
-                    jcrs = 'JCR分区: ' + sci + '\n';
-                    // };
                     //中科院分区分级版
-                    if (sciUp === undefined) {
-                        sciUp = '未知';
+                    if (casQu1 && sciUp !== undefined) {
+                        items[i].setField(casQu1Field, sciUp);
                     };
-
-                    casQu1s = '中科院分区升级版: ' + sciUp + '\n';
-                    // };
                     //中科院分区基础版
-                    if (sciBase === undefined) {
-                        sciBase = '未知';
-                    };
+                    if (casQu2 && sciBase !== undefined) {
+                        items[i].setField(casQu2Field, sciBase);
 
-                    casQu2s = '中科院分区基础版: ' + sciBase + '\n';
-                    // };
-                    //EI
-                    if (eiivalueExtra === undefined) {
-                        eiivalueExtra = '否';
                     };
-                    eiJours = 'EI: ' + eiivalueExtra + '\n';
-                    // };
+                    //EI
+                    if (eiJour && eiivalue !== undefined) {
+                        items[i].setField(eiJourField, eiivalue);
+
+                    };
 
                     // 设置影响因子
-                    if (ifCurrent === undefined) {
-                        ifCurrent = '未知';
-                    };
+                    if (sciIf && ifCurrent !== undefined) {
+                        items[i].setField(sciIfField, ifCurrent);
 
-                    ifc = '影响因子: ' + ifCurrent + '\n';
-                    //  };
+                    };
                     // 设置5年影响因子
-                    if (if5Year === undefined) {
-                        if5Year = '未知';
+                    if (sciIf5 && if5Year !== undefined) {
+                        items[i].setField(sciIf5Field, if5Year);
+
                     };
-                    if5 = '5年影响因子: ' + if5Year + '\n';
-                    //  };
                     //北大中文核心
-                    if (pkuExtra === undefined) {
-                        pkuExtra = '否';
-                    };
+                    if (pkuCore && pku !== undefined) {
+                        items[i].setField(pkuField, pku);
 
-                    pkuCores = '中文核心期刊/北大核心: ' + pkuExtra + '\n';
-                    //};
+                    };
                     //南大核心
-                    if (cssciExtra === undefined) {
-                        cssciExtra = '否';
-                    };
+                    if (njuCore && cssci !== undefined) {
+                        items[i].setField(njuField, cssci);
 
-                    njuCores = 'CSSCI/南大核心: ' + cssciExtra + '\n';
-                    //};
+                    };
                     //CSCD
-                    //if ( cscd !== undefined) {
-                    if (cscd === undefined) {
-                        cscd = '否'
+                    if (chjCscd && cscd !== undefined) {
+                        items[i].setField(cscdField, cscd);
+
                     };
-                    cscds = 'CSCD: ' + cscd + '\n';
-                    //};
                     //科技核心
-                    if (zhongguokejihexinExtra === undefined) {
-                        zhongguokejihexinExtra = '否';
+                    if (sciCore && zhongguokejihexin !== undefined) {
+                        items[i].setField(sciCoreField, zhongguokejihexin);
+
+                    };
+                    // 填充到Extra的字符串前辍
+                    var jcrs = '';
+                    var casQu1s = ''
+                    var casQu2s = ''
+                    var eiJours = ''
+                    var ifc = '';
+                    var if5 = '';
+                    var njuCores = ''
+                    var pkuCores = ''
+                    var cscds = ''
+                    var sciTechs = ''
+
+                    // 得到Extra
+                    if (sciAllExtra) {
+                        if (sci === undefined) {
+                            sci = '未知';
+                        };
+                        jcrs = 'JCR分区: ' + sci + '\n';
+                        // };
+                        //中科院分区分级版
+                        if (sciUp === undefined) {
+                            sciUp = '未知';
+                        };
+
+                        casQu1s = '中科院分区升级版: ' + sciUp + '\n';
+                        // };
+                        //中科院分区基础版
+                        if (sciBase === undefined) {
+                            sciBase = '未知';
+                        };
+
+                        casQu2s = '中科院分区基础版: ' + sciBase + '\n';
+                        // };
+                        //EI
+                        if (eiivalueExtra === undefined) {
+                            eiivalueExtra = '否';
+                        };
+                        eiJours = 'EI: ' + eiivalueExtra + '\n';
+                        // };
+
+                        // 设置影响因子
+                        if (ifCurrent === undefined) {
+                            ifCurrent = '未知';
+                        };
+
+                        ifc = '影响因子: ' + ifCurrent + '\n';
+                        //  };
+                        // 设置5年影响因子
+                        if (if5Year === undefined) {
+                            if5Year = '未知';
+                        };
+                        if5 = '5年影响因子: ' + if5Year + '\n';
+                        //  };
+                        //北大中文核心
+                        if (pkuExtra === undefined) {
+                            pkuExtra = '否';
+                        };
+
+                        pkuCores = '中文核心期刊/北大核心: ' + pkuExtra + '\n';
+                        //};
+                        //南大核心
+                        if (cssciExtra === undefined) {
+                            cssciExtra = '否';
+                        };
+
+                        njuCores = 'CSSCI/南大核心: ' + cssciExtra + '\n';
+                        //};
+                        //CSCD
+                        //if ( cscd !== undefined) {
+                        if (cscd === undefined) {
+                            cscd = '否'
+                        };
+                        cscds = 'CSCD: ' + cscd + '\n';
+                        //};
+                        //科技核心
+                        if (zhongguokejihexinExtra === undefined) {
+                            zhongguokejihexinExtra = '否';
+                        };
+
+                        sciTechs = '中国科技核心期刊: ' + zhongguokejihexinExtra + '\n';
                     };
 
-                    sciTechs = '中国科技核心期刊: ' + zhongguokejihexinExtra + '\n';
-                };
+                    var newExtrasEn = jcrs + casQu1s + casQu2s + ifc + if5 + eiJours; // 英文期刊的Extra
+                    var newExtrasCh = eiJours + pkuCores + njuCores + cscds + sciTechs; // 中文期刊的Extra
 
-                var newExtrasEn = jcrs + casQu1s + casQu2s + ifc + if5 + eiJours; // 英文期刊的Extra
-                var newExtrasCh = eiJours + pkuCores + njuCores + cscds + sciTechs; // 中文期刊的Extra
+                    var newExtras = lanItem.indexOf('en') !== -1 ? newExtrasEn : newExtrasCh; // 根据期刊语言得到Extra
+                    // return newExtras
 
-                var newExtras = lanItem.indexOf('en') !== -1 ? newExtrasEn : newExtrasCh; // 根据期刊语言得到Extra
-                // return newExtras
+                    var old = items[i].getField('extra');
+                    // 匹配原来Extra的正则
+                    var pattExtraEn = /JCR分区:\s.+\n中科院分区升级版:\s.+\n中科院分区基础版:\s.+\n影响因子:\s.+\n5年影响因子:\s.+\nEI:\s.+\n/g  // 匹配英文期刊Extra
+                    var pattExtraCh = /EI:\s.+\n中文核心期刊\/北大核心:\s.+\nCSSCI\/南大核心:\s.+\nCSCD:\s.+\n中国科技核心期刊:\s.+\n/g; // 匹配中文期刊Extra
+                    var pattExtra = lanItem.indexOf('en') !== -1 ? pattExtraEn : pattExtraCh;
 
-                var old = items[i].getField('extra');
-                // 匹配原来Extra的正则
-                var pattExtraEn = /JCR分区:\s.+\n中科院分区升级版:\s.+\n中科院分区基础版:\s.+\n影响因子:\s.+\n5年影响因子:\s.+\nEI:\s.+\n/g  // 匹配英文期刊Extra
-                var pattExtraCh = /EI:\s.+\n中文核心期刊\/北大核心:\s.+\nCSSCI\/南大核心:\s.+\nCSCD:\s.+\n中国科技核心期刊:\s.+\n/g; // 匹配中文期刊Extra
-                var pattExtra = lanItem.indexOf('en') !== -1 ? pattExtraEn : pattExtraCh;
+                    //return old.replace(pattExtra, newExtras)
+                    try {
+                        if (sciAllExtra) { // 如果所有英文期刊信息到其它为真，则全部显示到其它字段
+                            if (old.length == 0) {   // 如果内容为空
+                                items[i].setField('extra', newExtras);
+                            } else if (old.search(pattExtra) != -1) { // 如果以前有影响因子则替换
+                                // 匹配原来Extra内容
+                                items[i].setField(
+                                    'extra',
+                                    old.replace(pattExtra, newExtras));
 
-                //return old.replace(pattExtra, newExtras)
-                try {
-                    if (sciAllExtra) { // 如果所有英文期刊信息到其它为真，则全部显示到其它字段
-                        if (old.length == 0) {   // 如果内容为空
-                            items[i].setField('extra', newExtras);
-                        } else if (old.search(pattExtra) != -1) { // 如果以前有影响因子则替换
-                            // 匹配原来Extra内容
-                            items[i].setField(
-                                'extra',
-                                old.replace(pattExtra, newExtras));
+                            } else {   // 以前没有，且内容不为空
+                                items[i].setField('extra', newExtras + old);
+                            }
+                        };
+                    } catch (error) {
+                        numFail++;
+                    }
 
-                        } else {   // 以前没有，且内容不为空
-                            items[i].setField('extra', newExtras + old);
-                        }
-                    };
+                    items[i].save();
+                    numSuccess++;
                 } catch (error) {
                     numFail++;
                 }
 
-                items[i].save();
-                numSuccess++;
-            } catch (error) {
-                numFail++;
             }
 
         }
-
     }
     var statusInfo = numSuccess > 0 ? 'finished' : 'failed';
     var successInfo = numSuccess > 1 ? 'success.mul' : 'success.sig';
@@ -653,6 +656,64 @@ Zotero.UpdateIFs.updateSelectedItem = async function (items) {
 
 };
 
+// 更新期刊缩写
+Zotero.UpdateIFs.upJourAbb = async function (item) {
+    // 得到期刊缩写设置
+    var upJourAbb = Zotero.Prefs.get('extensions.updateifs.up-abbr', true);
+    var dotAbb = Zotero.Prefs.get('extensions.updateifs.dot-abbr', true);
+    var enAbb = Zotero.Prefs.get('extensions.updateifs.en-abbr', true);
+    var chAbb = Zotero.Prefs.get('extensions.updateifs.ch-abbr', true);
+    var lanItem = item.getField('language'); //得到条目语言
+    var enItem = lanItem.indexOf('en') !== -1 || // 英文条目
+        lanItem.indexOf('English') !== -1;
+    var chItem = lanItem.indexOf('ch') !== -1 || //中文条目
+        lanItem.indexOf('zh') !== -1 ||
+        lanItem.indexOf('中文') !== -1 ||
+        lanItem.indexOf('CN') !== -1;
+    var pubT = item.getField('publicationTitle');
+    if (upJourAbb) {
+        var jourAbbs = await Zotero.UpdateIFs.getJourAbb(item); // 得到带点和不带点的缩写
+        if (jourAbbs["record"] != 0) {
+            try {
+                var jourAbb = dotAbb ? jourAbbs["abb_with_dot"] : jourAbbs["abb_no_dot"];
+                item.setField('journalAbbreviation', jourAbb);
+
+            } catch (e) {
+                return;
+            }
+            // 英文如果找不到缩写是否用全称代替
+        } else if (enAbb && enItem) {
+            item.setField('journalAbbreviation', pubT);
+            // 英文如果找不到缩写是否用全称代替
+        } else if (chAbb && chItem) {
+            item.setField('journalAbbreviation', pubT);
+        }
+    }
+    //return jourAbbs
+    item.save();
+};
+
+// 得到期刊缩写
+Zotero.UpdateIFs.getJourAbb = async function (item) {
+    var pubT = item.getField('publicationTitle');
+    var url = "https://www.linxingzhong.top/journal";
+    var postData = {
+        key: "journal",
+        "fullname": pubT
+    };
+    var headers = { "Content-Type": "application/json" };
+    // Maybe need to set max retry in this post request.
+    var resp = await Zotero.HTTP.request("POST", url, {
+        body: JSON.stringify(postData),
+        headers: headers,
+    });
+    try {
+        var record = JSON.parse(resp.responseText);
+        return record;
+    } catch (e) {
+        return;
+    }
+};
 // 得到影响因子及详细网址函数 
 Zotero.UpdateIFs.getIFs = async function (paperName) {
     var data = {};
@@ -672,17 +733,11 @@ Zotero.UpdateIFs.getIFs = async function (paperName) {
         body: JSON.stringify(data),
         headers: headers,
     });
-
-
     try {
         var updateJson = JSON.parse(resp.responseText);
         return updateJson["papersRank"];
     } catch (e) {
-
-
     }
-
-
 };
 
 //得到要查询的期刊题目,形成字典形式：{key：期刊题目},用于查询

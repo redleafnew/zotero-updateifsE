@@ -14,93 +14,98 @@
     <!--onpaneload="Zotero.UpdateIFs.initPref();" -->
     <preferences>
       <preference id="pref-updateifs-add-update" name="extensions.updateifs.add-update" type="bool" />
-     
+      <!--更新缩写 -->
+      <preference id="pref-updateifs-up_abbr" name="extensions.updateifs.up-abbr" type="bool" /> <!-- 是否更新缩写，默认更新 -->
+      <preference id="pref-updateifs-dot_abbr" name="extensions.updateifs.dot-abbr" type="bool" /> <!-- 缩写是否带点，默认不带点-->
+      <preference id="pref-updateifs-en_abbr" name="extensions.updateifs.en-abbr" type="bool" /> <!-- 英文缩写-->
+      <preference id="pref-updateifs-ch_abbr" name="extensions.updateifs.ch-abbr" type="bool" /> <!-- 中文缩写 -->
+
       <preference id="pref-updateifs-all-extra" name="extensions.updateifs.sci-all-extra" type="bool" />
-     
+
       <preference id='pref-updateifs-njau-core' name='extensions.updateifs.njau-core' type="bool" />
-      ;
+
       <!-- 南农核心 -->
       <preference id='pref-updateifs-njau-core-field' name='extensions.updateifs.njau-core-field' type="string" />
-      ;
+
       <preference id='pref-updateifs-njau-high-quality' name='extensions.updateifs.njau-high-quality' type="bool" />
-      ;
+
       <!-- 南农高质量 -->
       <preference id='pref-updateifs-njau-high-quality-field' name='extensions.updateifs.njau-high-quality-field' type="string" />
-      ;
+
       <!-- 影响因子设置 -->
       <preference id='pref-updateifs-jcr-qu' name='extensions.updateifs.jcr-qu' type="bool" />
-      ;
+
       <preference id='pref-updateifs-cas-qu1' name='extensions.updateifs.cas-qu1' type="bool" />
-      ;
+
       <preference id='pref-updateifs-cas-qu2' name='extensions.updateifs.cas-qu2' type="bool" />
-      ;
+
       <preference id='pref-updateifs-sci-if' name='extensions.updateifs.sci-if' type="bool" />
-      ;
+
       <preference id='pref-updateifs-sci-if5' name='extensions.updateifs.sci-if5' type="bool" />
-      ;
+
       <preference id='pref-updateifs-chj-cscd' name='extensions.updateifs.chj-cscd' type="bool" />
-      ;
+
       <preference id='pref-updateifs-pku-core' name='extensions.updateifs.pku-core' type="bool" />
-      ;
+
       <preference id='pref-updateifs-sci-core' name='extensions.updateifs.sci-core' type="bool" />
-      ;
+
       <preference id='pref-updateifs-com-if' name='extensions.updateifs.com-if' type="bool" />
-      ;
+
       <preference id='pref-updateifs-agg-if' name='extensions.updateifs.agg-if' type="bool" />
-      ;
+
       <preference id='pref-updateifs-sci-all-extra' name='extensions.updateifs.sci-all-extra' type="bool" />
-      ;
+
       <preference id='pref-updateifs-chj-all-extra' name='extensions.updateifs.chj-all-extra' type="bool" />
-      ;
+
       <preference id='pref-updateifs-jcr-qu-field' name='extensions.updateifs.jcr-qu-field' type="string" />
-      ;
+
       <preference id='pref-updateifs-cas-qu1-field' name='extensions.updateifs.cas-qu1-field' type="string" />
-      ;
+
       <preference id='pref-updateifs-cas-qu2-field' name='extensions.updateifs.cas-qu2-field' type="string" />
-      ;
+
       <preference id='pref-updateifs-sci-if-field' name='extensions.updateifs.sci-if-field' type="string" />
-      ;
+
       <preference id='pref-updateifs-sci-if5-field' name='extensions.updateifs.sci-if5-field' type="string" />
-      ;
+
       <preference id='pref-updateifs-chj-cscd-field' name='extensions.updateifs.chj-cscd-field' type="string" />
-      ;
+
       <preference id='pref-updateifs-chj-pku-core-field' name='extensions.updateifschj-pku-field' type="string" />
-      ;
+
       <preference id='pref-updateifs-chj-sci-core-field' name='extensions.updateifs.chj-sci-field' type="string" />
-      ;
+
       <preference id='pref-updateifs-chj-com-if-field' name='extensions.updateifs.chj-com-field' type="string" />
-      ;
+
       <preference id='pref-updateifs-agg-if-field' name='extensions.updateifs.agg-if-field' type="string" />
-      ;
+
       <!-- 菜单隐藏 -->
       <preference id='pref-menu-updateifs-menu-bold-star' name='pref-updateifs-menu-bold-star' type="bool" />
-      ;
+
       <preference id='pref-menu-updateifs-menu-clean-bold' name='pref-updateifs-menu-clean-bold' type="bool" />
-      ;
+
       <preference id='pref-menu-updateifs-menu-clean-star' name='pref-updateifs-menu-clean-star' type="bool" />
-      ;
+
       <preference id='pref-menu-updateifs-menu-clean-bold-star' name='pref-updateifs-menu-clean-bold-star' type="bool" />
-      ;
+
       <preference id='pref-menu-updateifs-menu-au-title-case' name='pref-updateifs-menu-au-title-case' type="bool" />
-      ;
+
       <preference id='pref-menu-updateifs-menu-swap-au' name='pref-updateifs-menu-swap-au' type="bool" />
-      ;
+
       <preference id='pref-menu-updateifs-menu-pub-title' name='pref-updateifs-menu-pub-title' type="bool" />
-      ;
+
       <preference id='pref-menu-updateifs-menu-pub-title-case' name='pref-updateifs-menu-pub-title-case' type="bool" />
-      ;
+
       <preference id='pref-menu-updateifs-menu-find-replace-item-title' name='pref-updateifs-menu-find-replace-item-title' type="bool" />
-      ;
+
       <preference id='pref-menu-updateifs-menu-title-sen-case' name='pref-updateifs-menu-title-sen-case' type="bool" />
-      ;
+
       <preference id='pref-menu-updateifs-menu-profile-dir' name='pref-updateifs-menu-profile-dir' type="bool" />
-      ;
+
       <preference id='pref-menu-updateifs-data-dir-star' name='pref-updateifs-data-dir-star' type="bool" />
-      ;
+
       <preference id='pref-menu-updateifs-sep1' name='pref-updateifs-sep1' type="bool" />
-      ;
+
       <preference id='pref-menu-updateifs-sep2' name='pref-updateifs-sep2' type="bool" />
-      ;
+
     </preferences>
 
     <tabbox>
@@ -124,8 +129,25 @@
               <hbox style="margin: 0">
                 <checkbox id="id-updateifs-add-update" label="&add-update;" preference="pref-updateifs-add-update" />
               </hbox>
+              <!-- 是否更新缩写 -->
+              <hbox style="margin: 0">
+                <checkbox id="id-updateifs-up-abbr" label="&up_abbr;" width='470' preference="pref-updateifs-up_abbr" oncommand="setJourAbb()"/>
+              </hbox>
+              <!-- 缩写是否带点 -->
+              <hbox style="margin: 0">
+                <checkbox id="id-updateifs-dot-abbr" label="&dot_abbr;" width='470' preference="pref-updateifs-dot_abbr" />
+              </hbox>
+              <!-- 英文查询不到是否用全称代替 -->
+              <hbox style="margin: 0">
+                <checkbox id="id-updateifs-en-abbr" label="&en_abbr;" width='470' preference="pref-updateifs-en_abbr" />
+              </hbox>
               <!-- <separator class='thin'/>  -->
-               <!-- 所有信息是否显示Extra -->
+              <!-- 中文查询不到是否用全称代替 -->
+              <hbox style="margin: 0">
+                <checkbox id="id-updateifs-ch-abbr" label="&ch_abbr;" width='450' preference="pref-updateifs-ch_abbr" />
+              </hbox>
+              <!-- <separator class='thin'/>  -->
+              <!-- 所有信息是否显示Extra -->
               <hbox style="margin: 0">
                 <checkbox id="id-all-extra" label="&all-extra;" width='470' preference="pref-updateifs-all-extra" />
               </hbox>
@@ -285,7 +307,7 @@
                 <label value="&sci-settings-field;" control="id-sci-settings-field" />
               </hbox>
               <!--五年影响因子-->
-              <hbox style="margin: 0"> 
+              <hbox style="margin: 0">
                 <checkbox id="id-updateifs-sci-if5" label="&sci-if5;" preference="pref-updateifs-sci-if5" />
 
                 <menulist id="id-updateifs-sci-if5-field" preference="pref-updateifs-sci-if5-field">
@@ -301,7 +323,7 @@
                   </menupopup>
                 </menulist>
                 <label value="&sci-settings-field;" control="id-sci-settings-field" />
-              </hbox> 
+              </hbox>
               <hbox style="margin: 0">
                 <!-- EI -->
                 <checkbox id="id-updateifs-agg-if" label="&agg-if;" preference="pref-updateifs-agg-if" />

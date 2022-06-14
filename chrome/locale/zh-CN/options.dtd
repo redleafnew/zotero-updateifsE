@@ -4,6 +4,10 @@
 <!ENTITY update-journal-abbr "">
 
 <!ENTITY add-update "添加条目时自动更新期刊信息">
+<!ENTITY up_abbr "更新期刊缩写">
+<!ENTITY dot_abbr "期刊缩写带点">
+<!ENTITY en_abbr "如果英语条目查询不到, 期刊缩写使用期刊全称">
+<!ENTITY ch_abbr "如果中文条目查询不到, 期刊缩写使用期刊全称">
 <!ENTITY  all-extra "所有期刊信息放入其它字段">
 <!-- 分区类型设置 -->
 <!ENTITY ifs-type "分区类型设置">
