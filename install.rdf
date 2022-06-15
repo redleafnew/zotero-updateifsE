@@ -7,7 +7,7 @@
         RDF:about="urn:mozilla:install-manifest"
         em:id="zoteroupdateifs@redleafnew.me"
         em:name="Zotero Update IFs"
-        em:version="0.1.0"
+        em:version="0.1.1"
         em:type="2"
         em:creator="Minyi Han"
         em:description="Zotero plugin for update IF from easyScholar/"

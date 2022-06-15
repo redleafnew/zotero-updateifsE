@@ -140,7 +140,7 @@ Zotero.UpdateIFs.cleanExtra = function () {
                 if (item.isRegularItem() && !item.isCollection()) {
                     try {
                         item.setField('extra', '');
-                        item.save();
+                        item.saveTx();
 
                     } catch (error) {
                         // numFail = numFail + 1;
@@ -177,7 +177,7 @@ Zotero.UpdateIFs.cleanBold = async function () {
         }
         item.setCreators(newCreators);
 
-        await item.save();
+        await item.saveTx();
 
     }
     var lanUI = Zotero.Prefs.get('intl.locale.requested', true); // 得到当前Zotero界面语言
@@ -213,7 +213,8 @@ Zotero.UpdateIFs.cleanStar = async function () {
         }
         item.setCreators(newCreators);
 
-        await item.save();
+        // await item.save();
+        await item.saveTx()
 
     }
     var lanUI = Zotero.Prefs.get('intl.locale.requested', true); // 得到当前Zotero界面语言
@@ -616,8 +617,8 @@ Zotero.UpdateIFs.updateSelectedItem = async function (items) {
 
                     var old = items[i].getField('extra');
                     // 匹配原来Extra的正则
-                    var pattExtraEn = /JCR分区:\s.+\n中科院分区升级版:\s.+\n中科院分区基础版:\s.+\n影响因子:\s.+\n5年影响因子:\s.+\nEI:\s.+\n/g  // 匹配英文期刊Extra
-                    var pattExtraCh = /EI:\s.+\n中文核心期刊\/北大核心:\s.+\nCSSCI\/南大核心:\s.+\nCSCD:\s.+\n中国科技核心期刊:\s.+\n/g; // 匹配中文期刊Extra
+                    var pattExtraEn = /JCR分区:\s.+\n中科院分区升级版:\s.+\n中科院分区基础版:\s.+\n影响因子:\s.+\n5年影响因子:\s.+\nEI:\s.+/g  // 匹配英文期刊Extra
+                    var pattExtraCh = /EI:\s.+\n中文核心期刊\/北大核心:\s.+\nCSSCI\/南大核心:\s.+\nCSCD:\s.+\n中国科技核心期刊:\s.+/g; // 匹配中文期刊Extra
                     var pattExtra = lanItem.indexOf('en') !== -1 ? pattExtraEn : pattExtraCh;
 
                     //return old.replace(pattExtra, newExtras)
@@ -629,7 +630,8 @@ Zotero.UpdateIFs.updateSelectedItem = async function (items) {
                                 // 匹配原来Extra内容
                                 items[i].setField(
                                     'extra',
-                                    old.replace(pattExtra, newExtras));
+                                    old.replace(pattExtra, newExtras).
+                                    replace('\n\n','\n')); // 两个换行替换为一个
 
                             } else {   // 以前没有，且内容不为空
                                 items[i].setField('extra', newExtras + old);
@@ -648,6 +650,8 @@ Zotero.UpdateIFs.updateSelectedItem = async function (items) {
             }
 
         }
+        // items[i].save();
+        await items[i].saveTx();
     }
     var statusInfo = numSuccess > 0 ? 'finished' : 'failed';
     var successInfo = numSuccess > 1 ? 'success.mul' : 'success.sig';
@@ -690,7 +694,7 @@ Zotero.UpdateIFs.upJourAbb = async function (item) {
         }
     }
     //return jourAbbs
-    item.save();
+   // item.save();
 };
 
 // 得到期刊缩写
