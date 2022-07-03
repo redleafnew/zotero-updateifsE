@@ -437,6 +437,12 @@ Zotero.UpdateIFs.updateSelectedItem = async function (items) {
     // 文献类型为期刊时才写入
 
     var ifs = await Zotero.UpdateIFs.getIFs(paperName);
+    if (ifs == '') {
+        var statusInfo = 'failed';
+        var alertInfo = Zotero.UpdateIFs.ZUIFGetString('not.found');
+        Zotero.UpdateIFs.showPopUP(alertInfo, statusInfo);
+        return;
+    }
     var ptID = paperName[1]; // publications: tempID 用于得到后面的tempID
 
     for (i = 0; i < items.length; i++) {
@@ -631,7 +637,7 @@ Zotero.UpdateIFs.updateSelectedItem = async function (items) {
                                 items[i].setField(
                                     'extra',
                                     old.replace(pattExtra, newExtras).
-                                    replace('\n\n','\n')); // 两个换行替换为一个
+                                        replace('\n\n', '\n')); // 两个换行替换为一个
 
                             } else {   // 以前没有，且内容不为空
                                 items[i].setField('extra', newExtras + old);
@@ -694,7 +700,7 @@ Zotero.UpdateIFs.upJourAbb = async function (item) {
         }
     }
     //return jourAbbs
-   // item.save();
+    // item.save();
 };
 
 // 得到期刊缩写
