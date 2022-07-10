@@ -21,6 +21,9 @@ pref('extensions.updateifs.pku-core', true);
 pref('extensions.updateifs.sci-core', true);
 pref('extensions.updateifs.com-if', true);
 pref('extensions.updateifs.agg-if', true);
+pref('extensions.updateifs.fu-if', true);
+pref('extensions.updateifs.zong-if', true);
+
 pref('extensions.updateifs.sci-all-extra', false);
 
 
@@ -34,8 +37,14 @@ pref('extensions.updateifs.sci-if5-field', 'rights');
 pref('extensions.updateifs.chj-cscd-field', 'archive');
 pref('extensions.updateifschj-pku-field','archiveLocation');
 pref('extensions.updateifs.chj-sci-field','libraryCatalog');
-pref('extensions.updateifs.chj-com-field','callNumber');
-pref('extensions.updateifs.agg-if-field', 'series');
+//南大核心
+pref('extensions.updateifs.chj-com-field','seriesTitle'); 
+//EI
+pref('extensions.updateifs.agg-if-field', 'series'); 
+//复合影响影响因子
+pref('extensions.updateifs.fu-field', 'callNumber'); 
+//综合影响影响因子
+pref('extensions.updateifs.zong-field', 'rights');
 
 //  子菜单默认设置;
 pref('pref-updateifs-menu-bold-star', true);

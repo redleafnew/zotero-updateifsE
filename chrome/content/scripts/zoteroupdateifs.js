@@ -449,6 +449,7 @@ Zotero.UpdateIFs.updateSelectedItem = async function (items) {
         if (Zotero.ItemTypes.getName(items[i].itemTypeID) == 'journalArticle' // 文献类型为期刊
         ) {
             await Zotero.UpdateIFs.upJourAbb(items[i]); // 更新期刊缩写
+            Zotero.UpdateIFs.setChineseIFs(items[i]); // 更新复合和综合影响因子
             var lanItem = items[i].getField('language'); //得到条目语言
             if (items[i].isRegularItem() && !items[i].isCollection()) {
 
@@ -505,12 +506,12 @@ Zotero.UpdateIFs.updateSelectedItem = async function (items) {
 
                     // 设置影响因子
                     if (sciIf && ifCurrent !== undefined) {
-                        items[i].setField(sciIfField, ifCurrent);
+                        items[i].setField(sciIfField, '影响因子: ' + ifCurrent);
 
                     };
                     // 设置5年影响因子
                     if (sciIf5 && if5Year !== undefined) {
-                        items[i].setField(sciIf5Field, if5Year);
+                        items[i].setField(sciIf5Field, '5年影响因子: ' + if5Year);
 
                     };
                     //北大中文核心
@@ -723,6 +724,55 @@ Zotero.UpdateIFs.getJourAbb = async function (item) {
     } catch (e) {
         return;
     }
+};
+
+// 设置复合影响因子及综合影响因子20220709
+// 代码源于@l0o0，感谢。
+Zotero.UpdateIFs.setChineseIFs = async function (item) {
+    var fuIf = Zotero.Prefs.get('extensions.updateifs.fu-if', true);  // 复合影响因子
+    var zongIf = Zotero.Prefs.get('extensions.updateifs.zong-if', true);  // 综合影响因子
+    var fuIfField = Zotero.Prefs.get('extensions.updateifs.fu-field', true);  // 复合影响因子字段
+    var zongIfField = Zotero.Prefs.get('extensions.updateifs.zong-field', true);  // 综合影响因子字段
+    var pubT = item.getField('publicationTitle');
+    try {
+
+        var body = `searchStateJson=%7B%22StateID%22%3A%22%22%2C%22Platfrom%22%3A%22%22%2C%22QueryTime%22%3A%22%22%2C%22Account%22%3A%22knavi%22%2C%22ClientToken%22%3A%22%22%2C%22Language%22%3A%22%22%2C%22CNode%22%3A%7B%22PCode%22%3A%22JOURNAL%22%2C%22SMode%22%3A%22%22%2C%22OperateT%22%3A%22%22%7D%2C%22QNode%22%3A%7B%22SelectT%22%3A%22%22%2C%22Select_Fields%22%3A%22%22%2C%22S_DBCodes%22%3A%22%22%2C%22QGroup%22%3A%5B%7B%22Key%22%3A%22subject%22%2C%22Logic%22%3A1%2C%22Items%22%3A%5B%5D%2C%22ChildItems%22%3A%5B%7B%22Key%22%3A%22txt%22%2C%22Logic%22%3A1%2C%22Items%22%3A%5B%7B%22Key%22%3A%22txt_1%22%2C%22Title%22%3A%22%22%2C%22Logic%22%3A1%2C%22Name%22%3A%22TI%22%2C%22Operate%22%3A%22%25%22%2C%22Value%22%3A%22'${encodeURIComponent(pubT)}'%22%2C%22ExtendType%22%3A0%2C%22ExtendValue%22%3A%22%22%2C%22Value2%22%3A%22%22%7D%5D%2C%22ChildItems%22%3A%5B%5D%7D%5D%7D%5D%2C%22OrderBy%22%3A%22OTA%7CDESC%22%2C%22GroupBy%22%3A%22%22%2C%22Additon%22%3A%22%22%7D%7D&displaymode=1&pageindex=1&pagecount=21&index=&searchType=%E5%88%8A%E5%90%8D(%E6%9B%BE%E7%94%A8%E5%88%8A%E5%90%8D)&clickName=&switchdata=search&random=0.2815758347350512`;
+        var resp = await Zotero.HTTP.request(
+            "POST",
+            "https://navi.cnki.net/knavi/all/searchbaseinfo",
+            {
+                headers: {
+                    "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/103.0.5060.114 Safari/537.36 Edg/103.0.1264.49",
+                },
+                body: body,
+            }
+
+        );
+
+        var AllJour = resp.responseText;
+
+        var reg = pubT + '\n(.*\n){10,40} .*复合影响因子：(.*)\n(.*\n){0,6} .*综合影响因子：(.*)'; //复合影响因子和综合影响因子正则，里面含有空格，\s不行
+        var patt = new RegExp(reg, 'i'); // 
+        var jour = AllJour.match(patt) // [2]为复合影响因子，[4]为综合IF
+
+        var fuIfFill = jour[2];
+        var zongIfFill = jour[4];
+
+        // 复合影响因子
+        if (fuIf && fuIfFill !== undefined) {
+            item.setField(fuIfField, '复合影响因子: ' + fuIfFill);
+
+        };
+        // 综合影响因子
+        if (zongIf && zongIfFill !== undefined) {
+            item.setField(zongIfField, '综合影响因子: ' + zongIfFill);
+
+        };
+        item.save();
+    } catch (e) {
+        return;
+    }
+
 };
 // 得到影响因子及详细网址函数 
 Zotero.UpdateIFs.getIFs = async function (paperName) {

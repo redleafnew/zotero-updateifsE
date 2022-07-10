@@ -44,6 +44,8 @@
 <!ENTITY sci-core "Show Sci &amp; Tech Core Journal in ">  <!-- https://www.ascii-code.com/表示&-->
 <!ENTITY com-if "Show NJU Core Journal in ">
 <!ENTITY agg-if "Show EI in ">
+<!ENTITY fu-if "Show Compound IF in ">
+<!ENTITY zong-if "Show Comprehensive IF in ">
 <!ENTITY chj-all-extra "Show All Above Information in Extra Field">
 
 <!ENTITY sci-settings-series "Series">

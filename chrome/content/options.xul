@@ -52,6 +52,8 @@
       <preference id='pref-updateifs-com-if' name='extensions.updateifs.com-if' type="bool" />
 
       <preference id='pref-updateifs-agg-if' name='extensions.updateifs.agg-if' type="bool" />
+      <preference id='pref-updateifs-fu-if' name='extensions.updateifs.fu-if' type="bool" /><!-- 复合影响因子是否显示 -->
+      <preference id='pref-updateifs-zong-if' name='extensions.updateifs.zong-if' type="bool" /><!-- 综合影响因子是否显示 -->
 
       <preference id='pref-updateifs-sci-all-extra' name='extensions.updateifs.sci-all-extra' type="bool" />
 
@@ -76,6 +78,8 @@
       <preference id='pref-updateifs-chj-com-if-field' name='extensions.updateifs.chj-com-field' type="string" />
 
       <preference id='pref-updateifs-agg-if-field' name='extensions.updateifs.agg-if-field' type="string" />
+      <preference id='pref-updateifs-fu-if-field' name='extensions.updateifs.fu-field' type="string" /> <!-- 复合影响因子显示字段 -->
+      <preference id='pref-updateifs-zong-if-field' name='extensions.updateifs.zong-field' type="string" /> <!-- 综合影响因子显示字段 -->
 
       <!-- 菜单隐藏 -->
       <preference id='pref-menu-updateifs-menu-bold-star' name='pref-updateifs-menu-bold-star' type="bool" />
@@ -424,6 +428,7 @@
                 </menulist>
                 <label value="&sci-settings-field;" control="id-sci-settings-field" />
               </hbox>
+               <!--科技核心 -->
               <hbox style="margin: 0">
                 <checkbox id="id-updateifs-chj-sci-core" label="&sci-core;" preference="pref-updateifs-sci-core" />
 
@@ -441,7 +446,42 @@
                 </menulist>
                 <label value="&sci-settings-field;" control="id-sci-settings-field" />
               </hbox>
+               <!--复合影响因子菜单 -->
+              <hbox style="margin: 0">
+                <checkbox id="id-updateifs-fu-if" label="&fu-if;" preference="pref-updateifs-fu-if" />
 
+                <menulist id="id-updateifs-fu-if-field" preference="pref-updateifs-fu-if-field">
+                  <menupopup>
+                    <menuitem label="&sci-settings-series;" value="series" />
+                    <menuitem label="&sci-settings-seriesTitle;" value="seriesTitle" />
+                    <menuitem label="&sci-settings-seriesText;" value="seriesText" />
+                    <menuitem label="&sci-settings-archive;" value="archive" />
+                    <menuitem label="&sci-settings-archiveLocation;" value="archiveLocation" />
+                    <menuitem label="&sci-settings-libraryCatalog;" value="libraryCatalog" />
+                    <menuitem label="&sci-settings-callNumber;" value="callNumber" />
+                    <menuitem label="&sci-settings-rights;" value="rights" />
+                  </menupopup>
+                </menulist>
+                <label value="&sci-settings-field;" control="id-sci-settings-field" />
+              </hbox>
+               <!--综合影响因子显示 -->
+              <hbox style="margin: 0">
+                <checkbox id="id-updateifs-zong-if" label="&zong-if;" preference="pref-updateifs-zong-if" />
+
+                <menulist id="id-updateifs-zong-if-field" preference="pref-updateifs-zong-if-field">
+                  <menupopup>
+                    <menuitem label="&sci-settings-series;" value="series" />
+                    <menuitem label="&sci-settings-seriesTitle;" value="seriesTitle" />
+                    <menuitem label="&sci-settings-seriesText;" value="seriesText" />
+                    <menuitem label="&sci-settings-archive;" value="archive" />
+                    <menuitem label="&sci-settings-archiveLocation;" value="archiveLocation" />
+                    <menuitem label="&sci-settings-libraryCatalog;" value="libraryCatalog" />
+                    <menuitem label="&sci-settings-callNumber;" value="callNumber" />
+                    <menuitem label="&sci-settings-rights;" value="rights" />
+                  </menupopup>
+                </menulist>
+                <label value="&sci-settings-field;" control="id-sci-settings-field" />
+              </hbox>
 
               <!-- <hbox style="margin: 0">
                   <checkbox id="id-updateifs-chj-all-extra" label="&chj-all-extra;"  preference="pref-updateifs-chj-all-extra"/>

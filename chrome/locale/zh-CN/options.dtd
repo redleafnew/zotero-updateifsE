@@ -37,6 +37,8 @@
 <!ENTITY sci-core "显示科技核心于">
 <!ENTITY com-if "显示南大核心于">
 <!ENTITY agg-if "显示EI于">
+<!ENTITY fu-if "显示复合影响因子于">
+<!ENTITY zong-if "显示综合影响因子于">
 <!ENTITY chj-all-extra "将以上所有信息显示在其它字段中">
 
 <!ENTITY sci-settings-series "系列">
