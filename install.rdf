@@ -6,11 +6,11 @@
     <RDF:Description
         RDF:about="urn:mozilla:install-manifest"
         em:id="zoteroupdateifs@redleafnew.me"
-        em:name="Zotero Update IFs"
-        em:version="0.2.0"
+        em:name="Zotero Update Journal Information"
+        em:version="0.2.1"
         em:type="2"
         em:creator="Minyi Han"
-        em:description="Zotero plugin for update IF from easyScholar/"
+        em:description="Zotero plugin for update journal information from easyScholar/"
         em:homepageURL="https://github.com/redleafnew/zotero-updateifsE"
         em:updateURL= "https://raw.githubusercontent.com/redleafnew/zotero-updateifsE/main/update.rdf">
         <em:type>2</em:type>
@@ -39,9 +39,9 @@
         <em:localized>
             <Description>
                 <em:locale>zh-CN</em:locale>
-                <em:name>Zotero更新影响因子</em:name>
+                <em:name>Zotero更新期刊信息</em:name>
                 <em:creator>Minyi Han</em:creator>
-                <em:description>从easyScholar更新期刊影响因子</em:description>
+                <em:description>从easyScholar更新期刊信息</em:description>
                 <em:homepageURL>https://github.com/redleafnew/zotero-updateifsE</em:homepageURL>
             </Description>
         </em:localized>

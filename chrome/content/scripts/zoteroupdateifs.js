@@ -506,12 +506,12 @@ Zotero.UpdateIFs.updateSelectedItem = async function (items) {
 
                     // 设置影响因子
                     if (sciIf && ifCurrent !== undefined) {
-                        items[i].setField(sciIfField, '影响因子: ' + ifCurrent);
+                        items[i].setField(sciIfField, ifCurrent);
 
                     };
                     // 设置5年影响因子
                     if (sciIf5 && if5Year !== undefined) {
-                        items[i].setField(sciIf5Field, '5年影响因子: ' + if5Year);
+                        items[i].setField(sciIf5Field, if5Year);
 
                     };
                     //北大中文核心
@@ -760,12 +760,12 @@ Zotero.UpdateIFs.setChineseIFs = async function (item) {
 
         // 复合影响因子
         if (fuIf && fuIfFill !== undefined) {
-            item.setField(fuIfField, '复合影响因子: ' + fuIfFill);
+            item.setField(fuIfField, fuIfFill);
 
         };
         // 综合影响因子
         if (zongIf && zongIfFill !== undefined) {
-            item.setField(zongIfField, '综合影响因子: ' + zongIfFill);
+            item.setField(zongIfField, zongIfFill);
 
         };
         item.save();
