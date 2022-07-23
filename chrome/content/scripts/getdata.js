@@ -1,4 +1,78 @@
+// 代码片段供参考
 
+// 清除摘要、系列、系列文本、归档、归档位置、索引号、版权 20220722
+Zotero.UpdateIFs.cleanIfsFields = function () {
+    var items = Zotero.UpdateIFs.getSelectedItems();
+    if (items == '') { // 如果没有选中条目
+        var alertInfo = Zotero.UpdateIFs.ZUIFGetString("clean.failed");
+        Zotero.UpdateIFs.showPopUP(alertInfo, 'failed');
+    } else {
+        var requireInfo = items.length > 1 ? "clean.ifs.fields.sig" : "clean.ifs.fields.mul";
+        var truthBeTold = window.confirm(Zotero.UpdateIFs.ZUIFGetString(requireInfo));
+        if (truthBeTold) {
+            for (let item of items) {
+
+                if (item.isRegularItem() && !item.isCollection()) {
+                    try {
+                        item.setField('abstractNote', '');  //摘要
+                        item.setField('archive', ''); //归档
+                        item.setField('archiveLocation', '');  //归档位置
+                        item.setField('callNumber', '');  //索引号
+                        item.setField('rights', ''); //版权
+                        item.setField('series', '');  //系列
+                        item.setField('seriesText', '');  //系列文本
+                        item.setField('seriesTitle', '');  //系列标题
+                        item.setField('libraryCatalog', '');  //图书馆目录
+                        item.setField('extra', ''); //其它
+                        item.saveTx();
+
+                    } catch (error) {
+                        // numFail = numFail + 1;
+                    }
+                }
+            }
+            var alertInfo = Zotero.UpdateIFs.ZUIFGetString("clean.ifs.finished");
+            Zotero.UpdateIFs.showPopUP(alertInfo, 'finished');
+        }
+    }
+};
+
+// 生成单条的影响因子数据 20220722
+Zotero.UpdateIFs.getIFs = async function (item) {
+    var pt = item.getField('publicationTitle').toUpperCase()
+    var data = {};
+    var optionCheckd = ['sci', 'sciif5', 'sciUp', 'sciBase', 'sciif', 'eii',   // 英文期刊：分区、中科院升级版、中科院基础版、IF、EI
+        'cssci', 'cscd', 'pku', 'zhongguokejihexin']; // 中文期刊：南大核心、CSCD、北大核心、科技核心：
+    data["requirePaperRank"] = optionCheckd;
+    data["version"] = "5.6";
+    data["website"] = "Zotero";
+    data["papersName"] =
+    {
+        //     349: "NATURE",
+        //     1807: "FOODS",
+        2190: pt
+    };  // key为自己生成，value为刊物名称（需要大写）
+
+    data["paperTotal"] = Object.keys(data["papersName"]).length;
+    var url = "https://easyscholar.cc/homeController/getPapersRank.ajax";
+    var headers = { "Content-Type": "application/json" };
+    // Maybe need to set max retry in this post request.
+    var resp = await Zotero.HTTP.request("POST", url, {
+        credentials: "include",
+        body: JSON.stringify(data),
+        headers: headers,
+    });
+
+    try {
+        var updateJson = JSON.parse(resp.responseText);
+        return updateJson["papersRank"][0];
+    } catch (e) {
+
+    }
+};
+
+
+// 原代码
 var res = {};
 var items = ZoteroPane.getSelectedItems();
 var paperName = getPaperName(items); // publications: tempID 和tempID：publications两个字典
