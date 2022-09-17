@@ -499,7 +499,10 @@ Zotero.UpdateIFs.updateSelectedItem = async function (items) {
 
 
                     try {
-                        var tempID = ptID[items[i].getField('publicationTitle').toUpperCase()]  // 得到期刊题目的tempID
+                        var pubT = items[i].getField('publicationTitle');
+                        var pattern = new RegExp("[\u4E00-\u9FA5]+");
+                        var chineseJournal = pattern.test(pubT); // 期刊名中是否有中文，作为判断是否为中文期刊的依据。
+                        var tempID = ptID[pubT.toUpperCase()];  // 得到期刊题目的tempID
                         var ifc = ifs.filter(e => e.tempID == tempID)[0]; //当前期刊的信息
                         if (ifc !== undefined) {
                             var sci = ifc['sci']; // JCR分区
@@ -549,25 +552,31 @@ Zotero.UpdateIFs.updateSelectedItem = async function (items) {
                                 items[i].setField(sciIf5Field, if5Year);
 
                             };
-                            //北大中文核心
-                            if (pkuCore && pku !== undefined) {
-                                items[i].setField(pkuField, pku);
+                            // 中文期刊才写入北大核心、南大核心、CSCD和科技核心字段 
+                            if (chineseJournal) {
+                                //北大中文核心
+                                if (pkuCore && pku !== undefined) {
+                                    items[i].setField(pkuField, pku);
 
-                            };
-                            //南大核心
-                            if (njuCore && cssci !== undefined) {
-                                items[i].setField(njuField, cssci);
+                                };
+                                //南大核心
+                                if (njuCore && cssci !== undefined) {
+                                    items[i].setField(njuField, cssci);
 
-                            };
-                            //CSCD
-                            if (chjCscd && cscd !== undefined) {
-                                items[i].setField(cscdField, cscd);
+                                };
 
-                            };
-                            //科技核心
-                            if (sciCore && zhongguokejihexin !== undefined) {
-                                items[i].setField(sciCoreField, zhongguokejihexin);
 
+                                //CSCD 
+                                if (chjCscd && cscd !== undefined) {
+                                    items[i].setField(cscdField, cscd);
+
+                                };
+
+                                //科技核心
+                                if (sciCore && zhongguokejihexin !== undefined) {
+                                    items[i].setField(sciCoreField, zhongguokejihexin);
+
+                                };
                             };
                             // 填充到Extra的字符串前辍
                             var jcrs = '';
