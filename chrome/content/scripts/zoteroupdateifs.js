@@ -283,7 +283,7 @@ Zotero.UpdateIFs.getAuthorName = function () {
 Zotero.UpdateIFs.changeTitleCase = async function () {
     var items = Zotero.UpdateIFs.getSelectedItems();
     var alertInfo = '';
-    // progresswindow   // 20220310   
+    // progresswindow   // 20220310
     progressWin = null; // 20220310
     itemProgress = []; // 20220310
     progressWin = new Zotero.ProgressWindow(); // 20220310
@@ -313,12 +313,12 @@ Zotero.UpdateIFs.changeTitleCase = async function () {
                 replace('english', 'English'). // 替换english
                 replace('england', 'England'). // 替换england
                 replace('india', 'India').// 替换india
-                //20220510 增加冒号后面为大写字母   
-                // https://stackoverflow.com/questions/72180052/regexp-match-and-replace-to-its-uppercase-in-javascript#72180194           
+                //20220510 增加冒号后面为大写字母
+                // https://stackoverflow.com/questions/72180052/regexp-match-and-replace-to-its-uppercase-in-javascript#72180194
                 replace(/：|:\s*\w/, fullMatch => fullMatch.toUpperCase()); //匹配冒号后面的空格及一个字母，并转为大写
 
-            //20220509 增加冒号后面为大写字母  
-            //colon_letter = new_title.match((/(：|:\s*\w)/))[0];  
+            //20220509 增加冒号后面为大写字母
+            //colon_letter = new_title.match((/(：|:\s*\w)/))[0];
             //new_title = new_title.replace(colon_letter, colon_letter.toUpperCase()); //转为大写
 
             // result += "-> " + new_title + "\n\n";
@@ -400,11 +400,12 @@ Zotero.UpdateIFs.notifierCallback = {
                 item.isRegularItem() && !item.isCollection()) {
                 //Zotero.UpdateIFs.updateSelectedItems();// 20221126
 
-                items.push(item);// 20221126
+                items.push(item);// 20221126 正常条目才纳入更新。
             }
 
         }
-        if (event == 'add' && addUppdate) {
+        if (event == 'add' && addUppdate && items != '' //得到的items不为空时才更新。
+        ) {
             Zotero.UpdateIFs.updateSelectedItem(items);
         }
     } //此处如果以“，”结尾会提示两次。
@@ -431,7 +432,7 @@ Zotero.UpdateIFs.updateSelectedItems = async function () {
 Zotero.UpdateIFs.getSelectedItems = function () {
     var zoteroPane = Zotero.getActiveZoteroPane();
     var items = zoteroPane.getSelectedItems();
-    return items; // 
+    return items; //
 };
 
 // 更新期刊缩写和影响因子
@@ -478,8 +479,11 @@ Zotero.UpdateIFs.updateSelectedItem = async function (items) {
     if (lanUI == 'zh-CN') { whiteSpace = '' };
     var paperName = Zotero.UpdateIFs.getPaperName(items); // publications: tempID 和tempID：publications两个字典
     // 文献类型为期刊时才写入
-
-    var ifs = await Zotero.UpdateIFs.getIFs(paperName);
+    try {
+        var ifs = await Zotero.UpdateIFs.getIFs(paperName);
+    } catch (error) {
+        Zotero.debug('影响因子获致失败');
+    }
     if (ifs == '') {
         var statusInfo = 'failed';
         var alertInfo = Zotero.UpdateIFs.ZUIFGetString('not.found');
@@ -491,8 +495,16 @@ Zotero.UpdateIFs.updateSelectedItem = async function (items) {
         for (i = 0; i < items.length; i++) {
             if (Zotero.ItemTypes.getName(items[i].itemTypeID) == 'journalArticle' // 文献类型为期刊
             ) {
-                await Zotero.UpdateIFs.upJourAbb(items[i]); // 更新期刊缩写
-                Zotero.UpdateIFs.setChineseIFs(items[i]); // 更新复合和综合影响因子
+                try {
+                    await Zotero.UpdateIFs.upJourAbb(items[i]); // 更新期刊缩写
+                } catch (error) {
+                    Zotero.debug('期刊缩写更新失败');
+                }
+                try {
+                    Zotero.UpdateIFs.setChineseIFs(items[i]); // 更新复合和综合影响因子
+                } catch (error) {
+                    Zotero.debug('更新复合和综合影响因子失败');
+                }
                 var lanItem = items[i].getField('language'); //得到条目语言
                 if (items[i].isRegularItem() && !items[i].isCollection()) {
 
@@ -560,7 +572,7 @@ Zotero.UpdateIFs.updateSelectedItem = async function (items) {
                                 items[i].setField(sciIf5Field, if5Year);
 
                             };
-                            // 中文期刊才写入北大核心、南大核心、CSCD和科技核心字段 
+                            // 中文期刊才写入北大核心、南大核心、CSCD和科技核心字段
                             if (chineseJournal) {
                                 //北大中文核心
                                 if (pkuCore && pku !== undefined) {
@@ -574,7 +586,7 @@ Zotero.UpdateIFs.updateSelectedItem = async function (items) {
                                 };
 
 
-                                //CSCD 
+                                //CSCD
                                 if (chjCscd && cscd !== undefined) {
                                     items[i].setField(cscdField, cscd);
 
@@ -749,7 +761,11 @@ Zotero.UpdateIFs.upJourAbb = async function (item) {
         lanItem.indexOf('CN') !== -1;
     var pubT = item.getField('publicationTitle');
     if (upJourAbb) {
-        var jourAbbs = await Zotero.UpdateIFs.getJourAbb(item); // 得到带点和不带点的缩写
+        try {
+            var jourAbbs = await Zotero.UpdateIFs.getJourAbb(item); // 得到带点和不带点的缩写
+        } catch (e) {
+            Zotero.debug('获取期刊缩写失败');
+        }
         if (jourAbbs["record"] != 0) {
             try {
                 var jourAbb = dotAbb ? jourAbbs["abb_with_dot"] : jourAbbs["abb_no_dot"];
@@ -820,7 +836,7 @@ Zotero.UpdateIFs.setChineseIFs = async function (item) {
             var AllJour = resp.responseText;
 
             var reg = pubT + '\n(.*\n){10,40} .*复合影响因子：(.*)\n(.*\n){0,6} .*综合影响因子：(.*)'; //复合影响因子和综合影响因子正则，里面含有空格，\s不行
-            var patt = new RegExp(reg, 'i'); // 
+            var patt = new RegExp(reg, 'i'); //
             var jour = AllJour.match(patt) // [2]为复合影响因子，[4]为综合IF
 
             var fuIfFill = jour[2];
@@ -844,7 +860,7 @@ Zotero.UpdateIFs.setChineseIFs = async function (item) {
 
 
 };
-// 得到影响因子及详细网址函数 
+// 得到影响因子及详细网址函数
 Zotero.UpdateIFs.getIFs = async function (paperName) {
     var data = {};
     var optionCheckd = ['sci', 'sciif5', 'sciUp', 'sciBase', 'sciif', 'eii',   // 英文期刊：分区、中科院升级版、中科院基础版、IF、EI
@@ -908,7 +924,7 @@ Zotero.UpdateIFs.generateNKey = function (n) {
     }
     return keys;
 };
-// 生成4位有效数字 
+// 生成4位有效数字
 // 代码源于：https://blog.csdn.net/hdq1745/article/details/88929612
 
 Zotero.UpdateIFs.generate1Key = function () {
@@ -1063,15 +1079,15 @@ Zotero.UpdateIFs.CSSCI_PKU = async function (item) {
 //   Zotero.UpdateIFs.CSSCI_EI = async function(detailURL){
 //     try {
 //         var pubTitle = item.getField('publicationTitle');
-//         var url = 'https://s.wanfangdata.com.cn/magazine?q=' + 
-//                     encodeURIComponent(pubTitle); 
+//         var url = 'https://s.wanfangdata.com.cn/magazine?q=' +
+//                     encodeURIComponent(pubTitle);
 //         var xPathJour = '//*[@class="title-area"]';
 //         var resp = await Zotero.HTTP.request("GET", url);
 //         var parser = new DOMParser();
 //         var html = parser.parseFromString(
 //             resp.responseText,
 //             "text/html"
-//         );  
+//         );
 //        // return html;
 
 //         var AllJour = Zotero.Utilities.xpath(html, xPathJour)[0].innerText;
@@ -1082,7 +1098,7 @@ Zotero.UpdateIFs.CSSCI_PKU = async function (item) {
 //     }
 //   };
 
-// Localization (borrowed from ZotFile sourcecode) 
+// Localization (borrowed from ZotFile sourcecode)
 // 提示语言本地化函数 Zotero.UpdateIFs.updateItem = async function(item) {
 
 Zotero.UpdateIFs.ZUIFGetString = function (name, params) {
@@ -1123,9 +1139,9 @@ Zotero.UpdateIFs.displayMenuitem = function () { // 如果条目不符合，则�
     } else {
         var showMenuColl = false;
     } // 检查分类条目是否适合
-    //   
+    //
 
-    pane.document.getElementById( // 分类/文件夹菜单是否可见 
+    pane.document.getElementById( // 分类/文件夹菜单是否可见
         "zotero-collectionmenu-updateifs"
     ).hidden = !showMenuColl; // 分类条目上不符合则隐藏
 
@@ -1135,7 +1151,7 @@ Zotero.UpdateIFs.displayMenuitem = function () { // 如果条目不符合，则�
 
     pane.document.getElementById( // 条目上是否禁用
         "zotero-itemmenu-updateifs"
-    ).disabled = !showMenuItem; // 如不符合则禁用 
+    ).disabled = !showMenuItem; // 如不符合则禁用
 
 };
 
@@ -1162,7 +1178,7 @@ Zotero.UpdateIFs.whiteSpace = function () {
     return whiteSpace;
 };
 
-// 右下角弹出函数 
+// 右下角弹出函数
 Zotero.UpdateIFs.showPopUP = function (alertInfo, status) {
 
     var progressWindow = new Zotero.ProgressWindow({ closeOnClick: true });
