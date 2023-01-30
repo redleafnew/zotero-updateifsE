@@ -44,7 +44,7 @@ async function onStartup() {
     text: `[30%] ${getString("startup.begin")}`,
   });
 
-  UIExampleFactory.registerStyleSheet();
+  // UIExampleFactory.registerStyleSheet();
 
   UIExampleFactory.registerRightClickMenuItem();
 
@@ -56,11 +56,11 @@ async function onStartup() {
 
   await UIExampleFactory.registerExtraColumnWithCustomCell();
 
-  await UIExampleFactory.registerCustomCellRenderer();
+  // await UIExampleFactory.registerCustomCellRenderer();  // Title下黑色背景函数
 
-  UIExampleFactory.registerLibraryTabPanel();
+  // UIExampleFactory.registerLibraryTabPanel(); // LibraryTab
 
-  await UIExampleFactory.registerReaderTabPanel();
+  // await UIExampleFactory.registerReaderTabPanel(); // Reader
 
   PromptExampleFactory.registerAlertPromptExample();
 
@@ -72,7 +72,7 @@ async function onStartup() {
   });
   popupWin.startCloseTimer(5000);
 
-  addon.hooks.onDialogEvents("dialogExample");
+  // addon.hooks.onDialogEvents("dialogExample");
 }
 
 function onShutdown(): void {
