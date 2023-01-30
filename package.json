@@ -1,14 +1,14 @@
 {
-  "name": "zotero-addon-template",
-  "version": "0.1.3",
-  "description": "Zotero Addon Template",
+  "name": "zoteroupdateifs",
+  "version": "0.4.0",
+  "description": "Zotero plugin for update journal information from easyScholar",
   "config": {
-    "addonName": "Zotero Addon Template",
-    "addonID": "addontemplate@euclpts.com",
-    "addonRef": "addontemplate",
+    "addonName": "Zotero Update Journal Information",
+    "addonID": "tem-zoteroupdateifs@redleafnew.me",
+    "addonRef": "zoteroupdateifs",
     "addonInstance": "AddonTemplate",
-    "releasepage": "https://github.com/windingwind/zotero-addon-template/releases/latest/download/zotero-addon-template.xpi",
-    "updaterdf": "https://raw.githubusercontent.com/windingwind/zotero-addon-template/bootstrap/update.json"
+    "releasepage": "https://github.com/redleafnew/zotero-updateifsE/releases/latest/download/zotero-updateifs.xpi",
+    "updaterdf": "https://raw.githubusercontent.com/redleafnew/zotero-updateifsE/main/update.json"
   },
   "main": "src/index.ts",
   "scripts": {
@@ -30,14 +30,14 @@
     "type": "git",
     "url": "git+https://github.com/windingwind/zotero-addon-template.git"
   },
-  "author": "windingwind",
+  "author": "Minyi Han",
   "license": "AGPL-3.0-or-later",
   "bugs": {
     "url": "https://github.com/windingwind/zotero-addon-template/issues"
   },
   "homepage": "https://github.com/windingwind/zotero-addon-template#readme",
   "dependencies": {
-    "zotero-plugin-toolkit": "^1.1.1"
+    "zotero-plugin-toolkit": "^1.1.2"
   },
   "devDependencies": {
     "@types/node": "^18.11.17",
