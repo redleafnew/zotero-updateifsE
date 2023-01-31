@@ -234,14 +234,15 @@ export class UIExampleFactory {
 
   @example
   static registerWindowMenuWithSeprator() {
-    ztoolkit.Menu.register("menuFile", {
+    ztoolkit.Menu.register("menuTools", {
       tag: "menuseparator",
     });
     // menu->File menuitem
-    ztoolkit.Menu.register("menuFile", {
+    ztoolkit.Menu.register("menuTools", {
       tag: "menuitem",
       label: getString("menuitem.filemenulabel"),
-      oncommand: "alert('Hello World! File Menuitem.')",
+      //oncommand: "alert('Hello World! File Menuitem.')",
+      commandListener: (ev) => HelperExampleFactory.dialogExample(),
     });
   }
 

@@ -6,7 +6,7 @@
     "addonName": "Zotero Update Journal Information",
     "addonID": "tem-zoteroupdateifs@redleafnew.me",
     "addonRef": "zoteroupdateifs",
-    "addonInstance": "tem-zoteroupdateifs",
+    "addonInstance": "zoteroupdateifs",
     "releasepage": "https://github.com/redleafnew/zotero-updateifsE/releases/latest/download/zotero-updateifs.xpi",
     "updaterdf": "https://raw.githubusercontent.com/redleafnew/zotero-updateifsE/main/update.json"
   },
