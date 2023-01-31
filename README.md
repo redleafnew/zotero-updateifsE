@@ -241,7 +241,7 @@ Zotero, ZoteroPane, Zotero_Tabs, window, document, rootURI, ztoolkit, addon;
 
 Zotero 6 doesn't support preference pane injection in bootstrap mode, thus I write a register for Zotero 6 or lower.
 
-You only need to maintain one `preferences.xhtml` which runs natively on Zotero 7 and let the plugin template handle it when it is running on Zotero 6.
+You only need to maintain one `` which runs natively on Zotero 7 and let the plugin template handle it when it is running on Zotero 6.
 
 <table style="margin-left: auto; margin-right: auto;">
     <tr>
