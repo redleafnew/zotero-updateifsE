@@ -1,12 +1,12 @@
 {
-  "name": "zoteroupdateifs",
+  "name": "greenfrog",
   "version": "0.4.0",
   "description": "Zotero plugin for update journal information from easyScholar",
   "config": {
-    "addonName": "Zotero Update Journal Information",
-    "addonID": "tem-zoteroupdateifs@redleafnew.me",
-    "addonRef": "zoteroupdateifs",
-    "addonInstance": "zoteroupdateifs",
+    "addonName": "Green Frog",
+    "addonID": "greenfrog@redleafnew.me",
+    "addonRef": "greenfrog",
+    "addonInstance": "greenfrog",
     "releasepage": "https://github.com/redleafnew/zotero-updateifsE/releases/latest/download/zotero-updateifs.xpi",
     "updaterdf": "https://raw.githubusercontent.com/redleafnew/zotero-updateifsE/main/update.json"
   },

@@ -1,3 +1,52 @@
+<!-- 期刊影响因子设置 -->
+<!ENTITY zotero.__addonRef__.journal.setting "Journal Update Settings">
+<!ENTITY zotero.__addonRef__.add.update "Update journal information when adding item">
+<!ENTITY zotero.__addonRef__.update.abbr "Update journal abbreviation">
+<!ENTITY zotero.__addonRef__.update.abbr.dot "Journal abbreviation with dot">
+<!ENTITY zotero.__addonRef__.en.abbr "Use full publication title to replace journal abbreviation for English item when the journal is not found">
+<!ENTITY zotero.__addonRef__.ch.abbr "Use full publication title to replace journal abbreviation for Chinese item">
+
+
+<!-- 南农核心期刊设置 -->
+<!ENTITY zotero.__addonRef__.njau.core.high.quality "NJAU Core and Hight Quality Journal Settings (only for Food Science and Technology">
+<!ENTITY zotero.__addonRef__.njau.core "NJAU Core Journal">
+<!ENTITY zotero.__addonRef__.njau.high.quality "NJAU High Quality Journal">
+
+<!-- 分区类型设置 --><!-- 影响因子设置 -->
+<!ENTITY zotero.__addonRef__.ifs.setting "Quartile and IF Settings">
+<!ENTITY zotero.__addonRef__.jcr.qu "JCR Quartile">
+<!ENTITY zotero.__addonRef__.basic "CAS Basic verison">
+<!ENTITY zotero.__addonRef__.updated "CAS Updated version">
+<!ENTITY zotero.__addonRef__.sci.if "IF">
+<!ENTITY zotero.__addonRef__.sci.if5 "5 Year IF">
+<!ENTITY zotero.__addonRef__.ei "EI">
+
+<!ENTITY zotero.__addonRef__.chjcscd "CSCD">
+<!ENTITY zotero.__addonRef__.pku.core "PKU Core">
+<!ENTITY zotero.__addonRef__.nju.core "NJU Core">
+<!ENTITY zotero.__addonRef__.sci.core "Show Sci &amp; Tech Core Journal">  <!-- https://www.ascii-code.com/表示&-->
+<!ENTITY zotero.__addonRef__.com.if "Compound IF">
+<!ENTITY zotero.__addonRef__.agg.if "Comprehensive IF">
+
+<!-- 菜单显示隐藏设置 -->
+
+<!ENTITY zotero.__addonRef__.menu.setting "Show Toolbox Menu Settings">
+<!ENTITY zotero.__addonRef__.bold.star "Author Bold and/or Asterisk">
+<!ENTITY zotero.__addonRef__.remove.bold "Clean Author Bold">
+<!ENTITY zotero.__addonRef__.remove.star "Clean Author Asterisk">
+<!ENTITY zotero.__addonRef__.remove.bold.star "Clean Author Bold and Asterisk">
+<!ENTITY zotero.__addonRef__.chang.author.case "Change Author Name to Title Case">
+<!ENTITY zotero.__addonRef__.swap.author "Swap Authors First and Last Name">
+<!ENTITY zotero.__addonRef__.chang.title "Change Title to Sentense Case">
+<!ENTITY zotero.__addonRef__.chang.pub.title "Change Publication Title">
+<!ENTITY zotero.__addonRef__.chang.pub.title.case "Change Publication Title Case">
+<!ENTITY zotero.__addonRef__.item.title.find.replace.tip "Find and replace in item title.">
+<!ENTITY zotero.__addonRef__.item.title.find.replace "Item Title Find and Replace">
+<!ENTITY zotero.__addonRef__.show.profile.dir "Show Porfile Directory">
+<!ENTITY zotero.__addonRef__.show.data.dir "Show Data Directory">
+<!ENTITY zotero.__addonRef__.menu.sep.1 "Separator 1">
+<!ENTITY zotero.__addonRef__.menu.sep.2 "Separator 2">
+
 <!ENTITY zotero.__addonRef__.pref.title "Addon Template Example">
 <!ENTITY zotero.__addonRef__.itemmenu.test.label "addon template">
 <!ENTITY zotero.__addonRef__.pref.enable.label "Enable">
