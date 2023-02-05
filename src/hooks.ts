@@ -59,7 +59,7 @@ async function onStartup() {
   ZoteroPane.collectionsView.onSelect.addListener(UIExampleFactory.displayColMenuitem); //监听分类右键显示菜单
 
   //监听右键显示菜单
-  // ZoteroPane.itemsView.onSelect.addListener(UIExampleFactory.displayContexMenuitem); //监听右键显示菜单
+  ZoteroPane.itemsView.onSelect.addListener(UIExampleFactory.displayContexMenuitem); //监听右键显示菜单
 
 
   // await UIExampleFactory.registerExtraColumnWithCustomCell();

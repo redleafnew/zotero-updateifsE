@@ -330,8 +330,6 @@ export class KeyExampleFactory {
       ztoolkit.Shortcut.getAll()
     );
   }
-
-
 }
 
 export class UIExampleFactory {
@@ -340,53 +338,37 @@ export class UIExampleFactory {
   // 是否显示分类右键菜单 隐藏
   static displayColMenuitem() {
     const collection = ZoteroPane.getSelectedCollection(),
-      menuUpIFsCol = document.getElementById('zotero-collectionmenu-greenfrog-upifs'), // 删除分类及附件菜单
-      menuUpMeta = document.getElementById('zotero-collectionmenu-greenfrog-upmeta'); // 导出分类附件菜单
+      menuUpIFsCol = document.getElementById(`zotero-collectionmenu-${config.addonRef}-upifs`), // 删除分类及附件菜单
+      menuUpMeta = document.getElementById(`zotero-collectionmenu-${config.addonRef}-upmeta`); // 导出分类附件菜单
 
     // 非正常文件夹，如我的出版物、重复条目、未分类条目、回收站，为false，此时返回值为true，禁用菜单
     // 两个！！转表达式为逻辑值
     var showmenuUpIFsCol = !!collection;
-
+    var showmenuUpMetaCol = !!collection;
 
     if (!!collection) { // 如果是正常分类才显示
       var items = collection.getChildItems();
-      showmenuUpIFsCol = items.some((item) => UIExampleFactory.checkItem(item));
+      showmenuUpIFsCol = items.some((item) => UIExampleFactory.checkItem(item)); //检查是否为期刊
+      showmenuUpMetaCol = items.some((item) => UIExampleFactory.checkItemMeta(item)); // 更新元数据 中文有题目，英文检查是否有DOI
     } else {
       showmenuUpIFsCol = false;
     } // 检查分类是否有附件及是否为正常分类
     menuUpIFsCol?.setAttribute('disabled', String(!showmenuUpIFsCol)); // 禁用更新期刊信息
-
-    // menuUpMeta?.setAttribute('disabled', String(!showmenuUpMetaCol)); // 禁用更新元数据
+    menuUpMeta?.setAttribute('disabled', String(!showmenuUpMetaCol)); // 禁用更新元数据
   }
 
   // 是否显示条目右键菜单
-  // static displayContexMenuitem() {
-  //   const items = ZoteroPane.getSelectedItems(),
-  //     menuChanLan = document.getElementById('zotero-itemmenu-delitemwithatt-chan-lan'), // 修改语言菜单
-  //     menuExpAtt = document.getElementById('zotero-itemmenu-delitemwithatt-export-att'), // 导出附件菜单
-  //     menuDelAtt = document.getElementById('zotero-itemmenu-delitemwithatt-del-att'), // 导出附件菜单
-  //     menuDelSnap = document.getElementById('zotero-itemmenu-delitemwithatt-del-snap'), // 删除快照
-  //     menuDelNote = document.getElementById('zotero-itemmenu-delitemwithatt-del-note'), // 删除笔记
-  //     menuDelExtra = document.getElementById('zotero-itemmenu-delitemwithatt-del-extra'), // 删除其它
-  //     menuDelAbs = document.getElementById('zotero-itemmenu-delitemwithatt-del-abs'), // 删除摘要
+  static displayContexMenuitem() {
+    const items = ZoteroPane.getSelectedItems(),
+      menuUpIfs = document.getElementById(`zotero-itemmenu-${config.addonRef}-upifs`), // 更新期刊信息
+      menuUpMeta = document.getElementById(`zotero-itemmenu-${config.addonRef}-upmeta`), // 更新元数据
 
+      showMenuUpIfs = items.some((item) => UIExampleFactory.checkItem(item)),// 更新期刊信息 检查是否为期刊
+      showMenuUpMeta = items.some((item) => UIExampleFactory.checkItemMeta(item)); // 更新元数据 检查是否有DOI
 
-  //     showMenuChanLan = items.some((item) => HelperExampleFactory.checkIsRegularItem(item)),// 检查是否为正常条目
-  //     showMenuAtt = items.some((item) => HelperExampleFactory.checkItemAtt(item)), // 检查附件
-  //     showMenuSnap = items.some((item) => HelperExampleFactory.checkItemSnap(item)),  // 检查快照
-  //     showMenuNote = items.some((item) => HelperExampleFactory.checkItemNote(item)),  // 检查笔记
-  //     showMenuExtra = items.some((item) => HelperExampleFactory.checkItemExtra(item)),  // 检查其它内容
-  //     showMenuAbstract = items.some((item) => HelperExampleFactory.checkItemAbstract(item));  // 检查摘要
-
-  //   //menu.setAttribute('hidden', 'true');
-  //   menuChanLan?.setAttribute('disabled', `${!showMenuChanLan}`); // 禁用修改语言
-  //   menuExpAtt?.setAttribute('disabled', `${!showMenuAtt}`); // 禁用导出附件
-  //   menuDelAtt?.setAttribute('disabled', String(!showMenuAtt)); // 禁用删除附件
-  //   menuDelSnap?.setAttribute('disabled', String(!showMenuSnap)); // 禁用删除快照
-  //   menuDelNote?.setAttribute('disabled', String(!showMenuNote)); // 禁用删除笔记
-  //   menuDelExtra?.setAttribute('disabled', String(!showMenuExtra)); // 禁用删除其它
-  //   menuDelAbs?.setAttribute('disabled', String(!showMenuAbstract)); // 禁用删除摘要
-  // }
+    menuUpIfs?.setAttribute('disabled', `${!showMenuUpIfs}`); // 禁用更新期刊信息
+    menuUpMeta?.setAttribute('disabled', `${!showMenuUpMeta}`); // 更新元数据
+  }
 
 
 
@@ -400,6 +382,25 @@ export class UIExampleFactory {
     }
   };
 
+  // 检查条目元数据是否符合 英文必须有DOI
+  static checkItemMeta(item: Zotero.Item) {
+    var pattern = new RegExp("[\u4E00-\u9FA5]+");
+    if (item && !item.isNote()) {
+      if (item.isRegularItem()) { // not an attachment already
+        var title: any = item.getField("title");
+        var doi = item.getField("DOI");
+        var lan = pattern.test(title) ? 'zh-CN' : 'en-US';
+        if (Zotero.ItemTypes.getName(item.itemTypeID) == 'journalArticle' // 文献类型必须为期刊
+        ) {
+          if (lan == 'zh-CN') { //中文条目
+            return title == '' ? false : true; // 题目为空时不能更新中文
+          } else if (lan == 'en-US') {//英文条目
+            return doi == '' ? false : true; // 英文DOI为空时不能更新英文
+          }
+        }
+      }
+    }
+  };
   @example
   static registerStyleSheet() {
     const styles = ztoolkit.UI.createElement(document, "link", {
@@ -434,22 +435,7 @@ export class UIExampleFactory {
     ztoolkit.Menu.register("item", {
       tag: "menuseparator",
     });
-    // 更新条目信息
-    ztoolkit.Menu.register("item", {
-      tag: "menuitem",
-      id: "zotero-itemmenu-addontemplate-upifs",
-      label: getString("upifs"),
-      commandListener: (ev) => KeyExampleFactory.setExtra(),
-      icon: menuIconUpIFs,
-    });
-    // 条目更新元数据
-    ztoolkit.Menu.register("item", {
-      tag: "menuitem",
-      id: "zotero-itemmenu-addontemplate-upmeta",
-      label: getString("upmeta"),
-      commandListener: (ev) => addon.hooks.onDialogEvents("dialogExample"),
-      icon: menuIconUpMeta,
-    });
+
     // 分类右键
     ztoolkit.Menu.register("collection", {
       tag: "menuseparator",
@@ -457,7 +443,7 @@ export class UIExampleFactory {
     // 分类更新条目信息
     ztoolkit.Menu.register("collection", {
       tag: "menuitem",
-      id: "zotero-collectionmenu-greenfrog-upifs",
+      id: `zotero-collectionmenu-${config.addonRef}-upifs`,
       label: getString("upifs"),
       commandListener: (ev) => addon.hooks.onDialogEvents("dialogExample"),
       icon: menuIconUpIFs,
@@ -465,7 +451,23 @@ export class UIExampleFactory {
     // 分类更新元数据
     ztoolkit.Menu.register("collection", {
       tag: "menuitem",
-      id: "zotero-collectionmenu-greenfrog-upmeta",
+      id: `zotero-collectionmenu-${config.addonRef}-upmeta`,
+      label: getString("upmeta"),
+      commandListener: (ev) => addon.hooks.onDialogEvents("dialogExample"),
+      icon: menuIconUpMeta,
+    });
+    // 更新条目信息
+    ztoolkit.Menu.register("item", {
+      tag: "menuitem",
+      id: `zotero-itemmenu-${config.addonRef}-upifs`,
+      label: getString("upifs"),
+      commandListener: (ev) => KeyExampleFactory.setExtra(),
+      icon: menuIconUpIFs,
+    });
+    // 条目更新元数据
+    ztoolkit.Menu.register("item", {
+      tag: "menuitem",
+      id: `zotero-itemmenu-${config.addonRef}-upmeta`,
       label: getString("upmeta"),
       commandListener: (ev) => addon.hooks.onDialogEvents("dialogExample"),
       icon: menuIconUpMeta,
