@@ -47,9 +47,9 @@ async function onStartup() {
 
   // UIExampleFactory.registerStyleSheet();
 
-  UIExampleFactory.registerRightClickMenuItem();
+  UIExampleFactory.registerRightClickMenuItem();// 右键菜单
 
-  // UIExampleFactory.registerRightClickMenuPopup(); // 右键菜单
+  // UIExampleFactory.registerRightClickMenuPopup(); // 右键弹出菜单
 
   UIExampleFactory.registerWindowMenuWithSeprator();
 
@@ -57,6 +57,7 @@ async function onStartup() {
 
   //监听分类右键显示菜单
   ZoteroPane.collectionsView.onSelect.addListener(UIExampleFactory.displayColMenuitem); //监听分类右键显示菜单
+
 
   //监听右键显示菜单
   ZoteroPane.itemsView.onSelect.addListener(UIExampleFactory.displayContexMenuitem); //监听右键显示菜单
@@ -139,13 +140,12 @@ function hideMenu(): void {
   // Zotero.Prefs.get(`extensions.zotero.${config.addonRef}.update.abbr.dot`, true);
   // Zotero.Prefs.get(`extensions.zotero.${config.addonRef}.en.abbr`, true);
   // Zotero.Prefs.get(`extensions.zotero.${config.addonRef}.ch.abbr`, true);
-  // Zotero.Prefs.get(`extensions.zotero.${config.addonRef}.njau.core`, true);
-  // Zotero.Prefs.get(`extensions.zotero.${config.addonRef}.njau.high.quality`, true);
-
 
 
 }
-
+async function setExtraColumn() {
+  await UIExampleFactory.registerExtraColumn()
+}
 function onShutdown(): void {
   ztoolkit.unregisterAll();
   // Remove addon object
@@ -244,5 +244,6 @@ export default {
   onShortcuts,
   onDialogEvents,
   hideMenu,
+  setExtraColumn,
   // getSelectedItems,
 };

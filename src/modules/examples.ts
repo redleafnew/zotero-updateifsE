@@ -1,5 +1,6 @@
 import { config } from "../../package.json";
 import { getString } from "./locale";
+import { njauCore, njauJournal } from "./njau";
 
 function example(
   target: any,
@@ -91,75 +92,100 @@ export class KeyExampleFactory {
     var items = Zotero.getActiveZoteroPane().getSelectedItems();
     return items;
   }
-
-  static async setExtra() {
-    var items = KeyExampleFactory.getSelectedItems();
-    var item = items[0];
-    var easyscholarData = await KeyExampleFactory.getIFs(item); //得到easyscholar数据
-    var chineseIFs = await KeyExampleFactory.getChineseIFs(item); //综合影响因子、复合影响因子
-    // 加: any为了后面不报错
-    var jcr: any = Zotero.Prefs.get(`extensions.zotero.${config.addonRef}.jcr.qu`, true);
-    var basic: any = Zotero.Prefs.get(`extensions.zotero.${config.addonRef}.basic`, true);
-    var updated: any = Zotero.Prefs.get(`extensions.zotero.${config.addonRef}.updated`, true);
-    var ifs: any = Zotero.Prefs.get(`extensions.zotero.${config.addonRef}.sci.if`, true);
-    var if5: any = Zotero.Prefs.get(`extensions.zotero.${config.addonRef}.sci.if5`, true);
-    var eii: any = Zotero.Prefs.get(`extensions.zotero.${config.addonRef}.ei`, true);
-    var chjcscd: any = Zotero.Prefs.get(`extensions.zotero.${config.addonRef}.chjcscd`, true);
-    var pkucore: any = Zotero.Prefs.get(`extensions.zotero.${config.addonRef}.pku.core`, true);
-    var njucore: any = Zotero.Prefs.get(`extensions.zotero.${config.addonRef}.nju.core`, true);
-    var scicore: any = Zotero.Prefs.get(`extensions.zotero.${config.addonRef}.sci.core`, true);
-    var compoundIFs: any = Zotero.Prefs.get(`extensions.zotero.${config.addonRef}.com.if`, true);
-    var comprehensiveIFs: any = Zotero.Prefs.get(`extensions.zotero.${config.addonRef}.agg.if`, true);
-
-
-    if (easyscholarData) { //如果得到easyscholar数据再写入
-      // HelperExampleFactory.progressWindow(easyscholarData['sci'], 'success')
-      if (jcr && easyscholarData['sci']) {
-        ztoolkit.ExtraField.setExtraField(item, 'JCR', easyscholarData['sci']);
-      }
-      if (updated && easyscholarData['sciUp']) {
-        ztoolkit.ExtraField.setExtraField(item, '中科院分区升级版', easyscholarData['sciUp']);
-      }
-      if (basic && easyscholarData['sciBase']) {
-        ztoolkit.ExtraField.setExtraField(item, '中科院分区基础版', easyscholarData['sciBase']);
-      }
-      if (ifs && easyscholarData['sciif']) {
-        ztoolkit.ExtraField.setExtraField(item, 'IF', easyscholarData['sciif']);
-      }
-      if (if5 && easyscholarData['sciif5']) {
-        ztoolkit.ExtraField.setExtraField(item, 'IF5', easyscholarData['sciif5']);
-      }
-      if (eii && easyscholarData['eii']) {
-        ztoolkit.ExtraField.setExtraField(item, 'EI', '是');
-      }
-      if (chjcscd && easyscholarData['cscd']) {
-        ztoolkit.ExtraField.setExtraField(item, 'CSCD', easyscholarData['cscd']);
-      }
-      if (pkucore && easyscholarData['pku']) {
-        ztoolkit.ExtraField.setExtraField(item, '中文核心期刊/北大核心', '是');
-      }
-      if (njucore && easyscholarData['cssci']) {
-        ztoolkit.ExtraField.setExtraField(item, 'CSSCI/南大核心', '是');
-      }
-      if (scicore && easyscholarData['zhongguokejihexin']) {
-        ztoolkit.ExtraField.setExtraField(item, '中国科技核心期刊', '是');
-      }
-    }
-    //复合影响因子、综合影响因子
-    if (chineseIFs) { // 如果得到复合影响因子、综合影响因子再写入
-      // if (!chineseIFs) { return } // 否则后面会报错
-      if (compoundIFs) {
-        ztoolkit.ExtraField.setExtraField(item, '复合影响因子', chineseIFs[0]);
-        // HelperExampleFactory.progressWindow('复合影响因子更新成功', 'success')
-      }
-      if (comprehensiveIFs) {
-        ztoolkit.ExtraField.setExtraField(item, '综合影响因子', chineseIFs[1]);
-        // HelperExampleFactory.progressWindow('综合影响因子更新成功', 'success')
-      }
-    }
-    item.saveTx();
-    HelperExampleFactory.progressWindow('更新成功', 'success')
+  //分类右击更新信息
+  @example
+  static async setExtraCol() {
+    var collection = ZoteroPane.getSelectedCollection();
+    var items = collection?.getChildItems();
+    await KeyExampleFactory.setExtra(items);
   }
+  //条目右键更新信息
+  @example
+  static async setExtraItems() {
+    var items = Zotero.getActiveZoteroPane().getSelectedItems();
+    await KeyExampleFactory.setExtra(items);
+  }
+  @example
+  static async setExtra(items: any) {
+    var n = 0;
+    for (let item of items) {
+      if (UIExampleFactory.checkItem(item)) {  //如果是期刊才继续
+        var easyscholarData = await KeyExampleFactory.getIFs(item); //得到easyscholar数据
+        var chineseIFs = await KeyExampleFactory.getChineseIFs(item); //综合影响因子、复合影响因子
+        // 加: any为了后面不报错
+        var jcr: any = Zotero.Prefs.get(`extensions.zotero.${config.addonRef}.jcr.qu`, true);
+        var basic: any = Zotero.Prefs.get(`extensions.zotero.${config.addonRef}.basic`, true);
+        var updated: any = Zotero.Prefs.get(`extensions.zotero.${config.addonRef}.updated`, true);
+        var ifs: any = Zotero.Prefs.get(`extensions.zotero.${config.addonRef}.sci.if`, true);
+        var if5: any = Zotero.Prefs.get(`extensions.zotero.${config.addonRef}.sci.if5`, true);
+        var eii: any = Zotero.Prefs.get(`extensions.zotero.${config.addonRef}.ei`, true);
+        var chjcscd: any = Zotero.Prefs.get(`extensions.zotero.${config.addonRef}.chjcscd`, true);
+        var pkucore: any = Zotero.Prefs.get(`extensions.zotero.${config.addonRef}.pku.core`, true);
+        var njucore: any = Zotero.Prefs.get(`extensions.zotero.${config.addonRef}.nju.core`, true);
+        var scicore: any = Zotero.Prefs.get(`extensions.zotero.${config.addonRef}.sci.core`, true);
+        var compoundIFs: any = Zotero.Prefs.get(`extensions.zotero.${config.addonRef}.com.if`, true);
+        var comprehensiveIFs: any = Zotero.Prefs.get(`extensions.zotero.${config.addonRef}.agg.if`, true);
+        var njauCoreShow = Zotero.Prefs.get(`extensions.zotero.${config.addonRef}.njau.core`, true);
+        var njauJourShow = Zotero.Prefs.get(`extensions.zotero.${config.addonRef}.njau.high.quality`, true);
+
+        if (easyscholarData) { //如果得到easyscholar数据再写入
+          // HelperExampleFactory.progressWindow(easyscholarData['sci'], 'success')
+          if (jcr && easyscholarData['sci']) {
+            ztoolkit.ExtraField.setExtraField(item, 'JCR', easyscholarData['sci']);
+          }
+          if (updated && easyscholarData['sciUp']) {
+            ztoolkit.ExtraField.setExtraField(item, '中科院分区升级版', easyscholarData['sciUp']);
+          }
+          if (basic && easyscholarData['sciBase']) {
+            ztoolkit.ExtraField.setExtraField(item, '中科院分区基础版', easyscholarData['sciBase']);
+          }
+          if (ifs && easyscholarData['sciif']) {
+            ztoolkit.ExtraField.setExtraField(item, 'IF', easyscholarData['sciif']);
+          }
+          if (if5 && easyscholarData['sciif5']) {
+            ztoolkit.ExtraField.setExtraField(item, 'IF5', easyscholarData['sciif5']);
+          }
+          if (eii && easyscholarData['eii']) {
+            ztoolkit.ExtraField.setExtraField(item, 'EI', '是');
+          }
+          if (chjcscd && easyscholarData['cscd']) {
+            ztoolkit.ExtraField.setExtraField(item, 'CSCD', easyscholarData['cscd']);
+          }
+          if (pkucore && easyscholarData['pku']) {
+            ztoolkit.ExtraField.setExtraField(item, '中文核心期刊/北大核心', '是');
+          }
+          if (njucore && easyscholarData['cssci']) {
+            ztoolkit.ExtraField.setExtraField(item, 'CSSCI/南大核心', '是');
+          }
+          if (scicore && easyscholarData['zhongguokejihexin']) {
+            ztoolkit.ExtraField.setExtraField(item, '中国科技核心期刊', '是');
+          }
+        }
+        //复合影响因子、综合影响因子
+        if (chineseIFs) { // 如果得到复合影响因子、综合影响因子再写入
+          // if (!chineseIFs) { return } // 否则后面会报错
+          if (compoundIFs) {
+            ztoolkit.ExtraField.setExtraField(item, '复合影响因子', chineseIFs[0]);
+          }
+          if (comprehensiveIFs) {
+            ztoolkit.ExtraField.setExtraField(item, '综合影响因子', chineseIFs[1]);
+          }
+        }
+        // 南农核心期刊分类、高水平期刊
+        if (njauCoreShow) {
+          ztoolkit.ExtraField.setExtraField(item, '南农核心期', njauCore(item));
+        }
+        if (njauJourShow) {
+          ztoolkit.ExtraField.setExtraField(item, '南农高质量期刊', njauJournal(item));
+        }
+        item.saveTx();
+        n++
+      }
+    }
+    var whiteSpace = HelperExampleFactory.whiteSpace();
+    HelperExampleFactory.progressWindow(`${n}${whiteSpace}${getString('upIfsSuccess')}`, 'success')
+  }
+
   @example
   // 从easyScholar获取数据
   static async getIFs(item: Zotero.Item) {
@@ -234,6 +260,214 @@ export class KeyExampleFactory {
     }
   };
 
+  //分类右击更新信息
+  @example
+  static async upMetaCol() {
+    var collection = ZoteroPane.getSelectedCollection();
+    var items = collection?.getChildItems();
+    await KeyExampleFactory.upMeta(items);
+  }
+  //条目右键更新信息
+  @example
+  static async upMetaItems() {
+    var items = Zotero.getActiveZoteroPane().getSelectedItems();
+    await KeyExampleFactory.upMeta(items);
+  }
+
+  @example
+  //更新元数据执行函数
+  // 代码来源于Quick动作
+  //https://getquicker.net/Sharedaction?code=78da8f40-e73a-46e8-da6b-08da76a0d1ac和
+  // https://getquicker.net/Sharedaction?code=305c5f6e-4f15-445c-996a-08dace1ee4e7
+  //感谢@ttChen老师的源代码
+  static async upMeta(items: any) {
+    // var items = KeyExampleFactory.getSelectedItems();
+    // var item = items[0];
+    var n = 0;
+    var pattern = new RegExp("[\u4E00-\u9FA5]+");
+    for (let item of items) {
+      if (UIExampleFactory.checkItem(item)) {//如果期刊才继续
+        var title: any = item.getField("title");
+        var doi = item.getField("DOI");
+        var lan = pattern.test(title) ? 'zh-CN' : 'en-US';
+        if (lan == 'zh-CN') { //中文条目
+          async function getCNKIDetailURLByTitle(title: any) {
+            var queryJson = {
+              "Platform": "",
+              "DBCode": "CFLS",
+              "KuaKuCode": "CJFQ,CCND,CIPD,CDMD,BDZK,CISD,SNAD,CCJD,GXDB_SECTION,CJFN,CCVD",
+              "QNode": {
+                "QGroup": [{
+                  "Key": "Subject",
+                  "Title": "",
+                  "Logic": 1,
+                  "Items": [{ "Title": "篇名", "Name": "TI", "Value": title, "Operate": "%=", "BlurType": "" }],
+                  "ChildItems": []
+                }]
+              }
+            };
+
+            var PostDATA =
+              "IsSearch=true&QueryJson=" +
+              encodeURIComponent(JSON.stringify(queryJson)) +
+              `&PageName=defaultresult&DBCode=CFLS&KuaKuCodes=CJFQ%2CCCND%2CCIPD%2CCDMD%2CBDZK%2CCISD%2CSNAD%2CCCJD%2CGXDB_SECTION%2CCJFN%2CCCVD` +
+              `&CurPage=1&RecordsCntPerPage=20&CurDisplayMode=listmode&CurrSortField=RELEVANT&CurrSortFieldType=desc&IsSentenceSearch=false&Subject=`;
+
+
+            function getCookieSandbox() {
+              var cookieData =
+                `Ecp_ClientId=3210724131801671689;
+            cnkiUserKey=2bf7144a-ddf6-3d32-afb8-d4bf82473d9f;
+            RsPerPage=20;
+            Ecp_ClientIp=58.154.105.222;
+            Ecp_Userid=5002973;
+            Hm_lvt_38f33a73da35494cc56a660420d5b6be=1657977228,1658755426,1659774372,1659793220;
+            UM_distinctid=183d49fcff858b-0941bfea87e982-76492e2f-384000-183d49fcff9119c;
+            knsLeftGroupSelectItem=1%3B2%3B; dsorder=relevant;
+            _pk_ref=%5B%22%22%2C%22%22%2C1669645320%2C%22https%3A%2F%2Feasyscholar.cc%2F%22%5D;
+            _pk_id=c26caf7b-3374-4899-9370-488df5c09825.1661393760.22.1669645320.1669645320.;
+            Ecp_loginuserbk=db0172; Ecp_IpLoginFail=22113066.94.113.19;
+            ASP.NET_SessionId=5mzsjs1nrl1tf0b5ec450grz; SID_kns8=123152;
+            CurrSortField=%e7%9b%b8%e5%85%b3%e5%ba%a6%2frelevant%2c(%e5%8f%91%e8%a1%a8%e6%97%b6%e9%97%b4%2c%27time%27);
+            CurrSortFieldType=DESC; dblang=ch`;
+
+              var userAgent = "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/107.0.0.0 Safari/537.36 Edg/107.0.1418.56";
+              var url = "https://cnki.net/";
+              return new Zotero.CookieSandbox("", url, cookieData, userAgent);
+            };
+
+
+            var requestHeaders = {
+              Accept: "text/html, */*; q=0.01",
+              "Accept-Encoding": "gzip, deflate, br",
+              "Accept-Language": "zh-CN,zh;q=0.9,en;q=0.8,en-GB;q=0.7,en-US;q=0.6",
+              Connection: "keep-alive",
+              "Content-Length": "992",
+              "Content-Type": "application/x-www-form-urlencoded; charset=UTF-8",
+              Host: "kns.cnki.net",
+              Origin: "https://kns.cnki.net",
+              Referer: `https://kns.cnki.net/kns8/defaultresult/index?kw=${encodeURIComponent(title)}&korder=TI`,
+              "Sec-Fetch-Dest": "empty",
+              "Sec-Fetch-Mode": "cors",
+              "Sec-ch-ua": `"Microsoft Edge"; v = "107", "Chromium"; v = "107", "Not=A?Brand"; v = "24"`,
+              "Sec-Fetch-Site": "same-origin",
+              "X-Requested-With": "XMLHttpRequest"
+            };
+
+            var postUrl = "https://kns.cnki.net/kns8/Brief/GetGridTableHtml";
+
+            function getHtml(responseText: any) {
+              var parser = Components.classes["@mozilla.org/xmlextras/domparser;1"]
+                .createInstance(Components.interfaces.nsIDOMParser);
+              var html = parser.parseFromString(responseText, "text/html");
+              return html;
+            };
+            var resp = await Zotero.HTTP.request("POST", postUrl, {
+              headers: requestHeaders,
+              cookieSandbox: getCookieSandbox(),
+              body: PostDATA
+            });
+            return getHtml(resp.responseText);
+          }
+          function updateField(field: any, newItem: Zotero.Item, oldItem: Zotero.Item) {
+            if (newItem.getField(field)) {
+              oldItem.setField(field, newItem.getField(field))
+            }
+          }
+          function updateINFO(newItem: any, oldItemID: any) {
+            newItem.saveTx();
+            let oldItem = Zotero.Items.get(oldItemID)
+            oldItem.setCreators(newItem.getCreators());
+            // 可根据下述网址增减需要更新的Field.
+            // https://www.zotero.org/support/dev/client_coding/javascript_api/search_fields
+            let fields = ["title", "publicationTitle", "journalAbbreviation", "volume", "issue", "date", "pages", "ISSN", "url", "abstractNote", "DOI", "type", "publisher"]
+            for (let field of fields) {
+              updateField(field, newItem, oldItem);
+            }
+            newItem.deleted = true;
+            newItem.saveTx();
+            oldItem.saveTx();
+            Zotero.debug("succeeded!");
+          }
+          //中文条目更新函数
+          var selectedItem = item;
+          var ItemID = selectedItem.id;
+          var title: any = selectedItem.getField("title");
+          var publicationTitle = selectedItem.getField("publicationTitle");
+          var html;
+          var url;
+          try {
+            html = await getCNKIDetailURLByTitle(title);
+            if (publicationTitle != "") {
+              url = (Zotero.Utilities as any).xpath(html, `//td[normalize-space(string(.))="${publicationTitle}"]/preceding-sibling::td[@class="name" and normalize-space(string(.))="${title}"]/a`)[0].href;
+            } else {
+              url = (Zotero.Utilities as any).xpath(html, `//td[@class="name" and normalize-space(string(.))="${title}"]/a`)[0].href;
+            }
+
+            url = url.replace("/kns8/Detail", "https://kns.cnki.net/kcms/detail/detail.aspx");
+          } catch (error) {
+            var popw = new Zotero.ProgressWindow();
+            popw.changeHeadline("未找到文献, 或者遇到了网络问题！", "", "");
+            popw.addDescription(`文献：${title}`);
+            popw.show();
+            popw.startCloseTimer(5 * 1000);
+
+            return;
+            return;
+          }
+          Zotero.HTTP.loadDocuments(url,
+            async function (doc: any) {
+              let translate = new Zotero.Translate.Web();
+              translate.setDocument(doc);
+              translate.setTranslator("5c95b67b-41c5-4f55-b71a-48d5d7183063");
+              let items = await translate.translate();
+              updateINFO(items[0], ItemID)
+            }
+          );
+
+        } else if (lan == 'en-US') {//英文条目
+          if (doi != '') {
+            let identifier =
+            {
+              itemType: "journalArticle",
+              DOI: item.getField('DOI')
+            };
+            var translate = new Zotero.Translate.Search();
+            translate.setIdentifier(identifier);
+            let translators = await translate.getTranslators();
+            translate.setTranslator(translators);
+            let newItems = await translate.translate();
+            let newItem = newItems[0];
+
+            function update(field: any) {
+              if (newItem.getField(field)) {
+                item.setField(field, newItem.getField(field))
+              }
+            }
+            item.setCreators(newItem.getCreators());
+
+            // 可根据下述网址增减需要更新的Field.
+            // https://www.zotero.org/support/dev/client_coding/javascript_api/search_fields
+
+            let fields = ["title", "publicationTitle", "journalAbbreviation", "volume",
+              "issue", "date", "pages", "issue", "ISSN", "url", "abstractNote"
+            ]
+
+            for (let field of fields) {
+              update(field);
+            }
+
+            newItem.deleted = true;
+            await item.saveTx();
+            newItem.saveTx();
+          }
+        }
+        n++
+      }
+    }
+    var whiteSpace = HelperExampleFactory.whiteSpace();
+    HelperExampleFactory.progressWindow(`${n}${whiteSpace}${getString('upIfsSuccess')}`, 'success')
+  }
   @example
   static registerShortcuts() {
     const keysetId = `${config.addonRef}-keyset`;
@@ -445,7 +679,7 @@ export class UIExampleFactory {
       tag: "menuitem",
       id: `zotero-collectionmenu-${config.addonRef}-upifs`,
       label: getString("upifs"),
-      commandListener: (ev) => addon.hooks.onDialogEvents("dialogExample"),
+      commandListener: (ev) => KeyExampleFactory.setExtraCol(),
       icon: menuIconUpIFs,
     });
     // 分类更新元数据
@@ -453,7 +687,7 @@ export class UIExampleFactory {
       tag: "menuitem",
       id: `zotero-collectionmenu-${config.addonRef}-upmeta`,
       label: getString("upmeta"),
-      commandListener: (ev) => addon.hooks.onDialogEvents("dialogExample"),
+      commandListener: (ev) => KeyExampleFactory.upMetaCol(),
       icon: menuIconUpMeta,
     });
     // 更新条目信息
@@ -461,7 +695,7 @@ export class UIExampleFactory {
       tag: "menuitem",
       id: `zotero-itemmenu-${config.addonRef}-upifs`,
       label: getString("upifs"),
-      commandListener: (ev) => KeyExampleFactory.setExtra(),
+      commandListener: (ev) => KeyExampleFactory.setExtraItems(),
       icon: menuIconUpIFs,
     });
     // 条目更新元数据
@@ -469,13 +703,10 @@ export class UIExampleFactory {
       tag: "menuitem",
       id: `zotero-itemmenu-${config.addonRef}-upmeta`,
       label: getString("upmeta"),
-      commandListener: (ev) => addon.hooks.onDialogEvents("dialogExample"),
+      commandListener: (ev) => KeyExampleFactory.upMetaItems(),
       icon: menuIconUpMeta,
     });
   }
-
-
-
   // @example
   // static registerRightClickMenuPopup() {
   //   ztoolkit.Menu.register(
@@ -608,7 +839,7 @@ export class UIExampleFactory {
           label: getString("itemTitleFindReplace"),
           // oncommand: "alert(KeyExampleFactory.getSelectedItems())",
           // oncommand: `ztoolkit.getGlobal('alert')(${KeyExampleFactory.getSelectedItems()})`,
-          commandListener: (ev) => KeyExampleFactory.setExtra(),
+          // commandListener: (ev) => KeyExampleFactory.setExtra(),
         },
         {
           tag: "menuseparator",
@@ -630,7 +861,16 @@ export class UIExampleFactory {
           // oncommand: "alert('Hello World! Sub Menuitem.')",
           commandListener: (ev) => HelperExampleFactory.progressWindow(Zotero.DataDirectory.dir, 'default'),
         },
+        //刷新自定义万
+        {
+          tag: "menuitem",
+          id: "zotero-toolboxmenu-refresh",
+          label: 'Refresh',
+          // oncommand: "alert('Hello World! Sub Menuitem.')",
+          commandListener: (ev) => Zotero.greenfrog.hooks.setExtraColumn(),
+        },
       ],
+
 
 
     });
@@ -638,187 +878,289 @@ export class UIExampleFactory {
 
   @example
   static async registerExtraColumn() {
-    // JCR
-    await ztoolkit.ItemTree.register(
-      "JCR",
-      "JCR",
-      (
-        field: string,
-        unformatted: boolean,
-        includeBaseMapped: boolean,
-        item: Zotero.Item
-      ) => {
-        // return String(item.id);
-        var jcr = ztoolkit.ExtraField.getExtraField(item, 'JCR分区')
-        return String(jcr == undefined ? '' : jcr);
-      },
-    );
-    // 中科院分区升级版
-    await ztoolkit.ItemTree.register(
-      "CASUp",
-      getString("CASUp"),
-      (
-        field: string,
-        unformatted: boolean,
-        includeBaseMapped: boolean,
-        item: Zotero.Item
-      ) => {
-        // return String(item.id);
-        var CASUp = ztoolkit.ExtraField.getExtraField(item, '中科院分区升级版')
-        return String(CASUp == undefined ? '' : CASUp);
-      },
-    );
-    // 中科院分区基础版
-    await ztoolkit.ItemTree.register(
-      "CASBasic",
-      getString("CASBasic"),
-      (
-        field: string,
-        unformatted: boolean,
-        includeBaseMapped: boolean,
-        item: Zotero.Item
-      ) => {
-        // return String(item.id);
-        var CASBasic = ztoolkit.ExtraField.getExtraField(item, '中科院分区基础版')
-        return String(CASBasic == undefined ? '' : CASBasic);
-      },
-    );
-    // 影响因子
-    await ztoolkit.ItemTree.register(
-      "IF",
-      "IF",
-      (
-        field: string,
-        unformatted: boolean,
-        includeBaseMapped: boolean,
-        item: Zotero.Item
-      ) => {
-        // return String(item.id);
-        var ifs = ztoolkit.ExtraField.getExtraField(item, '影响因子')
-        return String(ifs == undefined ? '' : ifs);
-      },
-    );
-    // 5年影响因子
-    await ztoolkit.ItemTree.register(
-      "IF5",
-      "IF5",
-      (
-        field: string,
-        unformatted: boolean,
-        includeBaseMapped: boolean,
-        item: Zotero.Item
-      ) => {
-        // return String(item.id);
-        var IF5 = ztoolkit.ExtraField.getExtraField(item, '5年影响因子')
-        return String(IF5 == undefined ? '' : IF5);
-      },
-    );
-    // EI
-    await ztoolkit.ItemTree.register(
-      "EI",
-      "EI",
-      (
-        field: string,
-        unformatted: boolean,
-        includeBaseMapped: boolean,
-        item: Zotero.Item
-      ) => {
-        // return String(item.id);
-        var EI = ztoolkit.ExtraField.getExtraField(item, 'EI')
-        return String(EI == undefined ? '' : EI);
-      },
-    );
-    // CSCD
-    await ztoolkit.ItemTree.register(
-      "CSCD",
-      getString("CSCD"),
-      (
-        field: string,
-        unformatted: boolean,
-        includeBaseMapped: boolean,
-        item: Zotero.Item
-      ) => {
-        // return String(item.id);
-        var CSCD = ztoolkit.ExtraField.getExtraField(item, 'CSCD')
-        return String(CSCD == undefined ? '' : CSCD);
-      },
-    );
-    // PKUCore
-    await ztoolkit.ItemTree.register(
-      "PKUCore",
-      getString("PKUCore"),
-      (
-        field: string,
-        unformatted: boolean,
-        includeBaseMapped: boolean,
-        item: Zotero.Item
-      ) => {
-        // return String(item.id);
-        var PKUCore = ztoolkit.ExtraField.getExtraField(item, '中文核心期刊/北大核心')
-        return String(PKUCore == undefined ? '' : PKUCore);
-      },
-    );
-    // CSSCI/南大核心
-    await ztoolkit.ItemTree.register(
-      "CSSCI",
-      getString("CSSCI"),
-      (
-        field: string,
-        unformatted: boolean,
-        includeBaseMapped: boolean,
-        item: Zotero.Item
-      ) => {
-        // return String(item.id);
-        var NJUCore = ztoolkit.ExtraField.getExtraField(item, 'CSSCI/南大核心')
-        return String(NJUCore == undefined ? '' : NJUCore);
-      },
-    );
-    // 科技核心
-    await ztoolkit.ItemTree.register(
-      "SCICore",
-      getString("SCICore"),
-      (
-        field: string,
-        unformatted: boolean,
-        includeBaseMapped: boolean,
-        item: Zotero.Item
-      ) => {
-        // return String(item.id);
-        var SCICore = ztoolkit.ExtraField.getExtraField(item, '中国科技核心期刊')
-        return String(SCICore == undefined ? '' : SCICore);
-      },
-    );
-    // 复合影响因子
-    await ztoolkit.ItemTree.register(
-      "compoundIF",
-      getString("compoundIF"),
-      (
-        field: string,
-        unformatted: boolean,
-        includeBaseMapped: boolean,
-        item: Zotero.Item
-      ) => {
-        // return String(item.id);
-        var compoundIF = ztoolkit.ExtraField.getExtraField(item, '复合影响因子')
-        return String(compoundIF == undefined ? '' : compoundIF);
-      },
-    );
+    var jcr: any = Zotero.Prefs.get(`extensions.zotero.${config.addonRef}.jcr.qu`, true);
+    var basic: any = Zotero.Prefs.get(`extensions.zotero.${config.addonRef}.basic`, true);
+    var updated: any = Zotero.Prefs.get(`extensions.zotero.${config.addonRef}.updated`, true);
+    var ifs: any = Zotero.Prefs.get(`extensions.zotero.${config.addonRef}.sci.if`, true);
+    var if5: any = Zotero.Prefs.get(`extensions.zotero.${config.addonRef}.sci.if5`, true);
+    var eii: any = Zotero.Prefs.get(`extensions.zotero.${config.addonRef}.ei`, true);
+    var chjcscd: any = Zotero.Prefs.get(`extensions.zotero.${config.addonRef}.chjcscd`, true);
+    var pkucore: any = Zotero.Prefs.get(`extensions.zotero.${config.addonRef}.pku.core`, true);
+    var njucore: any = Zotero.Prefs.get(`extensions.zotero.${config.addonRef}.nju.core`, true);
+    var scicore: any = Zotero.Prefs.get(`extensions.zotero.${config.addonRef}.sci.core`, true);
+    var compoundIFs: any = Zotero.Prefs.get(`extensions.zotero.${config.addonRef}.com.if`, true);
+    var comprehensiveIFs: any = Zotero.Prefs.get(`extensions.zotero.${config.addonRef}.agg.if`, true);
+    var njauCoreShow = Zotero.Prefs.get(`extensions.zotero.${config.addonRef}.njau.core`, true);
+    var njauJourShow = Zotero.Prefs.get(`extensions.zotero.${config.addonRef}.njau.high.quality`, true);
 
-    // 综合影响因子
-    await ztoolkit.ItemTree.register(
-      "comprehensiveIF",
-      getString("comprehensiveIF"),
-      (
-        field: string,
-        unformatted: boolean,
-        includeBaseMapped: boolean,
-        item: Zotero.Item
-      ) => {
-        // return String(item.id);
-        var comprehensiveIF = ztoolkit.ExtraField.getExtraField(item, '综合影响因子')
-        return String(comprehensiveIF == undefined ? '' : comprehensiveIF);
-      },
-    );
+    if (jcr) {
+      // JCR
+      await ztoolkit.ItemTree.register(
+        "JCR",
+        "JCR",
+        (
+          field: string,
+          unformatted: boolean,
+          includeBaseMapped: boolean,
+          item: Zotero.Item
+        ) => {
+          // return String(item.id);
+          var jcr = ztoolkit.ExtraField.getExtraField(item, 'JCR分区')
+          return String(jcr == undefined ? '' : jcr);
+        },
+      );
+    } else {
+
+      await ztoolkit.ItemTree.unregister("JCR");
+    }
+    if (updated) {
+      // 中科院分区升级版
+      await ztoolkit.ItemTree.register(
+        "CASUp",
+        getString("CASUp"),
+        (
+          field: string,
+          unformatted: boolean,
+          includeBaseMapped: boolean,
+          item: Zotero.Item
+        ) => {
+          // return String(item.id);
+          var CASUp = ztoolkit.ExtraField.getExtraField(item, '中科院分区升级版')
+          return String(CASUp == undefined ? '' : CASUp);
+        },
+      );
+    } else {
+      await ztoolkit.ItemTree.unregister("CASUp");
+    }
+    if (basic) {
+      // 中科院分区基础版
+      await ztoolkit.ItemTree.register(
+        "CASBasic",
+        getString("CASBasic"),
+        (
+          field: string,
+          unformatted: boolean,
+          includeBaseMapped: boolean,
+          item: Zotero.Item
+        ) => {
+          // return String(item.id);
+          var CASBasic = ztoolkit.ExtraField.getExtraField(item, '中科院分区基础版')
+          return String(CASBasic == undefined ? '' : CASBasic);
+        },
+      );
+    } else {
+      await ztoolkit.ItemTree.unregister("CASBasic");
+    }
+    if (ifs) {
+      // 影响因子
+      await ztoolkit.ItemTree.register(
+        "IF",
+        "IF",
+        (
+          field: string,
+          unformatted: boolean,
+          includeBaseMapped: boolean,
+          item: Zotero.Item
+        ) => {
+          // return String(item.id);
+          var ifs = ztoolkit.ExtraField.getExtraField(item, '影响因子')
+          return String(ifs == undefined ? '' : ifs);
+        },
+      );
+    } else {
+      await ztoolkit.ItemTree.unregister("IF");
+    }
+    if (if5) {
+      // 5年影响因子
+      await ztoolkit.ItemTree.register(
+        "IF5",
+        "IF5",
+        (
+          field: string,
+          unformatted: boolean,
+          includeBaseMapped: boolean,
+          item: Zotero.Item
+        ) => {
+          // return String(item.id);
+          var IF5 = ztoolkit.ExtraField.getExtraField(item, '5年影响因子')
+          return String(IF5 == undefined ? '' : IF5);
+        },
+      );
+    } else {
+      await ztoolkit.ItemTree.unregister("IF5");
+    }
+    if (eii) {
+      // EI
+      await ztoolkit.ItemTree.register(
+        "EI",
+        "EI",
+        (
+          field: string,
+          unformatted: boolean,
+          includeBaseMapped: boolean,
+          item: Zotero.Item
+        ) => {
+          // return String(item.id);
+          var EI = ztoolkit.ExtraField.getExtraField(item, 'EI')
+          return String(EI == undefined ? '' : EI);
+        },
+      );
+    } else {
+      await ztoolkit.ItemTree.unregister("EI");
+    }
+    if (chjcscd) {
+      // CSCD
+      await ztoolkit.ItemTree.register(
+        "CSCD",
+        getString("CSCD"),
+        (
+          field: string,
+          unformatted: boolean,
+          includeBaseMapped: boolean,
+          item: Zotero.Item
+        ) => {
+          // return String(item.id);
+          var CSCD = ztoolkit.ExtraField.getExtraField(item, 'CSCD')
+          return String(CSCD == undefined ? '' : CSCD);
+        },
+      );
+    } else {
+      await ztoolkit.ItemTree.unregister("CSCD");
+    }
+    if (pkucore) {
+
+      // PKUCore
+      await ztoolkit.ItemTree.register(
+        "PKUCore",
+        getString("PKUCore"),
+        (
+          field: string,
+          unformatted: boolean,
+          includeBaseMapped: boolean,
+          item: Zotero.Item
+        ) => {
+          // return String(item.id);
+          var PKUCore = ztoolkit.ExtraField.getExtraField(item, '中文核心期刊/北大核心')
+          return String(PKUCore == undefined ? '' : PKUCore);
+        },
+      );
+    } else {
+      await ztoolkit.ItemTree.unregister("PKUCore");
+    }
+    if (njucore) {
+      // CSSCI/南大核心
+      await ztoolkit.ItemTree.register(
+        "CSSCI",
+        getString("CSSCI"),
+        (
+          field: string,
+          unformatted: boolean,
+          includeBaseMapped: boolean,
+          item: Zotero.Item
+        ) => {
+          // return String(item.id);
+          var NJUCore = ztoolkit.ExtraField.getExtraField(item, 'CSSCI/南大核心')
+          return String(NJUCore == undefined ? '' : NJUCore);
+        },
+      );
+    } else {
+      await ztoolkit.ItemTree.unregister("CSSCI");
+    }
+    if (scicore) {
+      // 科技核心
+      await ztoolkit.ItemTree.register(
+        "SCICore",
+        getString("SCICore"),
+        (
+          field: string,
+          unformatted: boolean,
+          includeBaseMapped: boolean,
+          item: Zotero.Item
+        ) => {
+          // return String(item.id);
+          var SCICore = ztoolkit.ExtraField.getExtraField(item, '中国科技核心期刊')
+          return String(SCICore == undefined ? '' : SCICore);
+        },
+      );
+    } else {
+      await ztoolkit.ItemTree.unregister("SCICore");
+    }
+    if (compoundIFs) {
+      // 复合影响因子
+      await ztoolkit.ItemTree.register(
+        "compoundIF",
+        getString("compoundIF"),
+        (
+          field: string,
+          unformatted: boolean,
+          includeBaseMapped: boolean,
+          item: Zotero.Item
+        ) => {
+          // return String(item.id);
+          var compoundIF = ztoolkit.ExtraField.getExtraField(item, '复合影响因子')
+          return String(compoundIF == undefined ? '' : compoundIF);
+        },
+      );
+    } else {
+      await ztoolkit.ItemTree.unregister("compoundIF");
+    }
+    if (comprehensiveIFs) {
+      // 综合影响因子
+      await ztoolkit.ItemTree.register(
+        "comprehensiveIF",
+        getString("comprehensiveIF"),
+        (
+          field: string,
+          unformatted: boolean,
+          includeBaseMapped: boolean,
+          item: Zotero.Item
+        ) => {
+          // return String(item.id);
+          var comprehensiveIF = ztoolkit.ExtraField.getExtraField(item, '综合影响因子')
+          return String(comprehensiveIF == undefined ? '' : comprehensiveIF);
+        },
+      );
+    } else {
+      await ztoolkit.ItemTree.unregister("comprehensiveIF");
+    }
+    if (njauCoreShow) {
+      // 南农核心期刊
+      await ztoolkit.ItemTree.register(
+        "njauCore",
+        getString("njauCore"),
+        (
+          field: string,
+          unformatted: boolean,
+          includeBaseMapped: boolean,
+          item: Zotero.Item
+        ) => {
+          // return String(item.id);
+          var comprehensiveIF = ztoolkit.ExtraField.getExtraField(item, '综合影响因子')
+          return String(comprehensiveIF == undefined ? '' : comprehensiveIF);
+        },
+      );
+    } else {
+      await ztoolkit.ItemTree.unregister("njauCore");
+    }
+    if (njauJourShow) {
+      // 南农高质量期刊
+      await ztoolkit.ItemTree.register(
+        "njauJour",
+        getString("njauJour"),
+        (
+          field: string,
+          unformatted: boolean,
+          includeBaseMapped: boolean,
+          item: Zotero.Item
+        ) => {
+          // return String(item.id);
+          var comprehensiveIF = ztoolkit.ExtraField.getExtraField(item, '综合影响因子')
+          return String(comprehensiveIF == undefined ? '' : comprehensiveIF);
+        },
+      );
+    } else {
+      await ztoolkit.ItemTree.unregister("njauJour");
+    }
   }
 
   // @example
@@ -1002,7 +1344,13 @@ export class PromptExampleFactory {
 
 export class HelperExampleFactory {
 
-
+  // 生成空格，如果是中文是无空格，英文为空格
+  static whiteSpace() {
+    var lanUI = Zotero.Prefs.get('intl.locale.requested', true); // 得到当前Zotero界面语言
+    var whiteSpace = ' ';
+    if (lanUI == 'zh-CN') { whiteSpace = '' };
+    return whiteSpace;
+  };
 
   @example
   static async dialogExample() {
