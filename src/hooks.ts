@@ -14,6 +14,7 @@ async function onStartup() {
     Zotero.initializationPromise,
     Zotero.unlockPromise,
     Zotero.uiReadyPromise,
+
   ]);
   initLocale();
   ztoolkit.ProgressWindow.setIconURI(
@@ -47,6 +48,8 @@ async function onStartup() {
 
   // UIExampleFactory.registerStyleSheet();
 
+  // UIExampleFactory.disableMenu(); //禁用的菜单
+
   UIExampleFactory.registerRightClickMenuItem();// 右键菜单
 
   // UIExampleFactory.registerRightClickMenuPopup(); // 右键弹出菜单
@@ -62,6 +65,7 @@ async function onStartup() {
   //监听右键显示菜单
   ZoteroPane.itemsView.onSelect.addListener(UIExampleFactory.displayContexMenuitem); //监听右键显示菜单
 
+  // UIExampleFactory.refreshButton(); // 原想加按钮
 
   // await UIExampleFactory.registerExtraColumnWithCustomCell();
 
@@ -86,66 +90,14 @@ async function onStartup() {
   // addon.hooks.onDialogEvents("dialogExample");
 }
 
+// 设置自定义列
+// async function setExtraColumn() {
+//   await UIExampleFactory.registerExtraColumn()
+// }
 function hideMenu(): void {
-  const menuboldStar = document.getElementById('zotero-toolboxmenu-auBoldStar'),  //
-    menucleanBold = document.getElementById('zotero-toolboxmenu-cleanBold'),  //
-    menucleanStar = document.getElementById('zotero-toolboxmenu-cleanStar'),  //
-    menucleanBoldStar = document.getElementById('zotero-toolboxmenu-cleanBoldStar'),  //
-    menuchAuTitle = document.getElementById('zotero-toolboxmenu-chAuTitle'),  //
-    menuswapAuName = document.getElementById('zotero-toolboxmenu-swapAuName'),  //
-    menusep1 = document.getElementById('zotero-toolboxmenu-sep1'),  //
-    menuchTitleCase = document.getElementById('zotero-toolboxmenu-chTitleCase'),  //
-    menuchPubTitle = document.getElementById('zotero-toolboxmenu-chPubTitle'),  //
-    menuchPubTitleCase = document.getElementById('zotero-toolboxmenu-chPubTitleCase'),  //
-    menuitemTitleFindReplace = document.getElementById('zotero-toolboxmenu-itemTitleFindReplace'),  //
-    menusep2 = document.getElementById('zotero-toolboxmenu-sep2'),  //
-    menushowProfile = document.getElementById('zotero-toolboxmenu-showProfile'),  //
-    menushowData = document.getElementById('zotero-toolboxmenu-showData');  //
-
-  const boldStar = Zotero.Prefs.get(`extensions.zotero.${config.addonRef}.bold.star`, true),
-    cleanBold = Zotero.Prefs.get(`extensions.zotero.${config.addonRef}.remove.bold`, true),
-    cleanStar = Zotero.Prefs.get(`extensions.zotero.${config.addonRef}.remove.star`, true),
-    cleanBoldStar = Zotero.Prefs.get(`extensions.zotero.${config.addonRef}.remove.bold.star`, true),
-    chAuTitle = Zotero.Prefs.get(`extensions.zotero.${config.addonRef}.chang.author.case`, true),
-    swapAuName = Zotero.Prefs.get(`extensions.zotero.${config.addonRef}.swap.author`, true),
-    sep1 = Zotero.Prefs.get(`extensions.zotero.${config.addonRef}.sep1`, true),
-    chTitleCase = Zotero.Prefs.get(`extensions.zotero.${config.addonRef}.chang.title`, true),
-    chPubTitle = Zotero.Prefs.get(`extensions.zotero.${config.addonRef}.chang.pub.title`, true),
-    chPubTitleCase = Zotero.Prefs.get(`extensions.zotero.${config.addonRef}.chang.pub.title.case`, true),
-    itemTitleFindReplace = Zotero.Prefs.get(`extensions.zotero.${config.addonRef}.item.title.find.replace`, true),
-    sep2 = Zotero.Prefs.get(`extensions.zotero.${config.addonRef}.sep2`, true),
-    showProfile = Zotero.Prefs.get(`extensions.zotero.${config.addonRef}.show.profile.dir`, true),
-    showData = Zotero.Prefs.get(`extensions.zotero.${config.addonRef}.show.data.dir`, true);
-
-  // menuboldStar?.setAttribute('hidden', String(!boldStar));
-  menuboldStar?.setAttribute('hidden', String(!boldStar));
-  menucleanBold?.setAttribute('hidden', String(!cleanBold));
-  menucleanStar?.setAttribute('hidden', String(!cleanStar));
-  menucleanBoldStar?.setAttribute('hidden', String(!cleanBoldStar));
-  menuchAuTitle?.setAttribute('hidden', String(!chAuTitle));
-  menuswapAuName?.setAttribute('hidden', String(!swapAuName));
-  menusep1?.setAttribute('hidden', String(!sep1));
-  menuchTitleCase?.setAttribute('hidden', String(!chTitleCase));
-  menuchPubTitle?.setAttribute('hidden', String(!chPubTitle));
-  menuchPubTitleCase?.setAttribute('hidden', String(!chPubTitleCase));
-  menuitemTitleFindReplace?.setAttribute('hidden', String(!itemTitleFindReplace));
-  menusep2?.setAttribute('hidden', String(!sep2));
-  menushowProfile?.setAttribute('hidden', String(!showProfile));
-  menushowData?.setAttribute('hidden', String(!showData));
-
-  // menuboldStar?.setAttribute('disabled', 'true');
-  // (document.getElementById('zotero-toolboxmenu-auBoldStar') as HTMLElement).hidden = !boldStar;
-  // Zotero.Prefs.get(`extensions.zotero.${config.addonRef}.add.update`, true);
-  // Zotero.Prefs.get(`extensions.zotero.${config.addonRef}.update.abbr`, true);
-  // Zotero.Prefs.get(`extensions.zotero.${config.addonRef}.update.abbr.dot`, true);
-  // Zotero.Prefs.get(`extensions.zotero.${config.addonRef}.en.abbr`, true);
-  // Zotero.Prefs.get(`extensions.zotero.${config.addonRef}.ch.abbr`, true);
-
-
+  UIExampleFactory.hideMenu();
 }
-async function setExtraColumn() {
-  await UIExampleFactory.registerExtraColumn()
-}
+
 function onShutdown(): void {
   ztoolkit.unregisterAll();
   // Remove addon object
@@ -244,6 +196,6 @@ export default {
   onShortcuts,
   onDialogEvents,
   hideMenu,
-  setExtraColumn,
+  // setExtraColumn,
   // getSelectedItems,
 };

@@ -591,6 +591,13 @@ export class UIExampleFactory {
     menuUpMeta?.setAttribute('disabled', String(!showmenuUpMetaCol)); // 禁用更新元数据
   }
 
+  // 禁用菜单
+  // static disableMenu() {
+  //   // 禁用添加条目更新期刊信息
+  //   var menuUpAdd = document.getElementById('zotero-prefpane-greenfrog-add-update');
+  //   menuUpAdd?.setAttribute('disabled', 'ture');
+  //   menuUpAdd?.setAttribute('hidden', 'ture');
+  // }
   // 是否显示条目右键菜单
   static displayContexMenuitem() {
     const items = ZoteroPane.getSelectedItems(),
@@ -861,20 +868,102 @@ export class UIExampleFactory {
           // oncommand: "alert('Hello World! Sub Menuitem.')",
           commandListener: (ev) => HelperExampleFactory.progressWindow(Zotero.DataDirectory.dir, 'default'),
         },
-        //刷新自定义万
-        {
-          tag: "menuitem",
-          id: "zotero-toolboxmenu-refresh",
-          label: 'Refresh',
-          // oncommand: "alert('Hello World! Sub Menuitem.')",
-          commandListener: (ev) => Zotero.greenfrog.hooks.setExtraColumn(),
-        },
+        //刷新自定义列
+        // {
+        //   tag: "menuitem",
+        //   id: "zotero-toolboxmenu-refresh",
+        //   label: 'Refresh',
+        //   commandListener: (ev) => Zotero.greenfrog.hooks.setExtraColumn(),
+        // },
       ],
-
-
-
     });
   }
+
+  // 显示隐藏工具箱中的菜单
+  @example
+  static hideMenu() {
+    const menuboldStar = document.getElementById('zotero-toolboxmenu-auBoldStar'),  //
+      menucleanBold = document.getElementById('zotero-toolboxmenu-cleanBold'),  //
+      menucleanStar = document.getElementById('zotero-toolboxmenu-cleanStar'),  //
+      menucleanBoldStar = document.getElementById('zotero-toolboxmenu-cleanBoldStar'),  //
+      menuchAuTitle = document.getElementById('zotero-toolboxmenu-chAuTitle'),  //
+      menuswapAuName = document.getElementById('zotero-toolboxmenu-swapAuName'),  //
+      menusep1 = document.getElementById('zotero-toolboxmenu-sep1'),  //
+      menuchTitleCase = document.getElementById('zotero-toolboxmenu-chTitleCase'),  //
+      menuchPubTitle = document.getElementById('zotero-toolboxmenu-chPubTitle'),  //
+      menuchPubTitleCase = document.getElementById('zotero-toolboxmenu-chPubTitleCase'),  //
+      menuitemTitleFindReplace = document.getElementById('zotero-toolboxmenu-itemTitleFindReplace'),  //
+      menusep2 = document.getElementById('zotero-toolboxmenu-sep2'),  //
+      menushowProfile = document.getElementById('zotero-toolboxmenu-showProfile'),  //
+      menushowData = document.getElementById('zotero-toolboxmenu-showData');  //
+
+    const boldStar = Zotero.Prefs.get(`extensions.zotero.${config.addonRef}.bold.star`, true),
+      cleanBold = Zotero.Prefs.get(`extensions.zotero.${config.addonRef}.remove.bold`, true),
+      cleanStar = Zotero.Prefs.get(`extensions.zotero.${config.addonRef}.remove.star`, true),
+      cleanBoldStar = Zotero.Prefs.get(`extensions.zotero.${config.addonRef}.remove.bold.star`, true),
+      chAuTitle = Zotero.Prefs.get(`extensions.zotero.${config.addonRef}.chang.author.case`, true),
+      swapAuName = Zotero.Prefs.get(`extensions.zotero.${config.addonRef}.swap.author`, true),
+      sep1 = Zotero.Prefs.get(`extensions.zotero.${config.addonRef}.sep1`, true),
+      chTitleCase = Zotero.Prefs.get(`extensions.zotero.${config.addonRef}.chang.title`, true),
+      chPubTitle = Zotero.Prefs.get(`extensions.zotero.${config.addonRef}.chang.pub.title`, true),
+      chPubTitleCase = Zotero.Prefs.get(`extensions.zotero.${config.addonRef}.chang.pub.title.case`, true),
+      itemTitleFindReplace = Zotero.Prefs.get(`extensions.zotero.${config.addonRef}.item.title.find.replace`, true),
+      sep2 = Zotero.Prefs.get(`extensions.zotero.${config.addonRef}.sep2`, true),
+      showProfile = Zotero.Prefs.get(`extensions.zotero.${config.addonRef}.show.profile.dir`, true),
+      showData = Zotero.Prefs.get(`extensions.zotero.${config.addonRef}.show.data.dir`, true);
+
+    // menuboldStar?.setAttribute('hidden', String(!boldStar));
+    menuboldStar?.setAttribute('hidden', String(!boldStar));
+    menucleanBold?.setAttribute('hidden', String(!cleanBold));
+    menucleanStar?.setAttribute('hidden', String(!cleanStar));
+    menucleanBoldStar?.setAttribute('hidden', String(!cleanBoldStar));
+    menuchAuTitle?.setAttribute('hidden', String(!chAuTitle));
+    menuswapAuName?.setAttribute('hidden', String(!swapAuName));
+    menusep1?.setAttribute('hidden', String(!sep1));
+    menuchTitleCase?.setAttribute('hidden', String(!chTitleCase));
+    menuchPubTitle?.setAttribute('hidden', String(!chPubTitle));
+    menuchPubTitleCase?.setAttribute('hidden', String(!chPubTitleCase));
+    menuitemTitleFindReplace?.setAttribute('hidden', String(!itemTitleFindReplace));
+    menusep2?.setAttribute('hidden', String(!sep2));
+    menushowProfile?.setAttribute('hidden', String(!showProfile));
+    menushowData?.setAttribute('hidden', String(!showData));
+
+    // menuboldStar?.setAttribute('disabled', 'true');
+    // (document.getElementById('zotero-toolboxmenu-auBoldStar') as HTMLElement).hidden = !boldStar;
+    // Zotero.Prefs.get(`extensions.zotero.${config.addonRef}.add.update`, true);
+    // Zotero.Prefs.get(`extensions.zotero.${config.addonRef}.update.abbr`, true);
+    // Zotero.Prefs.get(`extensions.zotero.${config.addonRef}.update.abbr.dot`, true);
+    // Zotero.Prefs.get(`extensions.zotero.${config.addonRef}.en.abbr`, true);
+    // Zotero.Prefs.get(`extensions.zotero.${config.addonRef}.ch.abbr`, true);
+
+
+  }
+  // @example
+  //添加工具栏按钮
+  // static refreshButton() {
+  //   document.getElementById('zotero-collections-toolbar')?.appendChild( // 添加工具栏按钮
+  //     ztoolkit.UI.createElement(document, 'toolbarbutton', {
+  //       id: 'refresh-toolbar-button',
+  //       classList: ['zotero-tb-button'],
+  //       attributes: { tooltiptext: 'refrsh item tree' },
+  //       styles: {
+  //         'list-style-image': 'url("chrome://greenfrog/content/icons/favicon@0.5x.png");',
+  //       },
+  //       listeners: [{ type: 'command', listener: Zotero.greenfrog.hooks.setExtraColumn }]
+  //     })
+  //   );
+  // var _window: Window = Zotero.getMainWindow();
+  // var tool_button = _window.document.createElement("toolbarbutton");
+  // tool_button.id = "zotero-tb-tara";
+  // tool_button.setAttribute("type", "button");
+  // tool_button.className = "zotero-tb-button";
+  // tool_button.style["list-style-image"] =
+  //   "url('chrome://greenfrog/content/icons/favicon@0.5x.png')";
+
+  // document
+  //   .querySelector("#zotero-collections-toolbar")
+  //   .appendChild(tool_button);
+  // }
 
   @example
   static async registerExtraColumn() {
