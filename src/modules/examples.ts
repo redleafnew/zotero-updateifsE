@@ -1,3 +1,4 @@
+import { ProgressWindowHelper } from "zotero-plugin-toolkit/dist/helpers/progressWindow";
 import { config } from "../../package.json";
 import { getString } from "./locale";
 import { njauCore, njauJournal } from "./njau";
@@ -763,37 +764,37 @@ export class UIExampleFactory {
       onpopupshowing: `Zotero.${config.addonInstance}.hooks.hideMenu()`,// 显示隐藏菜单
 
       children: [
-        // Author Bold and/ or Asterisk
+        // Author Bold and/ or Asterisk 作者加粗加星
         {
           tag: "menuitem",
           id: "zotero-toolboxmenu-auBoldStar",
           label: getString("auBoldStar"),
           // oncommand: "alert('Hello World! Sub Menuitem.')",
-          commandListener: (ev) => HelperExampleFactory.dialogAuBoldStar(),
+          commandListener: (ev) => HelperExampleFactory.dialogAuProcess(),
         },
-        // Clean Author Bold
+        // Clean Author Bold 清除作者加粗
         {
           tag: "menuitem",
           id: "zotero-toolboxmenu-cleanBold",
           label: getString("cleanBold"),
           // oncommand: "alert('Hello World! Sub Menuitem.')",
-          commandListener: (ev) => HelperExampleFactory.dialogAuBoldStar(),
+          commandListener: (ev) => HelperExampleFactory.cleanBold(),
         },
-        // Clean Author Asterisk
+        // Clean Author Asterisk清除作者加星
         {
           tag: "menuitem",
           id: "zotero-toolboxmenu-cleanStar",
           label: getString("cleanStar"),
           // oncommand: "alert('Hello World! Sub Menuitem.')",
-          commandListener: (ev) => HelperExampleFactory.dialogAuBoldStar(),
+          commandListener: (ev) => HelperExampleFactory.cleanStar(),
         },
-        // Clean Author Bold and Asterisk
+        // Clean Author Bold and Asterisk 清除作者加粗加星
         {
           tag: "menuitem",
           id: "zotero-toolboxmenu-cleanBoldStar",
           label: getString("cleanBoldStar"),
           // oncommand: "alert('Hello World! Sub Menuitem.')",
-          commandListener: (ev) => HelperExampleFactory.dialogAuBoldStar(),
+          commandListener: (ev) => HelperExampleFactory.cleanBoldAndStar(),
         },
         // Change Author Name to Title Case
         {
@@ -829,7 +830,7 @@ export class UIExampleFactory {
           id: "zotero-toolboxmenu-chPubTitle",
           label: getString("chPubTitle"),
           // oncommand: "alert('Hello World! Sub Menuitem.')",
-          commandListener: (ev) => HelperExampleFactory.dialogAuBoldStar(),
+          commandListener: (ev) => HelperExampleFactory.dialogChPubTitle(),
         },
         // Change Publication Title Case
         {
@@ -837,7 +838,7 @@ export class UIExampleFactory {
           id: "zotero-toolboxmenu-chPubTitleCase",
           label: getString("chPubTitleCase"),
           // oncommand: "alert('Hello World! Sub Menuitem.')",
-          commandListener: (ev) => HelperExampleFactory.dialogAuBoldStar(),
+          commandListener: (ev) => HelperExampleFactory.chPubTitleCase(),
         },
         // Item Title Find and Replace
         {
@@ -846,7 +847,7 @@ export class UIExampleFactory {
           label: getString("itemTitleFindReplace"),
           // oncommand: "alert(KeyExampleFactory.getSelectedItems())",
           // oncommand: `ztoolkit.getGlobal('alert')(${KeyExampleFactory.getSelectedItems()})`,
-          // commandListener: (ev) => KeyExampleFactory.setExtra(),
+          commandListener: (ev) => HelperExampleFactory.dialogItemTitleProcess(),
         },
         {
           tag: "menuseparator",
@@ -1441,6 +1442,329 @@ export class HelperExampleFactory {
     return whiteSpace;
   };
 
+  // 更改期刊名称
+  static async chPubTitle(searchText: string, repText: string) {
+    new ztoolkit.ProgressWindow(config.addonName)
+      .createLine({
+        text: 'find:' + searchText + 'replace:' + repText,
+        type: "success",
+        progress: 100,
+      })
+      .show();
+  }
+
+  // 更改期刊大小写
+  static async chPubTitleCase() {
+    var items: any = KeyExampleFactory.getSelectedItems();
+    var whiteSpace = HelperExampleFactory.whiteSpace();
+    var n = 0;
+    var newPubTitle = '';
+    if (items.length == 0) {
+      var alertInfo = getString('zeroItem');
+      this.progressWindow(alertInfo, 'fail');
+      return;
+    } else {
+      for (let item of items) {
+        var oldPubTitle = item.getField("publicationTitle").trim();//原题目
+        newPubTitle = titleCase(oldPubTitle). //转为词首字母大写
+          replace(' And ', ' and '). // 替换And
+          replace(' For ', ' for '). // 替换For
+          replace(' In ', ' in '). // 替换In
+          replace(' Of ', ' of '). // 替换Of
+          replace('Plos One', 'PLOS ONE').
+          replace('Plos', 'PLOS').
+          replace('Msystems', 'mSystems').
+          replace('Lwt', 'LWT').
+          replace('LWT-food', 'LWT-Food').
+          replace('LWT - food', 'LWT - Food').
+          replace('Ieee', 'IEEE').
+          replace('Gida', 'GIDA').
+          replace('Pnas', 'PNAS').
+          replace('Iscience', 'iScience')
+        item.setField("publicationTitle", newPubTitle);
+        await item.saveTx();
+        n++;
+      }
+      var statusInfo = n == 0 ? 'fail' : 'success';
+      // var itemNo = n > 1 ? 'success.pub.title.mul' : 'success.pub.title.sig';
+      alertInfo = n + whiteSpace + getString('successPubTitleCase');
+      this.progressWindow(alertInfo, statusInfo);
+    }
+
+    // 将单词转为首字母大写
+    function titleCase(str: any) {
+      var newStr = str.split(" ");
+      for (var i = 0; i < newStr.length; i++) {
+        newStr[i] = newStr[i].slice(0, 1).toUpperCase() + newStr[i].slice(1).toLowerCase();
+      }
+      return newStr.join(" ");
+    };
+  }
+  // 作者处理函数 加粗加星
+
+  @example
+  static async auProcess(author: string, process: string) {
+
+    var oldName = HelperExampleFactory.newNames(author, process)![0];
+    var newFirstName = HelperExampleFactory.newNames(author, process)![1];
+    var newLastName = HelperExampleFactory.newNames(author, process)![2];
+    var newFieldMode = HelperExampleFactory.newNames(author, process)![3]; // 0: two-field, 1: one-field (with empty first name)
+    var mergeedName = HelperExampleFactory.newNames(author, process)![4];
+    var mergeedNameNew = HelperExampleFactory.newNames(author, process)![5];
+
+    var rn = 0; //计数替换条目个数
+    //await Zotero.DB.executeTransaction(async function () {
+
+    var items = KeyExampleFactory.getSelectedItems();
+    if (items.length == 0) { // 如果没有选中条目则提示，中止
+      alertInfo = getString('zeroItem');
+      HelperExampleFactory.progressWindow(alertInfo, 'fail');
+    } else {
+      for (let item of items) {
+        let creators = item.getCreators();
+        let newCreators = [];
+        for (let creator of creators) {
+          if (`${creator.firstName} ${creator.lastName}`.trim() == oldName) {
+            (creator as any).firstName = newFirstName;
+            (creator.lastName as any) = newLastName;
+            (creator.fieldMode as any) = newFieldMode;
+            rn++;
+          }
+
+          if (`${HelperExampleFactory.replaceBoldStar(creator.lastName as any)}`.trim() == mergeedName) { // 针对已经合并姓名的
+            creator.firstName = '';
+            (creator.lastName as any) = mergeedNameNew;
+            (creator.fieldMode as any) = newFieldMode;
+            rn++;
+          }
+          if (`${HelperExampleFactory.replaceBoldStar(creator.firstName as any)} ${HelperExampleFactory.replaceBoldStar(creator.lastName as any)}`.trim() == oldName) {
+            (creator.firstName as any) = newFirstName;
+            (creator.lastName as any) = newLastName;
+            (creator.fieldMode as any) = newFieldMode;
+            rn++;
+          }
+          newCreators.push(creator);
+        }
+        item.setCreators(newCreators);
+        await item.save();
+      }
+
+      var whiteSpace = HelperExampleFactory.whiteSpace();
+      var statusInfo = rn > 0 ? 'success' : 'fail';
+      var alertInfo = `${rn} ${whiteSpace} ${getString('authorChanged')}`;
+      HelperExampleFactory.progressWindow(alertInfo, statusInfo);
+    }
+  };
+
+  @example
+  // 返回新的名字用以替换
+  static newNames(authorName: any, boldStar: any) {
+    var newName = [];
+    var splitName = '';
+    var oldName = '';
+    var newFirstName = '';
+    var newLastName = '';
+    // var reg = /[一-龟]/; // 匹配所有汉字
+    var reg = new RegExp("[\u4E00-\u9FA5]+"); // 匹配所有汉字
+    var mergeedName = '';
+    var mergeedNameNew = '';
+    var alertInfo = '';
+
+    if (authorName == '') { // 如果作者为空时提示
+      alertInfo = getString("authorEmpty");
+      HelperExampleFactory.progressWindow(alertInfo, 'fail');
+    } else if (!/\s/.test(authorName)) {  //检测输入的姓名中是否有空格,无空格提示
+      alertInfo = getString("authorNoSpace");
+      HelperExampleFactory.progressWindow(alertInfo, 'fail');
+    } else {
+
+      var splitName: string = authorName.split(/\s/); // 用空格分为名和姓
+      var firstName = splitName[1];
+      var lastName = splitName[0];
+      oldName = firstName + ' ' + lastName;
+      Zotero.debug(reg.test(authorName) + ': ture 为中文')
+      // 检测姓名是否为中文
+      if (reg.test(authorName)) { // 为真时匹配到中文
+        var newFieldMode = 1;  // 1中文时为合并
+        mergeedName = authorName.replace(/\s/, ''); // 中文姓名删除空格得到合并的姓名
+      } else {
+        newFieldMode = 0; // 0为拆分姓名，英文
+        mergeedName = oldName; // 英文姓名与原姓名相同
+      };
+
+      switch (boldStar) {
+        case 'boldStar':  // 加粗加星
+          mergeedNameNew = '<b>' + mergeedName + '*</b>';
+          newFirstName = '<b>' + firstName + '*</b>';
+          newLastName = '<b>' + lastName + '</b>';
+          if (reg.test(authorName)) { // 中文姓名
+            newFirstName = "";
+            newLastName = '<b>' + lastName + firstName + '*</b>';
+          };
+          break;
+        case 'bold': // 仅加粗
+
+          mergeedNameNew = '<b>' + mergeedName + '</b>';
+          newFirstName = '<b>' + firstName + '</b>';
+          newLastName = '<b>' + lastName + '</b>';
+          if (reg.test(authorName)) { // 中文姓名
+            newFirstName = "";
+            newLastName = '<b>' + lastName + firstName + '</b>';
+          };
+          break;
+        case 'star':  // 加粗加星
+
+          mergeedNameNew = mergeedName + '*';
+          newFirstName = firstName + '*';
+          newLastName = lastName;
+          if (reg.test(authorName)) { // 中文姓名
+            newFirstName = "";
+            newLastName = lastName + firstName + '*';
+          };
+          break;
+        case 'n':
+          break;
+
+      }
+      newName.push(oldName, newFirstName, newLastName, newFieldMode, mergeedName, mergeedNameNew)
+      return newName;
+    }
+
+  };
+  @example
+  //删除作者姓名中的粗体和星号标识
+  static replaceBoldStar(auName: string) {
+    return auName.replace(/<b>/g, '').replace(/<\/b>/g, '').replace(/\*/g, '');
+  };
+
+  // 清除加粗
+  static async cleanBold() {
+    var rn = 0;
+    var items = KeyExampleFactory.getSelectedItems();
+    if (items.length == 0) { // 如果没有选中条目则提示，中止
+      alertInfo = getString('zeroItem');
+      HelperExampleFactory.progressWindow(alertInfo, 'fail');
+      return;
+    }
+    for (let item of items) {
+      let creators = item.getCreators();
+      let newCreators = [];
+
+      for (let creator of creators) {
+        if (/<b>/.test(creator.firstName as any) || /<b>/.test(creator.lastName as any)) {  // 是否包含<b>
+
+          creator.firstName = creator.firstName!.replace(/<b>/g, '').replace(/<\/b>/g, '');
+          creator.lastName = creator.lastName!.replace(/<b>/g, '').replace(/<\/b>/g, '');
+          creator.fieldMode = creator.fieldMode;
+          rn++;
+        }
+        newCreators.push(creator);
+
+      }
+      item.setCreators(newCreators);
+
+      await item.saveTx();
+
+    }
+    var whiteSpace = HelperExampleFactory.whiteSpace();
+    var statusInfo = rn > 0 ? 'success' : 'fail';
+    var alertInfo = `${rn} ${whiteSpace} ${getString('authorChanged')}`;
+    HelperExampleFactory.progressWindow(alertInfo, statusInfo);
+
+  };
+
+
+
+  // 清除加星
+  static async cleanStar() {
+    var rn = 0;
+    var items = KeyExampleFactory.getSelectedItems();
+    if (items.length == 0) { // 如果没有选中条目则提示，中止
+      alertInfo = getString('zeroItem');
+      HelperExampleFactory.progressWindow(alertInfo, 'fail');
+      return;
+    }
+    for (let item of items) {
+      let creators = item.getCreators();
+      let newCreators = [];
+
+      for (let creator of creators) {
+        if (/\*/.test(creator.firstName as any) || /\*/.test(creator.lastName as any)) {
+
+          creator.firstName = creator.firstName!.replace(/\*/g, '');
+          creator.lastName = creator.lastName!.replace(/\*/g, '');
+          creator.fieldMode = creator.fieldMode;
+          rn++;
+        }
+        newCreators.push(creator);
+
+      }
+      item.setCreators(newCreators);
+
+      // await item.save();
+      await item.saveTx()
+
+    }
+    var whiteSpace = HelperExampleFactory.whiteSpace();
+    var statusInfo = rn > 0 ? 'success' : 'fail';
+    var alertInfo = `${rn} ${whiteSpace} ${getString('authorChanged')}`;
+    HelperExampleFactory.progressWindow(alertInfo, statusInfo);
+
+
+  };
+
+  // 清除加粗加星
+  static async cleanBoldAndStar() {
+    var rn = 0;
+    var items = KeyExampleFactory.getSelectedItems();
+    if (items.length == 0) { // 如果没有选中条目则提示，中止
+      alertInfo = getString('zeroItem');
+      HelperExampleFactory.progressWindow(alertInfo, 'fail');
+      return;
+    }
+    for (let item of items) {
+      let creators = item.getCreators();
+      let newCreators = [];
+
+      for (let creator of creators) {
+        if (/<b>/.test(creator.firstName as any) || /<b>/.test(creator.lastName as any)
+          || /\*/.test(creator.firstName as any) || /\*/.test(creator.lastName as any)) {  // 是否包含<b>
+
+          creator.firstName = creator.firstName!.
+            replace(/<b>/g, '').replace(/<\/b>/g, '').replace(/\*/g, '');
+          creator.lastName = creator.lastName!.
+            replace(/<b>/g, '').replace(/<\/b>/g, '').replace(/\*/g, '');
+
+          creator.fieldMode = creator.fieldMode;
+          rn++;
+        }
+        newCreators.push(creator);
+
+      }
+      item.setCreators(newCreators);
+
+      await item.saveTx();
+
+    }
+    var whiteSpace = HelperExampleFactory.whiteSpace();
+    var statusInfo = rn > 0 ? 'success' : 'fail';
+    var alertInfo = `${rn} ${whiteSpace} ${getString('authorChanged')}`;
+    HelperExampleFactory.progressWindow(alertInfo, statusInfo);
+
+  };
+
+  // 条目题目处理函数
+  @example
+  static async itemTitleFindRep(findText: string, repText: string) {
+    // var text = author;
+    new ztoolkit.ProgressWindow(config.addonName)
+      .createLine({
+        text: 'find:' + findText + 'replace:' + repText,
+        type: "success",
+        progress: 100,
+      })
+      .show();
+  }
   @example
   static async dialogExample() {
     const dialogData: { [key: string | number]: any } = {
@@ -1667,6 +1991,530 @@ export class HelperExampleFactory {
   }
 
   @example
+  // 作者处理对话框{
+  static async dialogAuProcess() {
+    var padding = '1px 1px 1px 1px';
+    var margin = '1px 1px 1px 30px';
+    var widthSmall = '60px';
+    var widthMiddle = '90px';
+    var widthLarge = '125px';
+    const dialog = new ztoolkit.Dialog(5, 3)
+      .addCell(0, 0, {
+        tag: "h4",
+        styles: {
+          height: "10px",
+          margin: margin,
+          // border: border,
+          padding: padding,
+        },
+        properties: { innerHTML: getString('authorProcess') },
+      },
+        false)
+      .addCell(1, 0, {
+        tag: "p",
+        styles: {
+          width: "460px",
+          padding: padding,
+          margin: margin,
+          // border: border,
+        },
+        properties: { innerHTML: getString('authorProcessName') },
+      },
+        false
+      )
+      .addCell(2, 0,
+        {
+          tag: "input",
+          id: "dialog-input4",
+          styles: {
+            width: "300px",
+            margin: '10px 1px 1px 70px',
+            // border: border,
+          },
+        },
+        false
+      )
+      .addCell(3, 0, { //作者加粗对话框
+        tag: "button",
+        namespace: "html",
+        styles: {
+          padding: padding,
+          margin: '1px 1px 1px 40px',
+          // border: border,
+        },
+        attributes: {
+          type: "button",
+        },
+        listeners: [
+          {
+            type: "click",
+            listener: (e: Event) => {
+              var author = (dialog.window.document.getElementById('dialog-input4') as HTMLInputElement).value;
+              this.auProcess(author, 'bold');
+            },
+          },
+        ],
+        children: [
+          {
+            tag: "div",
+            styles: {
+              width: widthSmall,
+              padding: padding,
+            },
+            properties: {
+              innerHTML: getString('boldLabel'),
+            },
+          },
+        ],
+      },
+        false
+      )
+      .addCell(3, 1, { //作者加星对话框
+        tag: "button",
+        styles: {
+          padding: padding,
+          margin: margin,
+
+        },
+        namespace: "html",
+        attributes: {
+          type: "button",
+        },
+        listeners: [
+          {
+            type: "click",
+            listener: (e: Event) => {
+              var author = (dialog.window.document.getElementById('dialog-input4') as HTMLInputElement).value;
+              this.auProcess(author, 'star');
+            },
+          },
+        ],
+        children: [
+          {
+            tag: "div",
+            styles: {
+              width: widthMiddle,
+              padding: padding,
+            },
+            properties: {
+              innerHTML: getString('starLabel'),
+            },
+          },
+        ],
+      },
+        false
+      )
+      .addCell(3, 2, { //作者加粗加星对话框
+        tag: "button",
+        styles: {
+          padding: padding,
+          margin: margin,
+          // border: border,
+        },
+        namespace: "html",
+        attributes: {
+          type: "button",
+        },
+        listeners: [
+          {
+            type: "click",
+            listener: (e: Event) => {
+              var author = (dialog.window.document.getElementById('dialog-input4') as HTMLInputElement).value;
+              this.auProcess(author, 'boldStar');
+            },
+          },
+        ],
+        children: [
+          {
+            tag: "div",
+            styles: {
+              width: widthLarge,
+              padding: padding,
+            },
+            properties: {
+              innerHTML: getString('boldStarLabel'),
+            },
+          },
+        ],
+      },
+        false
+      )
+      .addCell(4, 0, { //作者去粗
+        tag: "button",
+        styles: {
+          padding: padding,
+          margin: '1px 1px 1px 40px',
+          // border: border,
+        },
+        namespace: "html",
+        attributes: {
+          type: "button",
+        },
+        listeners: [
+          {
+            type: "click",
+            listener: (e: Event) => {
+              // var author = (dialog.window.document.getElementById('dialog-input4') as HTMLInputElement).value;
+              HelperExampleFactory.cleanBold();
+            },
+          },
+        ],
+        children: [
+          {
+            tag: "div",
+            styles: {
+              width: widthSmall,
+              padding: padding,
+              // margin: '20px 20px 20px 20px',
+            },
+            properties: {
+              innerHTML: getString('cleanBoldLabel'),
+            },
+          },
+        ],
+      },
+        false
+      )
+      .addCell(4, 1, { //作者去星
+        tag: "button",
+        styles: {
+          padding: padding,
+          margin: margin,
+          // border: border,
+        },
+        namespace: "html",
+        attributes: {
+          type: "button",
+        },
+        listeners: [
+          {
+            type: "click",
+            listener: (e: Event) => {
+              // var author = (dialog.window.document.getElementById('dialog-input4') as HTMLInputElement).value;
+              HelperExampleFactory.cleanStar();
+            },
+          },
+        ],
+        children: [
+          {
+            tag: "div",
+            styles: {
+              width: widthMiddle,
+              padding: padding,
+            },
+            properties: {
+              innerHTML: getString('cleanStarLabel'),
+            },
+          },
+        ],
+      },
+        false
+      )
+      .addCell(4, 2, { //作者去粗去星对话框
+        tag: "button",
+        styles: {
+          padding: padding,
+          margin: margin,
+          // border: border,
+        },
+        namespace: "html",
+        attributes: {
+          type: "button",
+        },
+        listeners: [
+          {
+            type: "click",
+            listener: (e: Event) => {
+              // var author = (dialog.window.document.getElementById('dialog-input4') as HTMLInputElement).value;
+              HelperExampleFactory.cleanBoldAndStar();
+            },
+          },
+        ],
+        children: [
+          {
+            tag: "div",
+            styles: {
+              width: widthLarge,
+              padding: padding,
+            },
+            properties: {
+              innerHTML: getString('cleanBoldStarLabel'),
+            },
+          },
+        ],
+      },
+        false
+      )
+      // .addButton(getString('boldLabel'), "boldButton", {
+      //   noClose: true,
+      //   callback: (e) => {
+      //     var text = (dialog.window.document.getElementById('dialog-input4') as HTMLInputElement).value;
+      //     new ztoolkit.ProgressWindow(config.addonName)
+      //       .createLine({
+      //         text: text,
+      //         type: "success",
+      //         progress: 100,
+      //       })
+      //       .show();
+
+      //   },
+      // })
+      // .setDialogData(dialogData)
+      .open(getString('authorProcessDiaTitle'),
+        {
+          width: 500,
+          height: 250,
+          centerscreen: true,
+          // fitContent: true,
+        }
+      );
+  }
+
+  @example
+  // 条目题目查找替换
+  static async dialogItemTitleProcess() {
+    var padding = '1px 1px 1px 1px';
+    const dialog = new ztoolkit.Dialog(5, 2)
+      .addCell(0, 0, {
+        tag: "h4",
+        styles: {
+          height: "10px",
+          margin: '1px 1px 1px 30px',
+          // border: border,
+          padding: padding,
+        },
+        properties: { innerHTML: getString('itemTitleFindReplaceLabel') },
+      },
+        false)
+      .addCell(1, 0, {
+        tag: "p",
+        styles: {
+          width: "460px",
+          padding: padding,
+          margin: '1px 1px 1px 30px',
+          // border: border,
+        },
+        properties: { innerHTML: getString('titleSearchReplaceLabel') },
+      },
+        false
+      )
+      .addCell(2, 0, {
+        tag: "p",
+        styles: {
+          width: "100px",
+          padding: padding,
+          margin: '5px 1px 1px 30px',
+          // border: border,
+        },
+        properties: { innerHTML: getString('titleSearLabel') },
+      },
+        false
+      )
+      .addCell(2, 1,
+        {
+          tag: "input",
+          id: "item-title-search-input",
+          styles: {
+            width: "300px",
+            margin: '10px 1px 1px 8px',
+            // border: border,
+          },
+        },
+        false
+      )
+      .addCell(3, 0, {
+        tag: "p",
+        styles: {
+          width: "100px",
+          padding: padding,
+          margin: '5px 1px 1px 30px',
+          // border: border,
+        },
+        properties: { innerHTML: getString('titleReplaceLabel') },
+      },
+        false
+      )
+      .addCell(3, 1,
+        {
+          tag: "input",
+          id: "item-title-replace-input",
+          styles: {
+            width: "300px",
+            margin: '10px 1px 1px 8px',
+            // border: border,
+          },
+        },
+        false
+      )
+      .addCell(4, 0, {
+        tag: "button",
+        styles: {
+          padding: padding,
+          margin: '1px 1px 1px 200px',
+          // border: border,
+        },
+        namespace: "html",
+        attributes: {
+          type: "button",
+        },
+        listeners: [
+          {
+            type: "click",
+            listener: (e: Event) => {
+              var searchText = (dialog.window.document.getElementById('item-title-search-input') as HTMLInputElement).value;
+              var repText = (dialog.window.document.getElementById('item-title-replace-input') as HTMLInputElement).value;
+              this.itemTitleFindRep(searchText, repText);
+            },
+          },
+        ],
+        children: [
+          {
+            tag: "div",
+            styles: {
+              width: '100px',
+              padding: padding,
+            },
+            properties: {
+              innerHTML: getString('titleReplaceButton'),
+            },
+          },
+        ],
+      },
+        false
+      )
+      .open(getString('titleSearchReplaceWin'),
+        {
+          width: 510,
+          height: 250,
+          centerscreen: true,
+          // fitContent: true,
+        }
+      );
+  }
+
+  @example
+  // 更改期刊题目
+  static async dialogChPubTitle() {
+    var padding = '1px 1px 1px 1px';
+    const dialog = new ztoolkit.Dialog(7, 1)
+      .addCell(0, 0, {
+        tag: "h4",
+        styles: {
+          height: "10px",
+          margin: '1px 1px 1px 30px',
+          // border: border,
+          padding: padding,
+        },
+        properties: { innerHTML: getString('change-pub-title') },
+      },
+        false)
+      .addCell(1, 0, {
+        tag: "p",
+        styles: {
+          width: "460px",
+          padding: padding,
+          margin: '1px 1px 1px 30px',
+          // border: border,
+        },
+        properties: { innerHTML: getString('change-pub-title-desc') },
+      },
+        false
+      )
+      .addCell(2, 0, {
+        tag: "p",
+        styles: {
+          width: "400px",
+          padding: padding,
+          margin: '15px 1px 1px 80px',
+          // border: border,
+        },
+        properties: { innerHTML: getString('old-pub-title') },
+      },
+        false
+      )
+      .addCell(3, 0,
+        {
+          tag: "input",
+          id: "change-pub-title-old",
+          styles: {
+            width: "300px",
+            margin: '10px 1px 1px 80px',
+            // border: border,
+          },
+        },
+        false
+      )
+      .addCell(4, 0, {
+        tag: "p",
+        styles: {
+          width: "400px",
+          padding: padding,
+          margin: '10px 1px 1px 80px',
+          // border: border,
+        },
+        properties: { innerHTML: getString('new-pub-title') },
+      },
+        false
+      )
+      .addCell(5, 0,
+        {
+          tag: "input",
+          id: "change-pub-title-new",
+          styles: {
+            width: "300px",
+            margin: '10px 1px 1px 80px',
+            // border: border,
+          },
+        },
+        false
+      )
+      .addCell(6, 0, {
+        tag: "button",
+        styles: {
+          padding: padding,
+          margin: '15px 1px 1px 150px',
+          // border: border,
+        },
+        namespace: "html",
+        attributes: {
+          type: "button",
+        },
+        listeners: [
+          {
+            type: "click",
+            listener: (e: Event) => {
+              var searchText = (dialog.window.document.getElementById('change-pub-title-old') as HTMLInputElement).value;
+              var repText = (dialog.window.document.getElementById('change-pub-title-new') as HTMLInputElement).value;
+              this.chPubTitle(searchText, repText);
+            },
+          },
+        ],
+        children: [
+          {
+            tag: "div",
+            styles: {
+              width: '150px',
+              padding: padding,
+            },
+            properties: {
+              innerHTML: getString('change-title-bn'),
+            },
+          },
+        ],
+      },
+        false
+      )
+      .open(getString('change-pub-title'),
+        {
+          width: 510,
+          height: 300,
+          centerscreen: true,
+          // fitContent: true,
+        }
+      );
+  }
+
+  @example
   // static async dialogExample() {
   static async dialogAuBoldStar() {
     const dialogData: { [key: string | number]: any } = {
@@ -1851,4 +2699,7 @@ export class HelperExampleFactory {
   static vtableExample() {
     ztoolkit.getGlobal("alert")("See src/modules/preferenceScript.ts");
   }
+}
+function replaceBoldStar(firstName: string | undefined) {
+  throw new Error("Function not implemented.");
 }
