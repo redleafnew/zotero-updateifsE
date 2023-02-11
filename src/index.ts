@@ -10,6 +10,7 @@ if (!basicTool.getGlobal("Zotero")[config.addonInstance]) {
   _globalThis.ZoteroPane = basicTool.getGlobal("ZoteroPane");
   _globalThis.Zotero_Tabs = basicTool.getGlobal("Zotero_Tabs");
   _globalThis.window = basicTool.getGlobal("window");
+  _globalThis.window.confirm = basicTool.getGlobal("confirm");
   _globalThis.document = basicTool.getGlobal("document");
   _globalThis.addon = new Addon();
   _globalThis.ztoolkit = addon.data.ztoolkit;

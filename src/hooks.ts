@@ -33,6 +33,7 @@ async function onStartup() {
     })
     .show();
 
+
   BasicExampleFactory.registerPrefs();
 
   BasicExampleFactory.registerNotifier();
@@ -117,14 +118,18 @@ async function onNotify(
 ) {
   // You can add your code to the corresponding notify type
   ztoolkit.log("notify", event, type, ids, extraData);
-  if (
-    event == "select" &&
-    type == "tab" &&
-    extraData[ids[0]].type == "reader"
-  ) {
-    BasicExampleFactory.exampleNotifierCallback();
-  } else {
-    return;
+  // if (
+  //   event == "select" &&
+  //   type == "tab" &&
+  //   extraData[ids[0]].type == "reader"
+  // ) {
+  //   BasicExampleFactory.exampleNotifierCallback();
+  // } else {
+  //   return;
+  // };
+  if (event == "add" && type == "item") {
+    // Add an item
+    BasicExampleFactory.exampleNotifierCallback(ids)
   }
 }
 

@@ -36,6 +36,8 @@ export class BasicExampleFactory {
           return;
         }
         addon.hooks.onNotify(event, type, ids, extraData);
+        // 增加条目时
+        // Zotero.Items.get(ids).filter(item => item.isRegularItem())
       },
     };
 
@@ -57,14 +59,19 @@ export class BasicExampleFactory {
   }
 
   @example
-  static exampleNotifierCallback() {
+  static exampleNotifierCallback(ids: any) {
+    var title = Zotero.Items.get(ids).getField('title');
     new ztoolkit.ProgressWindow(config.addonName)
       .createLine({
-        text: "Open Tab Detected!",
+        text: ids,
         type: "success",
         progress: 100,
       })
       .show();
+
+    // 增加条目时
+    //  Zotero.Items.get(ids).filter(item => item.isRegularItem())
+
   }
 
   @example
@@ -132,7 +139,7 @@ export class KeyExampleFactory {
         if (easyscholarData) { //如果得到easyscholar数据再写入
           // HelperExampleFactory.progressWindow(easyscholarData['sci'], 'success')
           if (jcr && easyscholarData['sci']) {
-            ztoolkit.ExtraField.setExtraField(item, 'JCR', easyscholarData['sci']);
+            ztoolkit.ExtraField.setExtraField(item, 'JCR分区', easyscholarData['sci']);
           }
           if (updated && easyscholarData['sciUp']) {
             ztoolkit.ExtraField.setExtraField(item, '中科院分区升级版', easyscholarData['sciUp']);
@@ -141,10 +148,10 @@ export class KeyExampleFactory {
             ztoolkit.ExtraField.setExtraField(item, '中科院分区基础版', easyscholarData['sciBase']);
           }
           if (ifs && easyscholarData['sciif']) {
-            ztoolkit.ExtraField.setExtraField(item, 'IF', easyscholarData['sciif']);
+            ztoolkit.ExtraField.setExtraField(item, '影响因子', easyscholarData['sciif']);
           }
           if (if5 && easyscholarData['sciif5']) {
-            ztoolkit.ExtraField.setExtraField(item, 'IF5', easyscholarData['sciif5']);
+            ztoolkit.ExtraField.setExtraField(item, '5年影响因子', easyscholarData['sciif5']);
           }
           if (eii && easyscholarData['eii']) {
             ztoolkit.ExtraField.setExtraField(item, 'EI', '是');
@@ -796,33 +803,33 @@ export class UIExampleFactory {
           // oncommand: "alert('Hello World! Sub Menuitem.')",
           commandListener: (ev) => HelperExampleFactory.cleanBoldAndStar(),
         },
-        // Change Author Name to Title Case
+        // Change Author Name to Title Case 更改作者大小写
         {
           tag: "menuitem",
           id: "zotero-toolboxmenu-chAuTitle",
           label: getString("chAuTitle"),
           // oncommand: "alert('Hello World! Sub Menuitem.')",
-          commandListener: (ev) => HelperExampleFactory.dialogAuBoldStar(),
+          commandListener: (ev) => HelperExampleFactory.changAuthorCase(),
         },
-        // Swap Authors First and Last Name
+        // Swap Authors First and Last Name 交换作者姓和名
         {
           tag: "menuitem",
           id: "zotero-toolboxmenu-swapAuName",
           label: getString("swapAuName"),
           // oncommand: "alert('Hello World! Sub Menuitem.')",
-          commandListener: (ev) => HelperExampleFactory.dialogAuBoldStar(),
+          commandListener: (ev) => HelperExampleFactory.swapAuthorName(),
         },
         {
           tag: "menuseparator",
           id: "zotero-toolboxmenu-sep1"
         },
-        // Change Title to Sentense Case
+        // Change Title to Sentense Case 条目题目大小写
         {
           tag: "menuitem",
           id: "zotero-toolboxmenu-chTitleCase",
           label: getString("chTitleCase"),
           // oncommand: "alert('Hello World! Sub Menuitem.')",
-          commandListener: (ev) => HelperExampleFactory.dialogAuBoldStar(),
+          commandListener: (ev) => HelperExampleFactory.chanItemTitleCase(),
         },
         // Change Publication Title
         {
@@ -832,7 +839,7 @@ export class UIExampleFactory {
           // oncommand: "alert('Hello World! Sub Menuitem.')",
           commandListener: (ev) => HelperExampleFactory.dialogChPubTitle(),
         },
-        // Change Publication Title Case
+        // Change Publication Title Case 更改期刊大小写
         {
           tag: "menuitem",
           id: "zotero-toolboxmenu-chPubTitleCase",
@@ -840,7 +847,7 @@ export class UIExampleFactory {
           // oncommand: "alert('Hello World! Sub Menuitem.')",
           commandListener: (ev) => HelperExampleFactory.chPubTitleCase(),
         },
-        // Item Title Find and Replace
+        // Item Title Find and Replace 条目题目查找替换
         {
           tag: "menuitem",
           id: "zotero-toolboxmenu-itemTitleFindReplace",
@@ -878,6 +885,12 @@ export class UIExampleFactory {
         // },
       ],
     });
+    ztoolkit.Menu.register("menuTools", {
+      tag: "menuitem",
+      label: getString("cleanExtra"),
+      commandListener: (ev) => HelperExampleFactory.emptyExtra(),
+
+    })
   }
 
   // 显示隐藏工具箱中的菜单
@@ -1225,8 +1238,8 @@ export class UIExampleFactory {
           item: Zotero.Item
         ) => {
           // return String(item.id);
-          var comprehensiveIF = ztoolkit.ExtraField.getExtraField(item, '综合影响因子')
-          return String(comprehensiveIF == undefined ? '' : comprehensiveIF);
+          var njauCore = ztoolkit.ExtraField.getExtraField(item, '南农核心期')
+          return String(njauCore == undefined ? '' : njauCore);
         },
       );
     } else {
@@ -1244,8 +1257,8 @@ export class UIExampleFactory {
           item: Zotero.Item
         ) => {
           // return String(item.id);
-          var comprehensiveIF = ztoolkit.ExtraField.getExtraField(item, '综合影响因子')
-          return String(comprehensiveIF == undefined ? '' : comprehensiveIF);
+          var njauJourIF = ztoolkit.ExtraField.getExtraField(item, '南农高质量期刊')
+          return String(njauJourIF == undefined ? '' : njauJourIF);
         },
       );
     } else {
@@ -1442,16 +1455,81 @@ export class HelperExampleFactory {
     return whiteSpace;
   };
 
-  // 更改期刊名称
-  static async chPubTitle(searchText: string, repText: string) {
-    new ztoolkit.ProgressWindow(config.addonName)
-      .createLine({
-        text: 'find:' + searchText + 'replace:' + repText,
-        type: "success",
-        progress: 100,
-      })
-      .show();
+  static async emptyExtra() {
+    var items: any = KeyExampleFactory.getSelectedItems();
+    if (items.length == 0) {
+      var alertInfo = getString('zeroItem');
+      this.progressWindow(alertInfo, 'fail');
+      return;
+    } else {
+
+      var truthBeTold = window.confirm(getString('cleanExtraAlt'));
+      if (truthBeTold) {
+        for (let item of items) {
+
+          if (item.isRegularItem() && !item.isCollection()) {
+            try {
+              item.setField('extra', '');
+              item.save();
+
+            } catch (error) {
+              Zotero.debug('Extra清空失败！')
+            }
+          }
+        }
+        var alertInfo = getString("cleanExtraSuc");
+        HelperExampleFactory.progressWindow(alertInfo, 'success');
+      }
+    }
   }
+
+  // 更改期刊名称
+  // static async chPubTitle(searchText: string, repText: string) {
+  //   new ztoolkit.ProgressWindow(config.addonName)
+  //     .createLine({
+  //       text: 'find:' + searchText + 'replace:' + repText,
+  //       type: "success",
+  //       progress: 100,
+  //     })
+  //     .show();
+  // }
+
+  // 更改期刊名称
+  static async chPubTitle(oldTitle: string, newTitle: string) {
+
+    // var oldTitle = document.getElementById('id-updateifs-old-title-textbox').value.trim();
+    // var newTitle = document.getElementById('id-updateifs-new-title-textbox').value.trim();
+    // 如果新或老题目为空则提示
+    if (oldTitle == '' || newTitle == '') {
+
+      var alertInfo = getString('pubTitleEmpty');
+      HelperExampleFactory.progressWindow(alertInfo, 'fail');
+
+    } else {
+      var items = KeyExampleFactory.getSelectedItems();
+      var n = 0;
+      var itemOldTitle = '';
+      if (items.length == 0) {
+        var alertInfo = getString('zeroItem');
+        this.progressWindow(alertInfo, 'fail');
+        return;
+      } else {
+        for (let item of items) {
+          itemOldTitle = (item.getField("publicationTitle") as any).trim();//原题目
+          if (oldTitle == itemOldTitle) { //如果和输入的相等则替换
+            item.setField("publicationTitle", newTitle);
+            await item.saveTx();
+            n++;
+          }
+        }
+        var statusInfo = n == 0 ? 'fail' : 'success';
+        var whiteSpace = HelperExampleFactory.whiteSpace();
+        alertInfo = n + whiteSpace + getString('successPubTitle');
+        HelperExampleFactory.progressWindow(alertInfo, statusInfo);
+      }
+    }
+
+  };
 
   // 更改期刊大小写
   static async chPubTitleCase() {
@@ -1466,7 +1544,7 @@ export class HelperExampleFactory {
     } else {
       for (let item of items) {
         var oldPubTitle = item.getField("publicationTitle").trim();//原题目
-        newPubTitle = titleCase(oldPubTitle). //转为词首字母大写
+        newPubTitle = HelperExampleFactory.titleCase(oldPubTitle). //转为词首字母大写
           replace(' And ', ' and '). // 替换And
           replace(' For ', ' for '). // 替换For
           replace(' In ', ' in '). // 替换In
@@ -1490,18 +1568,74 @@ export class HelperExampleFactory {
       alertInfo = n + whiteSpace + getString('successPubTitleCase');
       this.progressWindow(alertInfo, statusInfo);
     }
-
-    // 将单词转为首字母大写
-    function titleCase(str: any) {
-      var newStr = str.split(" ");
-      for (var i = 0; i < newStr.length; i++) {
-        newStr[i] = newStr[i].slice(0, 1).toUpperCase() + newStr[i].slice(1).toLowerCase();
-      }
-      return newStr.join(" ");
-    };
   }
-  // 作者处理函数 加粗加星
 
+  // 将题目改为句首字母大写
+  @example
+  static async chanItemTitleCase() {
+    var items: any = KeyExampleFactory.getSelectedItems();
+    var whiteSpace = HelperExampleFactory.whiteSpace();
+    var n = 0;
+
+    if (items.length == 0) {
+      var alertInfo = getString('zeroItem');
+      this.progressWindow(alertInfo, 'fail');
+      return;
+    } else {
+      for (let item of items) {
+
+        var title = item.getField('title');
+        if (HelperExampleFactory.detectUpCase(title)) {//如果条目题目全部为大写，转换并提醒
+          title = HelperExampleFactory.titleCase(title); // 转换为单词首字母大写
+          alertInfo = getString('allUpcase');
+          HelperExampleFactory.progressWindow(alertInfo, 'infomation');
+        }
+
+        var new_title = title.replace(/\b([A-Z][a-z0-9]+|A)\b/g, function (x: any) { return x.toLowerCase(); });
+        new_title = new_title.replace(/(^|\?\s*)[a-z]/, function (x: any) { return x.toUpperCase(); }).
+          replace('china', 'China'). // 替换china  代码来源于fredericky123，感谢。
+          replace('chinese', 'Chinese'). // 替换chinese
+          replace('america', 'America'). // 替换america
+          replace('english', 'English'). // 替换english
+          replace('england', 'England'). // 替换england
+          replace('3d', '3D').
+          replace('india', 'India').
+          // 替换india
+          //20220510 增加冒号后面为大写字母
+          // https://stackoverflow.com/questions/72180052/regexp-match-and-replace-to-its-uppercase-in-javascript#72180194
+          replace(/：|:\s*\w/, (fullMatch: string) => fullMatch.toUpperCase()); //匹配冒号后面的空格及一个字母，并转为大写
+        n++;
+        item.setField('title', new_title);
+        await item.saveTx();
+      }
+
+    }
+    var statusInfo = n == 0 ? 'fail' : 'success';
+    alertInfo = n + whiteSpace + getString('successItemTitleCase');
+    this.progressWindow(alertInfo, statusInfo);
+  }
+
+  // 检查句子是否为全部大写
+  static detectUpCase(word: string) {
+    var arr_is_uppercase = [];
+    for (var char of word) {
+      if (char.charCodeAt() < 97) {
+        arr_is_uppercase.push(1);   // 是大写就加入 1
+      } else {
+        arr_is_uppercase.push(0);   // 是小写就加入 0
+      }
+    }
+    var uppercase_sum = arr_is_uppercase.reduce((x, y) => x + y);
+    if (
+      uppercase_sum === word.length   // 全部为大写
+    ) {
+      return true;
+    } else {
+      return false;
+    }
+  };
+
+  // 作者处理函数 加粗加星
   @example
   static async auProcess(author: string, process: string) {
 
@@ -1753,18 +1887,121 @@ export class HelperExampleFactory {
 
   };
 
-  // 条目题目处理函数
   @example
-  static async itemTitleFindRep(findText: string, repText: string) {
-    // var text = author;
-    new ztoolkit.ProgressWindow(config.addonName)
-      .createLine({
-        text: 'find:' + findText + 'replace:' + repText,
-        type: "success",
-        progress: 100,
-      })
-      .show();
+  // 交换作者姓和名
+  static async swapAuthorName() {
+    var rn = 0; //计数替换条目个数
+    //var newFieldMode = 0; // 0: two-field, 1: one-field (with empty first name)
+    var items = KeyExampleFactory.getSelectedItems();
+    if (items.length == 0) { // 如果没有选中条目则提示，中止
+      alertInfo = getString('zeroItem');
+      HelperExampleFactory.progressWindow(alertInfo, 'fail');
+      return;
+    } else {
+      for (let item of items) {
+        let creators = item.getCreators();
+        let newCreators = [];
+        for (let creator of creators) {
+          // if (`${creator.firstName} ${creator.lastName}`.trim() == oldName) {
+          let firstName = creator.firstName;
+          let lastName = creator.lastName;
+
+          creator.firstName = lastName;
+          creator.lastName = firstName;
+          creator.fieldMode = creator.fieldMode;
+          newCreators.push(creator);
+        }
+        item.setCreators(newCreators);
+        rn++;
+        await item.save();
+      }
+
+    }
+    var whiteSpace = HelperExampleFactory.whiteSpace();
+    var statusInfo = rn > 0 ? 'success' : 'fail';
+    var alertInfo = rn + whiteSpace + getString('itemAuSwapped');
+    HelperExampleFactory.progressWindow(alertInfo, statusInfo);
+  };
+
+  // 更改作者名称大小写
+  @example
+  static async changAuthorCase() {
+    var rn = 0; //计数替换条目个数
+    // var newFieldMode = 0; // 0: two-field, 1: one-field (with empty first name)
+    //await Zotero.DB.executeTransaction(async function () {
+    var items = KeyExampleFactory.getSelectedItems();
+    if (items.length == 0) { // 如果没有选中条目则提示，中止
+      alertInfo = getString('zeroItem');
+      HelperExampleFactory.progressWindow(alertInfo, 'fail');
+      return;
+    } else {
+      for (let item of items) {
+        var creators = item.getCreators();
+        let newCreators = [];
+        for (let creator of creators) {
+          creator.firstName = HelperExampleFactory.titleCase(creator.firstName!.trim());
+          creator.lastName = HelperExampleFactory.titleCase(creator.lastName!.trim());
+          creator.fieldMode = creator.fieldMode;
+          newCreators.push(creator);
+        }
+        item.setCreators(newCreators);
+        await item.save();
+        rn++;
+      }
+    }
+    var whiteSpace = HelperExampleFactory.whiteSpace();
+    var statusInfo = rn > 0 ? 'success' : 'fail';
+    var alertInfo = `${rn} ${whiteSpace} ${getString('itemAuthorChanged')}`;
+    HelperExampleFactory.progressWindow(alertInfo, statusInfo);
+  };
+
+  // 将单词转为首字母大写
+  static titleCase(str: string) {
+    var newStr = str.split(" ");
+    for (var i = 0; i < newStr.length; i++) {
+      newStr[i] = newStr[i].slice(0, 1).toUpperCase() + newStr[i].slice(1).toLowerCase();
+    }
+    return newStr.join(" ");
+  };
+
+
+  // 条目题目处理函数 条目查找替换
+  @example
+  static async itemTitleFindRep(oldTitle: string, newTitle: string) {
+    // 如果新或老题目为空则提示
+    if (oldTitle == '' || newTitle == '') {
+      var alertInfo = getString('titleEmpty');
+      HelperExampleFactory.progressWindow(alertInfo, 'fail');
+    } else if (oldTitle == newTitle) {
+      alertInfo = getString('findRepSame');
+      HelperExampleFactory.progressWindow(alertInfo, 'fail');
+    } else {
+      var n = 0;
+      var itemOldTitle = ''; // 原题目
+      var replaced_title = ''; // 新题目
+      var items = KeyExampleFactory.getSelectedItems();
+      if (items.length == 0) { // 如果没有选中条目则提示，中止
+        alertInfo = getString('zeroItem');
+        HelperExampleFactory.progressWindow(alertInfo, 'fail');
+        return;
+      } else {
+        for (let item of items) {
+          itemOldTitle = (item.getField('title') as any).trim(); //原题目
+          if (itemOldTitle.indexOf(oldTitle) != -1) { //如果包含原字符
+            replaced_title = itemOldTitle.replace(oldTitle, newTitle);
+            item.setField('title', replaced_title);
+            await item.saveTx();
+            n++;
+          }
+        }
+      }
+      var whiteSpace = HelperExampleFactory.whiteSpace();
+      var statusInfo = n > 0 ? 'success' : 'fail';
+      var alertInfo = `${n} ${whiteSpace} ${getString('itemTitleFindRepSuc')}`;
+      HelperExampleFactory.progressWindow(alertInfo, statusInfo);
+    }
   }
+
   @example
   static async dialogExample() {
     const dialogData: { [key: string | number]: any } = {
@@ -2393,7 +2630,7 @@ export class HelperExampleFactory {
   }
 
   @example
-  // 更改期刊题目
+  // 更改期刊题目对话框
   static async dialogChPubTitle() {
     var padding = '1px 1px 1px 1px';
     const dialog = new ztoolkit.Dialog(7, 1)
@@ -2515,17 +2752,11 @@ export class HelperExampleFactory {
   }
 
   @example
-  // static async dialogExample() {
+  // 作者处理对话框：加粗、加星、去粗、去星
   static async dialogAuBoldStar() {
     const dialogData: { [key: string | number]: any } = {
       inputValue: "test",
       checkboxValue: true,
-      // loadCallback: () => {
-      //   ztoolkit.log(dialogData, "Dialog Opened!");
-      // },
-      // unloadCallback: () => {
-      //   ztoolkit.log(dialogData, "Dialog closed!");
-      // },
     };
     const dialog = new ztoolkit.Dialog(5, 2)
       .addCell(0, 0, {
