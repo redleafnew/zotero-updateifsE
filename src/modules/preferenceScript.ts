@@ -117,7 +117,21 @@ async function updatePrefsUI() {
 }
 
 function bindPrefEvents() {
+
   // 监听首选项中各个checkbox的变化
+
+  // update journal abbr
+  // 当更新期刊禁用时，禁用期刊是否带点选项
+  addon.data
+    .prefs!.window.document.querySelector(
+      `#zotero-prefpane-${config.addonRef}-update-abbr`
+    )
+    ?.addEventListener("command", (e) => {
+      ztoolkit.log(e);
+      UIExampleFactory.disableUppJourAbbDot();
+
+    });
+
   // JCR
   addon.data
     .prefs!.window.document.querySelector(
@@ -126,7 +140,9 @@ function bindPrefEvents() {
     ?.addEventListener("command", (e) => {
       ztoolkit.log(e);
       UIExampleFactory.registerExtraColumn();
+
     });
+
   // CAS基础版
   addon.data
     .prefs!.window.document.querySelector(
@@ -245,6 +261,7 @@ function bindPrefEvents() {
       UIExampleFactory.registerExtraColumn();
     });
 
+  // 禁用添加新条目自动更新
   (addon.data
     .prefs!.window.document.getElementById(
       `zotero-prefpane-${config.addonRef}-add-update`

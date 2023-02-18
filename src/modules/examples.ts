@@ -107,7 +107,7 @@ export class KeyExampleFactory {
     var items = collection?.getChildItems();
     await KeyExampleFactory.setExtra(items);
   }
-  //条目右键更新信息
+  //条目右键更新信息 右键菜单执行函数
   @example
   static async setExtraItems() {
     var items = Zotero.getActiveZoteroPane().getSelectedItems();
@@ -120,6 +120,8 @@ export class KeyExampleFactory {
       if (UIExampleFactory.checkItem(item)) {  //如果是期刊才继续
         var easyscholarData = await KeyExampleFactory.getIFs(item); //得到easyscholar数据
         var chineseIFs = await KeyExampleFactory.getChineseIFs(item); //综合影响因子、复合影响因子
+
+
         // 加: any为了后面不报错
         var jcr: any = Zotero.Prefs.get(`extensions.zotero.${config.addonRef}.jcr.qu`, true);
         var basic: any = Zotero.Prefs.get(`extensions.zotero.${config.addonRef}.basic`, true);
@@ -186,12 +188,20 @@ export class KeyExampleFactory {
         if (njauJourShow) {
           ztoolkit.ExtraField.setExtraField(item, '南农高质量期刊', njauJournal(item));
         }
+        // 期刊缩写更新
+        try {
+          HelperExampleFactory.upJourAbb(item);
+        } catch (error) {
+          Zotero.debug('期刊缩写更新失败！')
+
+        }
         item.saveTx();
         n++
       }
     }
     var whiteSpace = HelperExampleFactory.whiteSpace();
     HelperExampleFactory.progressWindow(`${n}${whiteSpace}${getString('upIfsSuccess')}`, 'success')
+
   }
 
   @example
@@ -880,8 +890,8 @@ export class UIExampleFactory {
         // {
         //   tag: "menuitem",
         //   id: "zotero-toolboxmenu-refresh",
-        //   label: 'Refresh',
-        //   commandListener: (ev) => Zotero.greenfrog.hooks.setExtraColumn(),
+        //   label: '缩写',
+        //   commandListener: (ev) => HelperExampleFactory.upJourAbb(),
         // },
       ],
     });
@@ -944,11 +954,7 @@ export class UIExampleFactory {
 
     // menuboldStar?.setAttribute('disabled', 'true');
     // (document.getElementById('zotero-toolboxmenu-auBoldStar') as HTMLElement).hidden = !boldStar;
-    // Zotero.Prefs.get(`extensions.zotero.${config.addonRef}.add.update`, true);
-    // Zotero.Prefs.get(`extensions.zotero.${config.addonRef}.update.abbr`, true);
-    // Zotero.Prefs.get(`extensions.zotero.${config.addonRef}.update.abbr.dot`, true);
-    // Zotero.Prefs.get(`extensions.zotero.${config.addonRef}.en.abbr`, true);
-    // Zotero.Prefs.get(`extensions.zotero.${config.addonRef}.ch.abbr`, true);
+
 
 
   }
@@ -978,6 +984,18 @@ export class UIExampleFactory {
   //   .querySelector("#zotero-collections-toolbar")
   //   .appendChild(tool_button);
   // }
+  @example
+  // 当更新期刊禁用时，禁用期刊是否带点选项
+  static disableUppJourAbbDot() {
+    var cbUpJourAbbDot = addon.data.prefs!.window.document.getElementById(`zotero-prefpane-${config.addonRef}-update-abbr-dot`);
+    var upAbbr = Zotero.Prefs.get(`extensions.zotero.${config.addonRef}.update.abbr`, true);
+    // HelperExampleFactory.progressWindow(`${upAbbr} check`, 'default');
+    cbUpJourAbbDot?.setAttribute('disabled', String(!upAbbr)); // 当更新期刊禁用时，禁用期刊是否带点选项
+    //
+    //
+
+  }
+
 
   @example
   static async registerExtraColumn() {
@@ -1634,6 +1652,83 @@ export class HelperExampleFactory {
       return false;
     }
   };
+
+  // 更新期刊缩写
+  static async upJourAbb(item: Zotero.Item) {//
+    // var items = ZoteroPane.getSelectedItems();
+    // var item = items[0];
+
+
+    // 得到期刊缩写设置
+    // Zotero.Prefs.get(`extensions.zotero.${config.addonRef}.add.update`, true);
+
+    var upJourAbb = Zotero.Prefs.get(`extensions.zotero.${config.addonRef}.update.abbr`, true);
+    var dotAbb = Zotero.Prefs.get(`extensions.zotero.${config.addonRef}.update.abbr.dot`, true);
+    var enAbb = Zotero.Prefs.get(`extensions.zotero.${config.addonRef}.en.abbr`, true);
+    var chAbb = Zotero.Prefs.get(`extensions.zotero.${config.addonRef}.ch.abbr`, true);
+
+    var pattern = new RegExp("[\u4E00-\u9FA5]+");
+    var title = String(item.getField("title"));
+    var lan = pattern.test(title) ? 'zh-CN' : 'en-US'; // 得到条目语言
+    // lan == 'en-US'英文条目
+    // lan == 'zh-CN'中文条目
+
+
+    // var lanItem = item.getField('language');
+
+    // var enItem = /en|English/.test(lanItem as any)
+    // var chItem = /ch|zh|中文|CN/.test(lanItem as any)
+
+    var pubT = item.getField('publicationTitle');
+    if (upJourAbb) {
+      try {
+        var jourAbbs = await HelperExampleFactory.getJourAbb(item); // 得到带点和不带点的缩写
+      } catch (e) {
+        Zotero.debug('获取期刊缩写失败');
+      }
+      if (jourAbbs["record"] != 0) {
+        try {
+          var jourAbb = dotAbb ? jourAbbs["abb_with_dot"] : jourAbbs["abb_no_dot"];
+          item.setField('journalAbbreviation', jourAbb);
+
+        } catch (e) {
+          return;
+        }
+        // 英文如果找不到缩写是否用全称代替
+      } else if (enAbb && lan == 'en-US') {
+        item.setField('journalAbbreviation', pubT);
+        // 中文如果找不到缩写是否用全称代替
+      } else if (chAbb && lan == 'zh-CN') {
+        item.setField('journalAbbreviation', pubT);
+      }
+    }
+    //return jourAbbs
+    item.saveTx();
+  };
+
+  // 得到期刊缩写
+  static async getJourAbb(item: Zotero.Item) {
+    var pubT = item.getField('publicationTitle');
+    var url = "https://www.linxingzhong.top/journal";
+    var postData = {
+      key: "journal",
+      "fullname": pubT
+    };
+    var headers = { "Content-Type": "application/json" };
+    // Maybe need to set max retry in this post request.
+    var resp = await Zotero.HTTP.request("POST", url, {
+      body: JSON.stringify(postData),
+      headers: headers,
+    });
+    try {
+      var record = JSON.parse(resp.responseText);
+      return record;
+    } catch (e) {
+      return;
+    }
+  };
+
+
 
   // 作者处理函数 加粗加星
   @example

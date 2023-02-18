@@ -1,12 +1,14 @@
 pref("extensions.zotero.__addonRef__.enable", true);
 pref("extensions.zotero.__addonRef__.enable1", false);
 pref("extensions.zotero.__addonRef__.input", "This is input");
-
+// 期刊缩写
 pref("extensions.zotero.__addonRef__.add.update", false);
 pref("extensions.zotero.__addonRef__.update.abbr", true);
 pref("extensions.zotero.__addonRef__.update.abbr.dot", true);
 pref("extensions.zotero.__addonRef__.en.abbr", true);
 pref("extensions.zotero.__addonRef__.ch.abbr", true);
+
+// 影响因子
 pref("extensions.zotero.__addonRef__.njau.core", true);
 pref("extensions.zotero.__addonRef__.njau.high.quality", true);
 pref("extensions.zotero.__addonRef__.jcr.qu", true);

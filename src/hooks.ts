@@ -143,6 +143,7 @@ async function onPrefsEvent(type: string, data: { [key: string]: any }) {
   switch (type) {
     case "load":
       registerPrefsScripts(data.window);
+      UIExampleFactory.disableUppJourAbbDot(); // 当更新期刊禁用时，禁用期刊是否带点选项
       break;
     default:
       return;
