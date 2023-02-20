@@ -4,7 +4,7 @@
 <!ENTITY zotero.__addonRef__.update.abbr "Update journal abbreviation">
 <!ENTITY zotero.__addonRef__.update.abbr.dot "Journal abbreviation with dot">
 <!ENTITY zotero.__addonRef__.en.abbr "Use full publication title to replace journal abbreviation for English item when the journal is not found">
-<!ENTITY zotero.__addonRef__.ch.abbr "Use full publication title to replace journal abbreviation for Chinese item">
+<!ENTITY zotero.__addonRef__.ch.abbr "Use full publication title to replace journal abbreviation for Chinese item when the journal is not found">
 
 
 <!-- 南农核心期刊设置 -->

@@ -113,21 +113,15 @@ function onShutdown(): void {
 async function onNotify(
   event: string,
   type: string,
-  ids: Array<string>,
+  ids: Array<string | number>,
   extraData: { [key: string]: any }
 ) {
   // You can add your code to the corresponding notify type
   ztoolkit.log("notify", event, type, ids, extraData);
-  // if (
-  //   event == "select" &&
-  //   type == "tab" &&
-  //   extraData[ids[0]].type == "reader"
-  // ) {
-  //   BasicExampleFactory.exampleNotifierCallback();
-  // } else {
-  //   return;
-  // };
+
   if (event == "add" && type == "item") {
+    //Zotero.debug(`添加条目了${ids}！`)
+
     // Add an item
     BasicExampleFactory.exampleNotifierCallback(ids)
   }
@@ -166,27 +160,7 @@ function onShortcuts(type: string) {
   }
 }
 
-function onDialogEvents(type: string) {
-  switch (type) {
-    case "dialogExample":
-      HelperExampleFactory.dialogExample();
-      break;
-    case "clipboardExample":
-      HelperExampleFactory.clipboardExample();
-      break;
-    case "filePickerExample":
-      HelperExampleFactory.filePickerExample();
-      break;
-    case "progressWindowExample":
-      HelperExampleFactory.progressWindowExample();
-      break;
-    case "vtableExample":
-      HelperExampleFactory.vtableExample();
-      break;
-    default:
-      break;
-  }
-}
+
 
 // Add your hooks here. For element click, etc.
 // Keep in mind hooks only do dispatch. Don't add code that does real jobs in hooks.
@@ -200,7 +174,6 @@ export default {
   onNotify,
   onPrefsEvent,
   onShortcuts,
-  onDialogEvents,
   hideMenu,
   // setExtraColumn,
   // getSelectedItems,

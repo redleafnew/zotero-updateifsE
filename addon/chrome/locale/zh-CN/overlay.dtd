@@ -1,51 +1,51 @@
 <!-- 期刊影响因子设置 -->
 <!ENTITY zotero.__addonRef__.journal.setting "期刊更新设置">
-<!ENTITY zotero.__addonRef__.add.update "Update journal information when adding item">
-<!ENTITY zotero.__addonRef__.update.abbr "Update journal abbreviation">
-<!ENTITY zotero.__addonRef__.update.abbr.dot "Journal abbreviation with dot">
-<!ENTITY zotero.__addonRef__.en.abbr "Use full publication title to replace journal abbreviation for English item when the journal is not found">
-<!ENTITY zotero.__addonRef__.ch.abbr "Use full publication title to replace journal abbreviation for Chinese item">
+<!ENTITY zotero.__addonRef__.add.update "添加条目时更新期刊信息">
+<!ENTITY zotero.__addonRef__.update.abbr "更新期刊缩写">
+<!ENTITY zotero.__addonRef__.update.abbr.dot "期刊缩写带点">
+<!ENTITY zotero.__addonRef__.en.abbr "如果英文条目查询不到, 期刊缩写使用期刊全称">
+<!ENTITY zotero.__addonRef__.ch.abbr "如果中文条目查询不到, 期刊缩写使用期刊全称">
 
 
 <!-- 南农核心期刊设置 -->
-<!ENTITY zotero.__addonRef__.njau.core.high.quality "NJAU Core and Hight Quality Journal Settings (only for Food Science and Technology">
-<!ENTITY zotero.__addonRef__.njau.core "NJAU Core Journal">
-<!ENTITY zotero.__addonRef__.njau.high.quality "NJAU High Quality Journal">
+<!ENTITY zotero.__addonRef__.njau.core.high.quality "南农核心与高质量期刊(仅食品科学)">
+<!ENTITY zotero.__addonRef__.njau.core "南农核心期刊">
+<!ENTITY zotero.__addonRef__.njau.high.quality "南农高质量期刊">
 
 <!-- 分区类型设置 --><!-- 影响因子设置 -->
-<!ENTITY zotero.__addonRef__.ifs.setting "Quartile and IF Settings">
-<!ENTITY zotero.__addonRef__.jcr.qu "JCR Quartile">
-<!ENTITY zotero.__addonRef__.basic "CAS Basic verison">
-<!ENTITY zotero.__addonRef__.updated "CAS Updated version">
-<!ENTITY zotero.__addonRef__.sci.if "IF">
-<!ENTITY zotero.__addonRef__.sci.if5 "5 Year IF">
-<!ENTITY zotero.__addonRef__.ei "EI">
+<!ENTITY zotero.__addonRef__.ifs.setting "分区与影响因子设置">
+<!ENTITY zotero.__addonRef__.jcr.qu "JCR分区">
+<!ENTITY zotero.__addonRef__.basic "中科院基础版">
+<!ENTITY zotero.__addonRef__.updated "中科院升级版">
+<!ENTITY zotero.__addonRef__.sci.if "影响因子(IF)">
+<!ENTITY zotero.__addonRef__.sci.if5 "5年影响因子">
+<!ENTITY zotero.__addonRef__.ei "工程索引(EI)">
 
-<!ENTITY zotero.__addonRef__.chjcscd "CSCD">
-<!ENTITY zotero.__addonRef__.pku.core "PKU Core">
-<!ENTITY zotero.__addonRef__.nju.core "NJU Core">
-<!ENTITY zotero.__addonRef__.sci.core "Show Sci &amp; Tech Core Journal">  <!-- https://www.ascii-code.com/表示&-->
-<!ENTITY zotero.__addonRef__.com.if "Compound IF">
-<!ENTITY zotero.__addonRef__.agg.if "Comprehensive IF">
+<!ENTITY zotero.__addonRef__.chjcscd "中国科学引文数据库(CSCD)">
+<!ENTITY zotero.__addonRef__.pku.core "核心期刊/北大核心">
+<!ENTITY zotero.__addonRef__.nju.core "南农核心">
+<!ENTITY zotero.__addonRef__.sci.core "显示科技核心">  <!-- https://www.ascii-code.com/表示&-->
+<!ENTITY zotero.__addonRef__.com.if "复合影响因子">
+<!ENTITY zotero.__addonRef__.agg.if "综合影响因子">
 
 <!-- 菜单显示隐藏设置 -->
 
-<!ENTITY zotero.__addonRef__.menu.setting "Show Toolbox Menu Settings">
-<!ENTITY zotero.__addonRef__.bold.star "Author Bold and/or Asterisk">
-<!ENTITY zotero.__addonRef__.remove.bold "Clean Author Bold">
-<!ENTITY zotero.__addonRef__.remove.star "Clean Author Asterisk">
-<!ENTITY zotero.__addonRef__.remove.bold.star "Clean Author Bold and Asterisk">
-<!ENTITY zotero.__addonRef__.chang.author.case "Change Author Name to Title Case">
-<!ENTITY zotero.__addonRef__.swap.author "Swap Authors First and Last Name">
-<!ENTITY zotero.__addonRef__.chang.title "Change Title to Sentense Case">
-<!ENTITY zotero.__addonRef__.chang.pub.title "Change Publication Title">
-<!ENTITY zotero.__addonRef__.chang.pub.title.case "Change Publication Title Case">
-<!ENTITY zotero.__addonRef__.item.title.find.replace.tip "Find and replace in item title.">
-<!ENTITY zotero.__addonRef__.item.title.find.replace "Item Title Find and Replace">
-<!ENTITY zotero.__addonRef__.show.profile.dir "Show Porfile Directory">
-<!ENTITY zotero.__addonRef__.show.data.dir "Show Data Directory">
-<!ENTITY zotero.__addonRef__.menu.sep.1 "Separator 1">
-<!ENTITY zotero.__addonRef__.menu.sep.2 "Separator 2">
+<!ENTITY zotero.__addonRef__.menu.setting "显示工具箱菜单设置">
+<!ENTITY zotero.__addonRef__.bold.star "作者加粗/加星">
+<!ENTITY zotero.__addonRef__.remove.bold "清除作者加粗">
+<!ENTITY zotero.__addonRef__.remove.star "清除作者加星">
+<!ENTITY zotero.__addonRef__.remove.bold.star "清除作者加粗加星">
+<!ENTITY zotero.__addonRef__.chang.author.case "更改姓名为词首字母大写">
+<!ENTITY zotero.__addonRef__.swap.author "更改作者姓和名">
+<!ENTITY zotero.__addonRef__.chang.title "更改题目为句首大小写">
+<!ENTITY zotero.__addonRef__.chang.pub.title "更改期刊名称">
+<!ENTITY zotero.__addonRef__.chang.pub.title.case "更改期刊名称大小写">
+<!ENTITY zotero.__addonRef__.item.title.find.replace.tip "条目题目查找替换">
+<!ENTITY zotero.__addonRef__.item.title.find.replace "题目查找替换">
+<!ENTITY zotero.__addonRef__.show.profile.dir "显示配置目录">
+<!ENTITY zotero.__addonRef__.show.data.dir "显示数据目录">
+<!ENTITY zotero.__addonRef__.menu.sep.1 "分隔条1">
+<!ENTITY zotero.__addonRef__.menu.sep.2 "分隔条2">
 
 
 <!ENTITY zotero.__addonRef__.pref.title "插件模板设置示例">

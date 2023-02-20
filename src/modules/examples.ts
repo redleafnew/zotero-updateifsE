@@ -28,7 +28,7 @@ export class BasicExampleFactory {
       notify: async (
         event: string,
         type: string,
-        ids: Array<string>,
+        ids: Array<string | number>,
         extraData: { [key: string]: any }
       ) => {
         if (!addon?.data.alive) {
@@ -42,6 +42,7 @@ export class BasicExampleFactory {
     };
 
     // Register the callback in Zotero as an item observer
+
     const notifierID = Zotero.Notifier.registerObserver(callback, [
       "tab",
       "item",
@@ -59,19 +60,26 @@ export class BasicExampleFactory {
   }
 
   @example
-  static exampleNotifierCallback(ids: any) {
-    var title = Zotero.Items.get(ids).getField('title');
-    new ztoolkit.ProgressWindow(config.addonName)
-      .createLine({
-        text: ids,
-        type: "success",
-        progress: 100,
-      })
-      .show();
-
-    // 增加条目时
+  static async exampleNotifierCallback(ids: any) {
+    // 增加条目时 新增条目时
     //  Zotero.Items.get(ids).filter(item => item.isRegularItem())
+    var items = Zotero.Items.get(ids);
+    // await KeyExampleFactory.setExtra(items);
 
+    // 得到添加的条目总数
+    // var items = Zotero.Items.get(ids);
+    // Zotero.debug(`ccc添加条目了${ids}！`)
+    // HelperExampleFactory.progressWindow(ids, "success");
+
+    // HelperExampleFactory.progressWindow('ccc添加条目了${title}！', "success");
+    // try {
+    //   var items = Zotero.Items.get(ids);
+    //   var item = items[0];
+    //   var title = item.getField('title');
+    //   HelperExampleFactory.progressWindow(`ccc添加条目了${title}！`, "success");
+    // } catch (error) {
+    //   Zotero.debug(error)
+    // }
   }
 
   @example
@@ -531,6 +539,7 @@ export class KeyExampleFactory {
       },
     });
     // Register an event key to check confliction
+
     ztoolkit.Shortcut.register("event", {
       id: `${config.addonRef}-key-check-conflict`,
       key: "C",
@@ -539,12 +548,14 @@ export class KeyExampleFactory {
         addon.hooks.onShortcuts("confliction");
       },
     });
+    /*
     new ztoolkit.ProgressWindow(config.addonName)
       .createLine({
         text: "Example Shortcuts: Alt+L/S/C",
         type: "success",
       })
       .show();
+    */
   }
 
   @example
@@ -569,7 +580,7 @@ export class KeyExampleFactory {
 
   @example
   static exampleShortcutConflictionCallback() {
-    const conflictionGroups = ztoolkit.Shortcut.checkAllKeyConfliction();
+    const conflictionGroups = ztoolkit.Shortcut.checkAllKeyConflicting();
     new ztoolkit.ProgressWindow("Check Key Confliction")
       .createLine({
         text: `${conflictionGroups.length} groups of confliction keys found. Details are in the debug output/console.`,
@@ -1018,7 +1029,7 @@ export class UIExampleFactory {
       // JCR
       await ztoolkit.ItemTree.register(
         "JCR",
-        "JCR",
+        getString("JCR"),
         (
           field: string,
           unformatted: boolean,
@@ -1076,7 +1087,7 @@ export class UIExampleFactory {
       // 影响因子
       await ztoolkit.ItemTree.register(
         "IF",
-        "IF",
+        getString("IF"),
         (
           field: string,
           unformatted: boolean,
@@ -1095,7 +1106,7 @@ export class UIExampleFactory {
       // 5年影响因子
       await ztoolkit.ItemTree.register(
         "IF5",
-        "IF5",
+        getString("IF5"),
         (
           field: string,
           unformatted: boolean,
@@ -1114,7 +1125,7 @@ export class UIExampleFactory {
       // EI
       await ztoolkit.ItemTree.register(
         "EI",
-        "EI",
+        getString("EI"),
         (
           field: string,
           unformatted: boolean,
@@ -1638,7 +1649,7 @@ export class HelperExampleFactory {
   static detectUpCase(word: string) {
     var arr_is_uppercase = [];
     for (var char of word) {
-      if (char.charCodeAt() < 97) {
+      if (char.charCodeAt(0) < 97) {
         arr_is_uppercase.push(1);   // 是大写就加入 1
       } else {
         arr_is_uppercase.push(0);   // 是小写就加入 0
@@ -2098,230 +2109,6 @@ export class HelperExampleFactory {
     }
   }
 
-  @example
-  static async dialogExample() {
-    const dialogData: { [key: string | number]: any } = {
-      inputValue: "test",
-      checkboxValue: true,
-      loadCallback: () => {
-        ztoolkit.log(dialogData, "Dialog Opened!");
-      },
-      unloadCallback: () => {
-        ztoolkit.log(dialogData, "Dialog closed!");
-      },
-    };
-    const dialogHelper = new ztoolkit.Dialog(10, 2)
-      .addCell(0, 0, {
-        tag: "h1",
-        properties: { innerHTML: "Helper Examples" },
-      })
-      .addCell(1, 0, {
-        tag: "h2",
-        properties: { innerHTML: "Dialog Data Binding" },
-      })
-      .addCell(2, 0, {
-        tag: "p",
-        properties: {
-          innerHTML:
-            "Elements with attribute 'data-bind' are binded to the prop under 'dialogData' with the same name.",
-        },
-        styles: {
-          width: "200px",
-        },
-      })
-      .addCell(3, 0, {
-        tag: "label",
-        namespace: "html",
-        attributes: {
-          for: "dialog-checkbox",
-        },
-        properties: { innerHTML: "bind:checkbox" },
-      })
-      .addCell(
-        3,
-        1,
-        {
-          tag: "input",
-          namespace: "html",
-          id: "dialog-checkbox",
-          attributes: {
-            "data-bind": "checkboxValue",
-            "data-prop": "checked",
-            type: "checkbox",
-          },
-          properties: { label: "Cell 1,0" },
-        },
-        false
-      )
-      .addCell(4, 0, {
-        tag: "label",
-        namespace: "html",
-        attributes: {
-          for: "dialog-input",
-        },
-        properties: { innerHTML: "bind:input" },
-      })
-      .addCell(
-        4,
-        1,
-        {
-          tag: "input",
-          namespace: "html",
-          id: "dialog-input",
-          attributes: {
-            "data-bind": "inputValue",
-            "data-prop": "value",
-            type: "text",
-          },
-        },
-        false
-      )
-      .addCell(5, 0, {
-        tag: "h2",
-        properties: { innerHTML: "Toolkit Helper Examples" },
-      })
-      .addCell(
-        6,
-        0,
-        {
-          tag: "button",
-          namespace: "html",
-          attributes: {
-            type: "button",
-          },
-          listeners: [
-            {
-              type: "click",
-              listener: (e: Event) => {
-                addon.hooks.onDialogEvents("clipboardExample");
-              },
-            },
-          ],
-          children: [
-            {
-              tag: "div",
-              styles: {
-                padding: "2.5px 15px",
-              },
-              properties: {
-                innerHTML: "example:clipboard",
-              },
-            },
-          ],
-        },
-        false
-      )
-      .addCell(
-        7,
-        0,
-        {
-          tag: "button",
-          namespace: "html",
-          attributes: {
-            type: "button",
-          },
-          listeners: [
-            {
-              type: "click",
-              listener: (e: Event) => {
-                addon.hooks.onDialogEvents("filePickerExample");
-              },
-            },
-          ],
-          children: [
-            {
-              tag: "div",
-              styles: {
-                padding: "2.5px 15px",
-              },
-              properties: {
-                innerHTML: "example:filepicker",
-              },
-            },
-          ],
-        },
-        false
-      )
-      .addCell(
-        8,
-        0,
-        {
-          tag: "button",
-          namespace: "html",
-          attributes: {
-            type: "button",
-          },
-          listeners: [
-            {
-              type: "click",
-              listener: (e: Event) => {
-                addon.hooks.onDialogEvents("progressWindowExample");
-              },
-            },
-          ],
-          children: [
-            {
-              tag: "div",
-              styles: {
-                padding: "2.5px 15px",
-              },
-              properties: {
-                innerHTML: "example:progressWindow",
-              },
-            },
-          ],
-        },
-        false
-      )
-      .addCell(
-        9,
-        0,
-        {
-          tag: "button",
-          namespace: "html",
-          attributes: {
-            type: "button",
-          },
-          listeners: [
-            {
-              type: "click",
-              listener: (e: Event) => {
-                addon.hooks.onDialogEvents("vtableExample");
-              },
-            },
-          ],
-          children: [
-            {
-              tag: "div",
-              styles: {
-                padding: "2.5px 15px",
-              },
-              properties: {
-                innerHTML: "example:virtualized-table",
-              },
-            },
-          ],
-        },
-        false
-      )
-      .addButton("Confirm", "confirm")
-      .addButton("Cancel", "cancel")
-      .addButton("Help", "help", {
-        noClose: true,
-        callback: (e) => {
-          dialogHelper.window?.alert(
-            "Help Clicked! Dialog will not be closed."
-          );
-        },
-      })
-      .setDialogData(dialogData)
-      .open("Dialog Example");
-    await dialogData.unloadLock.promise;
-    ztoolkit.getGlobal("alert")(
-      `Close dialog with ${dialogData._lastButtonId}.\nCheckbox: ${dialogData.checkboxValue}\nInput: ${dialogData.inputValue}.`
-    );
-    ztoolkit.log(dialogData);
-  }
 
   @example
   // 作者处理对话框{
@@ -2970,20 +2757,7 @@ export class HelperExampleFactory {
     // ztoolkit.log(dialogData);
   }
 
-  @example
-  static clipboardExample() {
-    new ztoolkit.Clibpoard()
-      .addText(
-        "![Plugin Template](https://github.com/windingwind/zotero-plugin-template)",
-        "text/unicode"
-      )
-      .addText(
-        '<a href="https://github.com/windingwind/zotero-plugin-template">Plugin Template</a>',
-        "text/html"
-      )
-      .copy();
-    ztoolkit.getGlobal("alert")("Copied!");
-  }
+
 
   @example
   static async filePickerExample() {
