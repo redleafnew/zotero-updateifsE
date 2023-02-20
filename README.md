@@ -7,7 +7,7 @@
 
 主要功能：
 
-![右键](.\\img\\contextmenu.png "右键菜单显示")
+![右键](./img/contextmenu.png "右键菜单显示")
 
 在`Edit`-`Preferences`-`Green Frog`中设置：
 
