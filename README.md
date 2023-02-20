@@ -11,11 +11,11 @@
 
 在`Edit`-`Preferences`-`Green Frog`中设置：
 
-![设置](.\\img\\preferences.png "插件设置")
+![设置](./img/preferences.png "插件设置")
 
 在列上右键设置显示的内容：
 
-![列上显示](.\\img\\extracolumn.png "在列中显示")
+![列上显示](./img/extracolumn.png "在列中显示")
 
 2. 更新条目元数据。
 
@@ -25,7 +25,7 @@
 
 在Tools-Toolbox显示：
 
-![工具箱](.\\img\\toolbox.png "工具箱")
+![工具箱](./img/toolbox.png "工具箱")
 
 5. 更新期刊缩写，带点或不带点。目前期刊缩写数据库只有5000多条数据，可以设置如果英语或中文条目期刊缩写查询不到时是否用全称代替（会根据语言字段进行判断，英语为`en`或`English`，中文为`ch`、`zh`、`中文`或`CN`），语言设置可以使用[Delitem插件](https://github.com/redleafnew/delitemwithatt)）。
 
