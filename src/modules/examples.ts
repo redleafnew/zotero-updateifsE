@@ -499,37 +499,53 @@ export class KeyExampleFactory {
     const keysetId = `${config.addonRef}-keyset`;
     const cmdsetId = `${config.addonRef}-cmdset`;
     const cmdSmallerId = `${config.addonRef}-cmd-smaller`;
-    // Register an event key for Alt+L
+    // Register an event key for Alt+D 数据目录
     ztoolkit.Shortcut.register("event", {
-      id: `${config.addonRef}-key-larger`,
+      id: `${config.addonRef}-key-data-dir`,
       // key: "L",
       key: "D",
       modifiers: "alt",
       callback: (keyOptions) => {
         // addon.hooks.onShortcuts("larger");
-        HelperExampleFactory.progressWindow(Zotero.DataDirectory.dir, 'default')
+        HelperExampleFactory.progressWindow(`${getString('dataDir')} ${Zotero.DataDirectory.dir}`, 'success')
       },
     });
-    // Register an element key using <key> for Alt+S
-    ztoolkit.Shortcut.register("element", {
-      id: `${config.addonRef}-key-smaller`,
-      key: "S",
+
+    // Register an event key for Alt+P 配置目录
+    ztoolkit.Shortcut.register("event", {
+      id: `${config.addonRef}-key-profile-dir`,
+      // key: "L",
+      key: "P",
       modifiers: "alt",
-      xulData: {
-        document,
-        command: cmdSmallerId,
-        _parentId: keysetId,
-        _commandOptions: {
-          id: cmdSmallerId,
-          document,
-          _parentId: cmdsetId,
-          oncommand: `'Zotero.${config.addonInstance}.hooks.onShortcuts('smaller')'`,
-        },
+      callback: (keyOptions) => {
+        // addon.hooks.onShortcuts("larger");
+        HelperExampleFactory.progressWindow(`${getString('proDir')} ${Zotero.Profile.dir}`, 'success')
       },
     });
+
+    // Register an element key using <key> for Alt+S
+    /*
+     ztoolkit.Shortcut.register("element", {
+       id: `${config.addonRef}-key-smaller`,
+       key: "S",
+       modifiers: "alt",
+       xulData: {
+         document,
+         command: cmdSmallerId,
+         _parentId: keysetId,
+         _commandOptions: {
+           id: cmdSmallerId,
+           document,
+           _parentId: cmdsetId,
+           oncommand: `'Zotero.${config.addonInstance}.hooks.onShortcuts('smaller')'`,
+         },
+       },
+     });
+     */
     // Here we register an conflict key for Alt+S
     // just to show how the confliction check works.
     // This is something you should avoid in your plugin.
+    /*
     ztoolkit.Shortcut.register("event", {
       id: `${config.addonRef}-key-smaller-conflict`,
       key: "S",
@@ -538,16 +554,18 @@ export class KeyExampleFactory {
         ztoolkit.getGlobal("alert")("Smaller! This is a conflict key.");
       },
     });
+    */
     // Register an event key to check confliction
-
-    ztoolkit.Shortcut.register("event", {
-      id: `${config.addonRef}-key-check-conflict`,
-      key: "C",
-      modifiers: "alt",
-      callback: (keyOptions) => {
-        addon.hooks.onShortcuts("confliction");
-      },
-    });
+    /*
+        ztoolkit.Shortcut.register("event", {
+          id: `${config.addonRef}-key-check-conflict`,
+          key: "C",
+          modifiers: "alt",
+          callback: (keyOptions) => {
+            addon.hooks.onShortcuts("confliction");
+          },
+        });
+        */
     /*
     new ztoolkit.ProgressWindow(config.addonName)
       .createLine({
@@ -887,7 +905,7 @@ export class UIExampleFactory {
           id: "zotero-toolboxmenu-showProfile",
           label: getString("showProfile"),
           // oncommand: "alert('Hello World! Sub Menuitem.')",
-          commandListener: (ev) => HelperExampleFactory.progressWindow(Zotero.Profile.dir, 'default'),
+          commandListener: (ev) => HelperExampleFactory.progressWindow(`${getString('proDir')} ${Zotero.Profile.dir}`, 'success'),
         },
         // Show Data Directory
         {
@@ -895,7 +913,7 @@ export class UIExampleFactory {
           id: "zotero-toolboxmenu-showData",
           label: getString("showData"),
           // oncommand: "alert('Hello World! Sub Menuitem.')",
-          commandListener: (ev) => HelperExampleFactory.progressWindow(Zotero.DataDirectory.dir, 'default'),
+          commandListener: (ev) => HelperExampleFactory.progressWindow(`${getString('dataDir')} ${Zotero.DataDirectory.dir}`, 'success'),
         },
         //刷新自定义列
         // {
