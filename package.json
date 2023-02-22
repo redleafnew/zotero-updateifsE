@@ -7,8 +7,8 @@
     "addonID": "greenfrog@redleafnew.me",
     "addonRef": "greenfrog",
     "addonInstance": "greenfrog",
-    "releasepage": "https://github.com/redleafnew/zotero-updateifsE/releases/latest/download/zotero-updateifs.xpi",
-    "updaterdf": "https://raw.githubusercontent.com/redleafnew/zotero-updateifsE/main/update.json"
+    "releasepage": "https://github.com/redleafnew/zotero-updateifsE/releases/latest/download/greenfrog.xpi",
+    "updaterdf": "https://raw.githubusercontent.com/redleafnew/zotero-updateifsE/bootstrap/update.json"
   },
   "main": "src/index.ts",
   "scripts": {
@@ -28,14 +28,14 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/windingwind/zotero-addon-template.git"
+    "url": "git+https://github.com/redleafnew/zotero-updateifsE.git"
   },
   "author": "Minyi Han",
   "license": "AGPL-3.0-or-later",
   "bugs": {
-    "url": "https://github.com/windingwind/zotero-addon-template/issues"
+    "url": "https://github.com/redleafnew/zotero-updateifsE/issues"
   },
-  "homepage": "https://github.com/windingwind/zotero-addon-template#readme",
+  "homepage": "https://github.com/redleafnew/zotero-updateifsE#readme",
   "dependencies": {
     "zotero-plugin-toolkit": "^2.0.3"
   },

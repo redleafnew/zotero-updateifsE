@@ -4,7 +4,7 @@
       "updates": [
         {
           "version": "0.4.0",
-          "update_link": "https://github.com/redleafnew/zotero-updateifsE/releases/latest/download/zotero-updateifs.xpi",
+          "update_link": "https://github.com/redleafnew/zotero-updateifsE/releases/latest/download/greenfrog.xpi",
           "applications": {
             "gecko": {
               "strict_min_version": "60.0"
@@ -13,7 +13,7 @@
         },
         {
           "version": "0.4.0",
-          "update_link": "https://github.com/redleafnew/zotero-updateifsE/releases/latest/download/zotero-updateifs.xpi",
+          "update_link": "https://github.com/redleafnew/zotero-updateifsE/releases/latest/download/greenfrog.xpi",
           "applications": {
             "zotero": {
               "strict_min_version": "6.999"
