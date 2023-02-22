@@ -496,9 +496,9 @@ export class KeyExampleFactory {
   }
   @example
   static registerShortcuts() {
-    const keysetId = `${config.addonRef}-keyset`;
-    const cmdsetId = `${config.addonRef}-cmdset`;
-    const cmdSmallerId = `${config.addonRef}-cmd-smaller`;
+    // const keysetId = `${config.addonRef}-keyset`;
+    // const cmdsetId = `${config.addonRef}-cmdset`;
+    // const cmdSmallerId = `${config.addonRef}-cmd-smaller`;
     // Register an event key for Alt+D 数据目录
     ztoolkit.Shortcut.register("event", {
       id: `${config.addonRef}-key-data-dir`,
@@ -576,6 +576,7 @@ export class KeyExampleFactory {
     */
   }
 
+  /*
   @example
   static exampleShortcutLargerCallback() {
     new ztoolkit.ProgressWindow(config.addonName)
@@ -595,7 +596,7 @@ export class KeyExampleFactory {
       })
       .show();
   }
-
+*/
   @example
   static exampleShortcutConflictionCallback() {
     const conflictionGroups = ztoolkit.Shortcut.checkAllKeyConflicting();
@@ -689,6 +690,8 @@ export class UIExampleFactory {
       }
     }
   };
+
+  /*
   @example
   static registerStyleSheet() {
     const styles = ztoolkit.UI.createElement(document, "link", {
@@ -703,6 +706,7 @@ export class UIExampleFactory {
       .getElementById("zotero-item-pane-content")
       ?.classList.add("makeItRed");
   }
+*/
 
   // 右键菜单
   @example
@@ -1343,141 +1347,144 @@ export class UIExampleFactory {
   //     // }
   //   );
   // }
-
-  @example
-  static async registerCustomCellRenderer() {
-    await ztoolkit.ItemTree.addRenderCellHook(
-      "title",
-      (index: number, data: string, column: any, original: Function) => {
-        const span = original(index, data, column) as HTMLSpanElement;
-        span.style.background = "rgb(30, 30, 30)";
-        span.style.color = "rgb(156, 220, 240)";
-        return span;
-      }
-    );
-    // @ts-ignore
-    // This is a private method. Make it public in toolkit.
-    await ztoolkit.ItemTree.refresh();
-  }
-
-  @example
-  static registerLibraryTabPanel() {
-    const tabId = ztoolkit.LibraryTabPanel.register(
-      getString("tabpanel.lib.tab.label"),
-      (panel: XUL.Element, win: Window) => {
-        const elem = ztoolkit.UI.createElement(win.document, "vbox", {
-          children: [
-            {
-              tag: "h2",
-              properties: {
-                innerText: "Hello World!",
-              },
-            },
-            {
-              tag: "div",
-              properties: {
-                innerText: "This is a library tab.",
-              },
-            },
-            {
-              tag: "button",
-              namespace: "html",
-              properties: {
-                innerText: "Unregister",
-              },
-              listeners: [
-                {
-                  type: "click",
-                  listener: () => {
-                    ztoolkit.LibraryTabPanel.unregister(tabId);
-                  },
-                },
-              ],
-            },
-          ],
-        });
-        panel.append(elem);
-      },
-      {
-        targetIndex: 1,
-      }
-    );
-  }
-
-  @example
-  static async registerReaderTabPanel() {
-    const tabId = await ztoolkit.ReaderTabPanel.register(
-      getString("tabpanel.reader.tab.label"),
-      (
-        panel: XUL.TabPanel | undefined,
-        deck: XUL.Deck,
-        win: Window,
-        reader: _ZoteroTypes.ReaderInstance
-      ) => {
-        if (!panel) {
-          ztoolkit.log(
-            "This reader do not have right-side bar. Adding reader tab skipped."
-          );
-          return;
+  /*
+    @example
+    static async registerCustomCellRenderer() {
+      await ztoolkit.ItemTree.addRenderCellHook(
+        "title",
+        (index: number, data: string, column: any, original: Function) => {
+          const span = original(index, data, column) as HTMLSpanElement;
+          span.style.background = "rgb(30, 30, 30)";
+          span.style.color = "rgb(156, 220, 240)";
+          return span;
         }
-        ztoolkit.log(reader);
-        const elem = ztoolkit.UI.createElement(win.document, "vbox", {
-          id: `${config.addonRef}-${reader._instanceID}-extra-reader-tab-div`,
-          // This is important! Don't create content for multiple times
-          // ignoreIfExists: true,
-          removeIfExists: true,
-          children: [
-            {
-              tag: "h2",
-              properties: {
-                innerText: "Hello World!",
-              },
-            },
-            {
-              tag: "div",
-              properties: {
-                innerText: "This is a reader tab.",
-              },
-            },
-            {
-              tag: "div",
-              properties: {
-                innerText: `Reader: ${reader._title.slice(0, 20)}`,
-              },
-            },
-            {
-              tag: "div",
-              properties: {
-                innerText: `itemID: ${reader.itemID}.`,
-              },
-            },
-            {
-              tag: "button",
-              namespace: "html",
-              properties: {
-                innerText: "Unregister",
-              },
-              listeners: [
-                {
-                  type: "click",
-                  listener: () => {
-                    ztoolkit.ReaderTabPanel.unregister(tabId);
-                  },
+      );
+      // @ts-ignore
+      // This is a private method. Make it public in toolkit.
+      await ztoolkit.ItemTree.refresh();
+    }
+
+    @example
+    static registerLibraryTabPanel() {
+      const tabId = ztoolkit.LibraryTabPanel.register(
+        getString("tabpanel.lib.tab.label"),
+        (panel: XUL.Element, win: Window) => {
+          const elem = ztoolkit.UI.createElement(win.document, "vbox", {
+            children: [
+              {
+                tag: "h2",
+                properties: {
+                  innerText: "Hello World!",
                 },
-              ],
-            },
-          ],
-        });
-        panel.append(elem);
-      },
-      {
-        targetIndex: 1,
-      }
-    );
-  }
+              },
+              {
+                tag: "div",
+                properties: {
+                  innerText: "This is a library tab.",
+                },
+              },
+              {
+                tag: "button",
+                namespace: "html",
+                properties: {
+                  innerText: "Unregister",
+                },
+                listeners: [
+                  {
+                    type: "click",
+                    listener: () => {
+                      ztoolkit.LibraryTabPanel.unregister(tabId);
+                    },
+                  },
+                ],
+              },
+            ],
+          });
+          panel.append(elem);
+        },
+        {
+          targetIndex: 1,
+        }
+      );
+    }
+
+    @example
+    static async registerReaderTabPanel() {
+      const tabId = await ztoolkit.ReaderTabPanel.register(
+        getString("tabpanel.reader.tab.label"),
+        (
+          panel: XUL.TabPanel | undefined,
+          deck: XUL.Deck,
+          win: Window,
+          reader: _ZoteroTypes.ReaderInstance
+        ) => {
+          if (!panel) {
+            ztoolkit.log(
+              "This reader do not have right-side bar. Adding reader tab skipped."
+            );
+            return;
+          }
+          ztoolkit.log(reader);
+          const elem = ztoolkit.UI.createElement(win.document, "vbox", {
+            id: `${config.addonRef}-${reader._instanceID}-extra-reader-tab-div`,
+            // This is important! Don't create content for multiple times
+            // ignoreIfExists: true,
+            removeIfExists: true,
+            children: [
+              {
+                tag: "h2",
+                properties: {
+                  innerText: "Hello World!",
+                },
+              },
+              {
+                tag: "div",
+                properties: {
+                  innerText: "This is a reader tab.",
+                },
+              },
+              {
+                tag: "div",
+                properties: {
+                  innerText: `Reader: ${reader._title.slice(0, 20)}`,
+                },
+              },
+              {
+                tag: "div",
+                properties: {
+                  innerText: `itemID: ${reader.itemID}.`,
+                },
+              },
+              {
+                tag: "button",
+                namespace: "html",
+                properties: {
+                  innerText: "Unregister",
+                },
+                listeners: [
+                  {
+                    type: "click",
+                    listener: () => {
+                      ztoolkit.ReaderTabPanel.unregister(tabId);
+                    },
+                  },
+                ],
+              },
+            ],
+          });
+          panel.append(elem);
+        },
+        {
+          targetIndex: 1,
+        }
+      );
+    }
+    */
 }
 
+/*
 export class PromptExampleFactory {
+
   @example
   static registerAlertPromptExample() {
     ztoolkit.Prompt.register([
@@ -1492,6 +1499,7 @@ export class PromptExampleFactory {
   }
 }
 
+*/
 export class HelperExampleFactory {
 
   // 生成空格，如果是中文是无空格，英文为空格
@@ -2775,22 +2783,22 @@ export class HelperExampleFactory {
     // ztoolkit.log(dialogData);
   }
 
+  /*
 
-
-  @example
-  static async filePickerExample() {
-    const path = await new ztoolkit.FilePicker(
-      "Import File",
-      "open",
-      [
-        ["PNG File(*.png)", "*.png"],
-        ["Any", "*.*"],
-      ],
-      "image.png"
-    ).open();
-    ztoolkit.getGlobal("alert")(`Selected ${path}`);
-  }
-
+    @example
+    static async filePickerExample() {
+      const path = await new ztoolkit.FilePicker(
+        "Import File",
+        "open",
+        [
+          ["PNG File(*.png)", "*.png"],
+          ["Any", "*.*"],
+        ],
+        "image.png"
+      ).open();
+      ztoolkit.getGlobal("alert")(`Selected ${path}`);
+    }
+  */
   //进度条
   @example
   static progressWindow(info: string, status: string) {
@@ -2813,12 +2821,16 @@ export class HelperExampleFactory {
       })
       .show();
   }
-
-  @example
-  static vtableExample() {
-    ztoolkit.getGlobal("alert")("See src/modules/preferenceScript.ts");
-  }
+  /*
+    @example
+    static vtableExample() {
+      ztoolkit.getGlobal("alert")("See src/modules/preferenceScript.ts");
+    }
+    */
 }
+
+/*
 function replaceBoldStar(firstName: string | undefined) {
   throw new Error("Function not implemented.");
 }
+*/

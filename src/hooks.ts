@@ -2,7 +2,7 @@ import {
   BasicExampleFactory,
   HelperExampleFactory,
   KeyExampleFactory,
-  PromptExampleFactory,
+  // PromptExampleFactory,
   UIExampleFactory,
 } from "./modules/examples";
 import { config } from "../package.json";
@@ -76,7 +76,7 @@ async function onStartup() {
 
   // await UIExampleFactory.registerReaderTabPanel(); // Reader
 
-  PromptExampleFactory.registerAlertPromptExample();
+  // PromptExampleFactory.registerAlertPromptExample();
 
 
 
@@ -144,21 +144,21 @@ async function onPrefsEvent(type: string, data: { [key: string]: any }) {
   }
 }
 
-function onShortcuts(type: string) {
-  switch (type) {
-    case "larger":
-      KeyExampleFactory.exampleShortcutLargerCallback();
-      break;
-    case "smaller":
-      KeyExampleFactory.exampleShortcutSmallerCallback();
-      break;
-    case "confliction":
-      KeyExampleFactory.exampleShortcutConflictionCallback();
-      break;
-    default:
-      break;
-  }
-}
+// function onShortcuts(type: string) {
+//   switch (type) {
+//     case "larger":
+//       KeyExampleFactory.exampleShortcutLargerCallback();
+//       break;
+//     case "smaller":
+//       KeyExampleFactory.exampleShortcutSmallerCallback();
+//       break;
+//     case "confliction":
+//       KeyExampleFactory.exampleShortcutConflictionCallback();
+//       break;
+//     default:
+//       break;
+//   }
+// }
 
 
 
@@ -173,7 +173,7 @@ export default {
   onShutdown,
   onNotify,
   onPrefsEvent,
-  onShortcuts,
+  // onShortcuts,
   hideMenu,
   // setExtraColumn,
   // getSelectedItems,
