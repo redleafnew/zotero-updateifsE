@@ -31,7 +31,7 @@
 
 # 安装方法
 
-从<https://github.com/redleafnew/zotero-updateifse/releases>下载xpi，然后在Zotero或JurisM中通过Tools-Addons-Install Add-on From File安装。
+从<https://github.com/redleafnew/zotero-updateifsE/releases/latest/download/greenfrog.xpi>下载xpi，然后在Zotero或JurisM中通过Tools-Addons-Install Add-on From File安装。
 
 # 感谢
 
@@ -50,7 +50,7 @@
 
 
 # Installation
-Download xpi from <https://github.com/redleafnew/zotero-updateifse/releases>, and click Tools-Addons-Install Add-on From File in Zotero or JurisM to install the extension.
+Download xpi from <https://github.com/redleafnew/zotero-updateifsE/releases/latest/download/greenfrog.xpi>, and click Tools-Addons-Install Add-on From File in Zotero or JurisM to install the extension.
 
 # Disclaimer
 
