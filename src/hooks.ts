@@ -41,7 +41,7 @@ async function onStartup() {
 
   KeyExampleFactory.registerShortcuts();
 
-  await Zotero.Promise.delay(1000);
+  //await Zotero.Promise.delay(1000);
   popupWin.changeLine({
     progress: 30,
     text: `[30%] ${getString("startup.begin")}`,
@@ -80,7 +80,7 @@ async function onStartup() {
 
 
 
-  await Zotero.Promise.delay(1000);
+  //await Zotero.Promise.delay(1000);
 
   popupWin.changeLine({
     progress: 100,
