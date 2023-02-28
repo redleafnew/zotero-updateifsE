@@ -1727,7 +1727,8 @@ export class HelperExampleFactory {
       if (jourAbbs["record"] != 0) {
         try {
           var jourAbb = dotAbb ? jourAbbs["abb_with_dot"] : jourAbbs["abb_no_dot"];
-          item.setField('journalAbbreviation', jourAbb);
+          var abb = HelperExampleFactory.titleCase(jourAbb) //改为词首字母大写
+          item.setField('journalAbbreviation', abb);
 
         } catch (e) {
           return;
