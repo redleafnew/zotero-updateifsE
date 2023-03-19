@@ -265,7 +265,7 @@ function bindPrefEvents() {
   (addon.data
     .prefs!.window.document.getElementById(
       `zotero-prefpane-${config.addonRef}-add-update`
-    ) as any).disabled = true;
+    ) as any).disabled = false;
 
   addon.data
     .prefs!.window.document.querySelector(

@@ -1,4 +1,6 @@
 <!-- 期刊影响因子设置 -->
+<!ENTITY zotero.__addonRef__.pref.secretkey.label "  easyScholar Secretkey: ">
+<!ENTITY zotero.__addonRef__.pref.secretkey.apply.label "Register easyScholar Secretkey">
 <!ENTITY zotero.__addonRef__.journal.setting "Journal Update Settings">
 <!ENTITY zotero.__addonRef__.add.update "Update journal information when adding item">
 <!ENTITY zotero.__addonRef__.update.abbr "Update journal abbreviation">

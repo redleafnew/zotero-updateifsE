@@ -4,6 +4,19 @@
     <label>
       <html:h2>&zotero.__addonRef__.journal.setting;</html:h2>
     </label>
+    <hbox>
+      <label value=" "></label>
+      <html:label width='250' for="zotero-prefpane-__addonRef__-secretkey">&zotero.__addonRef__.pref.secretkey.label;
+      </html:label>
+      <html:input type="password" id="zotero-prefpane-__addonRef__-secretkey" value="sskey" width='500'
+        preference="extensions.zotero.__addonRef__.secretkey">
+      </html:input>
+      <!-- 空格 -->
+      <label value=" "></label>
+      <label value="&zotero.__addonRef__.pref.secretkey.apply.label;" class="zotero-text-link"
+        href="https://easyscholar.cc/"></label>
+    </hbox>
+
     <checkbox id="zotero-prefpane-__addonRef__-add-update" label="&zotero.__addonRef__.add.update;"
       preference="extensions.zotero.__addonRef__.add.update" />
     <checkbox id="zotero-prefpane-__addonRef__-update-abbr" label="&zotero.__addonRef__.update.abbr;"

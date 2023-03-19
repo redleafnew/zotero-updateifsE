@@ -64,7 +64,8 @@ export class BasicExampleFactory {
     // 增加条目时 新增条目时
     //  Zotero.Items.get(ids).filter(item => item.isRegularItem())
     var items = Zotero.Items.get(ids);
-    // await KeyExampleFactory.setExtra(items);
+    // 增加条目时 更新
+    await KeyExampleFactory.setExtra(items);
 
     // 得到添加的条目总数
     // var items = Zotero.Items.get(ids);
@@ -118,8 +119,17 @@ export class KeyExampleFactory {
   //条目右键更新信息 右键菜单执行函数
   @example
   static async setExtraItems() {
-    var items = Zotero.getActiveZoteroPane().getSelectedItems();
-    await KeyExampleFactory.setExtra(items);
+    var secretKey: any = Zotero.Prefs.get(`extensions.zotero.${config.addonRef}.secretkey`, true);
+
+    if (secretKey) {
+      var items = Zotero.getActiveZoteroPane().getSelectedItems();
+      await KeyExampleFactory.setExtra(items);
+    } else {
+      var alertInfo = getString('inputSecretkey');
+      HelperExampleFactory.progressWindow(alertInfo, 'fail');
+
+    }
+
   }
   @example
   static async setExtra(items: any) {
@@ -213,8 +223,9 @@ export class KeyExampleFactory {
   }
 
   @example
-  // 从easyScholar获取数据
-  static async getIFs(item: Zotero.Item) {
+  // 从easyScholar获取数据 获得影响因子 原接口函数
+  /*
+   static async getIFs(item: Zotero.Item) {
     var pt = (item.getField('publicationTitle') as any).toUpperCase();
     var data: any = {}; //data后加: any为了防止报错
     var optionCheckd = ['sci', 'sciif5', 'sciUp', 'sciBase', 'sciif', 'eii',   // 英文期刊：分区、中科院升级版、中科院基础版、IF、EI
@@ -247,7 +258,28 @@ export class KeyExampleFactory {
 
     }
   };
+*/
 
+  @example
+  // 从easyScholar获取数据 获得影响因子 新接口函数
+  static async getIFs(item: Zotero.Item) {
+    var secretKey: any = Zotero.Prefs.get(`extensions.zotero.${config.addonRef}.secretkey`, true);
+    var publicationTitle = encodeURI(item.getField('publicationTitle') as any);
+    var url = `https://easyscholar.cc/open/getPublicationRank?secretKey=${secretKey}&publicationName=${publicationTitle}`;
+    var resp = await Zotero.HTTP.request("GET", url);
+
+    try {
+      var updateJson = JSON.parse(resp.responseText);
+      if (updateJson['msg'] == "SUCCESS") {
+        return updateJson["data"]["officialRank"]["all"];
+      } else {
+        Zotero.debug(updateJson['msg'])
+      }
+    } catch (e) {
+      Zotero.debug("获取easyScholar失败")
+    }
+
+  };
 
   @example
   // 设置复合影响因子及综合影响因子20220709
