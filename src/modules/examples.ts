@@ -65,8 +65,10 @@ export class BasicExampleFactory {
     //  Zotero.Items.get(ids).filter(item => item.isRegularItem())
     var items = Zotero.Items.get(ids);
     // 增加条目时 更新
-    await KeyExampleFactory.setExtra(items);
-
+    var addUpdate = Zotero.Prefs.get(`extensions.zotero.${config.addonRef}.add.update`, true);
+    if (addUpdate) {
+      await KeyExampleFactory.setExtra(items);
+    }
     // 得到添加的条目总数
     // var items = Zotero.Items.get(ids);
     // Zotero.debug(`ccc添加条目了${ids}！`)
