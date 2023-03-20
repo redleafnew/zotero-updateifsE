@@ -33,7 +33,7 @@
 
 1. 从<https://github.com/redleafnew/zotero-updateifsE/releases/latest/download/greenfrog.xpi>下载xpi，然后在Zotero或JurisM中通过Tools-Addons-Install Add-on From File安装。
 
-2. 到[easyScholar](https://easyscholar.cc/)注册一个账号，并登录账号，点击注册的用户名-“用户信息”-“开放接口”，复制密钥。在Zotero中点击Edit-Preference-Green Frog，粘贴到easyScholar密钥后的文本框内。
+2. 到[easyScholar](https://easyscholar.cc/)注册一个账号，并登录账号，点击注册的用户名-“用户信息”-“开放接口”，复制密钥。在Zotero中点击Edit-Preferences-Green Frog，粘贴到easyScholar密钥后的文本框内。
 
 # 感谢
 
@@ -52,7 +52,9 @@
 
 
 # Installation
-Download xpi from <https://github.com/redleafnew/zotero-updateifsE/releases/latest/download/greenfrog.xpi>, and click Tools-Addons-Install Add-on From File in Zotero or JurisM to install the extension.
+1. Download xpi from <https://github.com/redleafnew/zotero-updateifsE/releases/latest/download/greenfrog.xpi>, and click Tools-Addons-Install Add-on From File in Zotero or JurisM to install the extension.
+
+2. Register at [easyScholar](https://easyscholar.cc/) and log in，copy the secret key at user information, and paste to Green Frog Preference。
 
 # Disclaimer
 
