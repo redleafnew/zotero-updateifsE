@@ -9,7 +9,7 @@
 
 ![右键](./img/contextmenu.png "右键菜单显示")
 
-在`Edit`-`Preferences`-`Green Frog`中设置：
+在`Edit`-`Preferences`-`Green Frog`中设置要获取的内容和显示的工具箱菜单：
 
 ![设置](./img/preferences.png "插件设置")
 
@@ -33,7 +33,7 @@
 
 1. 从<https://github.com/redleafnew/zotero-updateifsE/releases/latest/download/greenfrog.xpi>下载xpi，然后在Zotero或JurisM中通过Tools-Addons-Install Add-on From File安装。
 
-2. 到[easyScholar](https://easyscholar.cc/)注册一个账号，并登录账号，点击注册的用户名-“用户信息”-“开放接口”，复制密钥。在Zotero中点击Edit-Preferences-Green Frog，粘贴到easyScholar密钥后的文本框内。
+2. 到[easyScholar](https://easyscholar.cc/)注册一个账号，并登录账号，点击注册的用户名-`用户信息`-`开放接口`，复制密钥。在Zotero中点击`Edit`-`Preferences`-`Green Frog`，粘贴到easyScholar密钥后的文本框内。
 
 # 感谢
 
