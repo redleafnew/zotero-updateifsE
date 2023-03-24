@@ -26,7 +26,15 @@
 <!ENTITY zotero.__addonRef__.chjcscd "中国科学引文数据库(CSCD)">
 <!ENTITY zotero.__addonRef__.pku.core "核心期刊/北大核心">
 <!ENTITY zotero.__addonRef__.nju.core "南农核心">
-<!ENTITY zotero.__addonRef__.sci.core "显示科技核心">  <!-- https://www.ascii-code.com/表示&-->
+<!ENTITY zotero.__addonRef__.sci.core "科技核心">  <!-- https://www.ascii-code.com/表示&-->
+<!ENTITY zotero.__addonRef__.ssci "社会科学引文索引">
+<!ENTITY zotero.__addonRef__.ajg "ABS学术期刊指南">
+<!ENTITY zotero.__addonRef__.utd24 "UTD24">
+<!ENTITY zotero.__addonRef__.ft50 "FT50">
+<!ENTITY zotero.__addonRef__.ccf "中国计算机学会">
+<!ENTITY zotero.__addonRef__.fms "FMS">
+<!ENTITY zotero.__addonRef__.jci "JCI">
+<!ENTITY zotero.__addonRef__.ahci "AHCI">
 <!ENTITY zotero.__addonRef__.com.if "复合影响因子">
 <!ENTITY zotero.__addonRef__.agg.if "综合影响因子">
 

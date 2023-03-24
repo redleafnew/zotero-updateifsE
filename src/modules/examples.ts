@@ -153,6 +153,14 @@ export class KeyExampleFactory {
         var pkucore: any = Zotero.Prefs.get(`extensions.zotero.${config.addonRef}.pku.core`, true);
         var njucore: any = Zotero.Prefs.get(`extensions.zotero.${config.addonRef}.nju.core`, true);
         var scicore: any = Zotero.Prefs.get(`extensions.zotero.${config.addonRef}.sci.core`, true);
+        var ssci: any = Zotero.Prefs.get(`extensions.zotero.${config.addonRef}.ssci`, true);
+        var ajg: any = Zotero.Prefs.get(`extensions.zotero.${config.addonRef}.ajg`, true);
+        var utd24: any = Zotero.Prefs.get(`extensions.zotero.${config.addonRef}.utd24`, true);
+        var ft50: any = Zotero.Prefs.get(`extensions.zotero.${config.addonRef}.ft50`, true);
+        var ccf: any = Zotero.Prefs.get(`extensions.zotero.${config.addonRef}.ccf`, true);
+        var fms: any = Zotero.Prefs.get(`extensions.zotero.${config.addonRef}.fms`, true);
+        var jci: any = Zotero.Prefs.get(`extensions.zotero.${config.addonRef}.jci`, true);
+        var ahci: any = Zotero.Prefs.get(`extensions.zotero.${config.addonRef}.ahci`, true);
         var compoundIFs: any = Zotero.Prefs.get(`extensions.zotero.${config.addonRef}.com.if`, true);
         var comprehensiveIFs: any = Zotero.Prefs.get(`extensions.zotero.${config.addonRef}.agg.if`, true);
         var njauCoreShow = Zotero.Prefs.get(`extensions.zotero.${config.addonRef}.njau.core`, true);
@@ -189,6 +197,30 @@ export class KeyExampleFactory {
           }
           if (scicore && easyscholarData['zhongguokejihexin']) {
             ztoolkit.ExtraField.setExtraField(item, '中国科技核心期刊', '是');
+          }
+          if (ssci && easyscholarData['ssci']) {
+            ztoolkit.ExtraField.setExtraField(item, 'SSCI', easyscholarData['ssci']);
+          }
+          if (ajg && easyscholarData['ajg']) {
+            ztoolkit.ExtraField.setExtraField(item, 'AJG', easyscholarData['ajg']);
+          }
+          if (utd24 && easyscholarData['utd24']) {
+            ztoolkit.ExtraField.setExtraField(item, 'UTD24', easyscholarData['utd24']);
+          }
+          if (ft50 && easyscholarData['ft50']) {
+            ztoolkit.ExtraField.setExtraField(item, 'FT50', easyscholarData['ft50']);
+          }
+          if (ccf && easyscholarData['ccf']) {
+            ztoolkit.ExtraField.setExtraField(item, 'CCF', easyscholarData['ccf']);
+          }
+          if (fms && easyscholarData['fms']) {
+            ztoolkit.ExtraField.setExtraField(item, 'FMS', easyscholarData['fms']);
+          }
+          if (jci && easyscholarData['jci']) {
+            ztoolkit.ExtraField.setExtraField(item, 'JCI', easyscholarData['jci']);
+          }
+          if (ahci && easyscholarData['ahci']) {
+            ztoolkit.ExtraField.setExtraField(item, 'AHCI', easyscholarData['ahci']);
           }
         }
         //复合影响因子、综合影响因子
@@ -1076,13 +1108,21 @@ export class UIExampleFactory {
     var pkucore: any = Zotero.Prefs.get(`extensions.zotero.${config.addonRef}.pku.core`, true);
     var njucore: any = Zotero.Prefs.get(`extensions.zotero.${config.addonRef}.nju.core`, true);
     var scicore: any = Zotero.Prefs.get(`extensions.zotero.${config.addonRef}.sci.core`, true);
+    var ssci: any = Zotero.Prefs.get(`extensions.zotero.${config.addonRef}.ssci`, true);
+    var ajg: any = Zotero.Prefs.get(`extensions.zotero.${config.addonRef}.ajg`, true);
+    var utd24: any = Zotero.Prefs.get(`extensions.zotero.${config.addonRef}.utd24`, true);
+    var ft50: any = Zotero.Prefs.get(`extensions.zotero.${config.addonRef}.ft50`, true);
+    var ccf: any = Zotero.Prefs.get(`extensions.zotero.${config.addonRef}.ccf`, true);
+    var fms: any = Zotero.Prefs.get(`extensions.zotero.${config.addonRef}.fms`, true);
+    var jci: any = Zotero.Prefs.get(`extensions.zotero.${config.addonRef}.jci`, true);
+    var ahci: any = Zotero.Prefs.get(`extensions.zotero.${config.addonRef}.ahci`, true);
     var compoundIFs: any = Zotero.Prefs.get(`extensions.zotero.${config.addonRef}.com.if`, true);
     var comprehensiveIFs: any = Zotero.Prefs.get(`extensions.zotero.${config.addonRef}.agg.if`, true);
     var njauCoreShow = Zotero.Prefs.get(`extensions.zotero.${config.addonRef}.njau.core`, true);
     var njauJourShow = Zotero.Prefs.get(`extensions.zotero.${config.addonRef}.njau.high.quality`, true);
-
+    // JCR
     if (jcr) {
-      // JCR
+
       await ztoolkit.ItemTree.register(
         "JCR",
         getString("JCR"),
@@ -1101,8 +1141,9 @@ export class UIExampleFactory {
 
       await ztoolkit.ItemTree.unregister("JCR");
     }
+    // 中科院分区升级版
     if (updated) {
-      // 中科院分区升级版
+
       await ztoolkit.ItemTree.register(
         "CASUp",
         getString("CASUp"),
@@ -1120,8 +1161,8 @@ export class UIExampleFactory {
     } else {
       await ztoolkit.ItemTree.unregister("CASUp");
     }
+    // 中科院分区基础版
     if (basic) {
-      // 中科院分区基础版
       await ztoolkit.ItemTree.register(
         "CASBasic",
         getString("CASBasic"),
@@ -1139,8 +1180,8 @@ export class UIExampleFactory {
     } else {
       await ztoolkit.ItemTree.unregister("CASBasic");
     }
+    // 影响因子
     if (ifs) {
-      // 影响因子
       await ztoolkit.ItemTree.register(
         "IF",
         getString("IF"),
@@ -1158,8 +1199,8 @@ export class UIExampleFactory {
     } else {
       await ztoolkit.ItemTree.unregister("IF");
     }
+    // 5年影响因子
     if (if5) {
-      // 5年影响因子
       await ztoolkit.ItemTree.register(
         "IF5",
         getString("IF5"),
@@ -1177,8 +1218,8 @@ export class UIExampleFactory {
     } else {
       await ztoolkit.ItemTree.unregister("IF5");
     }
+    // EI
     if (eii) {
-      // EI
       await ztoolkit.ItemTree.register(
         "EI",
         getString("EI"),
@@ -1196,8 +1237,8 @@ export class UIExampleFactory {
     } else {
       await ztoolkit.ItemTree.unregister("EI");
     }
+    // CSCD
     if (chjcscd) {
-      // CSCD
       await ztoolkit.ItemTree.register(
         "CSCD",
         getString("CSCD"),
@@ -1215,9 +1256,9 @@ export class UIExampleFactory {
     } else {
       await ztoolkit.ItemTree.unregister("CSCD");
     }
+    // PKUCore
     if (pkucore) {
 
-      // PKUCore
       await ztoolkit.ItemTree.register(
         "PKUCore",
         getString("PKUCore"),
@@ -1235,8 +1276,8 @@ export class UIExampleFactory {
     } else {
       await ztoolkit.ItemTree.unregister("PKUCore");
     }
+    // CSSCI/南大核心
     if (njucore) {
-      // CSSCI/南大核心
       await ztoolkit.ItemTree.register(
         "CSSCI",
         getString("CSSCI"),
@@ -1254,8 +1295,8 @@ export class UIExampleFactory {
     } else {
       await ztoolkit.ItemTree.unregister("CSSCI");
     }
+    // 科技核心
     if (scicore) {
-      // 科技核心
       await ztoolkit.ItemTree.register(
         "SCICore",
         getString("SCICore"),
@@ -1273,8 +1314,169 @@ export class UIExampleFactory {
     } else {
       await ztoolkit.ItemTree.unregister("SCICore");
     }
+
+
+    // ssci
+    if (ssci) {
+      await ztoolkit.ItemTree.register(
+        "SSCI",
+        getString("SSCI"),
+        (
+          field: string,
+          unformatted: boolean,
+          includeBaseMapped: boolean,
+          item: Zotero.Item
+        ) => {
+          // return String(item.id);
+          var SSCI = ztoolkit.ExtraField.getExtraField(item, 'SSCI')
+          return String(SSCI == undefined ? '' : SSCI);
+        },
+      );
+    } else {
+      await ztoolkit.ItemTree.unregister("SSCI");
+    }
+    // ajg
+    if (ajg) {
+      await ztoolkit.ItemTree.register(
+        "AJG",
+        getString("AJG"),
+        (
+          field: string,
+          unformatted: boolean,
+          includeBaseMapped: boolean,
+          item: Zotero.Item
+        ) => {
+          // return String(item.id);
+          var AJG = ztoolkit.ExtraField.getExtraField(item, 'AJG')
+          return String(AJG == undefined ? '' : AJG);
+        },
+      );
+    } else {
+      await ztoolkit.ItemTree.unregister("AJG");
+    }
+
+    // utd24
+    if (utd24) {
+      await ztoolkit.ItemTree.register(
+        "UTD24",
+        getString("UTD24"),
+        (
+          field: string,
+          unformatted: boolean,
+          includeBaseMapped: boolean,
+          item: Zotero.Item
+        ) => {
+          // return String(item.id);
+          var UTD24 = ztoolkit.ExtraField.getExtraField(item, 'UTD24')
+          return String(UTD24 == undefined ? '' : UTD24);
+        },
+      );
+    } else {
+      await ztoolkit.ItemTree.unregister("UTD24");
+    }
+
+    // ft50
+    if (ft50) {
+      await ztoolkit.ItemTree.register(
+        "FT50",
+        getString("FT50"),
+        (
+          field: string,
+          unformatted: boolean,
+          includeBaseMapped: boolean,
+          item: Zotero.Item
+        ) => {
+          // return String(item.id);
+          var FT50 = ztoolkit.ExtraField.getExtraField(item, 'FT50')
+          return String(FT50 == undefined ? '' : FT50);
+        },
+      );
+    } else {
+      await ztoolkit.ItemTree.unregister("FT50");
+    }
+
+    // ccf
+    if (ccf) {
+      await ztoolkit.ItemTree.register(
+        "CCF",
+        getString("CCF"),
+        (
+          field: string,
+          unformatted: boolean,
+          includeBaseMapped: boolean,
+          item: Zotero.Item
+        ) => {
+          // return String(item.id);
+          var CCF = ztoolkit.ExtraField.getExtraField(item, 'CCF')
+          return String(CCF == undefined ? '' : CCF);
+        },
+      );
+    } else {
+      await ztoolkit.ItemTree.unregister("CCF");
+    }
+
+    // fms
+    if (fms) {
+      await ztoolkit.ItemTree.register(
+        "FMS",
+        getString("FMS"),
+        (
+          field: string,
+          unformatted: boolean,
+          includeBaseMapped: boolean,
+          item: Zotero.Item
+        ) => {
+          // return String(item.id);
+          var FMS = ztoolkit.ExtraField.getExtraField(item, 'FMS')
+          return String(FMS == undefined ? '' : FMS);
+        },
+      );
+    } else {
+      await ztoolkit.ItemTree.unregister("FMS");
+    }
+
+    // jci
+    if (jci) {
+      await ztoolkit.ItemTree.register(
+        "JCI",
+        getString("JCI"),
+        (
+          field: string,
+          unformatted: boolean,
+          includeBaseMapped: boolean,
+          item: Zotero.Item
+        ) => {
+          // return String(item.id);
+          var JCI = ztoolkit.ExtraField.getExtraField(item, 'JCI')
+          return String(JCI == undefined ? '' : JCI);
+        },
+      );
+    } else {
+      await ztoolkit.ItemTree.unregister("JCI");
+    }
+
+    // ahci
+    if (ahci) {
+      await ztoolkit.ItemTree.register(
+        "AHCI",
+        getString("AHCI"),
+        (
+          field: string,
+          unformatted: boolean,
+          includeBaseMapped: boolean,
+          item: Zotero.Item
+        ) => {
+          // return String(item.id);
+          var AHCI = ztoolkit.ExtraField.getExtraField(item, 'AHCI')
+          return String(AHCI == undefined ? '' : AHCI);
+        },
+      );
+    } else {
+      await ztoolkit.ItemTree.unregister("AHCI");
+    }
+
+    // 复合影响因子
     if (compoundIFs) {
-      // 复合影响因子
       await ztoolkit.ItemTree.register(
         "compoundIF",
         getString("compoundIF"),
@@ -1292,8 +1494,8 @@ export class UIExampleFactory {
     } else {
       await ztoolkit.ItemTree.unregister("compoundIF");
     }
+    // 综合影响因子
     if (comprehensiveIFs) {
-      // 综合影响因子
       await ztoolkit.ItemTree.register(
         "comprehensiveIF",
         getString("comprehensiveIF"),
@@ -1311,8 +1513,8 @@ export class UIExampleFactory {
     } else {
       await ztoolkit.ItemTree.unregister("comprehensiveIF");
     }
+    // 南农核心期刊
     if (njauCoreShow) {
-      // 南农核心期刊
       await ztoolkit.ItemTree.register(
         "njauCore",
         getString("njauCore"),
@@ -1330,8 +1532,8 @@ export class UIExampleFactory {
     } else {
       await ztoolkit.ItemTree.unregister("njauCore");
     }
+    // 南农高质量期刊
     if (njauJourShow) {
-      // 南农高质量期刊
       await ztoolkit.ItemTree.register(
         "njauJour",
         getString("njauJour"),

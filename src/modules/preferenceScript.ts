@@ -215,6 +215,80 @@ function bindPrefEvents() {
       ztoolkit.log(e);
       UIExampleFactory.registerExtraColumn();
     });
+  // ssci
+  addon.data
+    .prefs!.window.document.querySelector(
+      `#zotero-prefpane-${config.addonRef}-ssci`
+    )
+    ?.addEventListener("command", (e) => {
+      ztoolkit.log(e);
+      UIExampleFactory.registerExtraColumn();
+    });
+  // ajg
+  addon.data
+    .prefs!.window.document.querySelector(
+      `#zotero-prefpane-${config.addonRef}-ajg`
+    )
+    ?.addEventListener("command", (e) => {
+      ztoolkit.log(e);
+      UIExampleFactory.registerExtraColumn();
+    });
+  // utd24
+  addon.data
+    .prefs!.window.document.querySelector(
+      `#zotero-prefpane-${config.addonRef}-utd24`
+    )
+    ?.addEventListener("command", (e) => {
+      ztoolkit.log(e);
+      UIExampleFactory.registerExtraColumn();
+    });
+  // ft50
+  addon.data
+    .prefs!.window.document.querySelector(
+      `#zotero-prefpane-${config.addonRef}-ft50`
+    )
+    ?.addEventListener("command", (e) => {
+      ztoolkit.log(e);
+      UIExampleFactory.registerExtraColumn();
+    });
+
+  // ccf
+  addon.data
+    .prefs!.window.document.querySelector(
+      `#zotero-prefpane-${config.addonRef}-ccf`
+    )
+    ?.addEventListener("command", (e) => {
+      ztoolkit.log(e);
+      UIExampleFactory.registerExtraColumn();
+    });
+  // fms
+  addon.data
+    .prefs!.window.document.querySelector(
+      `#zotero-prefpane-${config.addonRef}-fms`
+    )
+    ?.addEventListener("command", (e) => {
+      ztoolkit.log(e);
+      UIExampleFactory.registerExtraColumn();
+    });
+  // jci
+  addon.data
+    .prefs!.window.document.querySelector(
+      `#zotero-prefpane-${config.addonRef}-jci`
+    )
+    ?.addEventListener("command", (e) => {
+      ztoolkit.log(e);
+      UIExampleFactory.registerExtraColumn();
+    });
+  // ahci
+  addon.data
+    .prefs!.window.document.querySelector(
+      `#zotero-prefpane-${config.addonRef}-ahci`
+    )
+    ?.addEventListener("command", (e) => {
+      ztoolkit.log(e);
+      UIExampleFactory.registerExtraColumn();
+    });
+
   // 复合影响因子
   addon.data
     .prefs!.window.document.querySelector(

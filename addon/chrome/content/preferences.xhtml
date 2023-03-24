@@ -29,6 +29,10 @@
       preference="extensions.zotero.__addonRef__.ch.abbr" />
 
     <!-- 英文期刊 -->
+    <!--还需要写入 preferenceScript.ts function bindPrefEvents函数-->
+    <!-- 还需要写入examples.ts   static async registerExtraColumn 注册显示列-->
+    <!-- 还需要写入examples.ts   static async setExtra写入Extra -->
+    <!-- 还需要写入prefs.js写入键值 -->
     <label>
       <html:h2>&zotero.__addonRef__.ifs.setting;</html:h2>
     </label>
@@ -61,6 +65,30 @@
         preference="extensions.zotero.__addonRef__.nju.core" />
       <checkbox width='250' id="zotero-prefpane-__addonRef__-sci-core" label="&zotero.__addonRef__.sci.core;"
         preference="extensions.zotero.__addonRef__.sci.core" />
+    </hbox>
+    <hbox>
+      <checkbox width='250' id="zotero-prefpane-__addonRef__-ssci" label="&zotero.__addonRef__.ssci;"
+        preference="extensions.zotero.__addonRef__.ssci" />
+      <checkbox width='250' id="zotero-prefpane-__addonRef__-ajg" label="&zotero.__addonRef__.ajg;"
+        preference="extensions.zotero.__addonRef__.ajg" />
+    </hbox>
+    <hbox>
+      <checkbox width='250' id="zotero-prefpane-__addonRef__-utd24" label="&zotero.__addonRef__.utd24;"
+        preference="extensions.zotero.__addonRef__.utd24" />
+      <checkbox width='250' id="zotero-prefpane-__addonRef__-ft50" label="&zotero.__addonRef__.ft50;"
+        preference="extensions.zotero.__addonRef__.ft50" />
+    </hbox>
+    <hbox>
+      <checkbox width='250' id="zotero-prefpane-__addonRef__-ccf" label="&zotero.__addonRef__.ccf;"
+        preference="extensions.zotero.__addonRef__.ccf" />
+      <checkbox width='250' id="zotero-prefpane-__addonRef__-fms" label="&zotero.__addonRef__.fms;"
+        preference="extensions.zotero.__addonRef__.fms" />
+    </hbox>
+    <hbox>
+      <checkbox width='250' id="zotero-prefpane-__addonRef__-jci" label="&zotero.__addonRef__.jci;"
+        preference="extensions.zotero.__addonRef__.jci" />
+      <checkbox width='250' id="zotero-prefpane-__addonRef__-ahci" label="&zotero.__addonRef__.ahci;"
+        preference="extensions.zotero.__addonRef__.ahci" />
     </hbox>
     <hbox>
       <checkbox width='250' id="zotero-prefpane-__addonRef__-com-if" label="&zotero.__addonRef__.com.if;"

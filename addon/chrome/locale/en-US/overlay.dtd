@@ -26,7 +26,15 @@
 <!ENTITY zotero.__addonRef__.chjcscd "CSCD">
 <!ENTITY zotero.__addonRef__.pku.core "PKU Core">
 <!ENTITY zotero.__addonRef__.nju.core "NJU Core">
-<!ENTITY zotero.__addonRef__.sci.core "Show Sci &amp; Tech Core Journal">  <!-- https://www.ascii-code.com/表示&-->
+<!ENTITY zotero.__addonRef__.sci.core "Sci &amp; Tech Core Journal">  <!-- https://www.ascii-code.com/表示&-->
+<!ENTITY zotero.__addonRef__.ssci "SSCI">
+<!ENTITY zotero.__addonRef__.ajg "AJG">
+<!ENTITY zotero.__addonRef__.utd24 "UTD24">
+<!ENTITY zotero.__addonRef__.ft50 "FT50">
+<!ENTITY zotero.__addonRef__.ccf "CCF">
+<!ENTITY zotero.__addonRef__.fms "FMS">
+<!ENTITY zotero.__addonRef__.jci "JCI">
+<!ENTITY zotero.__addonRef__.ahci "AHCI">
 <!ENTITY zotero.__addonRef__.com.if "Compound IF">
 <!ENTITY zotero.__addonRef__.agg.if "Comprehensive IF">
 
