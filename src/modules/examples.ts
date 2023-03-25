@@ -300,9 +300,8 @@ export class KeyExampleFactory {
     var secretKey: any = Zotero.Prefs.get(`extensions.zotero.${config.addonRef}.secretkey`, true);
     var publicationTitle = encodeURI(item.getField('publicationTitle') as any);
     var url = `https://easyscholar.cc/open/getPublicationRank?secretKey=${secretKey}&publicationName=${publicationTitle}`;
-    var resp = await Zotero.HTTP.request("GET", url);
-
     try {
+      var resp = await Zotero.HTTP.request("GET", url);
       var updateJson = JSON.parse(resp.responseText);
       if (updateJson['msg'] == "SUCCESS") {
         return updateJson["data"]["officialRank"]["all"];
