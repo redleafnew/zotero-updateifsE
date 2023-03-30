@@ -298,7 +298,7 @@ export class KeyExampleFactory {
   // 从easyScholar获取数据 获得影响因子 新接口函数
   static async getIFs(item: Zotero.Item) {
     var secretKey: any = Zotero.Prefs.get(`extensions.zotero.${config.addonRef}.secretkey`, true);
-    var publicationTitle = encodeURI(item.getField('publicationTitle') as any);
+    var publicationTitle = encodeURIComponent(item.getField('publicationTitle') as any);
     var url = `https://easyscholar.cc/open/getPublicationRank?secretKey=${secretKey}&publicationName=${publicationTitle}`;
     try {
       var resp = await Zotero.HTTP.request("GET", url);
@@ -1982,7 +1982,7 @@ export class HelperExampleFactory {
 
   // 得到期刊缩写
   static async getJourAbb(item: Zotero.Item) {
-    var pubT = item.getField('publicationTitle');
+    var pubT = (item.getField('publicationTitle') as any).replace('&', 'and');
     var url = "https://www.linxingzhong.top/journal";
     var postData = {
       key: "journal",

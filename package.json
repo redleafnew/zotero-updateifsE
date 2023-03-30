@@ -1,6 +1,6 @@
 {
   "name": "greenfrog",
-  "version": "0.6.0",
+  "version": "0.6.2",
   "description": "Zotero plugin for update journal information from easyScholar",
   "config": {
     "addonName": "Green Frog",
