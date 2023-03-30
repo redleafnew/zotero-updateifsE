@@ -1955,10 +1955,18 @@ export class HelperExampleFactory {
     var pubT = item.getField('publicationTitle');
     if (upJourAbb) {
       try {
-        var jourAbbs = await HelperExampleFactory.getJourAbb(item); // 得到带点和不带点的缩写
+        var jourAbbs = await HelperExampleFactory.getJourAbb(pubT); // 得到带点和不带点的缩写
       } catch (e) {
         Zotero.debug('获取期刊缩写失败');
       }
+      if (jourAbbs["record"] == 0) {  // 得到带点和不带点的缩写, 尝试& 替换为 and
+        try {
+          var jourAbbs = await HelperExampleFactory.getJourAbb((pubT as any).replace('&', 'and')); // 得到带点和不带点的缩写
+        } catch (e) {
+          Zotero.debug('获取期刊缩写失败');
+        }
+      }
+
       if (jourAbbs["record"] != 0) {
         try {
           var jourAbb = dotAbb ? jourAbbs["abb_with_dot"] : jourAbbs["abb_no_dot"];
@@ -1981,8 +1989,8 @@ export class HelperExampleFactory {
   };
 
   // 得到期刊缩写
-  static async getJourAbb(item: Zotero.Item) {
-    var pubT = (item.getField('publicationTitle') as any).replace('&', 'and');
+  static async getJourAbb(pubT: any) {
+    // var pubT = (item.getField('publicationTitle') as any).replace('&', 'and');
     var url = "https://www.linxingzhong.top/journal";
     var postData = {
       key: "journal",
