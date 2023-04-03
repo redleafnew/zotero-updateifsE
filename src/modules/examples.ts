@@ -235,10 +235,10 @@ export class KeyExampleFactory {
         }
         // 南农核心期刊分类、高水平期刊
         if (njauCoreShow) {
-          ztoolkit.ExtraField.setExtraField(item, '南农核心期', njauCore(item));
+          ztoolkit.ExtraField.setExtraField(item, '南农核心', njauCore(item));
         }
         if (njauJourShow) {
-          ztoolkit.ExtraField.setExtraField(item, '南农高质量期刊', njauJournal(item));
+          ztoolkit.ExtraField.setExtraField(item, '南农高质量', njauJournal(item));
         }
         // 期刊缩写更新
         try {
@@ -1524,7 +1524,7 @@ export class UIExampleFactory {
           item: Zotero.Item
         ) => {
           // return String(item.id);
-          var njauCore = ztoolkit.ExtraField.getExtraField(item, '南农核心期')
+          var njauCore = ztoolkit.ExtraField.getExtraField(item, '南农核心')
           return String(njauCore == undefined ? '' : njauCore);
         },
       );
@@ -1543,7 +1543,7 @@ export class UIExampleFactory {
           item: Zotero.Item
         ) => {
           // return String(item.id);
-          var njauJourIF = ztoolkit.ExtraField.getExtraField(item, '南农高质量期刊')
+          var njauJourIF = ztoolkit.ExtraField.getExtraField(item, '南农高质量')
           return String(njauJourIF == undefined ? '' : njauJourIF);
         },
       );
