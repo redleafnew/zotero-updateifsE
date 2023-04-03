@@ -10,9 +10,9 @@
 
 
 <!-- 南农核心期刊设置 -->
-<!ENTITY zotero.__addonRef__.njau.core.high.quality "南农核心与高质量期刊(仅食品科学)">
-<!ENTITY zotero.__addonRef__.njau.core "南农核心期刊">
-<!ENTITY zotero.__addonRef__.njau.high.quality "南农高质量期刊">
+<!ENTITY zotero.__addonRef__.njau.core.high.quality "南农核心与高质量(仅食品科学)">
+<!ENTITY zotero.__addonRef__.njau.core "南农核心">
+<!ENTITY zotero.__addonRef__.njau.high.quality "南农高质量">
 
 <!-- 分区类型设置 --><!-- 影响因子设置 -->
 <!ENTITY zotero.__addonRef__.ifs.setting "分区与影响因子设置">
@@ -24,8 +24,8 @@
 <!ENTITY zotero.__addonRef__.ei "工程索引(EI)">
 
 <!ENTITY zotero.__addonRef__.chjcscd "中国科学引文数据库(CSCD)">
-<!ENTITY zotero.__addonRef__.pku.core "核心期刊/北大核心">
-<!ENTITY zotero.__addonRef__.nju.core "南农核心">
+<!ENTITY zotero.__addonRef__.pku.core "中文核心/北大核心">
+<!ENTITY zotero.__addonRef__.nju.core "南大核心">
 <!ENTITY zotero.__addonRef__.sci.core "科技核心">  <!-- https://www.ascii-code.com/表示&-->
 <!ENTITY zotero.__addonRef__.ssci "社会科学引文索引">
 <!ENTITY zotero.__addonRef__.ajg "ABS学术期刊指南">

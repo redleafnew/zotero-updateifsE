@@ -11,8 +11,8 @@
 
 <!-- 南农核心期刊设置 -->
 <!ENTITY zotero.__addonRef__.njau.core.high.quality "NJAU Core and Hight Quality Journal Settings (only for Food Science and Technology">
-<!ENTITY zotero.__addonRef__.njau.core "NJAU Core Journal">
-<!ENTITY zotero.__addonRef__.njau.high.quality "NJAU High Quality Journal">
+<!ENTITY zotero.__addonRef__.njau.core "NJAU Core">
+<!ENTITY zotero.__addonRef__.njau.high.quality "NJAU High Quality">
 
 <!-- 分区类型设置 --><!-- 影响因子设置 -->
 <!ENTITY zotero.__addonRef__.ifs.setting "Quartile and IF Settings">
@@ -26,7 +26,7 @@
 <!ENTITY zotero.__addonRef__.chjcscd "CSCD">
 <!ENTITY zotero.__addonRef__.pku.core "PKU Core">
 <!ENTITY zotero.__addonRef__.nju.core "NJU Core">
-<!ENTITY zotero.__addonRef__.sci.core "Sci &amp; Tech Core Journal">  <!-- https://www.ascii-code.com/表示&-->
+<!ENTITY zotero.__addonRef__.sci.core "Sci &amp; Tech Core">  <!-- https://www.ascii-code.com/表示&-->
 <!ENTITY zotero.__addonRef__.ssci "SSCI">
 <!ENTITY zotero.__addonRef__.ajg "AJG">
 <!ENTITY zotero.__addonRef__.utd24 "UTD24">
