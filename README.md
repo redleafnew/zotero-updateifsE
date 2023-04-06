@@ -41,6 +41,8 @@
 
 本插件基于@windingwind的[zotero-plugin-template](https://github.com/windingwind/zotero-plugin-template)开发，在此表示感谢。
 
+感谢@windingwind 开发工具箱，[Zotero Plugin Toolkit](https://github.com/windingwind/zotero-plugin-toolkit)。
+
 1. Update `JCR Quartile`, `CAS Quartile`, `impact factor`,  `5 year impact factor` and `EI` using name of the journal from [easyScholar](https://easyscholar.cc). A context menu `Update Journal Infomation from easyScholar` appears, the  `JCR Quartile`, `CAS Quartile`, `EI` `impact factor`, `5 year impact factor`, `SSCI`, `AJG`, `UTD24`, `FT50`, `CCF`, `FMS`, `JCI` and `AHCI`  will be fetched from [easyScholar](https://easyscholar.cc) and  saved to `Extra` field.
 
 
@@ -61,6 +63,8 @@
 # Disclaimer
 
 This plugin based on @windingwind's [zotero-plugin-template](https://github.com/windingwind/zotero-plugin-template)，many thanks for his team's hard working。
+
+We also acknowledge @windingwind's [Zotero Plugin Toolkit](https://github.com/windingwind/zotero-plugin-toolkit)。
 
 # License
 
