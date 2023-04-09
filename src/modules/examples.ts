@@ -167,6 +167,7 @@ export class KeyExampleFactory {
         var njauJourShow = Zotero.Prefs.get(`extensions.zotero.${config.addonRef}.njau.high.quality`, true);
 
         if (easyscholarData) { //如果得到easyscholar数据再写入
+          n++ //如果得到easyScholar数据才算更新成功
           // HelperExampleFactory.progressWindow(easyscholarData['sci'], 'success')
           if (jcr && easyscholarData['sci']) {
             ztoolkit.ExtraField.setExtraField(item, 'JCR分区', easyscholarData['sci']);
@@ -248,12 +249,16 @@ export class KeyExampleFactory {
 
         }
         item.saveTx();
-        n++
+
       }
     }
-    var whiteSpace = HelperExampleFactory.whiteSpace();
-    HelperExampleFactory.progressWindow(`${n}${whiteSpace}${getString('upIfsSuccess')}`, 'success')
 
+    var whiteSpace = HelperExampleFactory.whiteSpace();
+    if (n > 0) {
+      HelperExampleFactory.progressWindow(`${n}${whiteSpace}${getString('upIfsSuccess')}`, 'success');
+    } else {
+      HelperExampleFactory.progressWindow(`${getString('upIfsFail')}`, 'fail');
+    }
   }
 
   @example
