@@ -273,10 +273,12 @@ export class KeyExampleFactory {
       if (updateJson["data"]["officialRank"]["all"]) {
         return updateJson["data"]["officialRank"]["all"];
       } else {
-        Zotero.debug("获取easyScholar信息失败");
+        Zotero.debug("easyScholar中无此期刊");
+        Zotero.debug(updateJson["msg"]);
       }
     } catch (e) {
       Zotero.debug("获取easyScholar信息失败");
+      Zotero.debug(updateJson["msg"]);
     }
 
   };
