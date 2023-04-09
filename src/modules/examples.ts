@@ -262,44 +262,6 @@ export class KeyExampleFactory {
   }
 
   @example
-  // 从easyScholar获取数据 获得影响因子 原接口函数
-  /*
-   static async getIFs(item: Zotero.Item) {
-    var pt = (item.getField('publicationTitle') as any).toUpperCase();
-    var data: any = {}; //data后加: any为了防止报错
-    var optionCheckd = ['sci', 'sciif5', 'sciUp', 'sciBase', 'sciif', 'eii',   // 英文期刊：分区、中科院升级版、中科院基础版、IF、EI
-      'cssci', 'cscd', 'pku', 'zhongguokejihexin']; // 中文期刊：南大核心、CSCD、北大核心、科技核心：
-    data["requirePaperRank"] = optionCheckd;
-    data["version"] = "5.6";
-    data["website"] = "Zotero";
-    data["papersName"] =
-    {
-      //     349: "NATURE",
-      //     1807: "FOODS",
-      2190: pt
-    };  // key为自己生成，value为刊物名称（需要大写）
-
-    data["paperTotal"] = Object.keys(data["papersName"]).length;
-    var url = "https://easyscholar.cc/homeController/getPapersRank.ajax";
-    var headers = { "Content-Type": "application/json" };
-    // Maybe need to set max retry in this post request.
-    var resp = await Zotero.HTTP.request("POST", url, {
-      credentials: "include",
-      body: JSON.stringify(data),
-      headers: headers,
-    });
-
-    try {
-      var updateJson = JSON.parse(resp.responseText);
-      return updateJson["papersRank"][0];
-    } catch (e) {
-      Zotero.debug('从easyScholar获取数据失败!')
-
-    }
-  };
-*/
-
-  @example
   // 从easyScholar获取数据 获得影响因子 新接口函数
   static async getIFs(item: Zotero.Item) {
     var secretKey: any = Zotero.Prefs.get(`extensions.zotero.${config.addonRef}.secretkey`, true);
@@ -308,13 +270,13 @@ export class KeyExampleFactory {
     try {
       var resp = await Zotero.HTTP.request("GET", url);
       var updateJson = JSON.parse(resp.responseText);
-      if (updateJson['msg'] == "SUCCESS") {
+      if (updateJson["data"]["officialRank"]["all"]) {
         return updateJson["data"]["officialRank"]["all"];
       } else {
-        Zotero.debug(updateJson['msg'])
+        Zotero.debug("获取easyScholar信息失败");
       }
     } catch (e) {
-      Zotero.debug("获取easyScholar失败")
+      Zotero.debug("获取easyScholar信息失败");
     }
 
   };
