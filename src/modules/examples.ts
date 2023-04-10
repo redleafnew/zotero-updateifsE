@@ -1088,6 +1088,9 @@ export class UIExampleFactory {
     var comprehensiveIFs: any = Zotero.Prefs.get(`extensions.zotero.${config.addonRef}.agg.if`, true);
     var njauCoreShow = Zotero.Prefs.get(`extensions.zotero.${config.addonRef}.njau.core`, true);
     var njauJourShow = Zotero.Prefs.get(`extensions.zotero.${config.addonRef}.njau.high.quality`, true);
+    var summary = Zotero.Prefs.get(`extensions.zotero.${config.addonRef}.summary`, true);
+
+
     // JCR
     if (jcr) {
 
@@ -1519,6 +1522,27 @@ export class UIExampleFactory {
     } else {
       await ztoolkit.ItemTree.unregister("njauJour");
     }
+
+    // 总结
+    if (summary) {
+      await ztoolkit.ItemTree.register(
+        "summary",
+        getString("summary"),
+        (
+          field: string,
+          unformatted: boolean,
+          includeBaseMapped: boolean,
+          item: Zotero.Item
+        ) => {
+          // return String(item.id);
+          var IFSummary = ztoolkit.ExtraField.getExtraField(item, '总结')
+          return String(IFSummary == undefined ? '' : IFSummary);
+        },
+      );
+    } else {
+      await ztoolkit.ItemTree.unregister("summary");
+    }
+
   }
 
   // @example
@@ -1940,6 +1964,8 @@ export class HelperExampleFactory {
         try {
           var jourAbb = dotAbb ? jourAbbs["abb_with_dot"] : jourAbbs["abb_no_dot"];
           var abb = HelperExampleFactory.titleCase(jourAbb) //改为词首字母大写
+          abb = abb.replace('Ieee', 'IEEE').  //替换IEEE
+            replace('Iet', 'IET')  //替换IET
           item.setField('journalAbbreviation', abb);
 
         } catch (e) {
