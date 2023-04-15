@@ -11,8 +11,6 @@
 
 <!-- 南农核心期刊设置 -->
 <!ENTITY zotero.__addonRef__.njau.core.high.quality "NJAU Core and Hight Quality Journal Settings (only for Food Science and Technology">
-<!ENTITY zotero.__addonRef__.njau.core "NJAU Core">
-<!ENTITY zotero.__addonRef__.njau.high.quality "NJAU High Quality">
 
 <!-- 分区类型设置 --><!-- 影响因子设置 -->
 <!ENTITY zotero.__addonRef__.ifs.setting "Quartile and IF Settings">
@@ -37,6 +35,29 @@
 <!ENTITY zotero.__addonRef__.ahci "AHCI">
 <!ENTITY zotero.__addonRef__.com.if "Compound IF">
 <!ENTITY zotero.__addonRef__.agg.if "Comprehensive IF">
+
+<!-- 大学期刊分类 -->
+<!ENTITY zotero.__addonRef__.university "University Journal Category Settings">
+<!ENTITY zotero.__addonRef__.njau.core "NJAU Core">
+<!ENTITY zotero.__addonRef__.njau.high.quality "NJAU High Quality">
+<!ENTITY zotero.__addonRef__.swufe "SWUFE">
+<!ENTITY zotero.__addonRef__.cufe "CUFE">
+<!ENTITY zotero.__addonRef__.uibe "UIBE">
+<!ENTITY zotero.__addonRef__.sdufe "SDUFE">
+<!ENTITY zotero.__addonRef__.xdu "XDU">
+<!ENTITY zotero.__addonRef__.swjtu "SWJTU">
+<!ENTITY zotero.__addonRef__.ruc "RUC">
+<!ENTITY zotero.__addonRef__.xmu "XMU">
+<!ENTITY zotero.__addonRef__.sjtu "SJTU">
+<!ENTITY zotero.__addonRef__.fdu "FDU">
+<!ENTITY zotero.__addonRef__.hhu "HHU">
+<!ENTITY zotero.__addonRef__.scu "SCU">
+<!ENTITY zotero.__addonRef__.cqu "CQU">
+<!ENTITY zotero.__addonRef__.nju "NJU">
+<!ENTITY zotero.__addonRef__.xju "XJU">
+<!ENTITY zotero.__addonRef__.cug "CUG">
+<!ENTITY zotero.__addonRef__.cju "CJU">
+<!ENTITY zotero.__addonRef__.zju "ZJU">
 
 <!-- 菜单显示隐藏设置 -->
 

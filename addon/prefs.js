@@ -8,9 +8,30 @@ pref("extensions.zotero.__addonRef__.update.abbr.dot", true);
 pref("extensions.zotero.__addonRef__.en.abbr", true);
 pref("extensions.zotero.__addonRef__.ch.abbr", true);
 
-// 影响因子
+// 学校期刊分类
+pref("extensions.zotero.__addonRef__.swufe", false);
+pref("extensions.zotero.__addonRef__.cufe", false);
+pref("extensions.zotero.__addonRef__.uibe", false);
+pref("extensions.zotero.__addonRef__.sdufe", false);
+pref("extensions.zotero.__addonRef__.xdu", false);
+pref("extensions.zotero.__addonRef__.swjtu", false);
+pref("extensions.zotero.__addonRef__.ruc", false);
+pref("extensions.zotero.__addonRef__.xmu", false);
+pref("extensions.zotero.__addonRef__.sjtu", false);
+pref("extensions.zotero.__addonRef__.fdu", false);
+pref("extensions.zotero.__addonRef__.hhu", false);
+pref("extensions.zotero.__addonRef__.scu", false);
+pref("extensions.zotero.__addonRef__.cqu", false);
+pref("extensions.zotero.__addonRef__.nju", false);
+pref("extensions.zotero.__addonRef__.xju", false);
+pref("extensions.zotero.__addonRef__.cug", false);
+pref("extensions.zotero.__addonRef__.cju", false);
+pref("extensions.zotero.__addonRef__.zju", false);
 pref("extensions.zotero.__addonRef__.njau.core", true);
 pref("extensions.zotero.__addonRef__.njau.high.quality", true);
+
+// 影响因子
+
 pref("extensions.zotero.__addonRef__.jcr.qu", true);
 pref("extensions.zotero.__addonRef__.basic", false);
 pref("extensions.zotero.__addonRef__.updated", true);

@@ -9,11 +9,6 @@
 <!ENTITY zotero.__addonRef__.ch.abbr "如果中文条目查询不到, 期刊缩写使用期刊全称">
 
 
-<!-- 南农核心期刊设置 -->
-<!ENTITY zotero.__addonRef__.njau.core.high.quality "南农核心与高质量(仅食品科学)">
-<!ENTITY zotero.__addonRef__.njau.core "南农核心">
-<!ENTITY zotero.__addonRef__.njau.high.quality "南农高质量">
-
 <!-- 分区类型设置 --><!-- 影响因子设置 -->
 <!ENTITY zotero.__addonRef__.ifs.setting "分区与影响因子设置">
 <!ENTITY zotero.__addonRef__.jcr.qu "JCR分区">
@@ -37,6 +32,30 @@
 <!ENTITY zotero.__addonRef__.ahci "AHCI">
 <!ENTITY zotero.__addonRef__.com.if "复合影响因子">
 <!ENTITY zotero.__addonRef__.agg.if "综合影响因子">
+
+<!-- 大学期刊分类 -->
+<!ENTITY zotero.__addonRef__.university "大学期刊分类">
+<!ENTITY zotero.__addonRef__.njau.core "南京农业大学核心">
+<!ENTITY zotero.__addonRef__.njau.high.quality "南京农业大学高质量">
+<!ENTITY zotero.__addonRef__.swufe "西南财经大学">
+<!ENTITY zotero.__addonRef__.cufe "中央财经大学">
+<!ENTITY zotero.__addonRef__.uibe "对外经济贸易大学">
+<!ENTITY zotero.__addonRef__.sdufe "山东财经大学">
+<!ENTITY zotero.__addonRef__.xdu "西安电子科技大学">
+<!ENTITY zotero.__addonRef__.swjtu "西南交通大学">
+<!ENTITY zotero.__addonRef__.ruc "中国人民大学">
+<!ENTITY zotero.__addonRef__.xmu "厦门大学">
+<!ENTITY zotero.__addonRef__.sjtu "上海交通大学">
+<!ENTITY zotero.__addonRef__.fdu "复旦大学">
+<!ENTITY zotero.__addonRef__.hhu "河海大学">
+<!ENTITY zotero.__addonRef__.scu "四川大学">
+<!ENTITY zotero.__addonRef__.cqu "重庆大学">
+<!ENTITY zotero.__addonRef__.nju "南京大学">
+<!ENTITY zotero.__addonRef__.xju "新疆大学">
+<!ENTITY zotero.__addonRef__.cug "中国地质大学">
+<!ENTITY zotero.__addonRef__.cju "长江大学">
+<!ENTITY zotero.__addonRef__.zju "浙江大学">
+
 
 <!-- 菜单显示隐藏设置 -->
 

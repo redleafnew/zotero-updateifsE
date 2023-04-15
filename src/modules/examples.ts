@@ -163,6 +163,25 @@ export class KeyExampleFactory {
         var ahci: any = Zotero.Prefs.get(`extensions.zotero.${config.addonRef}.ahci`, true);
         var compoundIFs: any = Zotero.Prefs.get(`extensions.zotero.${config.addonRef}.com.if`, true);
         var comprehensiveIFs: any = Zotero.Prefs.get(`extensions.zotero.${config.addonRef}.agg.if`, true);
+        //  大学期刊分类
+        var swufe = Zotero.Prefs.get(`extensions.zotero.${config.addonRef}.swufe`, true);
+        var cufe = Zotero.Prefs.get(`extensions.zotero.${config.addonRef}.cufe`, true);
+        var uibe = Zotero.Prefs.get(`extensions.zotero.${config.addonRef}.uibe`, true);
+        var sdufe = Zotero.Prefs.get(`extensions.zotero.${config.addonRef}.sdufe`, true);
+        var xdu = Zotero.Prefs.get(`extensions.zotero.${config.addonRef}.xdu`, true);
+        var swjtu = Zotero.Prefs.get(`extensions.zotero.${config.addonRef}.swjtu`, true);
+        var ruc = Zotero.Prefs.get(`extensions.zotero.${config.addonRef}.ruc`, true);
+        var xmu = Zotero.Prefs.get(`extensions.zotero.${config.addonRef}.xmu`, true);
+        var sjtu = Zotero.Prefs.get(`extensions.zotero.${config.addonRef}.sjtu`, true);
+        var fdu = Zotero.Prefs.get(`extensions.zotero.${config.addonRef}.fdu`, true);
+        var hhu = Zotero.Prefs.get(`extensions.zotero.${config.addonRef}.hhu`, true);
+        var scu = Zotero.Prefs.get(`extensions.zotero.${config.addonRef}.scu`, true);
+        var cqu = Zotero.Prefs.get(`extensions.zotero.${config.addonRef}.cqu`, true);
+        var nju = Zotero.Prefs.get(`extensions.zotero.${config.addonRef}.nju`, true);
+        var xju = Zotero.Prefs.get(`extensions.zotero.${config.addonRef}.xju`, true);
+        var cug = Zotero.Prefs.get(`extensions.zotero.${config.addonRef}.cug`, true);
+        var cju = Zotero.Prefs.get(`extensions.zotero.${config.addonRef}.cju`, true);
+        var zju = Zotero.Prefs.get(`extensions.zotero.${config.addonRef}.zju`, true);
         var njauCoreShow = Zotero.Prefs.get(`extensions.zotero.${config.addonRef}.njau.core`, true);
         var njauJourShow = Zotero.Prefs.get(`extensions.zotero.${config.addonRef}.njau.high.quality`, true);
 
@@ -234,6 +253,7 @@ export class KeyExampleFactory {
             ztoolkit.ExtraField.setExtraField(item, '综合影响因子', chineseIFs[1]);
           }
         }
+        // 大学期刊分类
         // 南农核心期刊分类、高水平期刊
         if (njauCoreShow) {
           ztoolkit.ExtraField.setExtraField(item, '南农核心', njauCore(item));
@@ -241,6 +261,77 @@ export class KeyExampleFactory {
         if (njauJourShow) {
           ztoolkit.ExtraField.setExtraField(item, '南农高质量', njauJournal(item));
         }
+        // 西南财经大学
+        if (swufe && easyscholarData['swufe']) {
+          ztoolkit.ExtraField.setExtraField(item, '西南财经大学', easyscholarData['swufe']);
+        }
+        // 中央财经大学
+        if (cufe && easyscholarData['cufe']) {
+          ztoolkit.ExtraField.setExtraField(item, '中央财经大学', easyscholarData['cufe']);
+        }
+        // 对外经济贸易大学
+        if (uibe && easyscholarData['uibe']) {
+          ztoolkit.ExtraField.setExtraField(item, '对外经济贸易大学', easyscholarData['uibe']);
+        }
+        // 山东财经大学
+        if (sdufe && easyscholarData['sdufe']) {
+          ztoolkit.ExtraField.setExtraField(item, '山东财经大学', easyscholarData['sdufe']);
+        }
+        // 西安电子科技大学
+        if (xdu && easyscholarData['xdu']) {
+          ztoolkit.ExtraField.setExtraField(item, '西安电子科技大学', easyscholarData['xdu']);
+        }
+        // 西南交通大学
+        if (swjtu && easyscholarData['swjtu']) {
+          ztoolkit.ExtraField.setExtraField(item, '西南交通大学', easyscholarData['swjtu']);
+        }
+        // 中国人民大学
+        if (ruc && easyscholarData['ruc']) {
+          ztoolkit.ExtraField.setExtraField(item, '中国人民大学', easyscholarData['ruc']);
+        }
+        // 厦门大学
+        if (xmu && easyscholarData['xmu']) {
+          ztoolkit.ExtraField.setExtraField(item, '厦门大学', easyscholarData['xmu']);
+        }
+        // 上海交通大学
+        if (sjtu && easyscholarData['sjtu']) {
+          ztoolkit.ExtraField.setExtraField(item, '上海交通大学', easyscholarData['sjtu']);
+        }
+        // 复旦大学
+        if (fdu && easyscholarData['fdu']) {
+          ztoolkit.ExtraField.setExtraField(item, '复旦大学', easyscholarData['fdu']);
+        }
+        // 河海大学
+        if (hhu && easyscholarData['hhu']) {
+          ztoolkit.ExtraField.setExtraField(item, '河海大学', easyscholarData['hhu']);
+        }
+        // 重庆大学
+        if (cqu && easyscholarData['cqu']) {
+          ztoolkit.ExtraField.setExtraField(item, '重庆大学', easyscholarData['cqu']);
+        }
+        // 南京大学
+        if (nju && easyscholarData['nju']) {
+          ztoolkit.ExtraField.setExtraField(item, '南京大学', easyscholarData['nju']);
+        }
+        // 新疆大学
+        if (xju && easyscholarData['xju']) {
+          ztoolkit.ExtraField.setExtraField(item, '新疆大学', easyscholarData['xju']);
+        }
+        // 中国地质大学
+        if (cug && easyscholarData['cug']) {
+          ztoolkit.ExtraField.setExtraField(item, '中国地质大学', easyscholarData['cug']);
+        }
+        // 长江大学
+        if (cju && easyscholarData['cju']) {
+          ztoolkit.ExtraField.setExtraField(item, '长江大学', easyscholarData['cju']);
+        }
+        // 浙江大学
+        if (zju && easyscholarData['zju']) {
+          ztoolkit.ExtraField.setExtraField(item, '浙江大学', easyscholarData['zju']);
+        }
+
+
+
         // 期刊缩写更新
         try {
           HelperExampleFactory.upJourAbb(item);
@@ -1086,6 +1177,25 @@ export class UIExampleFactory {
     var ahci: any = Zotero.Prefs.get(`extensions.zotero.${config.addonRef}.ahci`, true);
     var compoundIFs: any = Zotero.Prefs.get(`extensions.zotero.${config.addonRef}.com.if`, true);
     var comprehensiveIFs: any = Zotero.Prefs.get(`extensions.zotero.${config.addonRef}.agg.if`, true);
+    // 大学期刊分类
+    var swufe = Zotero.Prefs.get(`extensions.zotero.${config.addonRef}.swufe`, true);
+    var cufe = Zotero.Prefs.get(`extensions.zotero.${config.addonRef}.cufe`, true);
+    var uibe = Zotero.Prefs.get(`extensions.zotero.${config.addonRef}.uibe`, true);
+    var sdufe = Zotero.Prefs.get(`extensions.zotero.${config.addonRef}.sdufe`, true);
+    var xdu = Zotero.Prefs.get(`extensions.zotero.${config.addonRef}.xdu`, true);
+    var swjtu = Zotero.Prefs.get(`extensions.zotero.${config.addonRef}.swjtu`, true);
+    var ruc = Zotero.Prefs.get(`extensions.zotero.${config.addonRef}.ruc`, true);
+    var xmu = Zotero.Prefs.get(`extensions.zotero.${config.addonRef}.xmu`, true);
+    var sjtu = Zotero.Prefs.get(`extensions.zotero.${config.addonRef}.sjtu`, true);
+    var fdu = Zotero.Prefs.get(`extensions.zotero.${config.addonRef}.fdu`, true);
+    var hhu = Zotero.Prefs.get(`extensions.zotero.${config.addonRef}.hhu`, true);
+    var scu = Zotero.Prefs.get(`extensions.zotero.${config.addonRef}.scu`, true);
+    var cqu = Zotero.Prefs.get(`extensions.zotero.${config.addonRef}.cqu`, true);
+    var nju = Zotero.Prefs.get(`extensions.zotero.${config.addonRef}.nju`, true);
+    var xju = Zotero.Prefs.get(`extensions.zotero.${config.addonRef}.xju`, true);
+    var cug = Zotero.Prefs.get(`extensions.zotero.${config.addonRef}.cug`, true);
+    var cju = Zotero.Prefs.get(`extensions.zotero.${config.addonRef}.cju`, true);
+    var zju = Zotero.Prefs.get(`extensions.zotero.${config.addonRef}.zju`, true);
     var njauCoreShow = Zotero.Prefs.get(`extensions.zotero.${config.addonRef}.njau.core`, true);
     var njauJourShow = Zotero.Prefs.get(`extensions.zotero.${config.addonRef}.njau.high.quality`, true);
     var summary = Zotero.Prefs.get(`extensions.zotero.${config.addonRef}.summary`, true);
@@ -1521,6 +1631,346 @@ export class UIExampleFactory {
       );
     } else {
       await ztoolkit.ItemTree.unregister("njauJour");
+    }
+
+    // 西南财经大学
+    if (swufe) {
+      await ztoolkit.ItemTree.register(
+        "swufe",
+        getString("swufe"),
+        (
+          field: string,
+          unformatted: boolean,
+          includeBaseMapped: boolean,
+          item: Zotero.Item
+        ) => {
+          // return String(item.id);
+          var IFswufe = ztoolkit.ExtraField.getExtraField(item, '西南财经大学')
+          return String(IFswufe == undefined ? '' : IFswufe);
+        },
+      );
+    } else {
+      await ztoolkit.ItemTree.unregister("swufe");
+    }
+
+
+    // 中央财经大学
+    if (cufe) {
+      await ztoolkit.ItemTree.register(
+        "cufe",
+        getString("cufe"),
+        (
+          field: string,
+          unformatted: boolean,
+          includeBaseMapped: boolean,
+          item: Zotero.Item
+        ) => {
+          // return String(item.id);
+          var IFcufe = ztoolkit.ExtraField.getExtraField(item, '中央财经大学')
+          return String(IFcufe == undefined ? '' : IFcufe);
+        },
+      );
+    } else {
+      await ztoolkit.ItemTree.unregister("cufe");
+    }
+
+    // 对外经济贸易大学
+    if (uibe) {
+      await ztoolkit.ItemTree.register(
+        "uibe",
+        getString("uibe"),
+        (
+          field: string,
+          unformatted: boolean,
+          includeBaseMapped: boolean,
+          item: Zotero.Item
+        ) => {
+          // return String(item.id);
+          var IFuibe = ztoolkit.ExtraField.getExtraField(item, '对外经济贸易大学')
+          return String(IFuibe == undefined ? '' : IFuibe);
+        },
+      );
+    } else {
+      await ztoolkit.ItemTree.unregister("uibe");
+    }
+
+    // 山东财经大学
+    if (sdufe) {
+      await ztoolkit.ItemTree.register(
+        "sdufe",
+        getString("sdufe"),
+        (
+          field: string,
+          unformatted: boolean,
+          includeBaseMapped: boolean,
+          item: Zotero.Item
+        ) => {
+          // return String(item.id);
+          var IFsdufe = ztoolkit.ExtraField.getExtraField(item, '山东财经大学')
+          return String(IFsdufe == undefined ? '' : IFsdufe);
+        },
+      );
+    } else {
+      await ztoolkit.ItemTree.unregister("sdufe");
+    }
+
+    // 西安电子科技大学
+    if (xdu) {
+      await ztoolkit.ItemTree.register(
+        "xdu",
+        getString("xdu"),
+        (
+          field: string,
+          unformatted: boolean,
+          includeBaseMapped: boolean,
+          item: Zotero.Item
+        ) => {
+          // return String(item.id);
+          var IFxdu = ztoolkit.ExtraField.getExtraField(item, '西安电子科技大学')
+          return String(IFxdu == undefined ? '' : IFxdu);
+        },
+      );
+    } else {
+      await ztoolkit.ItemTree.unregister("xdu");
+    }
+    // 西南交通大学
+    if (swjtu) {
+      await ztoolkit.ItemTree.register(
+        "swjtu",
+        getString("swjtu"),
+        (
+          field: string,
+          unformatted: boolean,
+          includeBaseMapped: boolean,
+          item: Zotero.Item
+        ) => {
+          // return String(item.id);
+          var IFswjtu = ztoolkit.ExtraField.getExtraField(item, '西南交通大学')
+          return String(IFswjtu == undefined ? '' : IFswjtu);
+        },
+      );
+    } else {
+      await ztoolkit.ItemTree.unregister("swjtu");
+    }
+
+    // 中国人民大学
+    if (ruc) {
+      await ztoolkit.ItemTree.register(
+        "ruc",
+        getString("ruc"),
+        (
+          field: string,
+          unformatted: boolean,
+          includeBaseMapped: boolean,
+          item: Zotero.Item
+        ) => {
+          // return String(item.id);
+          var IFruc = ztoolkit.ExtraField.getExtraField(item, '中国人民大学')
+          return String(IFruc == undefined ? '' : IFruc);
+        },
+      );
+    } else {
+      await ztoolkit.ItemTree.unregister("ruc");
+    }
+
+    // 厦门大学
+    if (xmu) {
+      await ztoolkit.ItemTree.register(
+        "xmu",
+        getString("xmu"),
+        (
+          field: string,
+          unformatted: boolean,
+          includeBaseMapped: boolean,
+          item: Zotero.Item
+        ) => {
+          // return String(item.id);
+          var IFxmu = ztoolkit.ExtraField.getExtraField(item, '厦门大学')
+          return String(IFxmu == undefined ? '' : IFxmu);
+        },
+      );
+    } else {
+      await ztoolkit.ItemTree.unregister("xmu");
+    }
+
+    // 上海交通大学
+    if (sjtu) {
+      await ztoolkit.ItemTree.register(
+        "sjtu",
+        getString("sjtu"),
+        (
+          field: string,
+          unformatted: boolean,
+          includeBaseMapped: boolean,
+          item: Zotero.Item
+        ) => {
+          // return String(item.id);
+          var IFsjtu = ztoolkit.ExtraField.getExtraField(item, '上海交通大学')
+          return String(IFsjtu == undefined ? '' : IFsjtu);
+        },
+      );
+    } else {
+      await ztoolkit.ItemTree.unregister("sjtu");
+    }
+
+    // 复旦大学
+    if (fdu) {
+      await ztoolkit.ItemTree.register(
+        "fdu",
+        getString("fdu"),
+        (
+          field: string,
+          unformatted: boolean,
+          includeBaseMapped: boolean,
+          item: Zotero.Item
+        ) => {
+          // return String(item.id);
+          var IFfdu = ztoolkit.ExtraField.getExtraField(item, '复旦大学')
+          return String(IFfdu == undefined ? '' : IFfdu);
+        },
+      );
+    } else {
+      await ztoolkit.ItemTree.unregister("fdu");
+    }
+
+    // 河海大学
+    if (hhu) {
+      await ztoolkit.ItemTree.register(
+        "hhu",
+        getString("hhu"),
+        (
+          field: string,
+          unformatted: boolean,
+          includeBaseMapped: boolean,
+          item: Zotero.Item
+        ) => {
+          // return String(item.id);
+          var IFhhu = ztoolkit.ExtraField.getExtraField(item, '河海大学')
+          return String(IFhhu == undefined ? '' : IFhhu);
+        },
+      );
+    } else {
+      await ztoolkit.ItemTree.unregister("hhu");
+    }
+
+    // 重庆大学
+    if (cqu) {
+      await ztoolkit.ItemTree.register(
+        "cqu",
+        getString("cqu"),
+        (
+          field: string,
+          unformatted: boolean,
+          includeBaseMapped: boolean,
+          item: Zotero.Item
+        ) => {
+          // return String(item.id);
+          var IFcqu = ztoolkit.ExtraField.getExtraField(item, '重庆大学')
+          return String(IFcqu == undefined ? '' : IFcqu);
+        },
+      );
+    } else {
+      await ztoolkit.ItemTree.unregister("cqu");
+    }
+
+    // 南京大学
+    if (nju) {
+      await ztoolkit.ItemTree.register(
+        "nju",
+        getString("nju"),
+        (
+          field: string,
+          unformatted: boolean,
+          includeBaseMapped: boolean,
+          item: Zotero.Item
+        ) => {
+          // return String(item.id);
+          var IFnju = ztoolkit.ExtraField.getExtraField(item, '南京大学')
+          return String(IFnju == undefined ? '' : IFnju);
+        },
+      );
+    } else {
+      await ztoolkit.ItemTree.unregister("nju");
+    }
+
+    // 新疆大学
+    if (xju) {
+      await ztoolkit.ItemTree.register(
+        "xju",
+        getString("xju"),
+        (
+          field: string,
+          unformatted: boolean,
+          includeBaseMapped: boolean,
+          item: Zotero.Item
+        ) => {
+          // return String(item.id);
+          var IFxju = ztoolkit.ExtraField.getExtraField(item, '新疆大学')
+          return String(IFxju == undefined ? '' : IFxju);
+        },
+      );
+    } else {
+      await ztoolkit.ItemTree.unregister("xju");
+    }
+
+    // 中国地质大学
+    if (cug) {
+      await ztoolkit.ItemTree.register(
+        "cug",
+        getString("cug"),
+        (
+          field: string,
+          unformatted: boolean,
+          includeBaseMapped: boolean,
+          item: Zotero.Item
+        ) => {
+          // return String(item.id);
+          var IFcug = ztoolkit.ExtraField.getExtraField(item, '中国地质大学')
+          return String(IFcug == undefined ? '' : IFcug);
+        },
+      );
+    } else {
+      await ztoolkit.ItemTree.unregister("cug");
+    }
+
+    // 长江大学
+    if (cju) {
+      await ztoolkit.ItemTree.register(
+        "cju",
+        getString("cju"),
+        (
+          field: string,
+          unformatted: boolean,
+          includeBaseMapped: boolean,
+          item: Zotero.Item
+        ) => {
+          // return String(item.id);
+          var IFcju = ztoolkit.ExtraField.getExtraField(item, '长江大学')
+          return String(IFcju == undefined ? '' : IFcju);
+        },
+      );
+    } else {
+      await ztoolkit.ItemTree.unregister("cju");
+    }
+
+    // 浙江大学
+    if (zju) {
+      await ztoolkit.ItemTree.register(
+        "zju",
+        getString("zju"),
+        (
+          field: string,
+          unformatted: boolean,
+          includeBaseMapped: boolean,
+          item: Zotero.Item
+        ) => {
+          // return String(item.id);
+          var IFzju = ztoolkit.ExtraField.getExtraField(item, '浙江大学')
+          return String(IFzju == undefined ? '' : IFzju);
+        },
+      );
+    } else {
+      await ztoolkit.ItemTree.unregister("zju");
     }
 
     // 总结
