@@ -305,6 +305,10 @@ export class KeyExampleFactory {
         if (hhu && easyscholarData['hhu']) {
           ztoolkit.ExtraField.setExtraField(item, '河海大学', easyscholarData['hhu']);
         }
+        // 四川大学
+        if (scu && easyscholarData['scu']) {
+          ztoolkit.ExtraField.setExtraField(item, '四川大学', easyscholarData['scu']);
+        }
         // 重庆大学
         if (cqu && easyscholarData['cqu']) {
           ztoolkit.ExtraField.setExtraField(item, '重庆大学', easyscholarData['cqu']);
@@ -1853,6 +1857,25 @@ export class UIExampleFactory {
       await ztoolkit.ItemTree.unregister("hhu");
     }
 
+    // 四川大学
+    if (scu) {
+      await ztoolkit.ItemTree.register(
+        "scu",
+        getString("scu"),
+        (
+          field: string,
+          unformatted: boolean,
+          includeBaseMapped: boolean,
+          item: Zotero.Item
+        ) => {
+          // return String(item.id);
+          var IFscu = ztoolkit.ExtraField.getExtraField(item, '四川大学')
+          return String(IFscu == undefined ? '' : IFscu);
+        },
+      );
+    } else {
+      await ztoolkit.ItemTree.unregister("scu");
+    }
     // 重庆大学
     if (cqu) {
       await ztoolkit.ItemTree.register(
