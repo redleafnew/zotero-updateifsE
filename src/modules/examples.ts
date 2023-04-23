@@ -399,7 +399,7 @@ export class KeyExampleFactory {
           }
         );
         var AllJour = resp.responseText;
-        var reg = pubT + '\n(.*\n){10,40} .*复合影响因子：(.*)\n(.*\n){0,6} .*综合影响因子：(.*)'; //复合影响因子和综合影响因子正则，里面含有空格，\s不行
+        var reg = ' ' + pubT + '\n(.*\n){10,40} .*复合影响因子：(.*)\n(.*\n){0,6} .*综合影响因子：(.*)'; //复合影响因子和综合影响因子正则，里面含有空格，\s不行
         var patt = new RegExp(reg, 'i'); //
         var jour = AllJour.match(patt) // [2]为复合影响因子，[4]为综合IF
         var compoundIF = jour[2];
