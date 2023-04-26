@@ -137,7 +137,7 @@ export class KeyExampleFactory {
   static async setExtra(items: any) {
     var n = 0;
     for (let item of items) {
-      if (UIExampleFactory.checkItem(item)) {  //如果是期刊才继续
+      if (UIExampleFactory.checkItem(item)) {  //如果是期刊或会议论文才继续
         var easyscholarData = await KeyExampleFactory.getIFs(item); //得到easyscholar数据
         var chineseIFs = await KeyExampleFactory.getChineseIFs(item); //综合影响因子、复合影响因子
 
@@ -185,64 +185,142 @@ export class KeyExampleFactory {
         var njauCoreShow = Zotero.Prefs.get(`extensions.zotero.${config.addonRef}.njau.core`, true);
         var njauJourShow = Zotero.Prefs.get(`extensions.zotero.${config.addonRef}.njau.high.quality`, true);
 
-        if (easyscholarData) { //如果得到easyscholar数据再写入
-          n++ //如果得到easyScholar数据才算更新成功
-          // HelperExampleFactory.progressWindow(easyscholarData['sci'], 'success')
-          if (jcr && easyscholarData['sci']) {
-            ztoolkit.ExtraField.setExtraField(item, 'JCR分区', easyscholarData['sci']);
+        try {
+          if (easyscholarData) { //如果得到easyscholar数据再写入
+            n++ //如果得到easyScholar数据才算更新成功
+            // HelperExampleFactory.progressWindow(easyscholarData['sci'], 'success')
+            if (jcr && easyscholarData['sci']) {
+              ztoolkit.ExtraField.setExtraField(item, 'JCR分区', easyscholarData['sci']);
+            }
+            if (updated && easyscholarData['sciUp']) {
+              ztoolkit.ExtraField.setExtraField(item, '中科院分区升级版', easyscholarData['sciUp']);
+            }
+            if (basic && easyscholarData['sciBase']) {
+              ztoolkit.ExtraField.setExtraField(item, '中科院分区基础版', easyscholarData['sciBase']);
+            }
+            if (ifs && easyscholarData['sciif']) {
+              ztoolkit.ExtraField.setExtraField(item, '影响因子', easyscholarData['sciif']);
+            }
+            if (if5 && easyscholarData['sciif5']) {
+              ztoolkit.ExtraField.setExtraField(item, '5年影响因子', easyscholarData['sciif5']);
+            }
+            if (eii && easyscholarData['eii']) {
+              ztoolkit.ExtraField.setExtraField(item, 'EI', '是');
+            }
+            if (chjcscd && easyscholarData['cscd']) {
+              ztoolkit.ExtraField.setExtraField(item, 'CSCD', easyscholarData['cscd']);
+            }
+            if (pkucore && easyscholarData['pku']) {
+              ztoolkit.ExtraField.setExtraField(item, '中文核心期刊/北大核心', '是');
+            }
+            if (njucore && easyscholarData['cssci']) {
+              ztoolkit.ExtraField.setExtraField(item, 'CSSCI/南大核心', '是');
+            }
+            if (scicore && easyscholarData['zhongguokejihexin']) {
+              ztoolkit.ExtraField.setExtraField(item, '中国科技核心期刊', '是');
+            }
+            if (ssci && easyscholarData['ssci']) {
+              ztoolkit.ExtraField.setExtraField(item, 'SSCI', easyscholarData['ssci']);
+            }
+            if (ajg && easyscholarData['ajg']) {
+              ztoolkit.ExtraField.setExtraField(item, 'AJG', easyscholarData['ajg']);
+            }
+            if (utd24 && easyscholarData['utd24']) {
+              ztoolkit.ExtraField.setExtraField(item, 'UTD24', easyscholarData['utd24']);
+            }
+            if (ft50 && easyscholarData['ft50']) {
+              ztoolkit.ExtraField.setExtraField(item, 'FT50', easyscholarData['ft50']);
+            }
+            if (ccf && easyscholarData['ccf']) {
+              ztoolkit.ExtraField.setExtraField(item, 'CCF', easyscholarData['ccf']);
+            }
+            if (fms && easyscholarData['fms']) {
+              ztoolkit.ExtraField.setExtraField(item, 'FMS', easyscholarData['fms']);
+            }
+            if (jci && easyscholarData['jci']) {
+              ztoolkit.ExtraField.setExtraField(item, 'JCI', easyscholarData['jci']);
+            }
+            if (ahci && easyscholarData['ahci']) {
+              ztoolkit.ExtraField.setExtraField(item, 'AHCI', easyscholarData['ahci']);
+            }
+            // 西南财经大学
+            if (swufe && easyscholarData['swufe']) {
+              ztoolkit.ExtraField.setExtraField(item, '西南财经大学', easyscholarData['swufe']);
+            }
+            // 中央财经大学
+            if (cufe && easyscholarData['cufe']) {
+              ztoolkit.ExtraField.setExtraField(item, '中央财经大学', easyscholarData['cufe']);
+            }
+            // 对外经济贸易大学
+            if (uibe && easyscholarData['uibe']) {
+              ztoolkit.ExtraField.setExtraField(item, '对外经济贸易大学', easyscholarData['uibe']);
+            }
+            // 山东财经大学
+            if (sdufe && easyscholarData['sdufe']) {
+              ztoolkit.ExtraField.setExtraField(item, '山东财经大学', easyscholarData['sdufe']);
+            }
+            // 西安电子科技大学
+            if (xdu && easyscholarData['xdu']) {
+              ztoolkit.ExtraField.setExtraField(item, '西安电子科技大学', easyscholarData['xdu']);
+            }
+            // 西南交通大学
+            if (swjtu && easyscholarData['swjtu']) {
+              ztoolkit.ExtraField.setExtraField(item, '西南交通大学', easyscholarData['swjtu']);
+            }
+            // 中国人民大学
+            if (ruc && easyscholarData['ruc']) {
+              ztoolkit.ExtraField.setExtraField(item, '中国人民大学', easyscholarData['ruc']);
+            }
+            // 厦门大学
+            if (xmu && easyscholarData['xmu']) {
+              ztoolkit.ExtraField.setExtraField(item, '厦门大学', easyscholarData['xmu']);
+            }
+            // 上海交通大学
+            if (sjtu && easyscholarData['sjtu']) {
+              ztoolkit.ExtraField.setExtraField(item, '上海交通大学', easyscholarData['sjtu']);
+            }
+            // 复旦大学
+            if (fdu && easyscholarData['fdu']) {
+              ztoolkit.ExtraField.setExtraField(item, '复旦大学', easyscholarData['fdu']);
+            }
+            // 河海大学
+            if (hhu && easyscholarData['hhu']) {
+              ztoolkit.ExtraField.setExtraField(item, '河海大学', easyscholarData['hhu']);
+            }
+            // 四川大学
+            if (scu && easyscholarData['scu']) {
+              ztoolkit.ExtraField.setExtraField(item, '四川大学', easyscholarData['scu']);
+            }
+            // 重庆大学
+            if (cqu && easyscholarData['cqu']) {
+              ztoolkit.ExtraField.setExtraField(item, '重庆大学', easyscholarData['cqu']);
+            }
+            // 南京大学
+            if (nju && easyscholarData['nju']) {
+              ztoolkit.ExtraField.setExtraField(item, '南京大学', easyscholarData['nju']);
+            }
+            // 新疆大学
+            if (xju && easyscholarData['xju']) {
+              ztoolkit.ExtraField.setExtraField(item, '新疆大学', easyscholarData['xju']);
+            }
+            // 中国地质大学
+            if (cug && easyscholarData['cug']) {
+              ztoolkit.ExtraField.setExtraField(item, '中国地质大学', easyscholarData['cug']);
+            }
+            // 长江大学
+            if (cju && easyscholarData['cju']) {
+              ztoolkit.ExtraField.setExtraField(item, '长江大学', easyscholarData['cju']);
+            }
+            // 浙江大学
+            if (zju && easyscholarData['zju']) {
+              ztoolkit.ExtraField.setExtraField(item, '浙江大学', easyscholarData['zju']);
+            }
           }
-          if (updated && easyscholarData['sciUp']) {
-            ztoolkit.ExtraField.setExtraField(item, '中科院分区升级版', easyscholarData['sciUp']);
-          }
-          if (basic && easyscholarData['sciBase']) {
-            ztoolkit.ExtraField.setExtraField(item, '中科院分区基础版', easyscholarData['sciBase']);
-          }
-          if (ifs && easyscholarData['sciif']) {
-            ztoolkit.ExtraField.setExtraField(item, '影响因子', easyscholarData['sciif']);
-          }
-          if (if5 && easyscholarData['sciif5']) {
-            ztoolkit.ExtraField.setExtraField(item, '5年影响因子', easyscholarData['sciif5']);
-          }
-          if (eii && easyscholarData['eii']) {
-            ztoolkit.ExtraField.setExtraField(item, 'EI', '是');
-          }
-          if (chjcscd && easyscholarData['cscd']) {
-            ztoolkit.ExtraField.setExtraField(item, 'CSCD', easyscholarData['cscd']);
-          }
-          if (pkucore && easyscholarData['pku']) {
-            ztoolkit.ExtraField.setExtraField(item, '中文核心期刊/北大核心', '是');
-          }
-          if (njucore && easyscholarData['cssci']) {
-            ztoolkit.ExtraField.setExtraField(item, 'CSSCI/南大核心', '是');
-          }
-          if (scicore && easyscholarData['zhongguokejihexin']) {
-            ztoolkit.ExtraField.setExtraField(item, '中国科技核心期刊', '是');
-          }
-          if (ssci && easyscholarData['ssci']) {
-            ztoolkit.ExtraField.setExtraField(item, 'SSCI', easyscholarData['ssci']);
-          }
-          if (ajg && easyscholarData['ajg']) {
-            ztoolkit.ExtraField.setExtraField(item, 'AJG', easyscholarData['ajg']);
-          }
-          if (utd24 && easyscholarData['utd24']) {
-            ztoolkit.ExtraField.setExtraField(item, 'UTD24', easyscholarData['utd24']);
-          }
-          if (ft50 && easyscholarData['ft50']) {
-            ztoolkit.ExtraField.setExtraField(item, 'FT50', easyscholarData['ft50']);
-          }
-          if (ccf && easyscholarData['ccf']) {
-            ztoolkit.ExtraField.setExtraField(item, 'CCF', easyscholarData['ccf']);
-          }
-          if (fms && easyscholarData['fms']) {
-            ztoolkit.ExtraField.setExtraField(item, 'FMS', easyscholarData['fms']);
-          }
-          if (jci && easyscholarData['jci']) {
-            ztoolkit.ExtraField.setExtraField(item, 'JCI', easyscholarData['jci']);
-          }
-          if (ahci && easyscholarData['ahci']) {
-            ztoolkit.ExtraField.setExtraField(item, 'AHCI', easyscholarData['ahci']);
-          }
+        } catch (error) {
+          Zotero.debug('影响因子设置失败！')
         }
+
+
         //复合影响因子、综合影响因子
         if (chineseIFs) { // 如果得到复合影响因子、综合影响因子再写入
           // if (!chineseIFs) { return } // 否则后面会报错
@@ -253,6 +331,7 @@ export class KeyExampleFactory {
             ztoolkit.ExtraField.setExtraField(item, '综合影响因子', chineseIFs[1]);
           }
         }
+
         // 大学期刊分类
         // 南农核心期刊分类、高水平期刊
         if (njauCoreShow) {
@@ -261,87 +340,16 @@ export class KeyExampleFactory {
         if (njauJourShow) {
           ztoolkit.ExtraField.setExtraField(item, '南农高质量', njauJournal(item));
         }
-        // 西南财经大学
-        if (swufe && easyscholarData['swufe']) {
-          ztoolkit.ExtraField.setExtraField(item, '西南财经大学', easyscholarData['swufe']);
-        }
-        // 中央财经大学
-        if (cufe && easyscholarData['cufe']) {
-          ztoolkit.ExtraField.setExtraField(item, '中央财经大学', easyscholarData['cufe']);
-        }
-        // 对外经济贸易大学
-        if (uibe && easyscholarData['uibe']) {
-          ztoolkit.ExtraField.setExtraField(item, '对外经济贸易大学', easyscholarData['uibe']);
-        }
-        // 山东财经大学
-        if (sdufe && easyscholarData['sdufe']) {
-          ztoolkit.ExtraField.setExtraField(item, '山东财经大学', easyscholarData['sdufe']);
-        }
-        // 西安电子科技大学
-        if (xdu && easyscholarData['xdu']) {
-          ztoolkit.ExtraField.setExtraField(item, '西安电子科技大学', easyscholarData['xdu']);
-        }
-        // 西南交通大学
-        if (swjtu && easyscholarData['swjtu']) {
-          ztoolkit.ExtraField.setExtraField(item, '西南交通大学', easyscholarData['swjtu']);
-        }
-        // 中国人民大学
-        if (ruc && easyscholarData['ruc']) {
-          ztoolkit.ExtraField.setExtraField(item, '中国人民大学', easyscholarData['ruc']);
-        }
-        // 厦门大学
-        if (xmu && easyscholarData['xmu']) {
-          ztoolkit.ExtraField.setExtraField(item, '厦门大学', easyscholarData['xmu']);
-        }
-        // 上海交通大学
-        if (sjtu && easyscholarData['sjtu']) {
-          ztoolkit.ExtraField.setExtraField(item, '上海交通大学', easyscholarData['sjtu']);
-        }
-        // 复旦大学
-        if (fdu && easyscholarData['fdu']) {
-          ztoolkit.ExtraField.setExtraField(item, '复旦大学', easyscholarData['fdu']);
-        }
-        // 河海大学
-        if (hhu && easyscholarData['hhu']) {
-          ztoolkit.ExtraField.setExtraField(item, '河海大学', easyscholarData['hhu']);
-        }
-        // 四川大学
-        if (scu && easyscholarData['scu']) {
-          ztoolkit.ExtraField.setExtraField(item, '四川大学', easyscholarData['scu']);
-        }
-        // 重庆大学
-        if (cqu && easyscholarData['cqu']) {
-          ztoolkit.ExtraField.setExtraField(item, '重庆大学', easyscholarData['cqu']);
-        }
-        // 南京大学
-        if (nju && easyscholarData['nju']) {
-          ztoolkit.ExtraField.setExtraField(item, '南京大学', easyscholarData['nju']);
-        }
-        // 新疆大学
-        if (xju && easyscholarData['xju']) {
-          ztoolkit.ExtraField.setExtraField(item, '新疆大学', easyscholarData['xju']);
-        }
-        // 中国地质大学
-        if (cug && easyscholarData['cug']) {
-          ztoolkit.ExtraField.setExtraField(item, '中国地质大学', easyscholarData['cug']);
-        }
-        // 长江大学
-        if (cju && easyscholarData['cju']) {
-          ztoolkit.ExtraField.setExtraField(item, '长江大学', easyscholarData['cju']);
-        }
-        // 浙江大学
-        if (zju && easyscholarData['zju']) {
-          ztoolkit.ExtraField.setExtraField(item, '浙江大学', easyscholarData['zju']);
-        }
+
 
 
 
         // 期刊缩写更新
         try {
           HelperExampleFactory.upJourAbb(item);
+
         } catch (error) {
           Zotero.debug('期刊缩写更新失败！')
-
         }
         item.saveTx();
 
@@ -360,7 +368,10 @@ export class KeyExampleFactory {
   // 从easyScholar获取数据 获得影响因子 新接口函数
   static async getIFs(item: Zotero.Item) {
     var secretKey: any = Zotero.Prefs.get(`extensions.zotero.${config.addonRef}.secretkey`, true);
-    var publicationTitle = encodeURIComponent(item.getField('publicationTitle') as any);
+    //得到查询字段，期刊用期刊题目，会议论文用会议名称
+    var publicationTitle = Zotero.ItemTypes.getName(item.itemTypeID) == 'journalArticle' ?
+      encodeURIComponent(item.getField('publicationTitle') as any) :
+      encodeURIComponent(item.getField('conferenceName') as any);
     var url = `https://easyscholar.cc/open/getPublicationRank?secretKey=${secretKey}&publicationName=${publicationTitle}`;
     try {
       var resp = await Zotero.HTTP.request("GET", url);
@@ -368,10 +379,12 @@ export class KeyExampleFactory {
       if (updateJson["data"]["officialRank"]["all"]) {
         return updateJson["data"]["officialRank"]["all"];
       } else {
+        // HelperExampleFactory.progressWindow(`${getString('upIfsFail')}`, 'fail');
         Zotero.debug("easyScholar中无此期刊");
         Zotero.debug(updateJson["msg"]);
       }
     } catch (e) {
+      // HelperExampleFactory.progressWindow(`${getString('upIfsFail')}`, 'fail');
       Zotero.debug("获取easyScholar信息失败");
       Zotero.debug(updateJson["msg"]);
     }
@@ -441,7 +454,7 @@ export class KeyExampleFactory {
     var n = 0;
     var pattern = new RegExp("[\u4E00-\u9FA5]+");
     for (let item of items) {
-      if (UIExampleFactory.checkItem(item)) {//如果期刊才继续
+      if (UIExampleFactory.checkItem(item)) {//如果期刊或会议论文才继续
         var title: any = item.getField("title");
         var doi = item.getField("DOI");
         var lan = pattern.test(title) ? 'zh-CN' : 'en-US';
@@ -759,7 +772,7 @@ export class UIExampleFactory {
 
     if (!!collection) { // 如果是正常分类才显示
       var items = collection.getChildItems();
-      showmenuUpIFsCol = items.some((item) => UIExampleFactory.checkItem(item)); //检查是否为期刊
+      showmenuUpIFsCol = items.some((item) => UIExampleFactory.checkItem(item)); //检查是否为期刊或会议论文
       showmenuUpMetaCol = items.some((item) => UIExampleFactory.checkItemMeta(item)); // 更新元数据 中文有题目，英文检查是否有DOI
     } else {
       showmenuUpIFsCol = false;
@@ -781,7 +794,7 @@ export class UIExampleFactory {
       menuUpIfs = document.getElementById(`zotero-itemmenu-${config.addonRef}-upifs`), // 更新期刊信息
       menuUpMeta = document.getElementById(`zotero-itemmenu-${config.addonRef}-upmeta`), // 更新元数据
 
-      showMenuUpIfs = items.some((item) => UIExampleFactory.checkItem(item)),// 更新期刊信息 检查是否为期刊
+      showMenuUpIfs = items.some((item) => UIExampleFactory.checkItem(item)),// 更新期刊信息 检查是否为期刊或会议论文
       showMenuUpMeta = items.some((item) => UIExampleFactory.checkItemMeta(item)); // 更新元数据 检查是否有DOI
 
     menuUpIfs?.setAttribute('disabled', `${!showMenuUpIfs}`); // 禁用更新期刊信息
@@ -794,7 +807,9 @@ export class UIExampleFactory {
   static checkItem(item: Zotero.Item) {
     if (item && !item.isNote()) {
       if (item.isRegularItem()) { // not an attachment already
-        if (Zotero.ItemTypes.getName(item.itemTypeID) == 'journalArticle' // 文献类型为期刊
+        if (Zotero.ItemTypes.getName(item.itemTypeID) == 'journalArticle' ||// 文献类型为期刊
+          Zotero.ItemTypes.getName(item.itemTypeID) == 'conferencePaper'
+
         ) { return true }
       }
     }
@@ -2438,18 +2453,26 @@ export class HelperExampleFactory {
           var jourAbb = dotAbb ? jourAbbs["abb_with_dot"] : jourAbbs["abb_no_dot"];
           var abb = HelperExampleFactory.titleCase(jourAbb) //改为词首字母大写
           abb = abb.replace('Ieee', 'IEEE').  //替换IEEE
-            replace('Iet', 'IET')  //替换IET
+            replace('Acs', 'ACS').  //替换ACS
+            replace('Aip', 'AIP').  //替换AIP
+            replace('Apl', 'APL'). //替换APL
+            replace('Avs', 'AVS'). //替换AVS
+            replace('Bmc', 'BMC'). //替换AVS
+            replace('Iet', 'IET'). //替换IET
+            replace('Rsc', 'RSC') //替换RSC
           item.setField('journalAbbreviation', abb);
 
         } catch (e) {
           return;
         }
         // 英文如果找不到缩写是否用全称代替
-      } else if (enAbb && lan == 'en-US') {
-        item.setField('journalAbbreviation', pubT);
-        // 中文如果找不到缩写是否用全称代替
-      } else if (chAbb && lan == 'zh-CN') {
-        item.setField('journalAbbreviation', pubT);
+      } else {
+        if (enAbb && lan == 'en-US') {
+          item.setField('journalAbbreviation', pubT);
+          // 中文如果找不到缩写是否用全称代替
+        } else if (chAbb && lan == 'zh-CN') {
+          item.setField('journalAbbreviation', pubT);
+        }
       }
     }
     //return jourAbbs
