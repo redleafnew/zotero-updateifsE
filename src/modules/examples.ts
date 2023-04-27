@@ -2440,9 +2440,18 @@ export class HelperExampleFactory {
       } catch (e) {
         Zotero.debug('获取期刊缩写失败');
       }
+
       if (jourAbbs["record"] == 0) {  // 得到带点和不带点的缩写, 尝试& 替换为 and
         try {
           var jourAbbs = await HelperExampleFactory.getJourAbb((pubT as any).replace('&', 'and')); // 得到带点和不带点的缩写
+        } catch (e) {
+          Zotero.debug('获取期刊缩写失败');
+        }
+      }
+
+      if (jourAbbs["record"] == 0) {  // 得到带点和不带点的缩写, 尝试删除the空格
+        try {
+          var jourAbbs = await HelperExampleFactory.getJourAbb((pubT as any).replace(/the\s/i, '')); // 得到带点和不带点的缩写
         } catch (e) {
           Zotero.debug('获取期刊缩写失败');
         }
