@@ -2,6 +2,7 @@ import { ProgressWindowHelper } from "zotero-plugin-toolkit/dist/helpers/progres
 import { config } from "../../package.json";
 import { getString } from "./locale";
 import { njauCore, njauJournal } from "./njau";
+import { getAbbEx } from "./abb";
 
 function example(
   target: any,
@@ -2449,6 +2450,14 @@ export class HelperExampleFactory {
         }
       }
 
+      if (jourAbbs["record"] == 0) {  // 自定义的期刊缩写
+        try {
+          var jourAbbs = getAbbEx(pubT as any); // 得到带点和不带点的缩写
+        } catch (e) {
+          Zotero.debug('获取自定义期刊缩写失败');
+        }
+      }
+
       if (jourAbbs["record"] == 0) {  // 得到带点和不带点的缩写, 尝试删除the空格
         try {
           var jourAbbs = await HelperExampleFactory.getJourAbb((pubT as any).replace(/the\s/i, '')); // 得到带点和不带点的缩写
@@ -2460,6 +2469,7 @@ export class HelperExampleFactory {
       if (jourAbbs["record"] != 0) {
         try {
           var jourAbb = dotAbb ? jourAbbs["abb_with_dot"] : jourAbbs["abb_no_dot"];
+
           var abb = HelperExampleFactory.titleCase(jourAbb) //改为词首字母大写
           abb = abb.replace('Ieee', 'IEEE').  //替换IEEE
             replace('Acs', 'ACS').  //替换ACS
@@ -2468,7 +2478,9 @@ export class HelperExampleFactory {
             replace('Avs', 'AVS'). //替换AVS
             replace('Bmc', 'BMC'). //替换AVS
             replace('Iet', 'IET'). //替换IET
-            replace('Rsc', 'RSC') //替换RSC
+            replace('Rsc', 'RSC'). //替换RSC
+            replace('U S A', 'USA'). //删除空格
+            replace('U. S. A.', 'U.S.A.') //删除空格
           item.setField('journalAbbreviation', abb);
 
         } catch (e) {
@@ -2476,6 +2488,7 @@ export class HelperExampleFactory {
         }
         // 英文如果找不到缩写是否用全称代替
       } else {
+
         if (enAbb && lan == 'en-US') {
           item.setField('journalAbbreviation', pubT);
           // 中文如果找不到缩写是否用全称代替
