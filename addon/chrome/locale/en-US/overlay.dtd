@@ -59,8 +59,13 @@
 <!ENTITY zotero.__addonRef__.cju "CJU">
 <!ENTITY zotero.__addonRef__.zju "ZJU">
 
-<!-- 菜单显示隐藏设置 -->
+<!-- 自定义数据集 -->
+<!ENTITY zotero.__addonRef__.custom.data "Custom Dataset">
+<!ENTITY zotero.__addonRef__.ami "AMI">
+<!ENTITY zotero.__addonRef__.clsci "CLSCI">
+<!ENTITY zotero.__addonRef__.nssf "NSSF (National Social Science Fund)">
 
+<!-- 菜单显示隐藏设置 -->
 <!ENTITY zotero.__addonRef__.menu.setting "Show Toolbox Menu Settings">
 <!ENTITY zotero.__addonRef__.bold.star "Author Bold and/or Asterisk">
 <!ENTITY zotero.__addonRef__.remove.bold "Clean Author Bold">

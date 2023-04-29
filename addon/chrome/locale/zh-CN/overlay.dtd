@@ -56,9 +56,13 @@
 <!ENTITY zotero.__addonRef__.cju "长江大学">
 <!ENTITY zotero.__addonRef__.zju "浙江大学">
 
+<!-- 自定义数据集 -->
+<!ENTITY zotero.__addonRef__.custom.data "自定义数据集">
+<!ENTITY zotero.__addonRef__.ami "AMI">
+<!ENTITY zotero.__addonRef__.clsci "CLSCI">
+<!ENTITY zotero.__addonRef__.nssf "国家社科基金">
 
 <!-- 菜单显示隐藏设置 -->
-
 <!ENTITY zotero.__addonRef__.menu.setting "显示工具箱菜单设置">
 <!ENTITY zotero.__addonRef__.bold.star "作者加粗/加星">
 <!ENTITY zotero.__addonRef__.remove.bold "清除作者加粗">

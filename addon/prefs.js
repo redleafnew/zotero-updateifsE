@@ -29,9 +29,13 @@ pref("extensions.zotero.__addonRef__.cju", false);
 pref("extensions.zotero.__addonRef__.zju", false);
 pref("extensions.zotero.__addonRef__.njau.core", true);
 pref("extensions.zotero.__addonRef__.njau.high.quality", true);
+// 自定义数据集
+pref("extensions.zotero.__addonRef__.clsci", false);
+pref("extensions.zotero.__addonRef__.ami", false);
+pref("extensions.zotero.__addonRef__.nssf", false);
+
 
 // 影响因子
-
 pref("extensions.zotero.__addonRef__.jcr.qu", true);
 pref("extensions.zotero.__addonRef__.basic", false);
 pref("extensions.zotero.__addonRef__.updated", true);

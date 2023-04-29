@@ -142,6 +142,13 @@ export class KeyExampleFactory {
         var easyscholarData = await KeyExampleFactory.getIFs(item); //得到easyscholar数据
         var chineseIFs = await KeyExampleFactory.getChineseIFs(item); //综合影响因子、复合影响因子
 
+        var clsciJourID = '1642199434173014016'; // CLSCI UUID
+        var amiJourID = '1648920625629810688'; //AMI UUID
+        var nssfJourID = '1648936694851489792';//NSSF  UUID
+        // 加: any为了后面不报错
+        var clsciLevel: any = await KeyExampleFactory.getCustomIFs(item, clsciJourID);
+        var amiLevel: any = await KeyExampleFactory.getCustomIFs(item, amiJourID);
+        var nssfLevel: any = await KeyExampleFactory.getCustomIFs(item, nssfJourID);
 
         // 加: any为了后面不报错
         var jcr: any = Zotero.Prefs.get(`extensions.zotero.${config.addonRef}.jcr.qu`, true);
@@ -185,6 +192,10 @@ export class KeyExampleFactory {
         var zju = Zotero.Prefs.get(`extensions.zotero.${config.addonRef}.zju`, true);
         var njauCoreShow = Zotero.Prefs.get(`extensions.zotero.${config.addonRef}.njau.core`, true);
         var njauJourShow = Zotero.Prefs.get(`extensions.zotero.${config.addonRef}.njau.high.quality`, true);
+        // 自定义数据集
+        var clsci = Zotero.Prefs.get(`extensions.zotero.${config.addonRef}.clsci`, true);
+        var ami = Zotero.Prefs.get(`extensions.zotero.${config.addonRef}.ami`, true);
+        var nssf = Zotero.Prefs.get(`extensions.zotero.${config.addonRef}.nssf`, true);
 
         try {
           if (easyscholarData) { //如果得到easyscholar数据再写入
@@ -342,7 +353,19 @@ export class KeyExampleFactory {
           ztoolkit.ExtraField.setExtraField(item, '南农高质量', njauJournal(item));
         }
 
-
+        // 自定义数据集
+        // CLSCI
+        if (clsci) {
+          ztoolkit.ExtraField.setExtraField(item, 'CLSCI', clsciLevel == ' ' ? '是' : '否');
+        }
+        // AMI
+        if (ami) {
+          ztoolkit.ExtraField.setExtraField(item, 'AMI', amiLevel);
+        }
+        // NSSF
+        if (nssf) {
+          ztoolkit.ExtraField.setExtraField(item, 'NSSF', nssfLevel);
+        }
 
 
         // 期刊缩写更新
@@ -389,8 +412,42 @@ export class KeyExampleFactory {
       Zotero.debug("获取easyScholar信息失败");
       Zotero.debug(updateJson["msg"]);
     }
-
   };
+
+  @example
+  // 得到自定义期刊级别
+  static async getCustomIFs(item: Zotero.Item, jourID: any) {
+    let secretKey = Zotero.Prefs.get('extensions.zotero.greenfrog.secretkey', true);
+    //publicationTitle =encodeURIComponent(item.getField('publicationTitle'));
+    var publicationTitle = Zotero.ItemTypes.getName(item.itemTypeID) == 'journalArticle' ?
+      encodeURIComponent(item.getField('publicationTitle')) :
+      encodeURIComponent(item.getField('conferenceName'));
+    var url = `https://easyscholar.cc/open/getPublicationRank?secretKey=${secretKey}&publicationName=${publicationTitle}`;
+    try {
+      let req = await Zotero.HTTP.request('GET', url, { responseType: 'json' });
+      // 得到all rank
+      //var jourID = "1648920625629810688"
+      var allRank = req.response['data']["customRank"]["rankInfo"].
+        filter(function (e: any) { return e.uuid == jourID; });
+      var allRankValues = Object.values(allRank[0]);
+
+      // 得到rank
+      try {
+        var rank = req.response['data']["customRank"]["rank"].
+          filter((item: any) => item.slice(0, -4) == jourID)[0].slice(-1);
+      }
+      catch (e) {
+        Zotero.debug('获取自定义数据集失败！')
+      }
+
+      // rank转为数字加1得到期刊级别
+      var level = allRankValues[parseInt(rank) + 1];
+      return level;
+    }
+    catch (e) {
+      Zotero.debug('获取自定义数据集失败！')
+    }
+  }
 
   @example
   // 设置复合影响因子及综合影响因子20220709
@@ -1218,6 +1275,11 @@ export class UIExampleFactory {
     var zju = Zotero.Prefs.get(`extensions.zotero.${config.addonRef}.zju`, true);
     var njauCoreShow = Zotero.Prefs.get(`extensions.zotero.${config.addonRef}.njau.core`, true);
     var njauJourShow = Zotero.Prefs.get(`extensions.zotero.${config.addonRef}.njau.high.quality`, true);
+    // 自定义数据集
+    var clsci = Zotero.Prefs.get(`extensions.zotero.${config.addonRef}.clsci`, true);
+    var ami = Zotero.Prefs.get(`extensions.zotero.${config.addonRef}.ami`, true);
+    var nssf = Zotero.Prefs.get(`extensions.zotero.${config.addonRef}.nssf`, true);
+
     var summary = Zotero.Prefs.get(`extensions.zotero.${config.addonRef}.summary`, true);
 
 
@@ -2011,6 +2073,66 @@ export class UIExampleFactory {
     } else {
       await ztoolkit.ItemTree.unregister("zju");
     }
+
+    // CLSCI
+    if (clsci) {
+      await ztoolkit.ItemTree.register(
+        "clsci",
+        getString("clsci"),
+        (
+          field: string,
+          unformatted: boolean,
+          includeBaseMapped: boolean,
+          item: Zotero.Item
+        ) => {
+          // return String(item.id);
+          var IFclsci = ztoolkit.ExtraField.getExtraField(item, 'CLSCI')
+          return String(IFclsci == undefined ? '' : IFclsci);
+        },
+      );
+    } else {
+      await ztoolkit.ItemTree.unregister("clsci");
+    }
+
+    // AMI
+    if (ami) {
+      await ztoolkit.ItemTree.register(
+        "ami",
+        getString("ami"),
+        (
+          field: string,
+          unformatted: boolean,
+          includeBaseMapped: boolean,
+          item: Zotero.Item
+        ) => {
+          // return String(item.id);
+          var IFami = ztoolkit.ExtraField.getExtraField(item, 'AMI')
+          return String(IFami == undefined ? '' : IFami);
+        },
+      );
+    } else {
+      await ztoolkit.ItemTree.unregister("ami");
+    }
+    // 国家社科基金
+    if (nssf) {
+      await ztoolkit.ItemTree.register(
+        "nssf",
+        getString("nssf"),
+        (
+          field: string,
+          unformatted: boolean,
+          includeBaseMapped: boolean,
+          item: Zotero.Item
+        ) => {
+          // return String(item.id);
+          var IFnssf = ztoolkit.ExtraField.getExtraField(item, 'NSSF')
+          return String(IFnssf == undefined ? '' : IFnssf);
+        },
+      );
+    } else {
+      await ztoolkit.ItemTree.unregister("nssf");
+    }
+
 
     // 总结
     if (summary) {

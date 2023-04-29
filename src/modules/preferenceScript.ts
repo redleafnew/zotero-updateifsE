@@ -4,7 +4,7 @@ import {
   BasicExampleFactory,
   HelperExampleFactory,
   KeyExampleFactory,
-  PromptExampleFactory,
+  //PromptExampleFactory,
   UIExampleFactory,
 } from "./examples";
 
@@ -53,7 +53,8 @@ async function updatePrefsUI() {
   // with addon.data.prefs.window.document
   // Or bind some events to the elements
   const renderLock = ztoolkit.getGlobal("Zotero").Promise.defer();
-  const tableHelper = new ztoolkit.VirtualizedTabel(addon.data.prefs?.window!)
+
+  const tableHelper = new ztoolkit.VirtualizedTable(addon.data.prefs?.window!)
     .setContainerId(`${config.addonRef}-table-container`)
     .setProp({
       id: `${config.addonRef}-prefs-table`,
@@ -489,6 +490,36 @@ function bindPrefEvents() {
       ztoolkit.log(e);
       UIExampleFactory.registerExtraColumn();
     });
+
+  // 自定义数据集
+  // CLSCI
+  addon.data
+    .prefs!.window.document.querySelector(
+      `#zotero-prefpane-${config.addonRef}-clsci`
+    )
+    ?.addEventListener("command", (e) => {
+      ztoolkit.log(e);
+      UIExampleFactory.registerExtraColumn();
+    });
+  //AMI
+  addon.data
+    .prefs!.window.document.querySelector(
+      `#zotero-prefpane-${config.addonRef}-ami`
+    )
+    ?.addEventListener("command", (e) => {
+      ztoolkit.log(e);
+      UIExampleFactory.registerExtraColumn();
+    });
+  // 国家社科基金
+  addon.data
+    .prefs!.window.document.querySelector(
+      `#zotero-prefpane-${config.addonRef}-nssf`
+    )
+    ?.addEventListener("command", (e) => {
+      ztoolkit.log(e);
+      UIExampleFactory.registerExtraColumn();
+    });
+
 
   // 影响因子
   addon.data
