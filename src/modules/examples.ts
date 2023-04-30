@@ -359,11 +359,11 @@ export class KeyExampleFactory {
           ztoolkit.ExtraField.setExtraField(item, 'CLSCI', clsciLevel == ' ' ? '是' : '否');
         }
         // AMI
-        if (ami) {
+        if (ami && amiLevel != undefined) {
           ztoolkit.ExtraField.setExtraField(item, 'AMI', amiLevel);
         }
         // NSSF
-        if (nssf) {
+        if (nssf && nssfLevel != undefined) {
           ztoolkit.ExtraField.setExtraField(item, 'NSSF', nssfLevel);
         }
 
