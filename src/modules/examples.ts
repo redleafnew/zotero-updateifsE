@@ -376,6 +376,8 @@ export class KeyExampleFactory {
           Zotero.debug('期刊缩写更新失败！')
         }
         item.saveTx();
+        var waitTime = 1000 + Math.round(Math.random() * 100);
+        await new Promise(resolve => setTimeout(resolve, waitTime)); // 暂停1.0x秒再抓取，随机等待时间1.0xs
 
       }
     }
