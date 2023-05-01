@@ -197,9 +197,15 @@ export class KeyExampleFactory {
         var ami = Zotero.Prefs.get(`extensions.zotero.${config.addonRef}.ami`, true);
         var nssf = Zotero.Prefs.get(`extensions.zotero.${config.addonRef}.nssf`, true);
 
+        // 如果得到easyScholar数据才算更新成功
+        if (easyscholarData ||
+          clsciLevel != undefined || amiLevel != undefined || nssfLevel != undefined) {
+          n++
+        }
+
         try {
           if (easyscholarData) { //如果得到easyscholar数据再写入
-            n++ //如果得到easyScholar数据才算更新成功
+            // n++ //如果得到easyScholar数据才算更新成功
             // HelperExampleFactory.progressWindow(easyscholarData['sci'], 'success')
             if (jcr && easyscholarData['sci']) {
               ztoolkit.ExtraField.setExtraField(item, 'JCR分区', easyscholarData['sci']);
@@ -355,8 +361,8 @@ export class KeyExampleFactory {
 
         // 自定义数据集
         // CLSCI
-        if (clsci) {
-          ztoolkit.ExtraField.setExtraField(item, 'CLSCI', clsciLevel == ' ' ? '是' : '否');
+        if (clsci && clsciLevel != undefined) {
+          ztoolkit.ExtraField.setExtraField(item, 'CLSCI', '是');
         }
         // AMI
         if (ami && amiLevel != undefined) {
@@ -376,9 +382,14 @@ export class KeyExampleFactory {
           Zotero.debug('期刊缩写更新失败！')
         }
         item.saveTx();
-        var waitTime = 1000 + Math.round(Math.random() * 100);
-        await new Promise(resolve => setTimeout(resolve, waitTime)); // 暂停1.0x秒再抓取，随机等待时间1.0xs
+        // 暂停1.0x秒再抓取，随机等待时间1.0xs
+        // var waitTime = 1000 + Math.round(Math.random() * 1000);
 
+        // function sleep(d: any) {
+        //   for (var t = Date.now();
+        //     Date.now() - t <= d;);
+        // }
+        // sleep(waitTime);
       }
     }
 
