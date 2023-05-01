@@ -1,5 +1,5 @@
 // 南京农业大学核心期刊分类2010
-export function njauCore(item: Zotero.Item) {
+export function njauCore(item: Zotero.Item): any {
     var classOne = ['病毒学报', '材料研究学报', '草业学报', '测绘学报', '大豆科学',
         '地理学报', '分析科学学报', '复合材料学报', '管理科学学报', '光学学报',
         '核农学报', '化学通报', '环境科学', '机械工程学报', '计算机学报',
@@ -44,11 +44,11 @@ export function njauCore(item: Zotero.Item) {
     } else if (classTwo.includes(pubT)) {
         return '二类核心';
     } else {
-        return '无'
+        return undefined
     }
 };
 // 南京农业大学高质量期刊
-export function njauJournal(item: Zotero.Item): string {
+export function njauJournal(item: Zotero.Item): any {
     // 高质量论文一类
     var highQulityOne = ['中国农业科学', '农业工程学报', '南京农业大学学报', '核农学报', '园艺学报', '微生物学报',
         '生物工程学报'];
@@ -91,7 +91,7 @@ export function njauJournal(item: Zotero.Item): string {
     } else if (highQulityC.includes(pubT)) {
         return '自然科学C';
     } else {
-        return '无'
+        return undefined
     }
 
 }
