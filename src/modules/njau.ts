@@ -57,6 +57,7 @@ export function njauJournal(item: Zotero.Item): any {
 
     // 高质量论文A类
     var highQulityA = ['Comprehensive Reviews in Food Science and Food Safety', 'Critical Reviews in Food Science and Nutrition',
+        'Trends in Food Science and Technology',
         'ACS Nano', 'Metabolic Engineering', 'Postharvest Biology and Technology', 'Journal of Agricultural and Food Chemistry',
         'Food Hydrocolloids', 'Food Chemistry', 'Food Microbiology', 'Food Control', 'Food & Function', 'Microbiome', 'ISME Journal',
         'Ecotoxicology and Environmental Safety', 'Colloids and surfaces B-Biointerfaces', 'Food and Chemical Toxicology',
@@ -77,22 +78,42 @@ export function njauJournal(item: Zotero.Item): any {
         'Molecules', 'Process Biochemistry', 'Coatings', 'Drying Technology', 'Horticulture Environment and Biotechnology',
         'Animal Science Journal'];
     // 高质量论文C类
-    var highQulityC = ['European Journal of Lipid Science and Technology'];
+    var highQulityC = ['European Journal of Lipid Science and Technology', 'CyTA-Journal of Food'];
 
     var pubT: any = item.getField('publicationTitle');
 
     if (highQulityOne.includes(pubT)) {
-        return '自然科学一类'; // 高质量论文一类
+        var highQuality: any = '自然科学一类'; // 高质量论文一类
     } else if (highQulityTwo.includes(pubT)) {
-        return '自然科学二类'; // 高质量论文二类
+        highQuality = '自然科学二类'; // 高质量论文二类
     } else if (highQulityA.includes(pubT)) {
-        return '自然科学A';
+        highQuality = '自然科学A';
     } else if (highQulityB.includes(pubT)) {
-        return '自然科学B';
+        highQuality = '自然科学B';
     } else if (highQulityC.includes(pubT)) {
-        return '自然科学C';
+        highQuality = '自然科学C';
     } else {
-        return undefined
+        highQuality = undefined
     }
+
+    // 如果高质量期刊没有找到，尝试用&替换and
+    if (highQuality == undefined) {
+        pubT = pubT.replace('&', 'and');
+        if (highQulityOne.includes(pubT)) {
+            var highQuality: any = '自然科学一类'; // 高质量论文一类
+        } else if (highQulityTwo.includes(pubT)) {
+            highQuality = '自然科学二类'; // 高质量论文二类
+        } else if (highQulityA.includes(pubT)) {
+            highQuality = '自然科学A';
+        } else if (highQulityB.includes(pubT)) {
+            highQuality = '自然科学B';
+        } else if (highQulityC.includes(pubT)) {
+            highQuality = '自然科学C';
+        } else {
+            highQuality = undefined
+        }
+    }
+
+    return highQuality;
 
 }
