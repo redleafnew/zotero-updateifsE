@@ -63,7 +63,7 @@ export function njauJournal(item: Zotero.Item): any {
         'Ecotoxicology and Environmental Safety', 'Colloids and surfaces B-Biointerfaces', 'Food and Chemical Toxicology',
         'International Journal of Food Microbiology', 'Food Quality and Preference', 'Food Packaging and Shelf Life', 'Toxins',
         'Food Research International', 'Journal of Colloid and Intereace Science', 'Journal of Food Engineering',
-        'Journal of Functional Foods', 'Meat Science',
+        'Journal of Functional Foods', 'Meat Science', 'Environmental pollution', 'Nutrients',
         'LWT-Food Science and Technology', 'Journal of Dairy Science', 'Journal of Food Composition and Analysis',
         'Journal of the Science of Food and Agriculture', 'Poultry Science', 'Scientia Horticulturae', 'Journal of Integrative Agriculture',
         'mBio', 'Free Radical Biology and Medicine', 'mSystems', 'Ultrasonics Sonochemistry', 'Journal of Experimental Botany',
@@ -78,7 +78,8 @@ export function njauJournal(item: Zotero.Item): any {
         'Molecules', 'Process Biochemistry', 'Coatings', 'Drying Technology', 'Horticulture Environment and Biotechnology',
         'Animal Science Journal'];
     // 高质量论文C类
-    var highQulityC = ['European Journal of Lipid Science and Technology', 'CyTA-Journal of Food'];
+    var highQulityC = ['European Journal of Lipid Science and Technology', 'CyTA-Journal of Food', 'Journal of Food Measurement and Characterization',
+        'Journal of Texture Studies'];
 
     var pubT: any = item.getField('publicationTitle');
 
