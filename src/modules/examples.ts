@@ -383,14 +383,11 @@ export class KeyExampleFactory {
           Zotero.debug('期刊缩写更新失败！')
         }
         item.saveTx();
-        // 暂停1.0x秒再抓取，随机等待时间1.0xs
-        // var waitTime = 1000 + Math.round(Math.random() * 1000);
 
-        // function sleep(d: any) {
-        //   for (var t = Date.now();
-        //     Date.now() - t <= d;);
-        // }
-        // sleep(waitTime);
+        // 暂停1.x秒再抓取，随机等待时间1.xs
+
+        await Zotero.Promise.delay(1000 + Math.round(Math.random() * 1000));
+
       }
     }
 
@@ -703,6 +700,7 @@ export class KeyExampleFactory {
           }
         }
         n++
+        await Zotero.Promise.delay(1000 + Math.round(Math.random() * 1000));  // 暂停1s
       }
     }
     var whiteSpace = HelperExampleFactory.whiteSpace();
