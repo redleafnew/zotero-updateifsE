@@ -79,6 +79,7 @@ export function njauJournal(item: Zotero.Item): any {
 
     // 高质量论文B类
     var highQulityB = ['Applied Microbiology and Biotechnology', 'Microorganisms', 'Frontiers in Microbiology', 'Food and Bioprocess Technology',
+        'Journal of Proteomics',
         'Food Analytical Methods', 'Food Science and Human Wellness', 'Food Bioscience', 'International Dairy Journal', 'Journal of Cereal Science',
         'International Journal of Food Sciences and Nutrition', 'Biotechnology Progress', 'International Journal of Food Science and Technology',
         'Journal of Bioscience and Bioengineering', 'Food Biophysics', 'Journal of Food Science', 'European Food Research and Technology',
