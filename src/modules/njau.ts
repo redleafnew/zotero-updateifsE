@@ -67,6 +67,7 @@ export function njauJournal(item: Zotero.Item): any {
         'Nature Reviews Clinical Oncology',
         'ACS Sustainable Chemistry & Engineering',
         'Pharmaceuticals',
+        'Journal of Industrial and Engineering Chemistry',
         'Metabolic Engineering', 'Postharvest Biology and Technology', 'Journal of Agricultural and Food Chemistry',
         'Food Hydrocolloids', 'Food Chemistry', 'Food Microbiology', 'Food Control', 'Food & Function', 'Microbiome', 'ISME Journal',
         'Ecotoxicology and Environmental Safety', 'Colloids and surfaces B-Biointerfaces', 'Food and Chemical Toxicology',
