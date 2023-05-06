@@ -65,6 +65,8 @@ export function njauJournal(item: Zotero.Item): any {
         'Nature Reviews Drug Discovery',
         'Lancet',
         'Nature Reviews Clinical Oncology',
+        'ACS Sustainable Chemistry & Engineering',
+        'Pharmaceuticals',
         'Metabolic Engineering', 'Postharvest Biology and Technology', 'Journal of Agricultural and Food Chemistry',
         'Food Hydrocolloids', 'Food Chemistry', 'Food Microbiology', 'Food Control', 'Food & Function', 'Microbiome', 'ISME Journal',
         'Ecotoxicology and Environmental Safety', 'Colloids and surfaces B-Biointerfaces', 'Food and Chemical Toxicology',
@@ -80,6 +82,7 @@ export function njauJournal(item: Zotero.Item): any {
     // 高质量论文B类
     var highQulityB = ['Applied Microbiology and Biotechnology', 'Microorganisms', 'Frontiers in Microbiology', 'Food and Bioprocess Technology',
         'Journal of Proteomics',
+        'Marine Drugs',
         'Food Analytical Methods', 'Food Science and Human Wellness', 'Food Bioscience', 'International Dairy Journal', 'Journal of Cereal Science',
         'International Journal of Food Sciences and Nutrition', 'Biotechnology Progress', 'International Journal of Food Science and Technology',
         'Journal of Bioscience and Bioengineering', 'Food Biophysics', 'Journal of Food Science', 'European Food Research and Technology',
