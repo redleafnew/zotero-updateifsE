@@ -67,6 +67,7 @@ export function njauJournal(item: Zotero.Item): any {
         'Nature Reviews Clinical Oncology',
         'ACS Sustainable Chemistry & Engineering',
         'Pharmaceuticals',
+        'Journal of Chromatography A',
         'Journal of Industrial and Engineering Chemistry',
         'Metabolic Engineering', 'Postharvest Biology and Technology', 'Journal of Agricultural and Food Chemistry',
         'Food Hydrocolloids', 'Food Chemistry', 'Food Microbiology', 'Food Control', 'Food & Function', 'Microbiome', 'ISME Journal',
@@ -83,7 +84,7 @@ export function njauJournal(item: Zotero.Item): any {
     // 高质量论文B类
     var highQulityB = ['Applied Microbiology and Biotechnology', 'Microorganisms', 'Frontiers in Microbiology', 'Food and Bioprocess Technology',
         'Journal of Proteomics',
-        'Marine Drugs',
+        'Marine Drugs', 'Foodborne Pathogens and Disease',
         'Food Analytical Methods', 'Food Science and Human Wellness', 'Food Bioscience', 'International Dairy Journal', 'Journal of Cereal Science',
         'International Journal of Food Sciences and Nutrition', 'Biotechnology Progress', 'International Journal of Food Science and Technology',
         'Journal of Bioscience and Bioengineering', 'Food Biophysics', 'Journal of Food Science', 'European Food Research and Technology',
@@ -91,7 +92,8 @@ export function njauJournal(item: Zotero.Item): any {
         'Animal Science Journal'];
     // 高质量论文C类
     var highQulityC = ['European Journal of Lipid Science and Technology', 'CyTA-Journal of Food', 'Journal of Food Measurement and Characterization',
-        'Journal of Texture Studies'];
+        'Journal of Texture Studies',
+        'Food Science & Nutrition'];
 
     var pubT: any = item.getField('publicationTitle');
 
