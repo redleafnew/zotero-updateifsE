@@ -47,7 +47,7 @@
     "esbuild": "^0.17.18",
     "minimist": "^1.2.8",
     "release-it": "^15.10.1",
-    "replace-in-file": "^6.3.5",
+    "replace-in-file": "^7.0.1",
     "typescript": "^5.0.4",
     "zotero-types": "^1.0.13"
   }
