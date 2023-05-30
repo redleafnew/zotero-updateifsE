@@ -3,7 +3,7 @@
     "greenfrog@redleafnew.me": {
       "updates": [
         {
-          "version": "0.10.3",
+          "version": "0.10.4",
           "update_link": "https://github.com/redleafnew/zotero-updateifsE/releases/latest/download/greenfrog.xpi",
           "applications": {
             "gecko": {
@@ -12,7 +12,7 @@
           }
         },
         {
-          "version": "0.10.3",
+          "version": "0.10.4",
           "update_link": "https://github.com/redleafnew/zotero-updateifsE/releases/latest/download/greenfrog.xpi",
           "applications": {
             "zotero": {

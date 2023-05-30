@@ -233,7 +233,7 @@ export class KeyExampleFactory {
               ztoolkit.ExtraField.setExtraField(item, '中文核心期刊/北大核心', '是');
             }
             if (njucore && easyscholarData['cssci']) {
-              ztoolkit.ExtraField.setExtraField(item, 'CSSCI/南大核心', '是');
+              ztoolkit.ExtraField.setExtraField(item, 'CSSCI/南大核心', easyscholarData['cssci']);
             }
             if (scicore && easyscholarData['zhongguokejihexin']) {
               ztoolkit.ExtraField.setExtraField(item, '中国科技核心期刊', '是');
