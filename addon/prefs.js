@@ -2,6 +2,7 @@ pref("extensions.zotero.__addonRef__.enable", true);
 pref("extensions.zotero.__addonRef__.enable1", false);
 pref("extensions.zotero.__addonRef__.input", "This is input");
 // 期刊缩写
+pref("extensions.zotero.__addonRef__.update.empty.extra", false);
 pref("extensions.zotero.__addonRef__.add.update", false);
 pref("extensions.zotero.__addonRef__.update.abbr", true);
 pref("extensions.zotero.__addonRef__.update.abbr.dot", true);
@@ -72,3 +73,13 @@ pref("extensions.zotero.__addonRef__.show.profile.dir", true);
 pref("extensions.zotero.__addonRef__.show.data.dir", true);
 pref("extensions.zotero.__addonRef__.sep1", true);
 pref("extensions.zotero.__addonRef__.sep2", true);
+
+// 快捷键设置
+pref("extensions.zotero.__addonRef__.shortcut.title.sentence", true);
+pref("extensions.zotero.__addonRef__.shortcut.input.title.sentence", 'T');
+pref("extensions.zotero.__addonRef__.shortcut.publication.title.case", true);
+pref("extensions.zotero.__addonRef__.shortcut.input.publication.title.case", 'U');
+pref("extensions.zotero.__addonRef__.shortcut.data.dir", true);
+pref("extensions.zotero.__addonRef__.shortcut.input.data.dir", 'D');
+pref("extensions.zotero.__addonRef__.shortcut.profile.dir", true);
+pref("extensions.zotero.__addonRef__.shortcut.input.profile.dir", 'P');

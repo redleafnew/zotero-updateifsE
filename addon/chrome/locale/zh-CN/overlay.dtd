@@ -2,6 +2,7 @@
 <!ENTITY zotero.__addonRef__.pref.secretkey.label "easyScholar密钥：">
 <!ENTITY zotero.__addonRef__.pref.secretkey.apply.label "申请easyScholar密钥">
 <!ENTITY zotero.__addonRef__.journal.setting "期刊更新设置">
+<!ENTITY zotero.__addonRef__.update.empty.extra "更新之前清空Extra">
 <!ENTITY zotero.__addonRef__.add.update "添加条目时更新期刊信息">
 <!ENTITY zotero.__addonRef__.update.abbr "更新期刊缩写">
 <!ENTITY zotero.__addonRef__.update.abbr.dot "期刊缩写带点">

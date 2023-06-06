@@ -2,6 +2,7 @@
 <!ENTITY zotero.__addonRef__.pref.secretkey.label "  easyScholar Secretkey: ">
 <!ENTITY zotero.__addonRef__.pref.secretkey.apply.label "Register easyScholar Secretkey">
 <!ENTITY zotero.__addonRef__.journal.setting "Journal Update Settings">
+<!ENTITY zotero.__addonRef__.update.empty.extra "Empty Extra before update">
 <!ENTITY zotero.__addonRef__.add.update "Update journal information when adding item">
 <!ENTITY zotero.__addonRef__.update.abbr "Update journal abbreviation">
 <!ENTITY zotero.__addonRef__.update.abbr.dot "Journal abbreviation with dot">
@@ -82,6 +83,14 @@
 <!ENTITY zotero.__addonRef__.show.data.dir "Show Data Directory">
 <!ENTITY zotero.__addonRef__.menu.sep.1 "Separator 1">
 <!ENTITY zotero.__addonRef__.menu.sep.2 "Separator 2">
+
+<!-- 快捷键设置 -->
+<!ENTITY zotero.__addonRef__.shortcut.setting "Shortcut Settings">
+<!ENTITY zotero.__addonRef__.shortcut.title.sentence "Using shortcut for changing title to sentence case:">
+<!ENTITY zotero.__addonRef__.shortcut.publication.title.case "Using shortcut for changing publication title to title case:">
+<!ENTITY zotero.__addonRef__.shortcut.data.dir "Using shortcut for showing data directory:">
+<!ENTITY zotero.__addonRef__.shortcut.profile.dir "Using shortcut for showing profile directory:">
+
 
 <!ENTITY zotero.__addonRef__.pref.title "Addon Template Example">
 <!ENTITY zotero.__addonRef__.itemmenu.test.label "addon template">

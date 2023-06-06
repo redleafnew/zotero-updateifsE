@@ -150,6 +150,10 @@ export class KeyExampleFactory {
         var amiLevel: any = await KeyExampleFactory.getCustomIFs(item, amiJourID);
         var nssfLevel: any = await KeyExampleFactory.getCustomIFs(item, nssfJourID);
 
+        // 更新前清空Extra
+        var emptyExtra = Zotero.Prefs.get(`extensions.zotero.${config.addonRef}.update.empty.extra`, true);
+
+
         // 加: any为了后面不报错
         var jcr: any = Zotero.Prefs.get(`extensions.zotero.${config.addonRef}.jcr.qu`, true);
         var basic: any = Zotero.Prefs.get(`extensions.zotero.${config.addonRef}.basic`, true);
@@ -201,6 +205,7 @@ export class KeyExampleFactory {
         if (easyscholarData || chineseIFs ||
           clsciLevel || amiLevel || nssfLevel ||
           njauCore(item) || njauJournal(item)) {
+          if (emptyExtra) { item.setField('extra', '') }
           n++
         }
 
@@ -706,34 +711,51 @@ export class KeyExampleFactory {
     var whiteSpace = HelperExampleFactory.whiteSpace();
     HelperExampleFactory.progressWindow(`${n}${whiteSpace}${getString('upIfsSuccess')}`, 'success')
   }
+  // 注册快捷键
   @example
   static registerShortcuts() {
     // const keysetId = `${config.addonRef}-keyset`;
     // const cmdsetId = `${config.addonRef}-cmdset`;
     // const cmdSmallerId = `${config.addonRef}-cmd-smaller`;
     // Register an event key for Alt+D 数据目录
-    ztoolkit.Shortcut.register("event", {
-      id: `${config.addonRef}-key-data-dir`,
-      // key: "L",
-      key: "D",
-      modifiers: "alt",
-      callback: (keyOptions) => {
-        // addon.hooks.onShortcuts("larger");
-        HelperExampleFactory.progressWindow(`${getString('dataDir')} ${Zotero.DataDirectory.dir}`, 'success')
-      },
-    });
+
+    var ifTitleSentence = Zotero.Prefs.get(`extensions.zotero.${config.addonRef}.shortcut.title.sentence`, true);
+    var keyTitleSentence = Zotero.Prefs.get(`extensions.zotero.${config.addonRef}.shortcut.input.title.sentence`, true);
+    var ifPubTitleCase = Zotero.Prefs.get(`extensions.zotero.${config.addonRef}.shortcut.publication.title.case`, true);
+    var keyPubTitleCase = Zotero.Prefs.get(`extensions.zotero.${config.addonRef}.shortcut.input.publication.title.case`, true);
+    var ifDataDir = Zotero.Prefs.get(`extensions.zotero.${config.addonRef}.shortcut.data.dir`, true);
+    var keyDataDir = Zotero.Prefs.get(`extensions.zotero.${config.addonRef}.shortcut.input.data.dir`, true);
+    var ifProfileDir = Zotero.Prefs.get(`extensions.zotero.${config.addonRef}.shortcut.profile.dir`, true);
+    var keyProfileDir = Zotero.Prefs.get(`extensions.zotero.${config.addonRef}.shortcut.input.profile.dir`, true);
+
+    // 显示数据目录
+    if (ifDataDir) {
+      ztoolkit.Shortcut.register("event", {
+        id: `${config.addonRef}-key-data-dir`,
+        key: keyDataDir as string,
+        //key: 'D',
+        modifiers: "alt",
+        callback: (keyOptions) => {
+          // addon.hooks.onShortcuts("larger");
+          // HelperExampleFactory.progressWindow(`${ifProfileDir} ${keyProfileDir} `, 'success');
+          HelperExampleFactory.progressWindow(`${getString('dataDir')} ${Zotero.DataDirectory.dir}`, 'success')
+        },
+      });
+    }
 
     // Register an event key for Alt+P 配置目录
-    ztoolkit.Shortcut.register("event", {
-      id: `${config.addonRef}-key-profile-dir`,
-      // key: "L",
-      key: "P",
-      modifiers: "alt",
-      callback: (keyOptions) => {
-        // addon.hooks.onShortcuts("larger");
-        HelperExampleFactory.progressWindow(`${getString('proDir')} ${Zotero.Profile.dir}`, 'success')
-      },
-    });
+    if (ifProfileDir) {
+      ztoolkit.Shortcut.register("event", {
+        id: `${config.addonRef}-key-profile-dir`,
+        // key: "L",
+        key: keyProfileDir as string,
+        modifiers: "alt",
+        callback: (keyOptions) => {
+          // addon.hooks.onShortcuts("larger");
+          HelperExampleFactory.progressWindow(`${getString('proDir')} ${Zotero.Profile.dir}`, 'success')
+        },
+      });
+    }
 
     // Register an element key using <key> for Alt+S
     /*

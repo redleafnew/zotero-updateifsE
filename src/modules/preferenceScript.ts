@@ -531,6 +531,102 @@ function bindPrefEvents() {
       UIExampleFactory.registerExtraColumn();
     });
 
+  // 题目改为句首字母大写
+  addon.data
+    .prefs!.window.document.querySelector(
+      `#zotero-prefpane-${config.addonRef}-shortcut-title-sentence`
+    )
+    ?.addEventListener("command", (e) => {
+      ztoolkit.log(e);
+      ztoolkit.Shortcut.unregisterAll();
+      KeyExampleFactory.registerShortcuts();
+
+    });
+  // 题目改为句首字母大写快捷键
+  addon.data
+    .prefs!.window.document.querySelector(
+      `#zotero-prefpane-${config.addonRef}-shortcut-input-title-sentence`
+    )
+    ?.addEventListener("change", (e) => {
+      ztoolkit.log(e);
+      ztoolkit.Shortcut.unregisterAll();
+      KeyExampleFactory.registerShortcuts();
+
+    });
+
+
+  // 期刊名称改为词首字母大写
+  addon.data
+    .prefs!.window.document.querySelector(
+      `#zotero-prefpane-${config.addonRef}-shortcut-publication-title-case`
+    )
+    ?.addEventListener("command", (e) => {
+      ztoolkit.log(e);
+      ztoolkit.Shortcut.unregisterAll();
+      KeyExampleFactory.registerShortcuts();
+
+    });
+  // 期刊名称改为词首字母大写快捷键
+  addon.data
+    .prefs!.window.document.querySelector(
+      `#zotero-prefpane-${config.addonRef}-shortcut-input-publication-title-case`
+    )
+    ?.addEventListener("change", (e) => {
+      ztoolkit.log(e);
+      ztoolkit.Shortcut.unregisterAll();
+      KeyExampleFactory.registerShortcuts();
+
+    });
+
+
+  // 数据目录
+  addon.data
+    .prefs!.window.document.querySelector(
+      `#zotero-prefpane-${config.addonRef}-shortcut-data-dir`
+    )
+    ?.addEventListener("command", (e) => {
+      ztoolkit.log(e);
+      ztoolkit.Shortcut.unregisterAll();
+      KeyExampleFactory.registerShortcuts();
+
+    });
+  // 数据目录快捷键
+  addon.data
+    .prefs!.window.document.querySelector(
+      `#zotero-prefpane-${config.addonRef}-shortcut-input-data-dir`
+    )
+    ?.addEventListener("change", (e) => {
+      ztoolkit.log(e);
+      ztoolkit.Shortcut.unregisterAll();
+      KeyExampleFactory.registerShortcuts();
+
+    });
+
+
+  // 显示配置目录
+  addon.data
+    .prefs!.window.document.querySelector(
+      `#zotero-prefpane-${config.addonRef}-shortcut-profile-dir`
+    )
+    ?.addEventListener("command", (e) => {
+      ztoolkit.log(e);
+      ztoolkit.Shortcut.unregisterAll();
+      KeyExampleFactory.registerShortcuts();
+
+    });
+  // 显示配置目录快捷键
+  addon.data
+    .prefs!.window.document.querySelector(
+      `#zotero-prefpane-${config.addonRef}-shortcut-input-profile-dir`
+    )
+    ?.addEventListener("change", (e) => {
+      ztoolkit.log(e);
+      ztoolkit.Shortcut.unregisterAll();
+      KeyExampleFactory.registerShortcuts();
+
+    });
+
+
   // 禁用添加新条目自动更新
   (addon.data
     .prefs!.window.document.getElementById(

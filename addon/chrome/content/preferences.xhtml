@@ -16,6 +16,9 @@
       <label value="&zotero.__addonRef__.pref.secretkey.apply.label;" class="zotero-text-link"
         href="https://easyscholar.cc/"></label>
     </hbox>
+    <!-- 更新前清空Extra -->
+    <checkbox id="zotero-prefpane-__addonRef__-update-empty-extra" label="&zotero.__addonRef__.update.empty.extra;"
+      preference="extensions.zotero.__addonRef__.update.empty.extra" />
 
     <checkbox id="zotero-prefpane-__addonRef__-add-update" label="&zotero.__addonRef__.add.update;"
       preference="extensions.zotero.__addonRef__.add.update" />
@@ -235,6 +238,50 @@
         preference="extensions.zotero.__addonRef__.sep2" />
     </hbox>
 
+    <!-- 快捷键设置 -->
+    <!--preferenceScript.ts function bindPrefEvents() 绑定变化-->
+    <label>
+      <html:h2>&zotero.__addonRef__.shortcut.setting;</html:h2>
+    </label>
+    <!-- 题目改为句首字母大写 -->
+    <hbox>
+      <checkbox width='400' id="zotero-prefpane-__addonRef__-shortcut-title-sentence"
+        label="&zotero.__addonRef__.shortcut.title.sentence;"
+        preference="extensions.zotero.__addonRef__.shortcut.title.sentence" />
+      <label value="Ctrl + "></label>
+      <html:input type="text" id="zotero-prefpane-__addonRef__-shortcut-input-title-sentence" value="T" width='5'
+        preference="extensions.zotero.__addonRef__.shortcut.input.title.sentence">
+      </html:input>
+    </hbox>
+    <!-- 期刊名称改为词首字母大写 -->
+    <hbox>
+      <checkbox width='400' id="zotero-prefpane-__addonRef__-shortcut-publication-title-case"
+        label="&zotero.__addonRef__.shortcut.publication.title.case;"
+        preference="extensions.zotero.__addonRef__.shortcut.publication.title.case" />
+      <label value="Ctrl + "></label>
+      <html:input type="text" id="zotero-prefpane-__addonRef__-shortcut-input-publication-title-case" value="U"
+        width='5' preference="extensions.zotero.__addonRef__.shortcut.input.publication.title.case">
+      </html:input>
+    </hbox>
+    <!-- 显示数据目录 -->
+    <hbox>
+      <checkbox width='400' id="zotero-prefpane-__addonRef__-shortcut-data-dir"
+        label="&zotero.__addonRef__.shortcut.data.dir;" preference="extensions.zotero.__addonRef__.shortcut.data.dir" />
+      <label value="Alt  + "></label>
+      <html:input type="text" id="zotero-prefpane-__addonRef__-shortcut-input-data-dir" value="D" width='5'
+        preference="extensions.zotero.__addonRef__.shortcut.input.data.dir">
+      </html:input>
+    </hbox>
+    <!-- 显示配置目录 -->
+    <hbox>
+      <checkbox width='400' id="zotero-prefpane-__addonRef__-shortcut-profile-dir"
+        label="&zotero.__addonRef__.shortcut.profile.dir;"
+        preference="extensions.zotero.__addonRef__.shortcut.profile.dir" />
+      <label value="Alt  + "></label>
+      <html:input type="text" id="zotero-prefpane-__addonRef__-shortcut-input-profile-dir" value="P" width='5'
+        preference="extensions.zotero.__addonRef__.shortcut.input.profile.dir">
+      </html:input>
+    </hbox>
 
     <!-- <hbox>
       <html:label for="zotero-prefpane-__addonRef__-input">&zotero.__addonRef__.pref.input.label;</html:label>
