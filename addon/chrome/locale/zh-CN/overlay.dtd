@@ -81,6 +81,12 @@
 <!ENTITY zotero.__addonRef__.menu.sep.1 "分隔条1">
 <!ENTITY zotero.__addonRef__.menu.sep.2 "分隔条2">
 
+<!-- 快捷键设置 -->
+<!ENTITY zotero.__addonRef__.shortcut.setting "快捷键设置">
+<!ENTITY zotero.__addonRef__.shortcut.title.sentence "使用快捷键设置题目大小写为句首字母大写:">
+<!ENTITY zotero.__addonRef__.shortcut.publication.title.case "使用快捷键设置期刊名称为词首字母大写:">
+<!ENTITY zotero.__addonRef__.shortcut.data.dir "使用快捷键显示数据目录:">
+<!ENTITY zotero.__addonRef__.shortcut.profile.dir "使用快捷键显示配置目录:">
 
 <!ENTITY zotero.__addonRef__.pref.title "插件模板设置示例">
 <!ENTITY zotero.__addonRef__.itemmenu.test.label "插件模板">

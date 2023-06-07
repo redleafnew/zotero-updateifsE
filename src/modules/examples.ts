@@ -728,6 +728,44 @@ export class KeyExampleFactory {
     var ifProfileDir = Zotero.Prefs.get(`extensions.zotero.${config.addonRef}.shortcut.profile.dir`, true);
     var keyProfileDir = Zotero.Prefs.get(`extensions.zotero.${config.addonRef}.shortcut.input.profile.dir`, true);
 
+
+    // 题目大小写改为句首字母大小写
+    if (ifTitleSentence) {
+      ztoolkit.Shortcut.register("event", {
+        id: `${config.addonRef}-key-title-sentence`,
+        key: keyTitleSentence as string,
+        //key: 'D',
+        // modifiers: "accel",
+        modifiers: "control",
+        callback: (keyOptions) => {
+          ztoolkit.log(`${ifPubTitleCase}${keyPubTitleCase}`);
+          // addon.hooks.onShortcuts("larger");
+          // HelperExampleFactory.progressWindow(`${ifProfileDir} ${keyProfileDir} `, 'success');
+          HelperExampleFactory.chanItemTitleCase();
+        },
+      });
+    }
+
+
+    // 期刊名称大小写
+    if (ifPubTitleCase) {
+      ztoolkit.Shortcut.register("event", {
+        id: `${config.addonRef}-key-change-pub-title-case`,
+        key: keyPubTitleCase as string,
+        //key: 'D',
+        // modifiers: "accel",
+        modifiers: "control",
+        callback: (keyOptions) => {
+          ztoolkit.log(`${ifPubTitleCase}${keyPubTitleCase}`);
+          // addon.hooks.onShortcuts("larger");
+          // HelperExampleFactory.progressWindow(`${ifProfileDir} ${keyProfileDir} `, 'success');
+          HelperExampleFactory.chPubTitleCase();
+        },
+      });
+    }
+
+
+
     // 显示数据目录
     if (ifDataDir) {
       ztoolkit.Shortcut.register("event", {
@@ -736,8 +774,10 @@ export class KeyExampleFactory {
         //key: 'D',
         modifiers: "alt",
         callback: (keyOptions) => {
+
+          // HelperExampleFactory.progressWindow(`${ifPubTitleCase}${keyPubTitleCase}`, 'success')
           // addon.hooks.onShortcuts("larger");
-          // HelperExampleFactory.progressWindow(`${ifProfileDir} ${keyProfileDir} `, 'success');
+          // HelperExampleFactory.progressWindow(`${ifPubTitleCase} ${keyPubTitleCase} `, 'success');
           HelperExampleFactory.progressWindow(`${getString('dataDir')} ${Zotero.DataDirectory.dir}`, 'success')
         },
       });
