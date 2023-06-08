@@ -202,10 +202,11 @@ export class KeyExampleFactory {
         var ami = Zotero.Prefs.get(`extensions.zotero.${config.addonRef}.ami`, true);
         var nssf = Zotero.Prefs.get(`extensions.zotero.${config.addonRef}.nssf`, true);
 
+        var njauHighQuality = await njauJournal(item)
         // 如果得到easyScholar、影响因子、法学数据或南农数据才算更新成功
         if (easyscholarData || chineseIFs ||
           clsciLevel || amiLevel || nssfLevel ||
-          njauCore(item) || njauJournal(item)) {
+          njauCore(item) || njauHighQuality) {
           if (emptyExtra) { item.setField('extra', '') }
           n++
         }
@@ -362,12 +363,12 @@ export class KeyExampleFactory {
         }
 
         // 大学期刊分类
-        // 南农核心期刊分类、高水平期刊
+        // 南农核心期刊分类、高水平高质量期刊
         if (njauCoreShow && njauCore(item) != undefined) {
           ztoolkit.ExtraField.setExtraField(item, '南农核心', njauCore(item));
         }
-        if (njauJourShow && njauJournal(item) != undefined) {
-          ztoolkit.ExtraField.setExtraField(item, '南农高质量', njauJournal(item));
+        if (njauJourShow && njauHighQuality != undefined) {
+          ztoolkit.ExtraField.setExtraField(item, '南农高质量', njauHighQuality);
         }
 
         // 自定义数据集

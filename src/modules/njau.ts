@@ -48,87 +48,104 @@ export function njauCore(item: Zotero.Item): any {
     }
 };
 // 南京农业大学高质量期刊
-export function njauJournal(item: Zotero.Item): any {
-    // 高质量论文一类
-    var highQulityOne = ['中国农业科学', '农业工程学报', '南京农业大学学报', '核农学报', '园艺学报', '微生物学报',
-        '生物工程学报'];
-    // 高质量论文二类
-    var highQulityTwo = ['食品与发酵工业', '微生物学通报', '中国粮油学报', '食品与生物技术学报'];
+export async function njauJournal(item: Zotero.Item) {
 
-    // 高质量论文A类
-    var highQulityA = ['Comprehensive Reviews in Food Science and Food Safety', 'Critical Reviews in Food Science and Nutrition',
-        'Trends in Food Science and Technology',
-        'ACS Nano',
-        'CA: A Cancer Journal for Clinicians',
-        'Nature Reviews Molecular Cell Biology',
-        'New England Journal of Medicine',
-        'Nature Reviews Drug Discovery',
-        'Lancet',
-        'Nature Reviews Clinical Oncology',
-        'ACS Sustainable Chemistry & Engineering',
-        'Pharmaceuticals',
-        'Journal of Chromatography A',
-        'Journal of Industrial and Engineering Chemistry',
-        'Metabolic Engineering', 'Postharvest Biology and Technology', 'Journal of Agricultural and Food Chemistry',
-        'Food Hydrocolloids', 'Food Chemistry', 'Food Microbiology', 'Food Control', 'Food & Function', 'Microbiome', 'ISME Journal',
-        'Ecotoxicology and Environmental Safety', 'Colloids and surfaces B-Biointerfaces', 'Food and Chemical Toxicology',
-        'International Journal of Food Microbiology', 'Food Quality and Preference', 'Food Packaging and Shelf Life', 'Toxins',
-        'Food Research International', 'Journal of Colloid and Intereace Science', 'Journal of Food Engineering',
-        'Journal of Functional Foods', 'Meat Science', 'Environmental pollution', 'Nutrients',
-        'LWT-Food Science and Technology', 'Journal of Dairy Science', 'Journal of Food Composition and Analysis',
-        'Journal of the Science of Food and Agriculture', 'Poultry Science', 'Scientia Horticulturae', 'Journal of Integrative Agriculture',
-        'mBio', 'Free Radical Biology and Medicine', 'mSystems', 'Ultrasonics Sonochemistry', 'Journal of Experimental Botany',
-        'Journal of Nutritional Biochemistry', 'Foods', 'Food Reviews International', 'Food and Bioproducts Processing',
-        'Plant Foods for Human Nutrition', 'Microchemical Journal', 'Sensors', 'Current Opinion in Food Science'];
-
-    // 高质量论文B类
-    var highQulityB = ['Applied Microbiology and Biotechnology', 'Microorganisms', 'Frontiers in Microbiology', 'Food and Bioprocess Technology',
-        'Journal of Proteomics',
-        'Marine Drugs', 'Foodborne Pathogens and Disease',
-        'Food Analytical Methods', 'Food Science and Human Wellness', 'Food Bioscience', 'International Dairy Journal', 'Journal of Cereal Science',
-        'International Journal of Food Sciences and Nutrition', 'Biotechnology Progress', 'International Journal of Food Science and Technology',
-        'Journal of Bioscience and Bioengineering', 'Food Biophysics', 'Journal of Food Science', 'European Food Research and Technology',
-        'Molecules', 'Process Biochemistry', 'Coatings', 'Drying Technology', 'Horticulture Environment and Biotechnology',
-        'Animal Science Journal'];
-    // 高质量论文C类
-    var highQulityC = ['European Journal of Lipid Science and Technology', 'CyTA-Journal of Food', 'Journal of Food Measurement and Characterization',
-        'Journal of Texture Studies',
-        'Food Science & Nutrition'];
-
-    var pubT: any = item.getField('publicationTitle');
-
-    if (highQulityOne.includes(pubT)) {
-        var highQuality: any = '自然科学一类'; // 高质量论文一类
-    } else if (highQulityTwo.includes(pubT)) {
-        highQuality = '自然科学二类'; // 高质量论文二类
-    } else if (highQulityA.includes(pubT)) {
-        highQuality = '自然科学A';
-    } else if (highQulityB.includes(pubT)) {
-        highQuality = '自然科学B';
-    } else if (highQulityC.includes(pubT)) {
-        highQuality = '自然科学C';
-    } else {
-        highQuality = undefined
-    }
-
-    // 如果高质量期刊没有找到，尝试用&替换and
-    if (highQuality == undefined) {
-        pubT = pubT.replace('&', 'and');
-        if (highQulityOne.includes(pubT)) {
-            var highQuality: any = '自然科学一类'; // 高质量论文一类
-        } else if (highQulityTwo.includes(pubT)) {
-            highQuality = '自然科学二类'; // 高质量论文二类
-        } else if (highQulityA.includes(pubT)) {
-            highQuality = '自然科学A';
-        } else if (highQulityB.includes(pubT)) {
-            highQuality = '自然科学B';
-        } else if (highQulityC.includes(pubT)) {
-            highQuality = '自然科学C';
-        } else {
-            highQuality = undefined
+    var pubT = item.getField('publicationTitle');
+    var body = `keyword=${encodeURIComponent(pubT)}`;
+    var resp = await Zotero.HTTP.request(
+        "POST",
+        "http://phq.njau.edu.cn/admin_getJournal.action",
+        {
+            headers: {
+                "User-Agent": "Mozilla/5.0 (Linux; Android 6.0; Nexus 5 Build/MRA58N) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/114.0.0.0 Mobile Safari/537.36 Edg/114.0.1823.37",
+            },
+            body: body,
         }
-    }
+    );
+    var AllJour = resp.responseText;
+    return JSON.parse(AllJour)['classname'];
 
-    return highQuality;
+    /*
+      // 高质量论文一类
+      var highQulityOne = ['中国农业科学', '农业工程学报', '南京农业大学学报', '核农学报', '园艺学报', '微生物学报',
+          '生物工程学报'];
+      // 高质量论文二类
+      var highQulityTwo = ['食品与发酵工业', '微生物学通报', '中国粮油学报', '食品与生物技术学报'];
 
+      // 高质量论文A类
+      var highQulityA = ['Comprehensive Reviews in Food Science and Food Safety', 'Critical Reviews in Food Science and Nutrition',
+          'Trends in Food Science and Technology',
+          'ACS Nano',
+          'CA: A Cancer Journal for Clinicians',
+          'Nature Reviews Molecular Cell Biology',
+          'New England Journal of Medicine',
+          'Nature Reviews Drug Discovery',
+          'Lancet',
+          'Nature Reviews Clinical Oncology',
+          'ACS Sustainable Chemistry & Engineering',
+          'Pharmaceuticals',
+          'Journal of Chromatography A',
+          'Journal of Industrial and Engineering Chemistry',
+          'Metabolic Engineering', 'Postharvest Biology and Technology', 'Journal of Agricultural and Food Chemistry',
+          'Food Hydrocolloids', 'Food Chemistry', 'Food Microbiology', 'Food Control', 'Food & Function', 'Microbiome', 'ISME Journal',
+          'Ecotoxicology and Environmental Safety', 'Colloids and surfaces B-Biointerfaces', 'Food and Chemical Toxicology',
+          'International Journal of Food Microbiology', 'Food Quality and Preference', 'Food Packaging and Shelf Life', 'Toxins',
+          'Food Research International', 'Journal of Colloid and Intereace Science', 'Journal of Food Engineering',
+          'Journal of Functional Foods', 'Meat Science', 'Environmental pollution', 'Nutrients',
+          'LWT-Food Science and Technology', 'Journal of Dairy Science', 'Journal of Food Composition and Analysis',
+          'Journal of the Science of Food and Agriculture', 'Poultry Science', 'Scientia Horticulturae', 'Journal of Integrative Agriculture',
+          'mBio', 'Free Radical Biology and Medicine', 'mSystems', 'Ultrasonics Sonochemistry', 'Journal of Experimental Botany',
+          'Journal of Nutritional Biochemistry', 'Foods', 'Food Reviews International', 'Food and Bioproducts Processing',
+          'Plant Foods for Human Nutrition', 'Microchemical Journal', 'Sensors', 'Current Opinion in Food Science'];
+
+      // 高质量论文B类
+      var highQulityB = ['Applied Microbiology and Biotechnology', 'Microorganisms', 'Frontiers in Microbiology', 'Food and Bioprocess Technology',
+          'Journal of Proteomics',
+          'Marine Drugs', 'Foodborne Pathogens and Disease',
+          'Food Analytical Methods', 'Food Science and Human Wellness', 'Food Bioscience', 'International Dairy Journal', 'Journal of Cereal Science',
+          'International Journal of Food Sciences and Nutrition', 'Biotechnology Progress', 'International Journal of Food Science and Technology',
+          'Journal of Bioscience and Bioengineering', 'Food Biophysics', 'Journal of Food Science', 'European Food Research and Technology',
+          'Molecules', 'Process Biochemistry', 'Coatings', 'Drying Technology', 'Horticulture Environment and Biotechnology',
+          'Animal Science Journal'];
+      // 高质量论文C类
+      var highQulityC = ['European Journal of Lipid Science and Technology', 'CyTA-Journal of Food', 'Journal of Food Measurement and Characterization',
+          'Journal of Texture Studies',
+          'Food Science & Nutrition'];
+
+      var pubT: any = item.getField('publicationTitle');
+
+      if (highQulityOne.includes(pubT)) {
+          var highQuality: any = '自然科学一类'; // 高质量论文一类
+      } else if (highQulityTwo.includes(pubT)) {
+          highQuality = '自然科学二类'; // 高质量论文二类
+      } else if (highQulityA.includes(pubT)) {
+          highQuality = '自然科学A';
+      } else if (highQulityB.includes(pubT)) {
+          highQuality = '自然科学B';
+      } else if (highQulityC.includes(pubT)) {
+          highQuality = '自然科学C';
+      } else {
+          highQuality = undefined
+      }
+
+      // 如果高质量期刊没有找到，尝试用&替换and
+      if (highQuality == undefined) {
+          pubT = pubT.replace('&', 'and');
+          if (highQulityOne.includes(pubT)) {
+              var highQuality: any = '自然科学一类'; // 高质量论文一类
+          } else if (highQulityTwo.includes(pubT)) {
+              highQuality = '自然科学二类'; // 高质量论文二类
+          } else if (highQulityA.includes(pubT)) {
+              highQuality = '自然科学A';
+          } else if (highQulityB.includes(pubT)) {
+              highQuality = '自然科学B';
+          } else if (highQulityC.includes(pubT)) {
+              highQuality = '自然科学C';
+          } else {
+              highQuality = undefined
+          }
+      }
+
+      return highQuality;
+  */
 }
