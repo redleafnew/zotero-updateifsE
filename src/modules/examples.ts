@@ -737,9 +737,9 @@ export class KeyExampleFactory {
     var ifProfileDir = Zotero.Prefs.get(`extensions.zotero.${config.addonRef}.shortcut.profile.dir`, true);
     var keyProfileDir = Zotero.Prefs.get(`extensions.zotero.${config.addonRef}.shortcut.input.profile.dir`, true);
 
-    // control 键
+    // win的control 键 mac的command键
     if (Zotero.isMac) {
-      var keyControl = 'command'
+      var keyControl = 'meta'
     } else { var keyControl = 'control' }
 
     // 题目大小写改为句首字母大小写
@@ -759,7 +759,6 @@ export class KeyExampleFactory {
       });
     }
 
-
     // 期刊名称大小写
     if (ifPubTitleCase) {
       ztoolkit.Shortcut.register("event", {
@@ -767,7 +766,7 @@ export class KeyExampleFactory {
         key: keyPubTitleCase as string,
         //key: 'D',
         // modifiers: "accel",
-        modifiers: "control",
+        modifiers: keyControl,
         callback: (keyOptions) => {
           ztoolkit.log(`${ifPubTitleCase}${keyPubTitleCase}`);
           // addon.hooks.onShortcuts("larger");
@@ -776,8 +775,6 @@ export class KeyExampleFactory {
         },
       });
     }
-
-
 
     // 显示数据目录
     if (ifDataDir) {
