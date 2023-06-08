@@ -280,6 +280,17 @@ function bindPrefEvents() {
       ztoolkit.log(e);
       UIExampleFactory.registerExtraColumn();
     });
+
+  // sci warn sci预警
+  addon.data
+    .prefs!.window.document.querySelector(
+      `#zotero-prefpane-${config.addonRef}-sciwarn`
+    )
+    ?.addEventListener("command", (e) => {
+      ztoolkit.log(e);
+      UIExampleFactory.registerExtraColumn();
+    });
+
   // ahci
   addon.data
     .prefs!.window.document.querySelector(

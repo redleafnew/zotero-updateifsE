@@ -55,6 +55,7 @@ pref("extensions.zotero.__addonRef__.ccf", false);
 pref("extensions.zotero.__addonRef__.fms", false);
 pref("extensions.zotero.__addonRef__.jci", false);
 pref("extensions.zotero.__addonRef__.ahci", false);
+pref("extensions.zotero.__addonRef__.sciwarn", false);
 pref("extensions.zotero.__addonRef__.com.if", true);
 pref("extensions.zotero.__addonRef__.agg.if", true);
 pref("extensions.zotero.__addonRef__.summary", false);

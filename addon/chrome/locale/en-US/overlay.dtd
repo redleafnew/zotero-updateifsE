@@ -34,6 +34,7 @@
 <!ENTITY zotero.__addonRef__.fms "FMS">
 <!ENTITY zotero.__addonRef__.jci "JCI">
 <!ENTITY zotero.__addonRef__.ahci "AHCI">
+<!ENTITY zotero.__addonRef__.sciwarn "SCI Warning">
 <!ENTITY zotero.__addonRef__.com.if "Compound IF">
 <!ENTITY zotero.__addonRef__.agg.if "Comprehensive IF">
 

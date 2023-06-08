@@ -31,6 +31,8 @@
 <!ENTITY zotero.__addonRef__.fms "FMS">
 <!ENTITY zotero.__addonRef__.jci "JCI">
 <!ENTITY zotero.__addonRef__.ahci "AHCI">
+
+<!ENTITY zotero.__addonRef__.sciwarn "SCI预警">
 <!ENTITY zotero.__addonRef__.com.if "复合影响因子">
 <!ENTITY zotero.__addonRef__.agg.if "综合影响因子">
 

@@ -173,6 +173,7 @@ export class KeyExampleFactory {
         var fms: any = Zotero.Prefs.get(`extensions.zotero.${config.addonRef}.fms`, true);
         var jci: any = Zotero.Prefs.get(`extensions.zotero.${config.addonRef}.jci`, true);
         var ahci: any = Zotero.Prefs.get(`extensions.zotero.${config.addonRef}.ahci`, true);
+        var sciwarn: any = Zotero.Prefs.get(`extensions.zotero.${config.addonRef}.sciwarn`, true);
         var compoundIFs: any = Zotero.Prefs.get(`extensions.zotero.${config.addonRef}.com.if`, true);
         var comprehensiveIFs: any = Zotero.Prefs.get(`extensions.zotero.${config.addonRef}.agg.if`, true);
         //  大学期刊分类
@@ -266,6 +267,10 @@ export class KeyExampleFactory {
             }
             if (ahci && easyscholarData['ahci']) {
               ztoolkit.ExtraField.setExtraField(item, 'AHCI', easyscholarData['ahci']);
+            }
+            // SCI预警 sci warn
+            if (sciwarn && easyscholarData['sciwarn']) {
+              ztoolkit.ExtraField.setExtraField(item, 'SCI预警', easyscholarData['sciwarn']);
             }
             // 西南财经大学
             if (swufe && easyscholarData['swufe']) {
@@ -486,6 +491,10 @@ export class KeyExampleFactory {
           }
         );
         var AllJour = resp.responseText;
+        // 如果期刊名中有半角括号 在括号前添加/，以匹配
+        if (/\)/.test(String(pubT))) {
+          pubT = String(pubT).replace(/(\()(.*)(\))/, '\\$1$2\\$3')
+        }
         var reg = ' ' + pubT + '\n(.*\n){10,40} .*复合影响因子：(.*)\n(.*\n){0,6} .*综合影响因子：(.*)'; //复合影响因子和综合影响因子正则，里面含有空格，\s不行
         var patt = new RegExp(reg, 'i'); //
         var jour = AllJour.match(patt) // [2]为复合影响因子，[4]为综合IF
@@ -728,6 +737,10 @@ export class KeyExampleFactory {
     var ifProfileDir = Zotero.Prefs.get(`extensions.zotero.${config.addonRef}.shortcut.profile.dir`, true);
     var keyProfileDir = Zotero.Prefs.get(`extensions.zotero.${config.addonRef}.shortcut.input.profile.dir`, true);
 
+    // control 键
+    if (Zotero.isMac) {
+      var keyControl = 'command'
+    } else { var keyControl = 'control' }
 
     // 题目大小写改为句首字母大小写
     if (ifTitleSentence) {
@@ -736,7 +749,7 @@ export class KeyExampleFactory {
         key: keyTitleSentence as string,
         //key: 'D',
         // modifiers: "accel",
-        modifiers: "control",
+        modifiers: keyControl,
         callback: (keyOptions) => {
           ztoolkit.log(`${ifPubTitleCase}${keyPubTitleCase}`);
           // addon.hooks.onShortcuts("larger");
@@ -1326,6 +1339,7 @@ export class UIExampleFactory {
     var fms: any = Zotero.Prefs.get(`extensions.zotero.${config.addonRef}.fms`, true);
     var jci: any = Zotero.Prefs.get(`extensions.zotero.${config.addonRef}.jci`, true);
     var ahci: any = Zotero.Prefs.get(`extensions.zotero.${config.addonRef}.ahci`, true);
+    var sciwarn: any = Zotero.Prefs.get(`extensions.zotero.${config.addonRef}.sciwarn`, true);
     var compoundIFs: any = Zotero.Prefs.get(`extensions.zotero.${config.addonRef}.com.if`, true);
     var comprehensiveIFs: any = Zotero.Prefs.get(`extensions.zotero.${config.addonRef}.agg.if`, true);
     // 大学期刊分类
@@ -1690,6 +1704,26 @@ export class UIExampleFactory {
       );
     } else {
       await ztoolkit.ItemTree.unregister("JCI");
+    }
+
+    // sci warning预警期刊
+    if (sciwarn) {
+      await ztoolkit.ItemTree.register(
+        "sciwarn",
+        getString("sciwarn"),
+        (
+          field: string,
+          unformatted: boolean,
+          includeBaseMapped: boolean,
+          item: Zotero.Item
+        ) => {
+          // return String(item.id);
+          var sciwarn = ztoolkit.ExtraField.getExtraField(item, 'SCI预警')
+          return String(sciwarn == undefined ? '' : sciwarn);
+        },
+      );
+    } else {
+      await ztoolkit.ItemTree.unregister("sciwarn");
     }
 
     // ahci
