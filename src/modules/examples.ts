@@ -270,7 +270,7 @@ export class KeyExampleFactory {
             }
             // SCI预警 sci warn
             if (sciwarn && easyscholarData['sciwarn']) {
-              ztoolkit.ExtraField.setExtraField(item, 'SCI预警', easyscholarData['sciwarn']);
+              ztoolkit.ExtraField.setExtraField(item, '中科院预警', easyscholarData['sciwarn']);
             }
             // 西南财经大学
             if (swufe && easyscholarData['swufe']) {
@@ -1718,7 +1718,7 @@ export class UIExampleFactory {
           item: Zotero.Item
         ) => {
           // return String(item.id);
-          var sciwarn = ztoolkit.ExtraField.getExtraField(item, 'SCI预警')
+          var sciwarn = ztoolkit.ExtraField.getExtraField(item, '中科院预警')
           return String(sciwarn == undefined ? '' : sciwarn);
         },
       );
