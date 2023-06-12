@@ -44,7 +44,7 @@
     "compressing": "^1.9.0",
     "concurrently": "^8.0.1",
     "cross-env": "^7.0.3",
-    "esbuild": "^0.17.18",
+    "esbuild": "^0.18.0",
     "minimist": "^1.2.8",
     "release-it": "^15.10.1",
     "replace-in-file": "^6.3.5",
