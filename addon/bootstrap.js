@@ -59,7 +59,7 @@ async function waitForZotero() {
   await Zotero.initializationPromise;
 }
 
-function install(data, reason) {}
+function install(data, reason) { }
 
 async function startup({ id, version, resourceURI, rootURI }, reason) {
   await waitForZotero();
@@ -96,6 +96,9 @@ async function startup({ id, version, resourceURI, rootURI }, reason) {
 }
 
 function shutdown({ id, version, resourceURI, rootURI }, reason) {
+  if (reason == ADDON_DISABLE) {
+    Services.obs.notifyObservers(null, "startupcache-invalidate", null);
+  }
   if (reason === APP_SHUTDOWN) {
     return;
   }
@@ -118,7 +121,7 @@ function shutdown({ id, version, resourceURI, rootURI }, reason) {
   }
 }
 
-function uninstall(data, reason) {}
+function uninstall(data, reason) { }
 
 // Loads default preferences from defaults/preferences/prefs.js in Zotero 6
 function setDefaultPrefs(rootURI) {
