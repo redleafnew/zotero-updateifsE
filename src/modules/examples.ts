@@ -2718,7 +2718,7 @@ export class HelperExampleFactory {
       } else {
 
         if (enAbb && lan == 'en-US') {
-          item.setField('journalAbbreviation', pubT);
+          item.setField('journalAbbreviation', 'ppubT');
           // 中文如果找不到缩写是否用全称代替
         } else if (chAbb && lan == 'zh-CN') {
           item.setField('journalAbbreviation', pubT);
