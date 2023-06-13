@@ -8,6 +8,19 @@ export function getAbbEx(pubT: any) {
             "record": 1
         },
         {
+            'full': 'Business Strategy and the Environment',
+            'abb_no_dot': 'Busi Stra Envir',
+            'abb_with_dot': 'Busi. Stra. Envir.',
+            "record": 1
+        },
+        {
+            'full': 'Journal of Energy Storage',
+            'abb_no_dot': 'J Energy Storage',
+            'abb_with_dot': 'J. Energy Storage',
+            "record": 1
+        },
+
+        {
             'full': 'test',
             'abb_no_dot': 'tt',
             'abb_with_dot': 'test.',
