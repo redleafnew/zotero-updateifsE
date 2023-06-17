@@ -1,6 +1,6 @@
 import { ProgressWindowHelper } from "zotero-plugin-toolkit/dist/helpers/progressWindow";
 import { config } from "../../package.json";
-import { getString } from "./locale";
+import { getString } from "../utils/locale";
 import { njauCore, njauJournal } from "./njau";
 import { getAbbEx } from "./abb";
 
@@ -96,9 +96,8 @@ export class BasicExampleFactory {
     const prefOptions = {
       pluginID: config.addonID,
       src: rootURI + "chrome/content/preferences.xhtml",
-      label: getString("prefs.title"),
+      label: getString("prefs-title"),
       image: `chrome://${config.addonRef}/content/icons/favicon.png`,
-      extraDTD: [`chrome://${config.addonRef}/locale/overlay.dtd`],
       defaultXUL: true,
     };
     ztoolkit.PreferencePane.register(prefOptions);
@@ -106,20 +105,20 @@ export class BasicExampleFactory {
 }
 
 export class KeyExampleFactory {
-  //得到所选条目
+  // 得到所选条目
   @example
   static getSelectedItems() {
     var items = Zotero.getActiveZoteroPane().getSelectedItems();
     return items;
   }
-  //分类右击更新信息
+  // 分类右击更新信息
   @example
   static async setExtraCol() {
     var collection = ZoteroPane.getSelectedCollection();
     var items = collection?.getChildItems();
     await KeyExampleFactory.setExtra(items);
   }
-  //条目右键更新信息 右键菜单执行函数
+  // 条目右键更新信息 右键菜单执行函数
   @example
   static async setExtraItems() {
     var secretKey: any = Zotero.Prefs.get(`extensions.zotero.${config.addonRef}.secretkey`, true);
@@ -145,7 +144,7 @@ export class KeyExampleFactory {
         var clsciJourID = '1642199434173014016'; // CLSCI UUID
         var amiJourID = '1648920625629810688'; //AMI UUID
         var nssfJourID = '1648936694851489792';//NSSF  UUID
-        // 加: any为了后面不报错
+        //  加: any为了后面不报错
         var clsciLevel: any = await KeyExampleFactory.getCustomIFs(item, clsciJourID);
         var amiLevel: any = await KeyExampleFactory.getCustomIFs(item, amiJourID);
         var nssfLevel: any = await KeyExampleFactory.getCustomIFs(item, nssfJourID);
@@ -1007,7 +1006,7 @@ export class UIExampleFactory {
     // ztoolkit.Menu.register("item", {
     //   tag: "menuitem",
     //   id: "zotero-itemmenu-addontemplate-test",
-    //   label: getString("menuitem.label"),
+    //   label: getString("menuitem-label"),
     //   commandListener: (ev) => addon.hooks.onDialogEvents("dialogExample"),
     //   icon: menuIcon,
     // });
@@ -1058,11 +1057,11 @@ export class UIExampleFactory {
   //     "item",
   //     {
   //       tag: "menu",
-  //       label: getString("menupopup.label"),
+  //       label: getString("menupopup-label"),
   //       children: [
   //         {
   //           tag: "menuitem",
-  //           label: getString("menuitem.submenulabel"),
+  //           label: getString("menuitem-submenulabel"),
   //           oncommand: "alert('Hello World! Sub Menuitem.')",
   //         },
   //       ],
@@ -1082,7 +1081,7 @@ export class UIExampleFactory {
     // menu->Tools menuitem
     // ztoolkit.Menu.register("menuTools", {
     //   tag: "menu",
-    //   label: getString("menuitem.filemenulabel"),
+    //   label: getString("menuitem-filemenulabel"),
 
     // onpopupshowing:  `Zotero.${config.addonInstance}.hooks.hideMenu()`,// 显示隐藏菜单
     // children: [
@@ -2312,7 +2311,7 @@ export class UIExampleFactory {
     @example
     static registerLibraryTabPanel() {
       const tabId = ztoolkit.LibraryTabPanel.register(
-        getString("tabpanel.lib.tab.label"),
+        getString("tabpanel-lib-tab-label"),
         (panel: XUL.Element, win: Window) => {
           const elem = ztoolkit.UI.createElement(win.document, "vbox", {
             children: [
@@ -2356,7 +2355,7 @@ export class UIExampleFactory {
     @example
     static async registerReaderTabPanel() {
       const tabId = await ztoolkit.ReaderTabPanel.register(
-        getString("tabpanel.reader.tab.label"),
+        getString("tabpanel-reader-tab-label"),
         (
           panel: XUL.TabPanel | undefined,
           deck: XUL.Deck,

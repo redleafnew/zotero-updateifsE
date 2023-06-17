@@ -1,4 +1,4 @@
-// 得到自定义期刊缩写
+//  得到自定义期刊缩写
 export function getAbbEx(pubT: any) {
     var fullAbb: any = [
         {

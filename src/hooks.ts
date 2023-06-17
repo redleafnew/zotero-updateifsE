@@ -6,7 +6,7 @@ import {
   UIExampleFactory,
 } from "./modules/examples";
 import { config } from "../package.json";
-import { getString, initLocale } from "./modules/locale";
+import { getString, initLocale } from "./utils/locale";
 import { registerPrefsScripts } from "./modules/preferenceScript";
 
 async function onStartup() {
@@ -27,7 +27,7 @@ async function onStartup() {
     closeTime: -1,
   })
     .createLine({
-      text: getString("startup.begin"),
+      text: getString("startup-begin"),
       type: "default",
       progress: 0,
     })
@@ -44,7 +44,7 @@ async function onStartup() {
   //await Zotero.Promise.delay(1000);
   popupWin.changeLine({
     progress: 30,
-    text: `[30%] ${getString("startup.begin")}`,
+    text: `[30%] ${getString("startup-begin")}`,
   });
 
   // UIExampleFactory.registerStyleSheet();
@@ -84,7 +84,7 @@ async function onStartup() {
 
   popupWin.changeLine({
     progress: 100,
-    text: `[100%] ${getString("startup.finish")}`,
+    text: `[100%] ${getString("startup-finish")}`,
   });
   popupWin.startCloseTimer(5000);
 
