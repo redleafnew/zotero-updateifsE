@@ -53,7 +53,6 @@ authorChanged = author(s) updated.
 itemAuSwapped = item(s) author(s) first name and last name swapped.
 itemAuthorChanged = item(s) author(s) updated.
 
-
 # 题目条目处理
 titleSearchReplaceWin = Item Title Find and Replace
 itemTitleFindReplaceLabel = Item Title Find and Replace
@@ -66,8 +65,7 @@ findRepSame = The contents you find and replace are same, please check.
 itemTitleFindRepSuc = item(s) title(s) replace completed.
 allUpcase = The item title is all upcase, please check after the change.
 successItemTitleCase = item(s) title(s) case updated.
-
-
+#
 # 期刊题目处理
 change-pub-title = Change publication title
 change-pub-title-desc = Change publication title, for example change LWT to LWT-Food Science and Technology.
