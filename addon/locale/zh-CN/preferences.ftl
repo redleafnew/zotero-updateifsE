@@ -20,7 +20,8 @@ ch-abbr =
  .label = 如果中文条目查询不到, 期刊缩写使用期刊全称
 
 
-#-- 分区类型设置#-- 影响因子设置 -->
+## 分区类型设置、影响因子设置
+
 ifs-setting = 分区与影响因子设置
 jcr-qu =
     .label = JCR分区
@@ -66,7 +67,7 @@ com-if =
 agg-if =
     .label = 综合影响因子
 
-#-- 大学期刊分类
+## 大学期刊分类
 university = 大学期刊分类
 njau-core =
     .label = 南京农业大学核心
@@ -109,7 +110,7 @@ cju =
 zju =
     .label = 浙江大学
 
-#-- 自定义数据集
+## 自定义数据集
 custom-data = 自定义数据集
 ami =
     .label = AMI
@@ -118,7 +119,7 @@ clsci =
 nssf =
     .label = 国家社科基金
 
-#-- 菜单显示隐藏设置
+## 菜单显示隐藏设置
 menu-setting = 显示工具箱菜单设置
 bold-star =
     .label = 作者加粗/加星
@@ -151,7 +152,7 @@ menu-sep-1 =
 menu-sep-2 =
     .label = 分隔条2
 
-#-- 快捷键设置#-- ---
+## 快捷键设置
 shortcut-setting = 快捷键设置
 shortcut-title-sentence =
     .label = 使用快捷键设置题目大小写为句首字母大写:
