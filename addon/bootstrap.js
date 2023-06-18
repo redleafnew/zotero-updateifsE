@@ -59,7 +59,7 @@ async function waitForZotero() {
   await Zotero.initializationPromise;
 }
 
-function install(data, reason) { }
+function install(data, reason) {}
 
 async function startup({ id, version, resourceURI, rootURI }, reason) {
   await waitForZotero();
@@ -69,19 +69,15 @@ async function startup({ id, version, resourceURI, rootURI }, reason) {
     rootURI = resourceURI.spec;
   }
 
-  if (Zotero.platformMajorVersion >= 102) {
-    var aomStartup = Components.classes[
-      "@mozilla.org/addons/addon-manager-startup;1"
-    ].getService(Components.interfaces.amIAddonManagerStartup);
-    var manifestURI = Services.io.newURI(rootURI + "manifest.json");
-    chromeHandle = aomStartup.registerChrome(manifestURI, [
-      ["content", "__addonRef__", rootURI + "chrome/content/"],
-      ["locale", "__addonRef__", "en-US", rootURI + "chrome/locale/en-US/"],
-      ["locale", "__addonRef__", "zh-CN", rootURI + "chrome/locale/zh-CN/"],
-    ]);
-  } else {
-    setDefaultPrefs(rootURI);
-  }
+  var aomStartup = Components.classes[
+    "@mozilla.org/addons/addon-manager-startup;1"
+  ].getService(Components.interfaces.amIAddonManagerStartup);
+  var manifestURI = Services.io.newURI(rootURI + "manifest.json");
+  chromeHandle = aomStartup.registerChrome(manifestURI, [
+    ["content", "__addonRef__", rootURI + "chrome/content/"],
+    ["locale", "__addonRef__", "en-US", rootURI + "chrome/locale/en-US/"],
+    ["locale", "__addonRef__", "zh-CN", rootURI + "chrome/locale/zh-CN/"],
+  ]);
 
   // Global variables for plugin code
   const ctx = {
@@ -121,7 +117,7 @@ function shutdown({ id, version, resourceURI, rootURI }, reason) {
   }
 }
 
-function uninstall(data, reason) { }
+function uninstall(data, reason) {}
 
 // Loads default preferences from defaults/preferences/prefs.js in Zotero 6
 function setDefaultPrefs(rootURI) {

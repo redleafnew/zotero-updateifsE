@@ -3,8 +3,8 @@
     "__addonID__": {
       "updates": [
         {
-          "version": "__buildVersion__",
-          "update_link": "__releasepage__",
+          "version": "0.13.0",
+          "update_link": "https://github.com/redleafnew/zotero-updateifsE/releases/download/0.13.0/greenfrog.xpi",
           "applications": {
             "gecko": {
               "strict_min_version": "60.0"
