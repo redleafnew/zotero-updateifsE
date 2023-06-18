@@ -1,6 +1,7 @@
 import { ProgressWindowHelper } from "zotero-plugin-toolkit/dist/helpers/progressWindow";
 import { config } from "../../package.json";
 import { getString } from "../utils/locale";
+import { getPref } from "../utils/prefs";
 import { njauCore, njauJournal } from "./njau";
 import { getAbbEx } from "./abb";
 
@@ -121,8 +122,8 @@ export class KeyExampleFactory {
   // 条目右键更新信息 右键菜单执行函数
   @example
   static async setExtraItems() {
-    var secretKey: any = Zotero.Prefs.get(`extensions.zotero.${config.addonRef}.secretkey`, true);
-
+    // var secretKey: any = Zotero.Prefs.get(`extensions.zotero.${config.addonRef}.secretkey`, true);
+    var secretKey = getPref('secretkey')
     if (secretKey) {
       var items = Zotero.getActiveZoteroPane().getSelectedItems();
       await KeyExampleFactory.setExtra(items);
@@ -401,9 +402,10 @@ export class KeyExampleFactory {
       }
     }
 
-    var whiteSpace = HelperExampleFactory.whiteSpace();
+    // var whiteSpace = HelperExampleFactory.whiteSpace();
     if (n > 0) {
       HelperExampleFactory.progressWindow(`${getString('upIfsSuccess', { args: { count: n } })}`, 'success');
+      // ztoolkit.log('okkkk' + getString('upIfsSuccess', { args: { count: n } }));
     } else {
       HelperExampleFactory.progressWindow(`${getString('upIfsFail')}`, 'fail');
     }

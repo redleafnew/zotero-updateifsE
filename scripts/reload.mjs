@@ -12,9 +12,8 @@ const args = minimist(argv.slice(2));
 
 const zoteroPath = exec[args.zotero || args.z || Object.keys(exec)[0]];
 const profile = args.profile || args.p;
-const startZotero = `${zoteroPath} --debugger --purgecaches ${
-  profile ? `-p ${profile}` : ""
-}`;
+const startZotero = `${zoteroPath} --debugger --purgecaches ${profile ? `-p ${profile}` : ""
+  }`;
 
 const script = `
 (async () => {
@@ -33,7 +32,7 @@ const script = `
   progressWindow.startCloseTimer(5000);
 })()`;
 
-const url = `zotero://ztoolkit-debug/?run=${encodeURIComponent(script)}`;
+const url = `zotero://ztoolkit-debug/?run=${encodeURIComponent(script)}&password=CTT`;
 
 const command = `${startZotero} -url "${url}"`;
 
