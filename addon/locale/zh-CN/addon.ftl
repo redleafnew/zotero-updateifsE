@@ -127,5 +127,10 @@ nssf = 国家社科基金
 
 summary = 总结
 
-upIfsSuccess = 条目更新成功。
+upIfsSuccess =
+ {$count ->
+   [one] 所选的1个条目更新成功。
+  *[other] 所选的{ $count }个条目更新成功。
+  }
+
 upIfsFail = 从easyScholar更新期刊信息失败。

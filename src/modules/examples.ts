@@ -403,14 +403,14 @@ export class KeyExampleFactory {
 
     var whiteSpace = HelperExampleFactory.whiteSpace();
     if (n > 0) {
-      HelperExampleFactory.progressWindow(`${n}${whiteSpace}${getString('upIfsSuccess')}`, 'success');
+      HelperExampleFactory.progressWindow(`${getString('upIfsSuccess', { args: { count: n } })}`, 'success');
     } else {
       HelperExampleFactory.progressWindow(`${getString('upIfsFail')}`, 'fail');
     }
   }
 
   @example
-  // 从easyScholar获取数据 获得影响因子 新接口函数
+  // 从easyScholar获取数据 获得影响因子新接口函数
   static async getIFs(item: Zotero.Item) {
     var secretKey: any = Zotero.Prefs.get(`extensions.zotero.${config.addonRef}.secretkey`, true);
     //得到查询字段，期刊用期刊题目，会议论文用会议名称

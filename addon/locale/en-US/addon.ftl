@@ -128,5 +128,9 @@ nssf = NSSF
 
 summary = Summary
 
-upIfsSuccess = item(s) updated sucessfully.
+upIfsSuccess =
+ {$count ->
+   [one] Selected 1 item updated sucessfully.
+  *[other] Selected { $count } items updated sucessfully.
+  }
 upIfsFail = Retriving journal information from easyScholar failed.
