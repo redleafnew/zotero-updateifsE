@@ -14,7 +14,6 @@ async function onStartup() {
     Zotero.initializationPromise,
     Zotero.unlockPromise,
     Zotero.uiReadyPromise,
-
   ]);
   initLocale();
   ztoolkit.ProgressWindow.setIconURI(
@@ -33,11 +32,9 @@ async function onStartup() {
     })
     .show();
 
-
   BasicExampleFactory.registerPrefs();
 
   BasicExampleFactory.registerNotifier();
-
 
   KeyExampleFactory.registerShortcuts();
 
@@ -51,7 +48,7 @@ async function onStartup() {
 
   // UIExampleFactory.disableMenu(); //禁用的菜单
 
-  UIExampleFactory.registerRightClickMenuItem();// 右键菜单
+  UIExampleFactory.registerRightClickMenuItem(); // 右键菜单
 
   // UIExampleFactory.registerRightClickMenuPopup(); // 右键弹出菜单
 
@@ -60,11 +57,14 @@ async function onStartup() {
   await UIExampleFactory.registerExtraColumn();
 
   //监听分类右键显示菜单
-  ZoteroPane.collectionsView.onSelect.addListener(UIExampleFactory.displayColMenuitem); //监听分类右键显示菜单
-
+  ZoteroPane.collectionsView.onSelect.addListener(
+    UIExampleFactory.displayColMenuitem
+  ); //监听分类右键显示菜单
 
   //监听右键显示菜单
-  ZoteroPane.itemsView.onSelect.addListener(UIExampleFactory.displayContexMenuitem); //监听右键显示菜单
+  ZoteroPane.itemsView.onSelect.addListener(
+    UIExampleFactory.displayContexMenuitem
+  ); //监听右键显示菜单
 
   // UIExampleFactory.refreshButton(); // 原想加按钮
 
@@ -77,8 +77,6 @@ async function onStartup() {
   // await UIExampleFactory.registerReaderTabPanel(); // Reader
 
   // PromptExampleFactory.registerAlertPromptExample();
-
-
 
   //await Zotero.Promise.delay(1000);
 
@@ -120,10 +118,20 @@ async function onNotify(
   ztoolkit.log("notify", event, type, ids, extraData);
 
   if (event == "add" && type == "item") {
-    //Zotero.debug(`添加条目了${ids}！`)
+    const regularItems = Zotero.Items.get(ids as number[]).filter(
+      (item) =>
+        item.isRegularItem() &&
+        // @ts-ignore item has no isFeedItem
+        !item.isFeedItem &&
+        // @ts-ignore libraryID is got from item, so get() will never return false
+        Zotero.Libraries.get(item.libraryID)._libraryType == "user"
+    );
 
-    // Add an item
-    BasicExampleFactory.exampleNotifierCallback(ids)
+    if (regularItems.length !== 0) {
+      await KeyExampleFactory.setExtra(regularItems);
+      return;
+    }
+    //Zotero.debug(`添加条目了${ids}！`)
   }
 }
 
@@ -159,8 +167,6 @@ async function onPrefsEvent(type: string, data: { [key: string]: any }) {
 //       break;
 //   }
 // }
-
-
 
 // Add your hooks here. For element click, etc.
 // Keep in mind hooks only do dispatch. Don't add code that does real jobs in hooks.

@@ -20,7 +20,7 @@ ch-abbr =
 
 
 
-#-- 分区类型设置#-- 影响因子设置 -->
+## 分区类型设置、影响因子设置
 ifs-setting = Quartile and IF Settings
 jcr-qu =
     .label = JCR Quartile
@@ -66,7 +66,7 @@ com-if =
 agg-if =
     .label = Comprehensive IF
 
-#-- 大学期刊分类
+## 大学期刊分类
 university = University Journal Category Settings
 njau-core =
     .label = NJAU Core
@@ -109,7 +109,7 @@ cju =
 zju =
     .label = ZJU
 
-#-- 自定义数据集
+## 自定义数据集
 custom-data = Custom Dataset
 ami =
     .label = AMI
@@ -118,7 +118,7 @@ clsci =
 nssf =
     .label = NSSF (National Social Science Fund)
 
-#-- 菜单显示隐藏设置
+## 菜单显示隐藏设置
 menu-setting = Show Toolbox Menu Settings
 bold-star =
     .label = Author Bold and/or Asterisk
@@ -151,7 +151,7 @@ menu-sep-1 =
 menu-sep-2 =
     .label = Separator 2
 
-#-- 快捷键设置#-- ---
+## 快捷键设置
 shortcut-setting = Shortcut Settings
 shortcut-title-sentence =
     .label = Using shortcut for changing title to sentence case:

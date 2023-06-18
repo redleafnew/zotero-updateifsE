@@ -7,6 +7,7 @@
     "addonID": "greenfrog@redleafnew.me",
     "addonRef": "greenfrog",
     "addonInstance": "greenfrog",
+    "prefsPrefix": "extensions.zotero.greenfrog",
     "releasepage": "https://github.com/redleafnew/zotero-updateifsE/releases/latest/download/greenfrog.xpi",
     "updaterdf": "https://raw.githubusercontent.com/redleafnew/zotero-updateifsE/bootstrap/update.json"
   },
