@@ -32,7 +32,7 @@ const script = `
   progressWindow.startCloseTimer(5000);
 })()`;
 
-const url = `zotero://ztoolkit-debug/?run=${encodeURIComponent(script)}`;
+const url = `zotero://ztoolkit-debug/?run=${encodeURIComponent(script)}&password=CTT`;
 
 const command = `${startZotero} -url "${url}"`;
 
