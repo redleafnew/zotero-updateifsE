@@ -610,7 +610,7 @@ function bindPrefEvents() {
     });
 
 
-  // 显示配置目录
+  // 显示配置目录快捷键
   addon.data
     .prefs!.window.document.querySelector(
       `#zotero-prefpane-${config.addonRef}-shortcut-profile-dir`

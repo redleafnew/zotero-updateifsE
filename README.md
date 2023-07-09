@@ -2,11 +2,15 @@
 
 [![zotero target version](https://img.shields.io/badge/Zotero-7.0.*-green?style=flat-square&logo=zotero&logoColor=CC2936)](https://www.zotero.org)
 [![version](https://img.shields.io/github/package-json/v/redleafnew/zotero-updateifsE?style=flat-square)](https://github.com/redleafnew/zotero-updateifsE/releases/)
-[![download number](https://img.shields.io/github/downloads/redleafnew/zotero-updateifsE/latest/greenfrog.xpi?style=flat-square)](https://github.com/redleafnew/zotero-updateifsE/releases/)  
+[![download number](https://img.shields.io/github/downloads/redleafnew/zotero-updateifsE/latest/greenfrog.xpi?style=flat-square)](https://github.com/redleafnew/zotero-updateifsE/releases/)
 [![license](https://img.shields.io/github/license/redleafnew/zotero-updateifsE?style=flat-square)](#license)
 [![Using Zotero Plugin Template](https://img.shields.io/badge/Using-Zotero%20Plugin%20Template-blue?style=flat-square&logo=github)](https://github.com/windingwind/zotero-plugin-template)
 
 感谢[easyScholar](https://easyscholar.cc)提供数据接口，[easyScholar](https://easyscholar.cc)是一个强大的浏览器插件，提供了很多有用期刊数据，详情访问：<https://easyscholar.cc>。感谢@dawnlh 提供期刊缩写数据，感谢@l0o0 提供的期刊缩写接口和中文期刊复合和综合影响子代码。
+
+# 注意：
+
+最新版仅支持Zotero 7.0, Zotero 6.0请下载[0.13.0](https://github.com/redleafnew/zotero-updateifsE/releases/tag/0.13.0)。
 
 ## 主要功能
 
@@ -49,6 +53,10 @@
 感谢@windingwind 开发工具箱，[Zotero Plugin Toolkit](https://github.com/windingwind/zotero-plugin-toolkit)。
 
 ---
+
+# Reminder：
+
+The latest version only supports Zotero 7.0, Zotero 6.0 users could download [0.13.0](https://github.com/redleafnew/zotero-updateifsE/releases/tag/0.13.0)。
 
 ## Features
 
