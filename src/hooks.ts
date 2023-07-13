@@ -128,7 +128,8 @@ async function onNotify(
     );
 
     if (regularItems.length !== 0) {
-      await KeyExampleFactory.setExtra(regularItems);
+      // await KeyExampleFactory.setExtra(regularItems);
+      BasicExampleFactory.exampleNotifierCallback(ids)
       return;
     }
     //Zotero.debug(`添加条目了${ids}！`)
