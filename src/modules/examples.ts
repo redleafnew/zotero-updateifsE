@@ -62,14 +62,14 @@ export class BasicExampleFactory {
   }
 
   @example
-  static async exampleNotifierCallback(ids: any) {
+  static async exampleNotifierCallback(regularItems: any) {
     // 增加条目时 新增条目时
     //  Zotero.Items.get(ids).filter(item => item.isRegularItem())
-    var items = Zotero.Items.get(ids);
+    // var items = Zotero.Items.get(ids);
     // 增加条目时 更新
     var addUpdate = Zotero.Prefs.get(`extensions.zotero.${config.addonRef}.add.update`, true);
     if (addUpdate) {
-      await KeyExampleFactory.setExtra(items);
+      await KeyExampleFactory.setExtra(regularItems);
     }
     // 得到添加的条目总数
     // var items = Zotero.Items.get(ids);
