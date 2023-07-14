@@ -4,7 +4,9 @@
   },
   "github": {
     "release": true,
-    "assets": ["builds/*.xpi"]
+    "assets": [
+      "build/*.xpi"
+    ]
   },
   "hooks": {
     "after:bump": "npm run build",
