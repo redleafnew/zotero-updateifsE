@@ -68,8 +68,16 @@ export class BasicExampleFactory {
     // var items = Zotero.Items.get(ids);
     // 增加条目时 更新
     var addUpdate = Zotero.Prefs.get(`extensions.zotero.${config.addonRef}.add.update`, true);
+    // 增加条目时 更新 条目题目改为句首字母大写
+    var addItemTieleSentenceCase = getPref('update.title.sentence.case');
+
     if (addUpdate) {
       await KeyExampleFactory.setExtra(regularItems);
+    }
+
+    if (addItemTieleSentenceCase) {
+      HelperExampleFactory.chanItemTitleCaseDo(regularItems);
+      // await KeyExampleFactory.setExtra(regularItems);
     }
     // 得到添加的条目总数
     // var items = Zotero.Items.get(ids);
@@ -2543,6 +2551,7 @@ export class HelperExampleFactory {
       this.progressWindow(alertInfo, 'fail');
       return;
     } else {
+      HelperExampleFactory.chanItemTitleCaseDo(items);
       for (let item of items) {
         var oldPubTitle = item.getField("publicationTitle").trim();//原题目
         newPubTitle = HelperExampleFactory.titleCase(oldPubTitle). //转为词首字母大写
@@ -2578,43 +2587,87 @@ export class HelperExampleFactory {
     var whiteSpace = HelperExampleFactory.whiteSpace();
     var n = 0;
 
+
     if (items.length == 0) {
       var alertInfo = getString('zeroItem');
       this.progressWindow(alertInfo, 'fail');
       return;
     } else {
-      for (let item of items) {
 
-        var title = item.getField('title');
-        if (HelperExampleFactory.detectUpCase(title)) {//如果条目题目全部为大写，转换并提醒
-          title = HelperExampleFactory.titleCase(title); // 转换为单词首字母大写
-          alertInfo = getString('allUpcase');
-          HelperExampleFactory.progressWindow(alertInfo, 'infomation');
-        }
+      n = await HelperExampleFactory.chanItemTitleCaseDo(items);
+      // for (let item of items) {
 
-        var new_title = title.replace(/\b([A-Z][a-z0-9]+|A)\b/g, function (x: any) { return x.toLowerCase(); });
-        new_title = new_title.replace(/(^|\?\s*)[a-z]/, function (x: any) { return x.toUpperCase(); }).
-          replace('china', 'China'). // 替换china  代码来源于fredericky123，感谢。
-          replace('chinese', 'Chinese'). // 替换chinese
-          replace('america', 'America'). // 替换america
-          replace('english', 'English'). // 替换english
-          replace('england', 'England'). // 替换england
-          replace('3d', '3D').
-          replace('india', 'India'). // 替换india
-          replace('dpph', 'DPPH'). // 专有名词
-          replace('abts', 'ABTS'). // 专有名词
-          //20220510 增加冒号后面为大写字母
-          // https://stackoverflow.com/questions/72180052/regexp-match-and-replace-to-its-uppercase-in-javascript#72180194
-          replace(/：|:\s*\w/, (fullMatch: string) => fullMatch.toUpperCase()); //匹配冒号后面的空格及一个字母，并转为大写
-        n++;
-        item.setField('title', new_title);
-        await item.saveTx();
-      }
+      //   var title = item.getField('title');
+      //   if (HelperExampleFactory.detectUpCase(title)) {//如果条目题目全部为大写，转换并提醒
+      //     title = HelperExampleFactory.titleCase(title); // 转换为单词首字母大写
+      //     alertInfo = getString('allUpcase');
+      //     HelperExampleFactory.progressWindow(alertInfo, 'infomation');
+      //   }
+
+      //   var new_title = title.replace(/\b([A-Z][a-z0-9]+|A)\b/g, function (x: any) { return x.toLowerCase(); });
+      //   new_title = new_title.replace(/(^|\?\s*)[a-z]/, function (x: any) { return x.toUpperCase(); }).
+      //     replace('china', 'China'). // 替换china  代码来源于fredericky123，感谢。
+      //     replace('chinese', 'Chinese'). // 替换chinese
+      //     replace('america', 'America'). // 替换america
+      //     replace('english', 'English'). // 替换english
+      //     replace('england', 'England'). // 替换england
+      //     replace('3d', '3D').
+      //     replace('india', 'India'). // 替换india
+      //     replace('dpph', 'DPPH'). // 专有名词
+      //     replace('abts', 'ABTS'). // 专有名词
+      //     //20220510 增加冒号后面为大写字母
+      //     // https://stackoverflow.com/questions/72180052/regexp-match-and-replace-to-its-uppercase-in-javascript#72180194
+      //     replace(/：|:\s*\w/, (fullMatch: string) => fullMatch.toUpperCase()); //匹配冒号后面的空格及一个字母，并转为大写
+      //   n++;
+      //   item.setField('title', new_title);
+      //   await item.saveTx();
+      // }
 
     }
     var statusInfo = n == 0 ? 'fail' : 'success';
     alertInfo = n + whiteSpace + getString('successItemTitleCase');
     this.progressWindow(alertInfo, statusInfo);
+  }
+
+  // 将题目改为句首字母大写 具体执行函数
+  @example
+  static async chanItemTitleCaseDo(items: any) {
+    var n = 0;
+    // var whiteSpace = HelperExampleFactory.whiteSpace();
+
+    for (let item of items) {
+
+      var title = item.getField('title');
+      if (HelperExampleFactory.detectUpCase(title)) {//如果条目题目全部为大写，转换并提醒
+        title = HelperExampleFactory.titleCase(title); // 转换为单词首字母大写
+        var alertInfo = getString('allUpcase');
+        HelperExampleFactory.progressWindow(alertInfo, 'infomation');
+      }
+
+      var new_title = title.replace(/\b([A-Z][a-z0-9]+|A)\b/g, function (x: any) { return x.toLowerCase(); });
+      new_title = new_title.replace(/(^|\?\s*)[a-z]/, function (x: any) { return x.toUpperCase(); }).
+        replace('china', 'China'). // 替换china  代码来源于fredericky123，感谢。
+        replace('chinese', 'Chinese'). // 替换chinese
+        replace('america', 'America'). // 替换america
+        replace('english', 'English'). // 替换english
+        replace('england', 'England'). // 替换england
+        replace('3d', '3D').
+        replace('india', 'India'). // 替换india
+        replace('dpph', 'DPPH'). // 专有名词
+        replace('abts', 'ABTS'). // 专有名词
+        //20220510 增加冒号后面为大写字母
+        // https://stackoverflow.com/questions/72180052/regexp-match-and-replace-to-its-uppercase-in-javascript#72180194
+        replace(/：|:\s*\w/, (fullMatch: string) => fullMatch.toUpperCase()); //匹配冒号后面的空格及一个字母，并转为大写
+      n++;
+      item.setField('title', new_title);
+      await item.saveTx();
+
+
+    }
+    // var statusInfo = n == 0 ? 'fail' : 'success';
+    // alertInfo = n + whiteSpace + getString('successItemTitleCase');
+    // this.progressWindow(alertInfo, statusInfo);
+    return n
   }
 
   // 检查句子是否为全部大写
