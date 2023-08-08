@@ -133,4 +133,4 @@ upIfsSuccess =
   *[other] 所选的{ $count }个条目更新成功。
   }
 
-upIfsFail = 从easyScholar更新期刊信息失败。
+upIfsFail = easyScholar查不到此期刊的等级信息。

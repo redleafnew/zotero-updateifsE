@@ -131,4 +131,4 @@ upIfsSuccess =
    [one] Selected 1 item updated sucessfully.
   *[other] {$count} items updated sucessfully.
   }
-upIfsFail = Retriving journal information from easyScholar failed.
+upIfsFail = Could not Retrive this journal information from easyScholar.

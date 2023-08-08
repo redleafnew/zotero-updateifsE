@@ -427,6 +427,13 @@ export class KeyExampleFactory {
     var publicationTitle = Zotero.ItemTypes.getName(item.itemTypeID) == 'journalArticle' ?
       encodeURIComponent(item.getField('publicationTitle') as any) :
       encodeURIComponent(item.getField('conferenceName') as any);
+
+    // 处理PANS, 期刊中包含Proceedings of the National Academy of Sciences即为Proceedings of the National Academy of Sciences
+    var pattPNAS = new RegExp(encodeURIComponent('Proceedings of the National Academy of Sciences'), 'i');
+    var resultPNAS = pattPNAS.test(publicationTitle);
+    publicationTitle = resultPNAS ? encodeURIComponent('Proceedings of the National Academy of Sciences of the United States of America') : publicationTitle
+
+
     var url = `https://easyscholar.cc/open/getPublicationRank?secretKey=${secretKey}&publicationName=${publicationTitle}`;
     try {
       var resp = await Zotero.HTTP.request("GET", url);
@@ -453,6 +460,12 @@ export class KeyExampleFactory {
     var publicationTitle = Zotero.ItemTypes.getName(item.itemTypeID) == 'journalArticle' ?
       encodeURIComponent(item.getField('publicationTitle')) :
       encodeURIComponent(item.getField('conferenceName'));
+
+    // 处理PANS, 期刊中包含Proceedings of the National Academy of Sciences即为Proceedings of the National Academy of Sciences
+    var pattPNAS = new RegExp(encodeURIComponent('Proceedings of the National Academy of Sciences'), 'i');
+    var resultPNAS = pattPNAS.test(publicationTitle);
+    publicationTitle = resultPNAS ? encodeURIComponent('Proceedings of the National Academy of Sciences of the United States of America') : publicationTitle
+
     var url = `https://easyscholar.cc/open/getPublicationRank?secretKey=${secretKey}&publicationName=${publicationTitle}`;
     try {
       let req = await Zotero.HTTP.request('GET', url, { responseType: 'json' });
