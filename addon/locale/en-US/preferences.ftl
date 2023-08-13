@@ -119,6 +119,9 @@ clsci =
     .label = CLSCI
 nssf =
     .label = NSSF (National Social Science Fund)
+swupl =
+    .label = SWUPL
+
 
 ## 菜单显示隐藏设置
 menu-setting = Show Toolbox Menu Settings

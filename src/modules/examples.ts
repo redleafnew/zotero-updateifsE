@@ -5,6 +5,9 @@ import { getPref } from "../utils/prefs";
 import { njauCore, njauJournal } from "./njau";
 import { getAbbEx } from "./abb";
 
+// 使用 getPref得到设置：只需要key即可。
+// 形如var secretKey = getPref('secretkey')
+
 function example(
   target: any,
   propertyKey: string | symbol,
@@ -67,7 +70,7 @@ export class BasicExampleFactory {
     //  Zotero.Items.get(ids).filter(item => item.isRegularItem())
     // var items = Zotero.Items.get(ids);
     // 增加条目时 更新
-    var addUpdate = Zotero.Prefs.get(`extensions.zotero.${config.addonRef}.add.update`, true);
+    var addUpdate = getPref(`add.update`);
     // 增加条目时 更新 条目题目改为句首字母大写
     var addItemTieleSentenceCase = getPref('update.title.sentence.case');
 
@@ -149,66 +152,72 @@ export class KeyExampleFactory {
       if (UIExampleFactory.checkItem(item)) {  //如果是期刊或会议论文才继续
         var easyscholarData = await KeyExampleFactory.getIFs(item); //得到easyscholar数据
         var chineseIFs = await KeyExampleFactory.getChineseIFs(item); //综合影响因子、复合影响因子
-
+        // 自定义数据集
         var clsciJourID = '1642199434173014016'; // CLSCI UUID
         var amiJourID = '1648920625629810688'; //AMI UUID
         var nssfJourID = '1648936694851489792';//NSSF  UUID
+        var swuplJourID = '1652662162603773952';//SWUPL  UUID 西南政法大学
+
         //  加: any为了后面不报错
         var clsciLevel: any = await KeyExampleFactory.getCustomIFs(item, clsciJourID);
         var amiLevel: any = await KeyExampleFactory.getCustomIFs(item, amiJourID);
         var nssfLevel: any = await KeyExampleFactory.getCustomIFs(item, nssfJourID);
+        var swuplLevel: any = await KeyExampleFactory.getCustomIFs(item, swuplJourID);
+
+        //Zotero.debug('swuplLevel是' + swuplLevel);
 
         // 更新前清空Extra
-        var emptyExtra = Zotero.Prefs.get(`extensions.zotero.${config.addonRef}.update.empty.extra`, true);
+        var emptyExtra = getPref(`update.empty.extra`);
 
 
         // 加: any为了后面不报错
-        var jcr: any = Zotero.Prefs.get(`extensions.zotero.${config.addonRef}.jcr.qu`, true);
-        var basic: any = Zotero.Prefs.get(`extensions.zotero.${config.addonRef}.basic`, true);
-        var updated: any = Zotero.Prefs.get(`extensions.zotero.${config.addonRef}.updated`, true);
-        var ifs: any = Zotero.Prefs.get(`extensions.zotero.${config.addonRef}.sci.if`, true);
-        var if5: any = Zotero.Prefs.get(`extensions.zotero.${config.addonRef}.sci.if5`, true);
-        var eii: any = Zotero.Prefs.get(`extensions.zotero.${config.addonRef}.ei`, true);
-        var chjcscd: any = Zotero.Prefs.get(`extensions.zotero.${config.addonRef}.chjcscd`, true);
-        var pkucore: any = Zotero.Prefs.get(`extensions.zotero.${config.addonRef}.pku.core`, true);
-        var njucore: any = Zotero.Prefs.get(`extensions.zotero.${config.addonRef}.nju.core`, true);
-        var scicore: any = Zotero.Prefs.get(`extensions.zotero.${config.addonRef}.sci.core`, true);
-        var ssci: any = Zotero.Prefs.get(`extensions.zotero.${config.addonRef}.ssci`, true);
-        var ajg: any = Zotero.Prefs.get(`extensions.zotero.${config.addonRef}.ajg`, true);
-        var utd24: any = Zotero.Prefs.get(`extensions.zotero.${config.addonRef}.utd24`, true);
-        var ft50: any = Zotero.Prefs.get(`extensions.zotero.${config.addonRef}.ft50`, true);
-        var ccf: any = Zotero.Prefs.get(`extensions.zotero.${config.addonRef}.ccf`, true);
-        var fms: any = Zotero.Prefs.get(`extensions.zotero.${config.addonRef}.fms`, true);
-        var jci: any = Zotero.Prefs.get(`extensions.zotero.${config.addonRef}.jci`, true);
-        var ahci: any = Zotero.Prefs.get(`extensions.zotero.${config.addonRef}.ahci`, true);
-        var sciwarn: any = Zotero.Prefs.get(`extensions.zotero.${config.addonRef}.sciwarn`, true);
-        var compoundIFs: any = Zotero.Prefs.get(`extensions.zotero.${config.addonRef}.com.if`, true);
-        var comprehensiveIFs: any = Zotero.Prefs.get(`extensions.zotero.${config.addonRef}.agg.if`, true);
+        var jcr: any = getPref(`jcr.qu`);
+        var basic: any = getPref(`basic`);
+        var updated: any = getPref(`updated`);
+        var ifs: any = getPref(`sci.if`);
+        var if5: any = getPref(`sci.if5`);
+        var eii: any = getPref(`ei`);
+        var chjcscd: any = getPref(`chjcscd`);
+        var pkucore: any = getPref(`pku.core`);
+        var njucore: any = getPref(`nju.core`);
+        var scicore: any = getPref(`sci.core`);
+        var ssci: any = getPref(`ssci`);
+        var ajg: any = getPref(`ajg`);
+        var utd24: any = getPref(`utd24`);
+        var ft50: any = getPref(`ft50`);
+        var ccf: any = getPref(`ccf`);
+        var fms: any = getPref(`fms`);
+        var jci: any = getPref(`jci`);
+        var ahci: any = getPref(`ahci`);
+        var sciwarn: any = getPref(`sciwarn`);
+        var compoundIFs: any = getPref(`com.if`);
+        var comprehensiveIFs: any = getPref(`agg.if`);
         //  大学期刊分类
-        var swufe = Zotero.Prefs.get(`extensions.zotero.${config.addonRef}.swufe`, true);
-        var cufe = Zotero.Prefs.get(`extensions.zotero.${config.addonRef}.cufe`, true);
-        var uibe = Zotero.Prefs.get(`extensions.zotero.${config.addonRef}.uibe`, true);
-        var sdufe = Zotero.Prefs.get(`extensions.zotero.${config.addonRef}.sdufe`, true);
-        var xdu = Zotero.Prefs.get(`extensions.zotero.${config.addonRef}.xdu`, true);
-        var swjtu = Zotero.Prefs.get(`extensions.zotero.${config.addonRef}.swjtu`, true);
-        var ruc = Zotero.Prefs.get(`extensions.zotero.${config.addonRef}.ruc`, true);
-        var xmu = Zotero.Prefs.get(`extensions.zotero.${config.addonRef}.xmu`, true);
-        var sjtu = Zotero.Prefs.get(`extensions.zotero.${config.addonRef}.sjtu`, true);
-        var fdu = Zotero.Prefs.get(`extensions.zotero.${config.addonRef}.fdu`, true);
-        var hhu = Zotero.Prefs.get(`extensions.zotero.${config.addonRef}.hhu`, true);
-        var scu = Zotero.Prefs.get(`extensions.zotero.${config.addonRef}.scu`, true);
-        var cqu = Zotero.Prefs.get(`extensions.zotero.${config.addonRef}.cqu`, true);
-        var nju = Zotero.Prefs.get(`extensions.zotero.${config.addonRef}.nju`, true);
-        var xju = Zotero.Prefs.get(`extensions.zotero.${config.addonRef}.xju`, true);
-        var cug = Zotero.Prefs.get(`extensions.zotero.${config.addonRef}.cug`, true);
-        var cju = Zotero.Prefs.get(`extensions.zotero.${config.addonRef}.cju`, true);
-        var zju = Zotero.Prefs.get(`extensions.zotero.${config.addonRef}.zju`, true);
-        var njauCoreShow = Zotero.Prefs.get(`extensions.zotero.${config.addonRef}.njau.core`, true);
-        var njauJourShow = Zotero.Prefs.get(`extensions.zotero.${config.addonRef}.njau.high.quality`, true);
+        var swufe = getPref(`swufe`);
+        var cufe = getPref(`cufe`);
+        var uibe = getPref(`uibe`);
+        var sdufe = getPref(`sdufe`);
+        var xdu = getPref(`xdu`);
+        var swjtu = getPref(`swjtu`);
+        var ruc = getPref(`ruc`);
+        var xmu = getPref(`xmu`);
+        var sjtu = getPref(`sjtu`);
+        var fdu = getPref(`fdu`);
+        var hhu = getPref(`hhu`);
+        var scu = getPref(`scu`);
+        var cqu = getPref(`cqu`);
+        var nju = getPref(`nju`);
+        var xju = getPref(`xju`);
+        var cug = getPref(`cug`);
+        var cju = getPref(`cju`);
+        var zju = getPref(`zju`);
+        var njauCoreShow = getPref(`njau.core`);
+        var njauJourShow = getPref(`njau.high.quality`);
         // 自定义数据集
-        var clsci = Zotero.Prefs.get(`extensions.zotero.${config.addonRef}.clsci`, true);
-        var ami = Zotero.Prefs.get(`extensions.zotero.${config.addonRef}.ami`, true);
-        var nssf = Zotero.Prefs.get(`extensions.zotero.${config.addonRef}.nssf`, true);
+        var clsci = getPref(`clsci`);
+        var ami = getPref(`ami`);
+        var nssf = getPref(`nssf`);
+        var swupl = getPref(`swupl`); //西南政法大学
 
         var njauHighQuality = await njauJournal(item)
         // 如果得到easyScholar、影响因子、法学数据或南农数据才算更新成功
@@ -393,6 +402,12 @@ export class KeyExampleFactory {
           ztoolkit.ExtraField.setExtraField(item, 'NSSF', nssfLevel);
         }
 
+        Zotero.debug('swupl是' + swupl + 'swuplLevel是' + swuplLevel);
+        // 西南政法大学 SWUPL
+        if (swupl && swuplLevel != undefined) {
+          ztoolkit.ExtraField.setExtraField(item, 'SWUPL', swuplLevel);
+        }
+
 
         // 期刊缩写更新
         try {
@@ -422,7 +437,7 @@ export class KeyExampleFactory {
   @example
   // 从easyScholar获取数据 获得影响因子新接口函数
   static async getIFs(item: Zotero.Item) {
-    var secretKey: any = Zotero.Prefs.get(`extensions.zotero.${config.addonRef}.secretkey`, true);
+    var secretKey: any = getPref(`secretkey`);
     //得到查询字段，期刊用期刊题目，会议论文用会议名称
     var publicationTitle = Zotero.ItemTypes.getName(item.itemTypeID) == 'journalArticle' ?
       encodeURIComponent(item.getField('publicationTitle') as any) :
@@ -455,7 +470,7 @@ export class KeyExampleFactory {
   @example
   // 得到自定义期刊级别
   static async getCustomIFs(item: Zotero.Item, jourID: any) {
-    let secretKey = Zotero.Prefs.get('extensions.zotero.greenfrog.secretkey', true);
+    let secretKey = Zotero.Prefs.get('extensions.zotero.greenfrog.secretkey');
     //publicationTitle =encodeURIComponent(item.getField('publicationTitle'));
     var publicationTitle = Zotero.ItemTypes.getName(item.itemTypeID) == 'journalArticle' ?
       encodeURIComponent(item.getField('publicationTitle')) :
@@ -464,7 +479,8 @@ export class KeyExampleFactory {
     // 处理PANS, 期刊中包含Proceedings of the National Academy of Sciences即为Proceedings of the National Academy of Sciences
     var pattPNAS = new RegExp(encodeURIComponent('Proceedings of the National Academy of Sciences'), 'i');
     var resultPNAS = pattPNAS.test(publicationTitle);
-    publicationTitle = resultPNAS ? encodeURIComponent('Proceedings of the National Academy of Sciences of the United States of America') : publicationTitle
+    publicationTitle = resultPNAS ?
+      encodeURIComponent('Proceedings of the National Academy of Sciences of the United States of America') : publicationTitle
 
     var url = `https://easyscholar.cc/open/getPublicationRank?secretKey=${secretKey}&publicationName=${publicationTitle}`;
     try {
@@ -473,23 +489,26 @@ export class KeyExampleFactory {
       //var jourID = "1648920625629810688"
       var allRank = req.response['data']["customRank"]["rankInfo"].
         filter(function (e: any) { return e.uuid == jourID; });
+      //Zotero.debug(allRank);
       var allRankValues = Object.values(allRank[0]);
-
+      // Zotero.debug(allRankValues);
       // 得到rank
       try {
         var rank = req.response['data']["customRank"]["rank"].
           filter((item: any) => item.slice(0, -4) == jourID)[0].slice(-1);
       }
       catch (e) {
-        Zotero.debug('获取自定义数据集失败！')
+        Zotero.debug('获取自定义数据集rank失败')
       }
 
       // rank转为数字加1得到期刊级别
       var level = allRankValues[parseInt(rank) + 1];
+      // Zotero.debug('level是' + level);
+      // var level = allRankValues[2 + 1];
       return level;
     }
-    catch (e) {
-      Zotero.debug('获取自定义数据集失败！')
+    catch (error) {
+      Zotero.debug('获取自定义数据集期刊级别失败！' + error);
     }
   }
 
@@ -751,14 +770,14 @@ export class KeyExampleFactory {
     // const cmdSmallerId = `${config.addonRef}-cmd-smaller`;
     // Register an event key for Alt+D 数据目录
 
-    var ifTitleSentence = Zotero.Prefs.get(`extensions.zotero.${config.addonRef}.shortcut.title.sentence`, true);
-    var keyTitleSentence = Zotero.Prefs.get(`extensions.zotero.${config.addonRef}.shortcut.input.title.sentence`, true);
-    var ifPubTitleCase = Zotero.Prefs.get(`extensions.zotero.${config.addonRef}.shortcut.publication.title.case`, true);
-    var keyPubTitleCase = Zotero.Prefs.get(`extensions.zotero.${config.addonRef}.shortcut.input.publication.title.case`, true);
-    var ifDataDir = Zotero.Prefs.get(`extensions.zotero.${config.addonRef}.shortcut.data.dir`, true);
-    var keyDataDir = Zotero.Prefs.get(`extensions.zotero.${config.addonRef}.shortcut.input.data.dir`, true);
-    var ifProfileDir = Zotero.Prefs.get(`extensions.zotero.${config.addonRef}.shortcut.profile.dir`, true);
-    var keyProfileDir = Zotero.Prefs.get(`extensions.zotero.${config.addonRef}.shortcut.input.profile.dir`, true);
+    var ifTitleSentence = getPref(`shortcut.title.sentence`);
+    var keyTitleSentence = getPref(`shortcut.input.title.sentence`);
+    var ifPubTitleCase = getPref(`shortcut.publication.title.case`);
+    var keyPubTitleCase = getPref(`shortcut.input.publication.title.case`);
+    var ifDataDir = getPref(`shortcut.data.dir`);
+    var keyDataDir = getPref(`shortcut.input.data.dir`);
+    var ifProfileDir = getPref(`shortcut.profile.dir`);
+    var keyProfileDir = getPref(`shortcut.input.profile.dir`);
 
     // win的control 键 mac的command键
     if (Zotero.isMac) {
@@ -1263,20 +1282,20 @@ export class UIExampleFactory {
       menushowProfile = document.getElementById('zotero-toolboxmenu-showProfile'),  //
       menushowData = document.getElementById('zotero-toolboxmenu-showData');  //
 
-    const boldStar = Zotero.Prefs.get(`extensions.zotero.${config.addonRef}.bold.star`, true),
-      cleanBold = Zotero.Prefs.get(`extensions.zotero.${config.addonRef}.remove.bold`, true),
-      cleanStar = Zotero.Prefs.get(`extensions.zotero.${config.addonRef}.remove.star`, true),
-      cleanBoldStar = Zotero.Prefs.get(`extensions.zotero.${config.addonRef}.remove.bold.star`, true),
-      chAuTitle = Zotero.Prefs.get(`extensions.zotero.${config.addonRef}.chang.author.case`, true),
-      swapAuName = Zotero.Prefs.get(`extensions.zotero.${config.addonRef}.swap.author`, true),
-      sep1 = Zotero.Prefs.get(`extensions.zotero.${config.addonRef}.sep1`, true),
-      chTitleCase = Zotero.Prefs.get(`extensions.zotero.${config.addonRef}.chang.title`, true),
-      chPubTitle = Zotero.Prefs.get(`extensions.zotero.${config.addonRef}.chang.pub.title`, true),
-      chPubTitleCase = Zotero.Prefs.get(`extensions.zotero.${config.addonRef}.chang.pub.title.case`, true),
-      itemTitleFindReplace = Zotero.Prefs.get(`extensions.zotero.${config.addonRef}.item.title.find.replace`, true),
-      sep2 = Zotero.Prefs.get(`extensions.zotero.${config.addonRef}.sep2`, true),
-      showProfile = Zotero.Prefs.get(`extensions.zotero.${config.addonRef}.show.profile.dir`, true),
-      showData = Zotero.Prefs.get(`extensions.zotero.${config.addonRef}.show.data.dir`, true);
+    const boldStar = getPref(`bold.star`),
+      cleanBold = getPref(`remove.bold`),
+      cleanStar = getPref(`remove.star`),
+      cleanBoldStar = getPref(`remove.bold.star`),
+      chAuTitle = getPref(`chang.author.case`),
+      swapAuName = getPref(`swap.author`),
+      sep1 = getPref(`sep1`),
+      chTitleCase = getPref(`chang.title`),
+      chPubTitle = getPref(`chang.pub.title`),
+      chPubTitleCase = getPref(`chang.pub.title.case`),
+      itemTitleFindReplace = getPref(`item.title.find.replace`),
+      sep2 = getPref(`sep2`),
+      showProfile = getPref(`show.profile.dir`),
+      showData = getPref(`show.data.dir`);
 
     // menuboldStar?.setAttribute('hidden', String(!boldStar));
     menuboldStar?.setAttribute('hidden', String(!boldStar));
@@ -1330,7 +1349,7 @@ export class UIExampleFactory {
   // 当更新期刊禁用时，禁用期刊是否带点选项
   static disableUppJourAbbDot() {
     var cbUpJourAbbDot = addon.data.prefs!.window.document.getElementById(`zotero-prefpane-${config.addonRef}-update-abbr-dot`);
-    var upAbbr = Zotero.Prefs.get(`extensions.zotero.${config.addonRef}.update.abbr`, true);
+    var upAbbr = getPref(`update.abbr`);
     // HelperExampleFactory.progressWindow(`${upAbbr} check`, 'default');
     cbUpJourAbbDot?.setAttribute('disabled', String(!upAbbr)); // 当更新期刊禁用时，禁用期刊是否带点选项
     //
@@ -1341,54 +1360,55 @@ export class UIExampleFactory {
 
   @example
   static async registerExtraColumn() {
-    var jcr: any = Zotero.Prefs.get(`extensions.zotero.${config.addonRef}.jcr.qu`, true);
-    var basic: any = Zotero.Prefs.get(`extensions.zotero.${config.addonRef}.basic`, true);
-    var updated: any = Zotero.Prefs.get(`extensions.zotero.${config.addonRef}.updated`, true);
-    var ifs: any = Zotero.Prefs.get(`extensions.zotero.${config.addonRef}.sci.if`, true);
-    var if5: any = Zotero.Prefs.get(`extensions.zotero.${config.addonRef}.sci.if5`, true);
-    var eii: any = Zotero.Prefs.get(`extensions.zotero.${config.addonRef}.ei`, true);
-    var chjcscd: any = Zotero.Prefs.get(`extensions.zotero.${config.addonRef}.chjcscd`, true);
-    var pkucore: any = Zotero.Prefs.get(`extensions.zotero.${config.addonRef}.pku.core`, true);
-    var njucore: any = Zotero.Prefs.get(`extensions.zotero.${config.addonRef}.nju.core`, true);
-    var scicore: any = Zotero.Prefs.get(`extensions.zotero.${config.addonRef}.sci.core`, true);
-    var ssci: any = Zotero.Prefs.get(`extensions.zotero.${config.addonRef}.ssci`, true);
-    var ajg: any = Zotero.Prefs.get(`extensions.zotero.${config.addonRef}.ajg`, true);
-    var utd24: any = Zotero.Prefs.get(`extensions.zotero.${config.addonRef}.utd24`, true);
-    var ft50: any = Zotero.Prefs.get(`extensions.zotero.${config.addonRef}.ft50`, true);
-    var ccf: any = Zotero.Prefs.get(`extensions.zotero.${config.addonRef}.ccf`, true);
-    var fms: any = Zotero.Prefs.get(`extensions.zotero.${config.addonRef}.fms`, true);
-    var jci: any = Zotero.Prefs.get(`extensions.zotero.${config.addonRef}.jci`, true);
-    var ahci: any = Zotero.Prefs.get(`extensions.zotero.${config.addonRef}.ahci`, true);
-    var sciwarn: any = Zotero.Prefs.get(`extensions.zotero.${config.addonRef}.sciwarn`, true);
-    var compoundIFs: any = Zotero.Prefs.get(`extensions.zotero.${config.addonRef}.com.if`, true);
-    var comprehensiveIFs: any = Zotero.Prefs.get(`extensions.zotero.${config.addonRef}.agg.if`, true);
+    var jcr: any = getPref(`jcr.qu`);
+    var basic: any = getPref(`basic`);
+    var updated: any = getPref(`updated`);
+    var ifs: any = getPref(`sci.if`);
+    var if5: any = getPref(`sci.if5`);
+    var eii: any = getPref(`ei`);
+    var chjcscd: any = getPref(`chjcscd`);
+    var pkucore: any = getPref(`pku.core`);
+    var njucore: any = getPref(`nju.core`);
+    var scicore: any = getPref(`sci.core`);
+    var ssci: any = getPref(`ssci`);
+    var ajg: any = getPref(`ajg`);
+    var utd24: any = getPref(`utd24`);
+    var ft50: any = getPref(`ft50`);
+    var ccf: any = getPref(`ccf`);
+    var fms: any = getPref(`fms`);
+    var jci: any = getPref(`jci`);
+    var ahci: any = getPref(`ahci`);
+    var sciwarn: any = getPref(`sciwarn`);
+    var compoundIFs: any = getPref(`com.if`);
+    var comprehensiveIFs: any = getPref(`agg.if`);
     // 大学期刊分类
-    var swufe = Zotero.Prefs.get(`extensions.zotero.${config.addonRef}.swufe`, true);
-    var cufe = Zotero.Prefs.get(`extensions.zotero.${config.addonRef}.cufe`, true);
-    var uibe = Zotero.Prefs.get(`extensions.zotero.${config.addonRef}.uibe`, true);
-    var sdufe = Zotero.Prefs.get(`extensions.zotero.${config.addonRef}.sdufe`, true);
-    var xdu = Zotero.Prefs.get(`extensions.zotero.${config.addonRef}.xdu`, true);
-    var swjtu = Zotero.Prefs.get(`extensions.zotero.${config.addonRef}.swjtu`, true);
-    var ruc = Zotero.Prefs.get(`extensions.zotero.${config.addonRef}.ruc`, true);
-    var xmu = Zotero.Prefs.get(`extensions.zotero.${config.addonRef}.xmu`, true);
-    var sjtu = Zotero.Prefs.get(`extensions.zotero.${config.addonRef}.sjtu`, true);
-    var fdu = Zotero.Prefs.get(`extensions.zotero.${config.addonRef}.fdu`, true);
-    var hhu = Zotero.Prefs.get(`extensions.zotero.${config.addonRef}.hhu`, true);
-    var scu = Zotero.Prefs.get(`extensions.zotero.${config.addonRef}.scu`, true);
-    var cqu = Zotero.Prefs.get(`extensions.zotero.${config.addonRef}.cqu`, true);
-    var nju = Zotero.Prefs.get(`extensions.zotero.${config.addonRef}.nju`, true);
-    var xju = Zotero.Prefs.get(`extensions.zotero.${config.addonRef}.xju`, true);
-    var cug = Zotero.Prefs.get(`extensions.zotero.${config.addonRef}.cug`, true);
-    var cju = Zotero.Prefs.get(`extensions.zotero.${config.addonRef}.cju`, true);
-    var zju = Zotero.Prefs.get(`extensions.zotero.${config.addonRef}.zju`, true);
-    var njauCoreShow = Zotero.Prefs.get(`extensions.zotero.${config.addonRef}.njau.core`, true);
-    var njauJourShow = Zotero.Prefs.get(`extensions.zotero.${config.addonRef}.njau.high.quality`, true);
+    var swufe = getPref(`swufe`);
+    var cufe = getPref(`cufe`);
+    var uibe = getPref(`uibe`);
+    var sdufe = getPref(`sdufe`);
+    var xdu = getPref(`xdu`);
+    var swjtu = getPref(`swjtu`);
+    var ruc = getPref(`ruc`);
+    var xmu = getPref(`xmu`);
+    var sjtu = getPref(`sjtu`);
+    var fdu = getPref(`fdu`);
+    var hhu = getPref(`hhu`);
+    var scu = getPref(`scu`);
+    var cqu = getPref(`cqu`);
+    var nju = getPref(`nju`);
+    var xju = getPref(`xju`);
+    var cug = getPref(`cug`);
+    var cju = getPref(`cju`);
+    var zju = getPref(`zju`);
+    var njauCoreShow = getPref(`njau.core`);
+    var njauJourShow = getPref(`njau.high.quality`);
     // 自定义数据集
-    var clsci = Zotero.Prefs.get(`extensions.zotero.${config.addonRef}.clsci`, true);
-    var ami = Zotero.Prefs.get(`extensions.zotero.${config.addonRef}.ami`, true);
-    var nssf = Zotero.Prefs.get(`extensions.zotero.${config.addonRef}.nssf`, true);
+    var clsci = getPref(`clsci`);
+    var ami = getPref(`ami`);
+    var nssf = getPref(`nssf`);
+    var swupl = getPref(`swupl`);
 
-    var summary = Zotero.Prefs.get(`extensions.zotero.${config.addonRef}.summary`, true);
+    var summary = getPref(`summary`);
 
 
     // JCR
@@ -2261,6 +2281,25 @@ export class UIExampleFactory {
       await ztoolkit.ItemTree.unregister("nssf");
     }
 
+    // 西南政法大学 SWUPL
+    if (swupl) {
+      await ztoolkit.ItemTree.register(
+        "swupl",
+        getString("swupl"),
+        (
+          field: string,
+          unformatted: boolean,
+          includeBaseMapped: boolean,
+          item: Zotero.Item
+        ) => {
+          // return String(item.id);
+          var IFswupl = ztoolkit.ExtraField.getExtraField(item, 'SWUPL')
+          return String(IFswupl == undefined ? '' : IFswupl);
+        },
+      );
+    } else {
+      await ztoolkit.ItemTree.unregister("swupl");
+    }
 
     // 总结
     if (summary) {
@@ -2471,7 +2510,7 @@ export class HelperExampleFactory {
 
   // 生成空格，如果是中文是无空格，英文为空格
   static whiteSpace() {
-    var lanUI = Zotero.Prefs.get('intl.locale.requested', true); // 得到当前Zotero界面语言
+    var lanUI = Zotero.Prefs.get('intl.locale.requested'); // 得到当前Zotero界面语言
     var whiteSpace = ' ';
     if (lanUI == 'zh-CN') { whiteSpace = '' };
     return whiteSpace;
@@ -2710,12 +2749,12 @@ export class HelperExampleFactory {
 
 
     // 得到期刊缩写设置
-    // Zotero.Prefs.get(`extensions.zotero.${config.addonRef}.add.update`, true);
+    // getPref(`add.update`);
 
-    var upJourAbb = Zotero.Prefs.get(`extensions.zotero.${config.addonRef}.update.abbr`, true);
-    var dotAbb = Zotero.Prefs.get(`extensions.zotero.${config.addonRef}.update.abbr.dot`, true);
-    var enAbb = Zotero.Prefs.get(`extensions.zotero.${config.addonRef}.en.abbr`, true);
-    var chAbb = Zotero.Prefs.get(`extensions.zotero.${config.addonRef}.ch.abbr`, true);
+    var upJourAbb = getPref(`update.abbr`);
+    var dotAbb = getPref(`update.abbr.dot`);
+    var enAbb = getPref(`en.abbr`);
+    var chAbb = getPref(`ch.abbr`);
 
     var pattern = new RegExp("[\u4E00-\u9FA5]+");
     var title = String(item.getField("title"));

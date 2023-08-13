@@ -123,6 +123,7 @@ zju = ZJU
 ami = AMI
 clsci = CLSCI
 nssf = NSSF
+swupl = SWUPL
 
 summary = Summary
 

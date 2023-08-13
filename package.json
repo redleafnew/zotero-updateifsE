@@ -1,6 +1,6 @@
 {
   "name": "greenfrog",
-  "version": "0.15.01",
+  "version": "0.16.00",
   "description": "Zotero plugin for update journal information from easyScholar",
   "config": {
     "addonName": "Green Frog",
@@ -24,7 +24,7 @@
     "restart-prod": "npm run build-prod && npm run stop && npm run start",
     "restart": "npm run restart-dev",
     "reload": "npm run build-dev && node scripts/reload.mjs",
-    "watch": "chokidar \"src/**\" \"addon/**\" -c \"npm run reload\"",
+    "watch": "chokidar \"package.json\" \"src/**\" \"addon/**\" -c \"npm run reload\"",
     "release": "release-it",
     "test": "echo \"Error: no test specified\" && exit 1",
     "update-deps": "npm update --save"

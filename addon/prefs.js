@@ -36,6 +36,7 @@ pref("extensions.zotero.__addonRef__.njau.high.quality", true);
 pref("extensions.zotero.__addonRef__.clsci", false);
 pref("extensions.zotero.__addonRef__.ami", false);
 pref("extensions.zotero.__addonRef__.nssf", false);
+pref("extensions.zotero.__addonRef__.swupl", false);  //西南政法大学
 
 
 // 影响因子
