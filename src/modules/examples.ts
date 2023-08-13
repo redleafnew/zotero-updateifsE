@@ -504,7 +504,7 @@ export class KeyExampleFactory {
       // rank转为数字加1得到期刊级别
       var level = allRankValues[parseInt(rank) + 1];
       // Zotero.debug('level是' + level);
-      // var level = allRankValues[2 + 1];
+
       return level;
     }
     catch (error) {
