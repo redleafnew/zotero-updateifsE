@@ -40,10 +40,10 @@
   },
   "homepage": "https://github.com/redleafnew/zotero-updateifsE#readme",
   "dependencies": {
-    "zotero-plugin-toolkit": "^2.2.6"
+    "zotero-plugin-toolkit": "^2.2.7"
   },
   "devDependencies": {
-    "@types/node": "^20.4.10",
+    "@types/node": "^20.5.0",
     "chokidar-cli": "^3.0.0",
     "compressing": "^1.9.1",
     "concurrently": "^8.2.0",
