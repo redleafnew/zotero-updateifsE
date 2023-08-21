@@ -427,8 +427,8 @@ export class KeyExampleFactory {
 
     // var whiteSpace = HelperExampleFactory.whiteSpace();
     if (n > 0) {
-      HelperExampleFactory.progressWindow(`${getString('upIfsSuccess', { args: { count: n } })}`, 'success');
-      // ztoolkit.log('okkkk' + getString('upIfsSuccess', { args: { count: n } }));
+      HelperExampleFactory.progressWindow(getString("upIfsSuccess", { args: { count: n } }), 'success');
+      // Zotero.debug('okkkk' + getString('upIfsSuccess', { args: { count: n } }));
     } else {
       HelperExampleFactory.progressWindow(`${getString('upIfsFail')}`, 'fail');
     }
@@ -759,8 +759,14 @@ export class KeyExampleFactory {
         await Zotero.Promise.delay(1000 + Math.round(Math.random() * 1000));  // 暂停1s
       }
     }
-    var whiteSpace = HelperExampleFactory.whiteSpace();
-    HelperExampleFactory.progressWindow(`${n}${whiteSpace}${getString('upIfsSuccess')}`, 'success')
+    if (n > 0) {
+      HelperExampleFactory.progressWindow(getString("upIfsSuccess", { args: { count: n } }), 'success');
+      // Zotero.debug('okkkk' + getString('upIfsSuccess', { args: { count: n } }));
+    } else {
+      HelperExampleFactory.progressWindow(`${getString('upIfsFail')}`, 'fail');
+    }
+    // var whiteSpace = HelperExampleFactory.whiteSpace();
+    // HelperExampleFactory.progressWindow(`${n}${whiteSpace}${getString('upIfsSuccess')}`, 'success')
   }
   // 注册快捷键
   @example

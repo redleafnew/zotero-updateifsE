@@ -130,6 +130,6 @@ summary = Summary
 upIfsSuccess =
  {$count ->
    [one] Selected 1 item updated sucessfully.
-  *[other] {$count} items updated sucessfully.
+  *[other] { $count } items updated sucessfully.
   }
 upIfsFail = Could not Retrive this journal information from easyScholar.
