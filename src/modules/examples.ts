@@ -2530,6 +2530,11 @@ export class HelperExampleFactory {
       return;
     } else {
 
+      // 定义延时函数，用于进行延时
+      function delay() {
+        return new Promise(resolve => setTimeout(resolve, 1000)); // 1000毫秒 = 1秒
+      }
+
       var truthBeTold = window.confirm(getString('cleanExtraAlt'));
       if (truthBeTold) {
         for (let item of items) {
@@ -2538,7 +2543,8 @@ export class HelperExampleFactory {
             try {
               item.setField('extra', '');
               item.save();
-
+              // 当清除多个条目的“其它”字段时，这个地方加一个 delay 函数比较好，否则zotero数据库保存不及时，容易中断功能
+              await delay(); // 等待延时，暂停1秒钟
             } catch (error) {
               Zotero.debug('Extra清空失败！')
             }
