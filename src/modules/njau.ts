@@ -47,14 +47,14 @@ export function njauCore(item: Zotero.Item): any {
         return undefined
     }
 };
-// 南京农业大学高质量期刊
+// 南京农业大学高质量期刊 更新为2024数据
 export async function njauJournal(item: Zotero.Item) {
 
     var pubT = item.getField('publicationTitle');
     var body = `keyword=${encodeURIComponent(pubT)}`;
     var resp = await Zotero.HTTP.request(
         "POST",
-        "http://phq.njau.edu.cn/admin_getJournal.action",
+        "http://phq.njau.edu.cn/admin_getJournal2024.action",
         {
             headers: {
                 "User-Agent": "Mozilla/5.0 (Linux; Android 6.0; Nexus 5 Build/MRA58N) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/114.0.0.0 Mobile Safari/537.36 Edg/114.0.1823.37",
