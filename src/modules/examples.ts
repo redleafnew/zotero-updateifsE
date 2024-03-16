@@ -2702,8 +2702,10 @@ export class HelperExampleFactory {
         HelperExampleFactory.progressWindow(alertInfo, 'infomation');
       }
 
-      var new_title = title.replace(/\b([A-Z][a-z0-9]+|A)\b/g, function (x: any) { return x.toLowerCase(); });
-      new_title = new_title.replace(/(^|\?\s*)[a-z]/, function (x: any) { return x.toUpperCase(); }).
+      // var new_title = title.replace(/\b([A-Z][a-z0-9]+|A)\b/g, function (x: any) { return x.toLowerCase(); });
+
+      // new_title = new_title.replace(/(^|\?\s*)[a-z]/, function (x: any) { return x.toUpperCase(); }).
+      var new_title = Zotero.Utilities.sentenceCase(title). // 调用官方接口，转为句首字母大写
         replace('china', 'China'). // 替换china  代码来源于fredericky123，感谢。
         replace('chinese', 'Chinese'). // 替换chinese
         replace('america', 'America'). // 替换america
@@ -2714,6 +2716,7 @@ export class HelperExampleFactory {
         replace('dpph', 'DPPH'). // 专有名词
         replace('abts', 'ABTS'). // 专有名词
         replace('h2', 'H2'). // 专有名词
+        // replace(' ni', ' Ni'). // 专有名词
         //20220510 增加冒号后面为大写字母
         // https://stackoverflow.com/questions/72180052/regexp-match-and-replace-to-its-uppercase-in-javascript#72180194
         replace(/：|:\s*\w/, (fullMatch: string) => fullMatch.toUpperCase()); //匹配冒号后面的空格及一个字母，并转为大写
