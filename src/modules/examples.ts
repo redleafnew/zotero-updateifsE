@@ -2713,6 +2713,7 @@ export class HelperExampleFactory {
         replace('india', 'India'). // 替换india
         replace('dpph', 'DPPH'). // 专有名词
         replace('abts', 'ABTS'). // 专有名词
+        replace('h2', 'H2'). // 专有名词
         //20220510 增加冒号后面为大写字母
         // https://stackoverflow.com/questions/72180052/regexp-match-and-replace-to-its-uppercase-in-javascript#72180194
         replace(/：|:\s*\w/, (fullMatch: string) => fullMatch.toUpperCase()); //匹配冒号后面的空格及一个字母，并转为大写
