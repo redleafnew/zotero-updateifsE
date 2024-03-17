@@ -775,7 +775,7 @@ export class KeyExampleFactory {
     // const cmdsetId = `${config.addonRef}-cmdset`;
     // const cmdSmallerId = `${config.addonRef}-cmd-smaller`;
     // Register an event key for Alt+D 数据目录
-
+    // 待使用新函数
     var ifTitleSentence = getPref(`shortcut.title.sentence`);
     var keyTitleSentence = getPref(`shortcut.input.title.sentence`);
     var ifPubTitleCase = getPref(`shortcut.publication.title.case`);
@@ -785,7 +785,7 @@ export class KeyExampleFactory {
     var ifProfileDir = getPref(`shortcut.profile.dir`);
     var keyProfileDir = getPref(`shortcut.input.profile.dir`);
 
-    // win的control 键 mac的command键
+    // win的control 键 mac的command键  accel是控制键，在mac对应command，在其他系统对应ctrl
     if (Zotero.isMac) {
       var keyControl = 'meta'
     } else { var keyControl = 'control' }
