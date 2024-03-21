@@ -37,6 +37,10 @@ sci-if5 =
     .label = 5年影响因子
 ei =
     .label = 工程索引(EI)
+sci-up-top =
+    .label = 中科院升级版Top分区
+sci-up-small =
+    .label = 中科院升级版小类分区
 
 chjcscd =
     .label = 中国科学引文数据库(CSCD)
@@ -64,6 +68,8 @@ ahci =
     .label = AHCI
 sciwarn =
     .label = 中科院预警
+esi =
+    .label = ESI学科分类
 com-if =
     .label = 复合影响因子
 agg-if =
@@ -111,6 +117,8 @@ cju =
     .label = 长江大学
 zju =
     .label = 浙江大学
+cpu =
+    .label = 中国药科大学
 
 ## 自定义数据集
 custom-data = 自定义数据集

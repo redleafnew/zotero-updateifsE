@@ -36,6 +36,10 @@ sci-if5 =
     .label = 5 Year IF
 ei =
     .label = EI
+sci-up-top =
+    .label = SCI Up Top
+sci-up-small =
+    .label = SCI Up Small
 
 chjcscd =
     .label = CSCD
@@ -63,6 +67,8 @@ ahci =
     .label = AHCI
 sciwarn =
     .label = CAS Warning
+esi =
+    .label = ESI
 com-if =
     .label = Compound IF
 agg-if =
@@ -110,7 +116,8 @@ cju =
     .label = CJU
 zju =
     .label = ZJU
-
+cpu =
+    .label = CPU
 ## 自定义数据集
 custom-data = Custom Dataset
 ami =
