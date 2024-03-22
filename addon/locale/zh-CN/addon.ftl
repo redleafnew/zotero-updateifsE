@@ -84,6 +84,8 @@ IF5 = 5年影响因子
 EI = 工程索引
 CASUp = 中科院升级版
 CASBasic = 中科院基础版
+sciUpTop = 中科院升级版Top分区
+sciUpSmall = 中科院升级版小类分区
 CSCD = 中国科学引文数据库(CSCD)
 PKUCore = 核心期刊/北大核心
 CSSCI = 南大核心(CSSCI)
@@ -96,6 +98,7 @@ CCF = CCF
 FMS = FMS
 JCI = JCI
 sciwarn = 中科院预警
+esi = ESI
 AHCI = AHCI
 compoundIF = 复合影响因子
 comprehensiveIF =综合影响因子
@@ -119,6 +122,7 @@ xju = 新疆大学
 cug = 中国地质大学
 cju = 长江大学
 zju = 浙江大学
+cpu = 中国药科大学
 
 # 自定义数据集
 ami = AMI

@@ -177,6 +177,8 @@ export class KeyExampleFactory {
         var ifs: any = getPref(`sci.if`);
         var if5: any = getPref(`sci.if5`);
         var eii: any = getPref(`ei`);
+        var sciUpTop: any = getPref(`sci.up.top`);
+        var sciUpSmall: any = getPref(`sci.up.small`);
         var chjcscd: any = getPref(`chjcscd`);
         var pkucore: any = getPref(`pku.core`);
         var njucore: any = getPref(`nju.core`);
@@ -190,6 +192,7 @@ export class KeyExampleFactory {
         var jci: any = getPref(`jci`);
         var ahci: any = getPref(`ahci`);
         var sciwarn: any = getPref(`sciwarn`);
+        var esi: any = getPref(`esi`);
         var compoundIFs: any = getPref(`com.if`);
         var comprehensiveIFs: any = getPref(`agg.if`);
         //  大学期刊分类
@@ -211,6 +214,7 @@ export class KeyExampleFactory {
         var cug = getPref(`cug`);
         var cju = getPref(`cju`);
         var zju = getPref(`zju`);
+        var cpu = getPref(`cpu`);
         var njauCoreShow = getPref(`njau.core`);
         var njauJourShow = getPref(`njau.high.quality`);
         // 自定义数据集
@@ -249,6 +253,12 @@ export class KeyExampleFactory {
             }
             if (eii && easyscholarData['eii']) {
               ztoolkit.ExtraField.setExtraField(item, 'EI', '是');
+            }
+            if (sciUpTop && easyscholarData['sciUpTop']) {
+              ztoolkit.ExtraField.setExtraField(item, 'SCI Up Top', '是');
+            }
+            if (sciUpSmall && easyscholarData['sciUpSmall']) {
+              ztoolkit.ExtraField.setExtraField(item, 'SCI Up Small', '是');
             }
             if (chjcscd && easyscholarData['cscd']) {
               ztoolkit.ExtraField.setExtraField(item, 'CSCD', easyscholarData['cscd']);
@@ -289,6 +299,10 @@ export class KeyExampleFactory {
             // SCI预警 sci warn
             if (sciwarn && easyscholarData['sciwarn']) {
               ztoolkit.ExtraField.setExtraField(item, '中科院预警', easyscholarData['sciwarn']);
+            }
+            // esi
+            if (esi && easyscholarData['esi']) {
+              ztoolkit.ExtraField.setExtraField(item, 'ESI', easyscholarData['esi']);
             }
             // 西南财经大学
             if (swufe && easyscholarData['swufe']) {
@@ -361,6 +375,10 @@ export class KeyExampleFactory {
             // 浙江大学
             if (zju && easyscholarData['zju']) {
               ztoolkit.ExtraField.setExtraField(item, '浙江大学', easyscholarData['zju']);
+            }
+            // 中国药科大学
+            if (cpu && easyscholarData['cpu']) {
+              ztoolkit.ExtraField.setExtraField(item, '中国药科大学', easyscholarData['cpu']);
             }
           }
         } catch (error) {
@@ -1364,7 +1382,7 @@ export class UIExampleFactory {
   }
 
 
-  @example
+  @example //注册多余列
   static async registerExtraColumn() {
     var jcr: any = getPref(`jcr.qu`);
     var basic: any = getPref(`basic`);
@@ -1372,6 +1390,8 @@ export class UIExampleFactory {
     var ifs: any = getPref(`sci.if`);
     var if5: any = getPref(`sci.if5`);
     var eii: any = getPref(`ei`);
+    var sciUpTop: any = getPref(`sci.up.top`);
+    var sciUpSmall: any = getPref(`sci.up.small`);
     var chjcscd: any = getPref(`chjcscd`);
     var pkucore: any = getPref(`pku.core`);
     var njucore: any = getPref(`nju.core`);
@@ -1385,6 +1405,7 @@ export class UIExampleFactory {
     var jci: any = getPref(`jci`);
     var ahci: any = getPref(`ahci`);
     var sciwarn: any = getPref(`sciwarn`);
+    var esi: any = getPref(`esi`);
     var compoundIFs: any = getPref(`com.if`);
     var comprehensiveIFs: any = getPref(`agg.if`);
     // 大学期刊分类
@@ -1406,6 +1427,7 @@ export class UIExampleFactory {
     var cug = getPref(`cug`);
     var cju = getPref(`cju`);
     var zju = getPref(`zju`);
+    var cpu = getPref(`cpu`);
     var njauCoreShow = getPref(`njau.core`);
     var njauJourShow = getPref(`njau.high.quality`);
     // 自定义数据集
@@ -1419,7 +1441,6 @@ export class UIExampleFactory {
 
     // JCR
     if (jcr) {
-
       await ztoolkit.ItemTree.register(
         "JCR",
         getString("JCR"),
@@ -1533,6 +1554,44 @@ export class UIExampleFactory {
       );
     } else {
       await ztoolkit.ItemTree.unregister("EI");
+    }
+    // sciUpTop
+    if (sciUpTop) {
+      await ztoolkit.ItemTree.register(
+        "sciUpTop",
+        getString("sciUpTop"),
+        (
+          field: string,
+          unformatted: boolean,
+          includeBaseMapped: boolean,
+          item: Zotero.Item
+        ) => {
+          // return String(item.id);
+          var sciUpTop = ztoolkit.ExtraField.getExtraField(item, 'SCI Up Top')
+          return String(sciUpTop == undefined ? '' : sciUpTop);
+        },
+      );
+    } else {
+      await ztoolkit.ItemTree.unregister("sciUpTop");
+    }
+    // sciUpSmall
+    if (sciUpSmall) {
+      await ztoolkit.ItemTree.register(
+        "sciUpSmall",
+        getString("sciUpSmall"),
+        (
+          field: string,
+          unformatted: boolean,
+          includeBaseMapped: boolean,
+          item: Zotero.Item
+        ) => {
+          // return String(item.id);
+          var sciUpSmall = ztoolkit.ExtraField.getExtraField(item, 'SCI Up Small')
+          return String(sciUpSmall == undefined ? '' : sciUpSmall);
+        },
+      );
+    } else {
+      await ztoolkit.ItemTree.unregister("sciUpSmall");
     }
     // CSCD
     if (chjcscd) {
@@ -1771,7 +1830,6 @@ export class UIExampleFactory {
     } else {
       await ztoolkit.ItemTree.unregister("sciwarn");
     }
-
     // ahci
     if (ahci) {
       await ztoolkit.ItemTree.register(
@@ -1790,6 +1848,25 @@ export class UIExampleFactory {
       );
     } else {
       await ztoolkit.ItemTree.unregister("AHCI");
+    }
+    // esi
+    if (esi) {
+      await ztoolkit.ItemTree.register(
+        "esi",
+        getString("esi"),
+        (
+          field: string,
+          unformatted: boolean,
+          includeBaseMapped: boolean,
+          item: Zotero.Item
+        ) => {
+          // return String(item.id);
+          var esi = ztoolkit.ExtraField.getExtraField(item, 'esi')
+          return String(esi == undefined ? '' : esi);
+        },
+      );
+    } else {
+      await ztoolkit.ItemTree.unregister("esi");
     }
 
     // 复合影响因子
@@ -2226,6 +2303,25 @@ export class UIExampleFactory {
       );
     } else {
       await ztoolkit.ItemTree.unregister("zju");
+    }
+    // 中国药科大学
+    if (cpu) {
+      await ztoolkit.ItemTree.register(
+        "cpu",
+        getString("cpu"),
+        (
+          field: string,
+          unformatted: boolean,
+          includeBaseMapped: boolean,
+          item: Zotero.Item
+        ) => {
+          // return String(item.id);
+          var cpu = ztoolkit.ExtraField.getExtraField(item, '中国药科大学')
+          return String(cpu == undefined ? '' : cpu);
+        },
+      );
+    } else {
+      await ztoolkit.ItemTree.unregister("cpu");
     }
 
     // CLSCI

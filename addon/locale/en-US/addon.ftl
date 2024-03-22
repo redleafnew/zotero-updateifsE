@@ -83,6 +83,8 @@ IF5 = IF 5 Year
 EI = EI
 CASUp = CAS Update
 CASBasic = CAS Basic
+sciUpTop = SCI Up Top
+sciUpSmall = SCI Up Small
 CSCD = CSCD
 PKUCore = PKU Core
 CSSCI = CSSCI
@@ -96,6 +98,7 @@ FMS = FMS
 JCI = JCI
 AHCI = AHCI
 sciwarn = CAS Warning
+esi = ESI
 compoundIF = Compound IF
 comprehensiveIF = Comprehensive IF
 njauCore = NJAU Core
@@ -118,7 +121,7 @@ xju = XJU
 cug = CUG
 cju = CJU
 zju = ZJU
-
+cpu = CPU
 # 自定义数据集
 ami = AMI
 clsci = CLSCI
