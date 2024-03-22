@@ -255,10 +255,10 @@ export class KeyExampleFactory {
               ztoolkit.ExtraField.setExtraField(item, 'EI', '是');
             }
             if (sciUpTop && easyscholarData['sciUpTop']) {
-              ztoolkit.ExtraField.setExtraField(item, 'SCI Up Top', '是');
+              ztoolkit.ExtraField.setExtraField(item, '中科院升级版Top分区', easyscholarData['sciUpTop']);
             }
             if (sciUpSmall && easyscholarData['sciUpSmall']) {
-              ztoolkit.ExtraField.setExtraField(item, 'SCI Up Small', '是');
+              ztoolkit.ExtraField.setExtraField(item, '中科院升级版小类分区', easyscholarData['sciUpSmall']);
             }
             if (chjcscd && easyscholarData['cscd']) {
               ztoolkit.ExtraField.setExtraField(item, 'CSCD', easyscholarData['cscd']);
@@ -1567,7 +1567,7 @@ export class UIExampleFactory {
           item: Zotero.Item
         ) => {
           // return String(item.id);
-          var sciUpTop = ztoolkit.ExtraField.getExtraField(item, 'SCI Up Top')
+          var sciUpTop = ztoolkit.ExtraField.getExtraField(item, '中科院升级版Top分区')
           return String(sciUpTop == undefined ? '' : sciUpTop);
         },
       );
@@ -1586,7 +1586,7 @@ export class UIExampleFactory {
           item: Zotero.Item
         ) => {
           // return String(item.id);
-          var sciUpSmall = ztoolkit.ExtraField.getExtraField(item, 'SCI Up Small')
+          var sciUpSmall = ztoolkit.ExtraField.getExtraField(item, '中科院升级版小类分区')
           return String(sciUpSmall == undefined ? '' : sciUpSmall);
         },
       );
