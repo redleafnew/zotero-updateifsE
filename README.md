@@ -14,7 +14,7 @@
 
 ## 主要功能
 
-1. 插件安装后在分类及条目上右击会出现`从easyScholar更新期刊信息`，点击将根据条目语言从[easyScholar](https://easyscholar.cc)获取期刊或会议论文（需要将会议名称填入`Conference Name`字段）`JCR分区`、`中科院分区基础版`、`中科院分区升级版`、`影响因子`和`5年影响因子`、`EI`及中文期刊更新是否南`南农大核心期刊`、`南农大高质量期刊（仅含食品科学与工程）`、`中国科技核心期刊`、`CSCD收录`、`北大/南大核心`、`科技核心`、`EI`，`SSCI`、`AJG`、`UTD24`、`FT50`、`CCF`、`FMS`、`JCI`、`AHCI`、`复合影响因子`，`综合影响因子`、各个大学对期刊的分类及[easyScholar](https://easyscholar.cc)自定义数据集（详见[easyScholar](https://easyscholar.cc)，如果要使用自定义数据集，需要在[easyScholar](https://easyscholar.cc)网站中登录，添加并在easyScholar浏览器插件中选中需要的自定义数据集）并保存在`Extra`字段，如果显示不正常请先清除`其它`（`Extra`）字段。并可在`Edit`-`Preferences`-`Green Frog`中设置哪些字段在列中显示（默认全部显示，如果不需要可以关闭），然后在列上右击即可显示相应字段。
+1. 插件安装后在分类及条目上右击会出现`从easyScholar更新期刊信息`，点击将根据条目语言从[easyScholar](https://easyscholar.cc)获取期刊或会议论文（需要将会议名称填入`Conference Name`字段）`JCR分区`、`中科院分区基础版`、`中科院分区升级版`、`影响因子`和`5年影响因子`、`EI`、`中科院升级版Top分区`、`中科院升级版小类分区`及中文期刊更新是否`南农大核心期刊`、`南农大高质量期刊`、`中国科技核心期刊`、`CSCD收录`、`北大/南大核心`、`科技核心`、`EI`，`SSCI`、`AJG`、`UTD24`、`FT50`、`CCF`、`FMS`、`JCI`、`AHCI`、`ESI`、`复合影响因子`，`综合影响因子`、各个大学对期刊的分类及[easyScholar](https://easyscholar.cc)自定义数据集（详见[easyScholar](https://easyscholar.cc)，如果要使用自定义数据集，需要在[easyScholar](https://easyscholar.cc)网站中登录，添加并在easyScholar浏览器插件中选中需要的自定义数据集）并保存在`Extra`字段，如果显示不正常请先清除`其它`（`Extra`）字段。并可在`Edit`-`Preferences`-`Green Frog`中设置哪些字段在列中显示（默认全部显示，如果不需要可以关闭），然后在列上右击即可显示相应字段。
 
     ![右键](./img/contextmenu.png "右键菜单显示")
 
@@ -60,7 +60,7 @@ The latest version only supports Zotero 7.0, Zotero 6.0 users could download [0.
 
 ## Features
 
-1. Update `JCR Quartile`, `CAS Quartile`, `impact factor`,  `5 year impact factor` and `EI` using name of the journal from [easyScholar](https://easyscholar.cc). A context menu `Update Journal Infomation from easyScholar` appears, the  `JCR Quartile`, `CAS Quartile`, `EI` `impact factor`, `5 year impact factor`, `SSCI`, `AJG`, `UTD24`, `FT50`, `CCF`, `FMS`, `JCI` and `AHCI` and some universities' journal category will be fetched from [easyScholar](https://easyscholar.cc) and  saved to `Extra` field.
+1. Update `JCR Quartile`, `CAS Quartile`, `impact factor`,  `5 year impact factor` and `EI` using name of the journal from [easyScholar](https://easyscholar.cc). A context menu `Update Journal Infomation from easyScholar` appears, the  `JCR Quartile`, `CAS Quartile`, `EI`，`SCI Up Top`、`SCI Up Small`， `impact factor`, `5 year impact factor`, `SSCI`, `AJG`, `UTD24`, `FT50`, `CCF`, `FMS`, `JCI`，`ESI` and `AHCI` and some universities' journal category will be fetched from [easyScholar](https://easyscholar.cc) and  saved to `Extra` field.
 
 2. Update item Metadata.
 
