@@ -130,6 +130,7 @@ async function onNotify(
     if (regularItems.length !== 0) {
       // await KeyExampleFactory.setExtra(regularItems);
       BasicExampleFactory.exampleNotifierCallback(regularItems)
+      Zotero.debug(`新增条目了。添加条目了${Zotero.ItemTypes.getName(regularItems[0].itemTypeID)}！`)
       return;
     }
     //Zotero.debug(`添加条目了${ids}！`)

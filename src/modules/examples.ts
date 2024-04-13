@@ -152,17 +152,6 @@ export class KeyExampleFactory {
       if (UIExampleFactory.checkItem(item)) {  //如果是期刊或会议论文才继续
         var easyscholarData = await KeyExampleFactory.getIFs(item); //得到easyscholar数据
         var chineseIFs = await KeyExampleFactory.getChineseIFs(item); //综合影响因子、复合影响因子
-        // 自定义数据集
-        var clsciJourID = '1642199434173014016'; // CLSCI UUID
-        var amiJourID = '1648920625629810688'; //AMI UUID
-        var nssfJourID = '1648936694851489792';//NSSF  UUID
-        var swuplJourID = '1652662162603773952';//SWUPL  UUID 西南政法大学
-
-        //  加: any为了后面不报错
-        var clsciLevel: any = await KeyExampleFactory.getCustomIFs(item, clsciJourID);
-        var amiLevel: any = await KeyExampleFactory.getCustomIFs(item, amiJourID);
-        var nssfLevel: any = await KeyExampleFactory.getCustomIFs(item, nssfJourID);
-        var swuplLevel: any = await KeyExampleFactory.getCustomIFs(item, swuplJourID);
 
         //Zotero.debug('swuplLevel是' + swuplLevel);
 
@@ -223,7 +212,29 @@ export class KeyExampleFactory {
         var nssf = getPref(`nssf`);
         var swupl = getPref(`swupl`); //西南政法大学
 
-        var njauHighQuality = await njauJournal(item)
+        // 自定义数据集
+        var clsciJourID = '1642199434173014016'; // CLSCI UUID
+        var amiJourID = '1648920625629810688'; //AMI UUID
+        var nssfJourID = '1648936694851489792';//NSSF  UUID
+        var swuplJourID = '1652662162603773952';//SWUPL  UUID 西南政法大学
+
+        //  加: any为了后面不报错
+        if (clsci) {
+          var clsciLevel: any = await KeyExampleFactory.getCustomIFs(item, clsciJourID);
+        }
+        if (ami) {
+          var amiLevel: any = await KeyExampleFactory.getCustomIFs(item, amiJourID);
+        }
+        if (nssf) {
+          var nssfLevel: any = await KeyExampleFactory.getCustomIFs(item, nssfJourID);
+        }
+        if (swupl) {
+          var swuplLevel: any = await KeyExampleFactory.getCustomIFs(item, swuplJourID);
+        }
+
+        if (njauJourShow) {
+          var njauHighQuality = await njauJournal(item)
+        }
         // 如果得到easyScholar、影响因子、法学数据或南农数据才算更新成功
         if (easyscholarData || chineseIFs ||
           clsciLevel || amiLevel || nssfLevel ||
@@ -488,7 +499,8 @@ export class KeyExampleFactory {
   @example
   // 得到自定义期刊级别
   static async getCustomIFs(item: Zotero.Item, jourID: any) {
-    let secretKey = Zotero.Prefs.get('extensions.zotero.greenfrog.secretkey');
+    let secretKey = Zotero.Prefs.get('extensions.zotero.greenfrog.secretkey', true);
+    // var secretKey = getPref('secretkey');
     //publicationTitle =encodeURIComponent(item.getField('publicationTitle'));
     var publicationTitle = Zotero.ItemTypes.getName(item.itemTypeID) == 'journalArticle' ?
       encodeURIComponent(item.getField('publicationTitle')) :
@@ -510,23 +522,29 @@ export class KeyExampleFactory {
       //Zotero.debug(allRank);
       var allRankValues = Object.values(allRank[0]);
       // Zotero.debug(allRankValues);
-      // 得到rank
+      // 得到 rank
       try {
-        var rank = req.response['data']["customRank"]["rank"].
-          filter((item: any) => item.slice(0, -4) == jourID)[0].slice(-1);
+        var rank = req.response['data']["customRank"]["rank"];
+        if (rank != '') {
+          var rankValue = rank.filter((item: any) => item.slice(0, -4) == jourID)[0].slice(-1);
+        }
       }
       catch (e) {
         Zotero.debug('获取自定义数据集rank失败')
       }
 
-      // rank转为数字加1得到期刊级别
-      var level = allRankValues[parseInt(rank) + 1];
-      // Zotero.debug('level是' + level);
+      // rankValue转为数字加1得到期刊级别
+      if (rankValue != undefined) {
+        var level = allRankValues[parseInt(rankValue) + 1];
+        // Zotero.debug('level是' + level);
 
-      return level;
+        return level;
+      } else {
+        return undefined
+      }
     }
     catch (error) {
-      Zotero.debug('获取自定义数据集期刊级别失败！' + error);
+      Zotero.debug('获  取自定义数据集期刊级别失败！' + error);
     }
   }
 
