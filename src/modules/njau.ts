@@ -52,19 +52,28 @@ export async function njauJournal(item: Zotero.Item) {
 
     var pubT = item.getField('publicationTitle');
     var body = `keyword=${encodeURIComponent(pubT)}`;
-    var resp = await Zotero.HTTP.request(
-        "POST",
-        "http://phq.njau.edu.cn/admin_getJournal2024.action",
-        {
-            headers: {
-                "User-Agent": "Mozilla/5.0 (Linux; Android 6.0; Nexus 5 Build/MRA58N) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/114.0.0.0 Mobile Safari/537.36 Edg/114.0.1823.37",
-            },
-            body: body,
-        }
-    );
-    var AllJour = resp.responseText;
-    return JSON.parse(AllJour)['classname'];
-
+    try {
+        var resp = await Zotero.HTTP.request(
+            "POST",
+            "http://phq.njau.edu.cn/admin_getJournal2024.action",
+            {
+                headers: {
+                    "User-Agent": "Mozilla/5.0 (Linux; Android 6.0; Nexus 5 Build/MRA58N) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/114.0.0.0 Mobile Safari/537.36 Edg/114.0.1823.37",
+                },
+                body: body,
+            }
+        );
+    } catch (error) {
+        Zotero.debug('南农高质量期刊更新失败！ ' + error)
+        return undefined
+    }
+    try {
+        var AllJour = resp.responseText;
+        return JSON.parse(AllJour)['classname'];
+    } catch (error) {
+        Zotero.debug('南农高质量期刊更新失败！ ' + error)
+        return undefined
+    }
     /*
       // 高质量论文一类
       var highQulityOne = ['中国农业科学', '农业工程学报', '南京农业大学学报', '核农学报', '园艺学报', '微生物学报',
