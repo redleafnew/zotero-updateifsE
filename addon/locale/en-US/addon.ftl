@@ -127,6 +127,8 @@ ami = AMI
 clsci = CLSCI
 nssf = NSSF
 swupl = SWUPL
+ABDC = ABDC
+Scopus = Scopus
 
 summary = Summary
 

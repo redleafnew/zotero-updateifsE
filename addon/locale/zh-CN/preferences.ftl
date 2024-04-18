@@ -130,6 +130,10 @@ nssf =
     .label = 国家社科基金
 swupl =
     .label = 西南政法大学
+ABDC =
+    .label = 澳大利亚ABDC期刊
+Scopus =
+    .label = Scopus目录
 
 ## 菜单显示隐藏设置
 menu-setting = 显示工具箱菜单设置
