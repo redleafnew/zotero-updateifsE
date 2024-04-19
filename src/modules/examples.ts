@@ -237,12 +237,11 @@ export class KeyExampleFactory {
           var swuplLevel: any = await KeyExampleFactory.getCustomIFs(item, swuplJourID);
         }
         if (Scopus) {
-          var ScopuslLevel: any = await KeyExampleFactory.getCustomIFs(item, ScopusJourID);
+          var ScopusLevel: any = await KeyExampleFactory.getCustomIFs(item, ScopusJourID);
         }
         if (ABDC) {
           var ABDCLevel: any = await KeyExampleFactory.getCustomIFs(item, ABDCJourID);
         }
-
         if (njauJourShow) {
           var njauHighQuality = await njauJournal(item)
         }
@@ -448,7 +447,7 @@ export class KeyExampleFactory {
         }
         // Scopus
         if (Scopus && ScopusLevel != undefined) {
-          ztoolkit.ExtraField.setExtraField(item, 'Scopus', nssfLevel);
+          ztoolkit.ExtraField.setExtraField(item, 'Scopus', "是");
         }
 
         Zotero.debug('swupl是' + swupl + 'swuplLevel是' + swuplLevel);
