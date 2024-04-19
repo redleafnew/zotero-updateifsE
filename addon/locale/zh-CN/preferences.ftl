@@ -133,7 +133,7 @@ swupl =
 ABDC =
     .label = 澳大利亚ABDC期刊
 Scopus =
-    .label = Scopus目录
+    .label = Scopus
 
 ## 菜单显示隐藏设置
 menu-setting = 显示工具箱菜单设置
