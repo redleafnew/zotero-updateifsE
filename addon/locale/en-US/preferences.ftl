@@ -128,6 +128,10 @@ nssf =
     .label = NSSF (National Social Science Fund)
 swupl =
     .label = SWUPL
+ABDC =
+    .label = ABDC
+Scopus =
+    .label = Scopus
 
 
 ## 菜单显示隐藏设置

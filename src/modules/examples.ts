@@ -211,12 +211,17 @@ export class KeyExampleFactory {
         var ami = getPref(`ami`);
         var nssf = getPref(`nssf`);
         var swupl = getPref(`swupl`); //西南政法大学
+        
+        var ABDC = getPref(`ABDC`);        
+        var Scopus = getPref(`Scopus`);
 
         // 自定义数据集
         var clsciJourID = '1642199434173014016'; // CLSCI UUID
         var amiJourID = '1648920625629810688'; //AMI UUID
         var nssfJourID = '1648936694851489792';//NSSF  UUID
         var swuplJourID = '1652662162603773952';//SWUPL  UUID 西南政法大学
+        var ScopusJourID = '1635615726460694528';//Scopus  UUID
+        var ABDCJourID = '1613183594358972416';//ABDC  UUID
 
         //  加: any为了后面不报错
         if (clsci) {
@@ -231,13 +236,20 @@ export class KeyExampleFactory {
         if (swupl) {
           var swuplLevel: any = await KeyExampleFactory.getCustomIFs(item, swuplJourID);
         }
-
+        if (Scopus) {
+          var ScopusLevel: any = await KeyExampleFactory.getCustomIFs(item, ScopusJourID);
+        }
+        if (ABDC) {
+          var ABDCLevel: any = await KeyExampleFactory.getCustomIFs(item, ABDCJourID);
+        }
         if (njauJourShow) {
           var njauHighQuality = await njauJournal(item)
         }
         // 如果得到easyScholar、影响因子、法学数据或南农数据才算更新成功
+        // 增加Scopus和ABDC更新检测
         if (easyscholarData || chineseIFs ||
           clsciLevel || amiLevel || nssfLevel ||
+          (Scopus&&ScopusLevel) || (ABDC&&ABDCLevel)||
           njauCore(item) || njauHighQuality) {
           if (emptyExtra) { item.setField('extra', '') }
           n++
@@ -429,6 +441,14 @@ export class KeyExampleFactory {
         // NSSF
         if (nssf && nssfLevel != undefined) {
           ztoolkit.ExtraField.setExtraField(item, 'NSSF', nssfLevel);
+        }
+        // ABDC
+        if (ABDC && ABDCLevel != undefined) {
+          ztoolkit.ExtraField.setExtraField(item, 'ABDC', ABDCLevel);
+        }
+        // Scopus
+        if (Scopus && ScopusLevel != undefined) {
+          ztoolkit.ExtraField.setExtraField(item, 'Scopus', "是");
         }
 
         Zotero.debug('swupl是' + swupl + 'swuplLevel是' + swuplLevel);
@@ -741,7 +761,6 @@ export class KeyExampleFactory {
             popw.show();
             popw.startCloseTimer(5 * 1000);
 
-            return;
             return;
           }
           Zotero.HTTP.loadDocuments(url,
@@ -1453,6 +1472,8 @@ export class UIExampleFactory {
     var ami = getPref(`ami`);
     var nssf = getPref(`nssf`);
     var swupl = getPref(`swupl`);
+    var Scopus = getPref(`Scopus`);
+    var ABDC = getPref(`ABDC`);
 
     var summary = getPref(`summary`);
 
@@ -2419,6 +2440,47 @@ export class UIExampleFactory {
       );
     } else {
       await ztoolkit.ItemTree.unregister("swupl");
+    }
+
+    
+    //  ABDC
+    if (ABDC) {
+      await ztoolkit.ItemTree.register(
+        "ABDC",
+        getString("ABDC"),
+        (
+          field: string,
+          unformatted: boolean,
+          includeBaseMapped: boolean,
+          item: Zotero.Item
+        ) => {
+          // return String(item.id);
+          var IFABDC = ztoolkit.ExtraField.getExtraField(item, 'ABDC')
+          return String(IFABDC == undefined ? '' : IFABDC);
+        },
+      );
+    } else {
+      await ztoolkit.ItemTree.unregister("ABDC");
+    }
+
+    // Scopus
+    if (Scopus) {
+      await ztoolkit.ItemTree.register(
+        "Scopus",
+        getString("Scopus"),
+        (
+          field: string,
+          unformatted: boolean,
+          includeBaseMapped: boolean,
+          item: Zotero.Item
+        ) => {
+          // return String(item.id);
+          var IFScopus = ztoolkit.ExtraField.getExtraField(item, 'Scopus')
+          return String(IFScopus == undefined ? '' : IFScopus);
+        },
+      );
+    } else {
+      await ztoolkit.ItemTree.unregister("Scopus");
     }
 
     // 总结
