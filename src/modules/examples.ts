@@ -246,9 +246,10 @@ export class KeyExampleFactory {
           var njauHighQuality = await njauJournal(item)
         }
         // 如果得到easyScholar、影响因子、法学数据或南农数据才算更新成功
-        // 请问这里是不是只有配置了显示clsciLevel，才需要这样做检查？
+        // 增加Scopus检测
         if (easyscholarData || chineseIFs ||
           clsciLevel || amiLevel || nssfLevel ||
+          (Scopus&&ScopusLevel) || (ABDC&&ABDCLevel)||
           njauCore(item) || njauHighQuality) {
           if (emptyExtra) { item.setField('extra', '') }
           n++
