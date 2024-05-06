@@ -1,6 +1,6 @@
 {
   "name": "greenfrog",
-  "version": "0.19.0",
+  "version": "0.19.01",
   "description": "Zotero plugin for update journal information from easyScholar",
   "config": {
     "addonName": "Green Frog",
@@ -40,7 +40,7 @@
   },
   "homepage": "https://github.com/redleafnew/zotero-updateifsE#readme",
   "dependencies": {
-    "zotero-plugin-toolkit": "^2.3.29"
+    "zotero-plugin-toolkit": "^2.3.30"
   },
   "devDependencies": {
     "@types/node": "^20.11.28",

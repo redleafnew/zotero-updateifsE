@@ -211,8 +211,8 @@ export class KeyExampleFactory {
         var ami = getPref(`ami`);
         var nssf = getPref(`nssf`);
         var swupl = getPref(`swupl`); //西南政法大学
-        
-        var ABDC = getPref(`ABDC`);        
+
+        var ABDC = getPref(`ABDC`);
         var Scopus = getPref(`Scopus`);
 
         // 自定义数据集
@@ -249,7 +249,7 @@ export class KeyExampleFactory {
         // 增加Scopus和ABDC更新检测
         if (easyscholarData || chineseIFs ||
           clsciLevel || amiLevel || nssfLevel ||
-          (Scopus&&ScopusLevel) || (ABDC&&ABDCLevel)||
+          (Scopus && ScopusLevel) || (ABDC && ABDCLevel) ||
           njauCore(item) || njauHighQuality) {
           if (emptyExtra) { item.setField('extra', '') }
           n++
@@ -2442,7 +2442,7 @@ export class UIExampleFactory {
       await ztoolkit.ItemTree.unregister("swupl");
     }
 
-    
+
     //  ABDC
     if (ABDC) {
       await ztoolkit.ItemTree.register(
