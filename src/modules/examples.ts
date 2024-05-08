@@ -512,15 +512,18 @@ export class KeyExampleFactory {
       Zotero.debug(updateJson["msg"]);
     }
   };
-  private static cachePublicationTitleJson: { [key: string]: any }
+  private static cachePublicationTitleJson: { [key: string]: any } = {}
   private static async getPublicationTitleJson(publicationTitle: string) {
-    ztoolkit.log("c测试 getPublicationTitleJson", KeyExampleFactory.cachePublicationTitleJson)
-    if (KeyExampleFactory.cachePublicationTitleJson[publicationTitle])
+    if (KeyExampleFactory.cachePublicationTitleJson[publicationTitle]) {
+      // ztoolkit.log("缓存 getPublicationTitleJson", publicationTitle, KeyExampleFactory.cachePublicationTitleJson);
       return KeyExampleFactory.cachePublicationTitleJson[publicationTitle]
+    }
     var secretKey: any = getPref(`secretkey`);
     var url = `https://easyscholar.cc/open/getPublicationRank?secretKey=${secretKey}&publicationName=${publicationTitle}`;
     var resp = await Zotero.HTTP.request("GET", url);
-    var updateJson = JSON.parse(resp.responseText);
+    const text = resp.responseText
+    // ztoolkit.log("get获取 getPublicationTitleJson", publicationTitle, KeyExampleFactory.cachePublicationTitleJson, text);
+    var updateJson = JSON.parse(text);
     KeyExampleFactory.cachePublicationTitleJson[publicationTitle] = updateJson
     return updateJson;
   }
@@ -528,7 +531,7 @@ export class KeyExampleFactory {
   @example
   // 得到自定义期刊级别
   static async getCustomIFs(item: Zotero.Item, jourID: any) {
-    let secretKey = Zotero.Prefs.get('extensions.zotero.greenfrog.secretkey', true);
+    // let secretKey = Zotero.Prefs.get('extensions.zotero.greenfrog.secretkey', true);
     // var secretKey = getPref('secretkey');
     //publicationTitle =encodeURIComponent(item.getField('publicationTitle'));
     var publicationTitle = Zotero.ItemTypes.getName(item.itemTypeID) == 'journalArticle' ?
@@ -541,19 +544,16 @@ export class KeyExampleFactory {
     publicationTitle = resultPNAS ?
       encodeURIComponent('Proceedings of the National Academy of Sciences of the United States of America') : publicationTitle
 
-    var url = `https://easyscholar.cc/open/getPublicationRank?secretKey=${secretKey}&publicationName=${publicationTitle}`;
     try {
-      let req = await Zotero.HTTP.request('GET', url, { responseType: 'json' });
-      // 得到all rank
-      //var jourID = "1648920625629810688"
-      var allRank = req.response['data']["customRank"]["rankInfo"].
+      const json = await this.getPublicationTitleJson(publicationTitle)
+      var allRank = json['data']["customRank"]["rankInfo"].
         filter(function (e: any) { return e.uuid == jourID; });
-      //Zotero.debug(allRank);
+      // Zotero.debug(allRank);
       var allRankValues = Object.values(allRank[0]);
       // Zotero.debug(allRankValues);
       // 得到 rank
       try {
-        var rank = req.response['data']["customRank"]["rank"];
+        var rank = json['data']["customRank"]["rank"];
         if (rank != '') {
           var rankValue = rank.filter((item: any) => item.slice(0, -4) == jourID)[0].slice(-1);
         }
@@ -781,6 +781,7 @@ export class KeyExampleFactory {
             translate.setDocument(doc);
             translate.setTranslator("5c95b67b-41c5-4f55-b71a-48d5d7183063");
             let items = await translate.translate();
+            ztoolkit.log("使用request替换loadDocuments", items, ItemID)
             updateINFO(items[0], ItemID)
           });
 
