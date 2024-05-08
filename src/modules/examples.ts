@@ -612,7 +612,6 @@ export class KeyExampleFactory {
           if (comprehensiveIF !== undefined) { chineseIFs.push(comprehensiveIF); }
         }
         return chineseIFs;
-
       } catch (e) {
         Zotero.debug('复合影响因子、综合影响因子获取失败！');
         return;
