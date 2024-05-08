@@ -512,16 +512,16 @@ export class KeyExampleFactory {
       Zotero.debug(updateJson["msg"]);
     }
   };
-  private static cachePublicationTitleJson:{[key:string]:any} 
+  private static cachePublicationTitleJson: { [key: string]: any }
   private static async getPublicationTitleJson(publicationTitle: string) {
-    ztoolkit.log("c测试 getPublicationTitleJson",KeyExampleFactory.cachePublicationTitleJson)
-    if(KeyExampleFactory.cachePublicationTitleJson[publicationTitle])
+    ztoolkit.log("c测试 getPublicationTitleJson", KeyExampleFactory.cachePublicationTitleJson)
+    if (KeyExampleFactory.cachePublicationTitleJson[publicationTitle])
       return KeyExampleFactory.cachePublicationTitleJson[publicationTitle]
     var secretKey: any = getPref(`secretkey`);
     var url = `https://easyscholar.cc/open/getPublicationRank?secretKey=${secretKey}&publicationName=${publicationTitle}`;
     var resp = await Zotero.HTTP.request("GET", url);
     var updateJson = JSON.parse(resp.responseText);
-    KeyExampleFactory.cachePublicationTitleJson[publicationTitle]= updateJson
+    KeyExampleFactory.cachePublicationTitleJson[publicationTitle] = updateJson
     return updateJson;
   }
 
@@ -605,10 +605,12 @@ export class KeyExampleFactory {
         var reg = ' ' + pubT + '\n(.*\n){10,40} .*复合影响因子：(.*)\n(.*\n){0,6} .*综合影响因子：(.*)'; //复合影响因子和综合影响因子正则，里面含有空格，\s不行
         var patt = new RegExp(reg, 'i'); //
         var jour = AllJour.match(patt) // [2]为复合影响因子，[4]为综合IF
-    if(jour){    var compoundIF = jour[2];
-        var comprehensiveIF = jour[4];
-        if (compoundIF !== undefined) { chineseIFs.push(compoundIF); }
-        if (comprehensiveIF !== undefined) { chineseIFs.push(comprehensiveIF); }}
+        if (jour) {
+          var compoundIF = jour[2];
+          var comprehensiveIF = jour[4];
+          if (compoundIF !== undefined) { chineseIFs.push(compoundIF); }
+          if (comprehensiveIF !== undefined) { chineseIFs.push(comprehensiveIF); }
+        }
         return chineseIFs;
 
       } catch (e) {
