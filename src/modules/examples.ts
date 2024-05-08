@@ -773,15 +773,16 @@ export class KeyExampleFactory {
 
             return;
           }
-          Zotero.HTTP.loadDocuments(url,
-            async function (doc: any) {
-              let translate = new Zotero.Translate.Web();
-              translate.setDocument(doc);
-              translate.setTranslator("5c95b67b-41c5-4f55-b71a-48d5d7183063");
-              let items = await translate.translate();
-              updateINFO(items[0], ItemID)
-            }
-          );
+          Zotero.HTTP.request("GET", url, {
+            responseType: 'document',
+          }).then(async (xhr) => {
+            var doc = Zotero.HTTP.wrapDocument(xhr.response, xhr.responseURL);
+            let translate = new Zotero.Translate.Web();
+            translate.setDocument(doc);
+            translate.setTranslator("5c95b67b-41c5-4f55-b71a-48d5d7183063");
+            let items = await translate.translate();
+            updateINFO(items[0], ItemID)
+          });
 
         } else if (lan == 'en-US') {//英文条目
           if (doi != '') {
