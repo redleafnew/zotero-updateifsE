@@ -486,7 +486,6 @@ export class KeyExampleFactory {
   @example
   // 从easyScholar获取数据 获得影响因子新接口函数
   static async getIFs(item: Zotero.Item) {
-    var secretKey: any = getPref(`secretkey`);
     //得到查询字段，期刊用期刊题目，会议论文用会议名称
     var publicationTitle = Zotero.ItemTypes.getName(item.itemTypeID) == 'journalArticle' ?
       encodeURIComponent(item.getField('publicationTitle') as any) :
@@ -498,10 +497,8 @@ export class KeyExampleFactory {
     publicationTitle = resultPNAS ? encodeURIComponent('Proceedings of the National Academy of Sciences of the United States of America') : publicationTitle
 
 
-    var url = `https://easyscholar.cc/open/getPublicationRank?secretKey=${secretKey}&publicationName=${publicationTitle}`;
     try {
-      var resp = await Zotero.HTTP.request("GET", url);
-      var updateJson = JSON.parse(resp.responseText);
+      var updateJson = await KeyExampleFactory.getPublicationTitleJson(publicationTitle);
       if (updateJson["data"]["officialRank"]["all"]) {
         return updateJson["data"]["officialRank"]["all"];
       } else {
@@ -515,6 +512,18 @@ export class KeyExampleFactory {
       Zotero.debug(updateJson["msg"]);
     }
   };
+  private static cachePublicationTitleJson:{[key:string]:any} 
+  private static async getPublicationTitleJson(publicationTitle: string) {
+    ztoolkit.log("c测试 getPublicationTitleJson",KeyExampleFactory.cachePublicationTitleJson)
+    if(KeyExampleFactory.cachePublicationTitleJson[publicationTitle])
+      return KeyExampleFactory.cachePublicationTitleJson[publicationTitle]
+    var secretKey: any = getPref(`secretkey`);
+    var url = `https://easyscholar.cc/open/getPublicationRank?secretKey=${secretKey}&publicationName=${publicationTitle}`;
+    var resp = await Zotero.HTTP.request("GET", url);
+    var updateJson = JSON.parse(resp.responseText);
+    KeyExampleFactory.cachePublicationTitleJson[publicationTitle]= updateJson
+    return updateJson;
+  }
 
   @example
   // 得到自定义期刊级别
@@ -596,10 +605,10 @@ export class KeyExampleFactory {
         var reg = ' ' + pubT + '\n(.*\n){10,40} .*复合影响因子：(.*)\n(.*\n){0,6} .*综合影响因子：(.*)'; //复合影响因子和综合影响因子正则，里面含有空格，\s不行
         var patt = new RegExp(reg, 'i'); //
         var jour = AllJour.match(patt) // [2]为复合影响因子，[4]为综合IF
-        var compoundIF = jour[2];
+    if(jour){    var compoundIF = jour[2];
         var comprehensiveIF = jour[4];
         if (compoundIF !== undefined) { chineseIFs.push(compoundIF); }
-        if (comprehensiveIF !== undefined) { chineseIFs.push(comprehensiveIF); }
+        if (comprehensiveIF !== undefined) { chineseIFs.push(comprehensiveIF); }}
         return chineseIFs;
 
       } catch (e) {
