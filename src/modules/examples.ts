@@ -714,18 +714,25 @@ export class KeyExampleFactory {
             };
 
             var postUrl = "https://kns.cnki.net/kns8/Brief/GetGridTableHtml";
+            postUrl = 'https://kns.cnki.net/kns8s/brief/grid'
 
             function getHtml(responseText: any) {
-              var parser = Components.classes["@mozilla.org/xmlextras/domparser;1"]
-                .createInstance(Components.interfaces.nsIDOMParser);
-              var html = parser.parseFromString(responseText, "text/html");
-              return html;
+              // ztoolkit.log("responseText", responseText)
+              // var parser = Components.classes["@mozilla.org/xmlextras/domparser;1"].createInstance(Components.interfaces.nsIDOMParser);
+              // var html = parser.parseFromString(responseText, "text/html");
+              // ztoolkit.log("getHtml", html)
+              const parser = ztoolkit.getDOMParser();
+              return parser.parseFromString(responseText, "text/html");
+
             };
+
+            ztoolkit.log("postUrl", postUrl, PostDATA, requestHeaders, getCookieSandbox())
             var resp = await Zotero.HTTP.request("POST", postUrl, {
               headers: requestHeaders,
               cookieSandbox: getCookieSandbox(),
               body: PostDATA
             });
+            ztoolkit.log("postUrl", postUrl, PostDATA, resp)
             return getHtml(resp.responseText);
           }
           function updateField(field: any, newItem: Zotero.Item, oldItem: Zotero.Item) {
@@ -757,6 +764,7 @@ export class KeyExampleFactory {
           var url;
           try {
             html = await getCNKIDetailURLByTitle(title);
+            ztoolkit.log(publicationTitle, html)
             if (publicationTitle != "") {
               url = (Zotero.Utilities as any).xpath(html, `//td[normalize-space(string(.))="${publicationTitle}"]/preceding-sibling::td[@class="name" and normalize-space(string(.))="${title}"]/a`)[0].href;
             } else {
@@ -765,6 +773,7 @@ export class KeyExampleFactory {
 
             url = url.replace("/kns8/Detail", "https://kns.cnki.net/kcms/detail/detail.aspx");
           } catch (error) {
+            ztoolkit.log(error)
             var popw = new Zotero.ProgressWindow();
             popw.changeHeadline("未找到文献, 或者遇到了网络问题！", "", "");
             popw.addDescription(`文献：${title}`);
