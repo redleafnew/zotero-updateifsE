@@ -535,9 +535,21 @@ export class KeyExampleFactory {
     let secretKey = Zotero.Prefs.get('extensions.zotero.greenfrog.secretkey', true);
     // var secretKey = getPref('secretkey');
     //publicationTitle =encodeURIComponent(item.getField('publicationTitle'));
+    // var publicationTitle = Zotero.ItemTypes.getName(item.itemTypeID) == 'journalArticle' ?
+    //   encodeURIComponent(item.getField('publicationTitle')) :
+    //   encodeURIComponent(item.getField('conferenceName'));
+
+    Zotero.debug('publicationTitle: ' + item.getField('publicationTitle'));
+    Zotero.debug('conferenceName: ' + item.getField('conferenceName'));
+    Zotero.debug('proceedingsTitle: ' + item.getField('proceedingsTitle'));
+
+    // if journalArticle, get publicationTitle; if conferencePaper, get conferenceName and if conferencePaper and no conferenceName, get proceedingsTitle
     var publicationTitle = Zotero.ItemTypes.getName(item.itemTypeID) == 'journalArticle' ?
-      encodeURIComponent(item.getField('publicationTitle')) :
-      encodeURIComponent(item.getField('conferenceName'));
+      encodeURIComponent(item.getField('publicationTitle') as any) :
+      item.getField('conferenceName') ? encodeURIComponent(item.getField('conferenceName') as any) :
+        item.getField('proceedingsTitle') ? encodeURIComponent(item.getField('proceedingsTitle') as any) : '';
+
+    Zotero.debug('publication: ' + publicationTitle);
 
     // 处理PANS, 期刊中包含Proceedings of the National Academy of Sciences即为Proceedings of the National Academy of Sciences
     var pattPNAS = new RegExp(encodeURIComponent('Proceedings of the National Academy of Sciences'), 'i');
