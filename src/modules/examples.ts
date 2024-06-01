@@ -208,6 +208,7 @@ export class KeyExampleFactory {
         var njauJourShow = getPref(`njau.high.quality`);
         // 自定义数据集
         var clsci = getPref(`clsci`);
+        var ccf_c = getPref(`ccf_c`); // better CCF
         var ami = getPref(`ami`);
         var nssf = getPref(`nssf`);
         var swupl = getPref(`swupl`); //西南政法大学
@@ -222,10 +223,15 @@ export class KeyExampleFactory {
         var swuplJourID = '1652662162603773952';//SWUPL  UUID 西南政法大学
         var ScopusJourID = '1635615726460694528';//Scopus  UUID
         var ABDCJourID = '1613183594358972416';//ABDC  UUID
+        var CCFJourID = '1614919989423271936';//CCF  UUID
 
         //  加: any为了后面不报错
         if (clsci) {
           var clsciLevel: any = await KeyExampleFactory.getCustomIFs(item, clsciJourID);
+        }
+        if (ccf_c) {
+          // get better CCF result from custom dataset
+          var ccfLevel: any = await KeyExampleFactory.getCustomIFs(item, CCFJourID); // better CCF
         }
         if (ami) {
           var amiLevel: any = await KeyExampleFactory.getCustomIFs(item, amiJourID);
@@ -433,6 +439,13 @@ export class KeyExampleFactory {
         // CLSCI
         if (clsci && clsciLevel != undefined) {
           ztoolkit.ExtraField.setExtraField(item, 'CLSCI', '是');
+        }
+        if (ccf_c && ccfLevel != undefined) {
+          // if field is already set, don't set it again
+          // if not set, try to set it from custom dataset
+          if (ztoolkit.ExtraField.getExtraField(item, 'CCF') == undefined) {
+            ztoolkit.ExtraField.setExtraField(item, 'CCF', ccfLevel);
+          }
         }
         // AMI
         if (ami && amiLevel != undefined) {
