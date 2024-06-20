@@ -55,16 +55,16 @@ async function onStartup() {
   UIExampleFactory.registerWindowMenuWithSeprator();
 
   await UIExampleFactory.registerExtraColumn();
-
-  //监听分类右键显示菜单
-  ZoteroPane.collectionsView.onSelect.addListener(
-    UIExampleFactory.displayColMenuitem
-  ); //监听分类右键显示菜单
-
-  //监听右键显示菜单
-  ZoteroPane.itemsView.onSelect.addListener(
-    UIExampleFactory.displayContexMenuitem
-  ); //监听右键显示菜单
+  if (ZoteroPane.collectionsView)
+    //监听分类右键显示菜单
+    ZoteroPane.collectionsView.onSelect.addListener(
+      UIExampleFactory.displayColMenuitem
+    ); //监听分类右键显示菜单
+  if (ZoteroPane.itemsView)
+    //监听右键显示菜单
+    ZoteroPane.itemsView.onSelect.addListener(
+      UIExampleFactory.displayContexMenuitem
+    ); //监听右键显示菜单
 
   // UIExampleFactory.refreshButton(); // 原想加按钮
 

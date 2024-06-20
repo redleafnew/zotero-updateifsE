@@ -510,11 +510,8 @@ export class KeyExampleFactory {
     var resultPNAS = pattPNAS.test(publicationTitle);
     publicationTitle = resultPNAS ? encodeURIComponent('Proceedings of the National Academy of Sciences of the United States of America') : publicationTitle
 
-
-    var url = `https://easyscholar.cc/open/getPublicationRank?secretKey=${secretKey}&publicationName=${publicationTitle}`;
     try {
-      var resp = await Zotero.HTTP.request("GET", url);
-      var updateJson = JSON.parse(resp.responseText);
+      var updateJson = await KeyExampleFactory.getPublicationTitleJson(publicationTitle);
       if (updateJson["data"]["officialRank"]["all"]) {
         return updateJson["data"]["officialRank"]["all"];
       } else {
@@ -557,19 +554,16 @@ export class KeyExampleFactory {
     publicationTitle = resultPNAS ?
       encodeURIComponent('Proceedings of the National Academy of Sciences of the United States of America') : publicationTitle
 
-    var url = `https://easyscholar.cc/open/getPublicationRank?secretKey=${secretKey}&publicationName=${publicationTitle}`;
     try {
-      let req = await Zotero.HTTP.request('GET', url, { responseType: 'json' });
-      // 得到all rank
-      //var jourID = "1648920625629810688"
-      var allRank = req.response['data']["customRank"]["rankInfo"].
+      const json = await this.getPublicationTitleJson(publicationTitle)
+      var allRank = json['data']["customRank"]["rankInfo"].
         filter(function (e: any) { return e.uuid == jourID; });
       //Zotero.debug(allRank);
       var allRankValues = Object.values(allRank[0]);
       // Zotero.debug(allRankValues);
       // 得到 rank
       try {
-        var rank = req.response['data']["customRank"]["rank"];
+        var rank = json['data']["customRank"]["rank"];
         if (rank != '') {
           var rankValue = rank.filter((item: any) => item.slice(0, -4) == jourID)[0].slice(-1);
         }
@@ -621,10 +615,12 @@ export class KeyExampleFactory {
         var reg = ' ' + pubT + '\n(.*\n){10,40} .*复合影响因子：(.*)\n(.*\n){0,6} .*综合影响因子：(.*)'; //复合影响因子和综合影响因子正则，里面含有空格，\s不行
         var patt = new RegExp(reg, 'i'); //
         var jour = AllJour.match(patt) // [2]为复合影响因子，[4]为综合IF
-        var compoundIF = jour[2];
-        var comprehensiveIF = jour[4];
-        if (compoundIF !== undefined) { chineseIFs.push(compoundIF); }
-        if (comprehensiveIF !== undefined) { chineseIFs.push(comprehensiveIF); }
+        if (jour) {
+          var compoundIF = jour[2];
+          var comprehensiveIF = jour[4];
+          if (compoundIF !== undefined) { chineseIFs.push(compoundIF); }
+          if (comprehensiveIF !== undefined) { chineseIFs.push(comprehensiveIF); }
+        }
         return chineseIFs;
 
       } catch (e) {
@@ -633,6 +629,22 @@ export class KeyExampleFactory {
       }
     }
   };
+  //增加查询缓存，让一个期刊在一次打开只查询一次，重启zotero前都用缓存。
+  private static cachePublicationTitleJson: { [key: string]: any } = {}
+  private static async getPublicationTitleJson(publicationTitle: string) {
+    if (KeyExampleFactory.cachePublicationTitleJson[publicationTitle]) {
+      ztoolkit.log("缓存 getPublicationTitleJson", publicationTitle, KeyExampleFactory.cachePublicationTitleJson[publicationTitle]);
+      return KeyExampleFactory.cachePublicationTitleJson[publicationTitle]
+    }
+    var secretKey: any = getPref(`secretkey`);
+    var url = `https://easyscholar.cc/open/getPublicationRank?secretKey=${secretKey}&publicationName=${publicationTitle}`;
+    var resp = await Zotero.HTTP.request("GET", url);
+    const text = resp.responseText
+    ztoolkit.log("get获取 getPublicationTitleJson", publicationTitle, text);
+    var updateJson = JSON.parse(text);
+    KeyExampleFactory.cachePublicationTitleJson[publicationTitle] = updateJson
+    return updateJson;
+  }
 
   //分类右击更新信息
   @example
@@ -788,7 +800,12 @@ export class KeyExampleFactory {
 
             return;
           }
-          Zotero.HTTP.loadDocuments(url,
+          Zotero.HTTP.request("GET", url, {
+            responseType: 'document',
+          }).then(async (xhr) => {
+            return Zotero.HTTP.wrapDocument(xhr.response, xhr.responseURL);
+          }).then(
+            // Zotero.HTTP.loadDocuments(url, 
             async function (doc: any) {
               let translate = new Zotero.Translate.Web();
               translate.setDocument(doc);
