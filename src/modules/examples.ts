@@ -208,6 +208,7 @@ export class KeyExampleFactory {
         var njauJourShow = getPref(`njau.high.quality`);
         // 自定义数据集
         var clsci = getPref(`clsci`);
+        var ccf_c = getPref(`ccf_c`); // better CCF
         var ami = getPref(`ami`);
         var nssf = getPref(`nssf`);
         var swupl = getPref(`swupl`); //西南政法大学
@@ -222,10 +223,15 @@ export class KeyExampleFactory {
         var swuplJourID = '1652662162603773952';//SWUPL  UUID 西南政法大学
         var ScopusJourID = '1635615726460694528';//Scopus  UUID
         var ABDCJourID = '1613183594358972416';//ABDC  UUID
+        var CCFJourID = '1614919989423271936';//CCF  UUID
 
         //  加: any为了后面不报错
         if (clsci) {
           var clsciLevel: any = await KeyExampleFactory.getCustomIFs(item, clsciJourID);
+        }
+        if (ccf_c) {
+          // get better CCF result from custom dataset
+          var ccfLevel: any = await KeyExampleFactory.getCustomIFs(item, CCFJourID); // better CCF
         }
         if (ami) {
           var amiLevel: any = await KeyExampleFactory.getCustomIFs(item, amiJourID);
@@ -434,6 +440,13 @@ export class KeyExampleFactory {
         if (clsci && clsciLevel != undefined) {
           ztoolkit.ExtraField.setExtraField(item, 'CLSCI', '是');
         }
+        if (ccf_c && ccfLevel != undefined) {
+          // if field is already set, don't set it again
+          // if not set, try to set it from custom dataset
+          if (ztoolkit.ExtraField.getExtraField(item, 'CCF') == undefined) {
+            ztoolkit.ExtraField.setExtraField(item, 'CCF', ccfLevel);
+          }
+        }
         // AMI
         if (ami && amiLevel != undefined) {
           ztoolkit.ExtraField.setExtraField(item, 'AMI', amiLevel);
@@ -534,9 +547,21 @@ export class KeyExampleFactory {
     // let secretKey = Zotero.Prefs.get('extensions.zotero.greenfrog.secretkey', true);
     // var secretKey = getPref('secretkey');
     //publicationTitle =encodeURIComponent(item.getField('publicationTitle'));
+    // var publicationTitle = Zotero.ItemTypes.getName(item.itemTypeID) == 'journalArticle' ?
+    //   encodeURIComponent(item.getField('publicationTitle')) :
+    //   encodeURIComponent(item.getField('conferenceName'));
+
+    Zotero.debug('publicationTitle: ' + item.getField('publicationTitle'));
+    Zotero.debug('conferenceName: ' + item.getField('conferenceName'));
+    Zotero.debug('proceedingsTitle: ' + item.getField('proceedingsTitle'));
+
+    // if journalArticle, get publicationTitle; if conferencePaper, get conferenceName and if conferencePaper and no conferenceName, get proceedingsTitle
     var publicationTitle = Zotero.ItemTypes.getName(item.itemTypeID) == 'journalArticle' ?
-      encodeURIComponent(item.getField('publicationTitle')) :
-      encodeURIComponent(item.getField('conferenceName'));
+      encodeURIComponent(item.getField('publicationTitle') as any) :
+      item.getField('conferenceName') ? encodeURIComponent(item.getField('conferenceName') as any) :
+        item.getField('proceedingsTitle') ? encodeURIComponent(item.getField('proceedingsTitle') as any) : '';
+
+    Zotero.debug('publication: ' + publicationTitle);
 
     // 处理PANS, 期刊中包含Proceedings of the National Academy of Sciences即为Proceedings of the National Academy of Sciences
     var pattPNAS = new RegExp(encodeURIComponent('Proceedings of the National Academy of Sciences'), 'i');
