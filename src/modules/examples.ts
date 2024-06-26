@@ -510,6 +510,7 @@ export class KeyExampleFactory {
     publicationTitle = resultPNAS ? encodeURIComponent('Proceedings of the National Academy of Sciences of the United States of America') : publicationTitle
 
 
+    var url = `https://easyscholar.cc/open/getPublicationRank?secretKey=${secretKey}&publicationName=${publicationTitle}`;
     try {
       var updateJson = await KeyExampleFactory.getPublicationTitleJson(publicationTitle);
       if (updateJson["data"]["officialRank"]["all"]) {
@@ -643,6 +644,22 @@ export class KeyExampleFactory {
       }
     }
   };
+  //增加查询缓存，让一个期刊在一次打开只查询一次，重启zotero前都用缓存。
+  private static cachePublicationTitleJson: { [key: string]: any } = {}
+  private static async getPublicationTitleJson(publicationTitle: string) {
+    if (KeyExampleFactory.cachePublicationTitleJson[publicationTitle]) {
+      ztoolkit.log("缓存 getPublicationTitleJson", publicationTitle, KeyExampleFactory.cachePublicationTitleJson[publicationTitle]);
+      return KeyExampleFactory.cachePublicationTitleJson[publicationTitle]
+    }
+    var secretKey: any = getPref(`secretkey`);
+    var url = `https://easyscholar.cc/open/getPublicationRank?secretKey=${secretKey}&publicationName=${publicationTitle}`;
+    var resp = await Zotero.HTTP.request("GET", url);
+    const text = resp.responseText
+    ztoolkit.log("get获取 getPublicationTitleJson", publicationTitle, text);
+    var updateJson = JSON.parse(text);
+    KeyExampleFactory.cachePublicationTitleJson[publicationTitle] = updateJson
+    return updateJson;
+  }
 
   //分类右击更新信息
   @example
@@ -807,17 +824,15 @@ export class KeyExampleFactory {
 
             return;
           }
-          Zotero.HTTP.request("GET", url, {
-            responseType: 'document',
-          }).then(async (xhr) => {
-            var doc = Zotero.HTTP.wrapDocument(xhr.response, xhr.responseURL);
-            let translate = new Zotero.Translate.Web();
-            translate.setDocument(doc);
-            translate.setTranslator("5c95b67b-41c5-4f55-b71a-48d5d7183063");
-            let items = await translate.translate();
-            ztoolkit.log("使用request替换loadDocuments", items, ItemID)
-            updateINFO(items[0], ItemID)
-          });
+          Zotero.HTTP.loadDocuments(url,
+            async function (doc: any) {
+              let translate = new Zotero.Translate.Web();
+              translate.setDocument(doc);
+              translate.setTranslator("5c95b67b-41c5-4f55-b71a-48d5d7183063");
+              let items = await translate.translate();
+              updateINFO(items[0], ItemID)
+            }
+          );
 
         } else if (lan == 'en-US') {//英文条目
           if (doi != '') {
