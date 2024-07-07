@@ -621,6 +621,7 @@ export class KeyExampleFactory {
         var reg = ' ' + pubT + '\n(.*\n){10,40} .*复合影响因子：(.*)\n(.*\n){0,6} .*综合影响因子：(.*)'; //复合影响因子和综合影响因子正则，里面含有空格，\s不行
         var patt = new RegExp(reg, 'i'); //
         var jour = AllJour.match(patt) // [2]为复合影响因子，[4]为综合IF
+        if (!jour) return;
         var compoundIF = jour[2];
         var comprehensiveIF = jour[4];
         if (compoundIF !== undefined) { chineseIFs.push(compoundIF); }
@@ -788,6 +789,7 @@ export class KeyExampleFactory {
 
             return;
           }
+          // @ts-ignore
           Zotero.HTTP.loadDocuments(url,
             async function (doc: any) {
               let translate = new Zotero.Translate.Web();
@@ -1446,1088 +1448,222 @@ export class UIExampleFactory {
 
   @example //注册多余列
   static async registerExtraColumn() {
-    var jcr: any = getPref(`jcr.qu`);
-    var basic: any = getPref(`basic`);
-    var updated: any = getPref(`updated`);
-    var ifs: any = getPref(`sci.if`);
-    var if5: any = getPref(`sci.if5`);
-    var eii: any = getPref(`ei`);
-    var sciUpTop: any = getPref(`sci.up.top`);
-    var sciUpSmall: any = getPref(`sci.up.small`);
-    var chjcscd: any = getPref(`chjcscd`);
-    var pkucore: any = getPref(`pku.core`);
-    var njucore: any = getPref(`nju.core`);
-    var scicore: any = getPref(`sci.core`);
-    var ssci: any = getPref(`ssci`);
-    var ajg: any = getPref(`ajg`);
-    var utd24: any = getPref(`utd24`);
-    var ft50: any = getPref(`ft50`);
-    var ccf: any = getPref(`ccf`);
-    var fms: any = getPref(`fms`);
-    var jci: any = getPref(`jci`);
-    var ahci: any = getPref(`ahci`);
-    var sciwarn: any = getPref(`sciwarn`);
-    var esi: any = getPref(`esi`);
-    var compoundIFs: any = getPref(`com.if`);
-    var comprehensiveIFs: any = getPref(`agg.if`);
-    // 大学期刊分类
-    var swufe = getPref(`swufe`);
-    var cufe = getPref(`cufe`);
-    var uibe = getPref(`uibe`);
-    var sdufe = getPref(`sdufe`);
-    var xdu = getPref(`xdu`);
-    var swjtu = getPref(`swjtu`);
-    var ruc = getPref(`ruc`);
-    var xmu = getPref(`xmu`);
-    var sjtu = getPref(`sjtu`);
-    var fdu = getPref(`fdu`);
-    var hhu = getPref(`hhu`);
-    var scu = getPref(`scu`);
-    var cqu = getPref(`cqu`);
-    var nju = getPref(`nju`);
-    var xju = getPref(`xju`);
-    var cug = getPref(`cug`);
-    var cju = getPref(`cju`);
-    var zju = getPref(`zju`);
-    var cpu = getPref(`cpu`);
-    var njauCoreShow = getPref(`njau.core`);
-    var njauJourShow = getPref(`njau.high.quality`);
-    // 自定义数据集
-    var clsci = getPref(`clsci`);
-    var ami = getPref(`ami`);
-    var nssf = getPref(`nssf`);
-    var swupl = getPref(`swupl`);
-    var Scopus = getPref(`Scopus`);
-    var ABDC = getPref(`ABDC`);
-
-    var summary = getPref(`summary`);
-
-
-    // JCR
-    if (jcr) {
-      await ztoolkit.ItemTree.register(
-        "JCR",
-        getString("JCR"),
-        (
-          field: string,
-          unformatted: boolean,
-          includeBaseMapped: boolean,
-          item: Zotero.Item
-        ) => {
-          // return String(item.id);
-          var jcr = ztoolkit.ExtraField.getExtraField(item, 'JCR分区')
-          return String(jcr == undefined ? '' : jcr);
-        },
-      );
-    } else {
-
-      await ztoolkit.ItemTree.unregister("JCR");
-    }
-    // 中科院分区升级版
-    if (updated) {
-
-      await ztoolkit.ItemTree.register(
-        "CASUp",
-        getString("CASUp"),
-        (
-          field: string,
-          unformatted: boolean,
-          includeBaseMapped: boolean,
-          item: Zotero.Item
-        ) => {
-          // return String(item.id);
-          var CASUp = ztoolkit.ExtraField.getExtraField(item, '中科院分区升级版')
-          return String(CASUp == undefined ? '' : CASUp);
-        },
-      );
-    } else {
-      await ztoolkit.ItemTree.unregister("CASUp");
-    }
-    // 中科院分区基础版
-    if (basic) {
-      await ztoolkit.ItemTree.register(
-        "CASBasic",
-        getString("CASBasic"),
-        (
-          field: string,
-          unformatted: boolean,
-          includeBaseMapped: boolean,
-          item: Zotero.Item
-        ) => {
-          // return String(item.id);
-          var CASBasic = ztoolkit.ExtraField.getExtraField(item, '中科院分区基础版')
-          return String(CASBasic == undefined ? '' : CASBasic);
-        },
-      );
-    } else {
-      await ztoolkit.ItemTree.unregister("CASBasic");
-    }
-    // 影响因子
-    if (ifs) {
-      await ztoolkit.ItemTree.register(
-        "IF",
-        getString("IF"),
-        (
-          field: string,
-          unformatted: boolean,
-          includeBaseMapped: boolean,
-          item: Zotero.Item
-        ) => {
-          // return String(item.id);
-          var ifs = ztoolkit.ExtraField.getExtraField(item, '影响因子')
-          return String(ifs == undefined ? '' : ifs);
-        },
-      );
-    } else {
-      await ztoolkit.ItemTree.unregister("IF");
-    }
-    // 5年影响因子
-    if (if5) {
-      await ztoolkit.ItemTree.register(
-        "IF5",
-        getString("IF5"),
-        (
-          field: string,
-          unformatted: boolean,
-          includeBaseMapped: boolean,
-          item: Zotero.Item
-        ) => {
-          // return String(item.id);
-          var IF5 = ztoolkit.ExtraField.getExtraField(item, '5年影响因子')
-          return String(IF5 == undefined ? '' : IF5);
-        },
-      );
-    } else {
-      await ztoolkit.ItemTree.unregister("IF5");
-    }
-    // EI
-    if (eii) {
-      await ztoolkit.ItemTree.register(
-        "EI",
-        getString("EI"),
-        (
-          field: string,
-          unformatted: boolean,
-          includeBaseMapped: boolean,
-          item: Zotero.Item
-        ) => {
-          // return String(item.id);
-          var EI = ztoolkit.ExtraField.getExtraField(item, 'EI')
-          return String(EI == undefined ? '' : EI);
-        },
-      );
-    } else {
-      await ztoolkit.ItemTree.unregister("EI");
-    }
-    // sciUpTop
-    if (sciUpTop) {
-      await ztoolkit.ItemTree.register(
-        "sciUpTop",
-        getString("sciUpTop"),
-        (
-          field: string,
-          unformatted: boolean,
-          includeBaseMapped: boolean,
-          item: Zotero.Item
-        ) => {
-          // return String(item.id);
-          var sciUpTop = ztoolkit.ExtraField.getExtraField(item, '中科院升级版Top分区')
-          return String(sciUpTop == undefined ? '' : sciUpTop);
-        },
-      );
-    } else {
-      await ztoolkit.ItemTree.unregister("sciUpTop");
-    }
-    // sciUpSmall
-    if (sciUpSmall) {
-      await ztoolkit.ItemTree.register(
-        "sciUpSmall",
-        getString("sciUpSmall"),
-        (
-          field: string,
-          unformatted: boolean,
-          includeBaseMapped: boolean,
-          item: Zotero.Item
-        ) => {
-          // return String(item.id);
-          var sciUpSmall = ztoolkit.ExtraField.getExtraField(item, '中科院升级版小类分区')
-          return String(sciUpSmall == undefined ? '' : sciUpSmall);
-        },
-      );
-    } else {
-      await ztoolkit.ItemTree.unregister("sciUpSmall");
-    }
-    // CSCD
-    if (chjcscd) {
-      await ztoolkit.ItemTree.register(
-        "CSCD",
-        getString("CSCD"),
-        (
-          field: string,
-          unformatted: boolean,
-          includeBaseMapped: boolean,
-          item: Zotero.Item
-        ) => {
-          // return String(item.id);
-          var CSCD = ztoolkit.ExtraField.getExtraField(item, 'CSCD')
-          return String(CSCD == undefined ? '' : CSCD);
-        },
-      );
-    } else {
-      await ztoolkit.ItemTree.unregister("CSCD");
-    }
-    // PKUCore
-    if (pkucore) {
-
-      await ztoolkit.ItemTree.register(
-        "PKUCore",
-        getString("PKUCore"),
-        (
-          field: string,
-          unformatted: boolean,
-          includeBaseMapped: boolean,
-          item: Zotero.Item
-        ) => {
-          // return String(item.id);
-          var PKUCore = ztoolkit.ExtraField.getExtraField(item, '中文核心期刊/北大核心')
-          return String(PKUCore == undefined ? '' : PKUCore);
-        },
-      );
-    } else {
-      await ztoolkit.ItemTree.unregister("PKUCore");
-    }
-    // CSSCI/南大核心
-    if (njucore) {
-      await ztoolkit.ItemTree.register(
-        "CSSCI",
-        getString("CSSCI"),
-        (
-          field: string,
-          unformatted: boolean,
-          includeBaseMapped: boolean,
-          item: Zotero.Item
-        ) => {
-          // return String(item.id);
-          var NJUCore = ztoolkit.ExtraField.getExtraField(item, 'CSSCI/南大核心')
-          return String(NJUCore == undefined ? '' : NJUCore);
-        },
-      );
-    } else {
-      await ztoolkit.ItemTree.unregister("CSSCI");
-    }
-    // 科技核心
-    if (scicore) {
-      await ztoolkit.ItemTree.register(
-        "SCICore",
-        getString("SCICore"),
-        (
-          field: string,
-          unformatted: boolean,
-          includeBaseMapped: boolean,
-          item: Zotero.Item
-        ) => {
-          // return String(item.id);
-          var SCICore = ztoolkit.ExtraField.getExtraField(item, '中国科技核心期刊')
-          return String(SCICore == undefined ? '' : SCICore);
-        },
-      );
-    } else {
-      await ztoolkit.ItemTree.unregister("SCICore");
+    const columnConfig: Record<string, {
+      pref?: string;
+      dataKey?: string;
+      field?: string;
+      registeredKey?: string;
+    }> = {
+      jcr: {
+        pref: "jcr.qu",
+        dataKey: "JCR",
+        field: "JCR分区",
+      },
+      basic: {
+        dataKey: "CASBasic",
+        field: "中科院分区基础版",
+      },
+      updated: {
+        dataKey: "CASUp",
+        field: "中科院分区升级版",
+      },
+      ifs: {
+        pref: "sci.if",
+        dataKey: "IF",
+        field: "影响因子",
+      },
+      if5: {
+        pref: "sci.if5",
+        dataKey: "IF5",
+        field: "5年影响因子",
+      },
+      eii: {
+        pref: "ei",
+        dataKey: "EI",
+        field: "EI",
+      },
+      sciUpTop: {
+        pref: "sci.up.top",
+        field: "中科院升级版Top分区",
+      },
+      sciUpSmall: {
+        pref: "sci.up.small",
+        field: "中科院升级版小类分区",
+      },
+      chjcscd: {
+        dataKey: "CSCD",
+        field: "CSCD",
+      },
+      pkucore: {
+        pref: "pku.core",
+        dataKey: "PKUCore",
+        field: "中文核心期刊/北大核心",
+      },
+      njucore: {
+        pref: "nju.core",
+        dataKey: "CSSCI",
+        field: "CSSCI/南大核心",
+      },
+      scicore: {
+        pref: "sci.core",
+        dataKey: "SCICore",
+        field: "中国科技核心期刊",
+      },
+      ssci: {
+        dataKey: "SSCI",
+        field: "SSCI",
+      },
+      ajg: {
+        dataKey: "AJG",
+        field: "AJG",
+      },
+      utd24: {
+        dataKey: "UTD24",
+        field: "UTD24",
+      },
+      ft50: {
+        dataKey: "FT50",
+        field: "FT50",
+      },
+      ccf: {
+        dataKey: "CCF",
+        field: "CCF",
+      },
+      fms: {
+        dataKey: "FMS",
+        field: "FMS",
+      },
+      jci: {
+        dataKey: "JCI",
+        field: "JCI",
+      },
+      ahci: {
+        dataKey: "AHCI",
+        field: "AHCI",
+      },
+      sciwarn: {
+        field: "中科院预警",
+      },
+      esi: {},
+      compoundIFs: {
+        pref: "com.if",
+        dataKey: "compoundIF",
+        field: "复合影响因子",
+      },
+      comprehensiveIFs: {
+        pref: "agg.if",
+        dataKey: "comprehensiveIF",
+        field: "综合影响因子",
+      },
+      // 大学期刊分类
+      swufe: {
+        field: "西南财经大学",
+      },
+      cufe: {
+        field: "中央财经大学",
+      },
+      uibe: {
+        field: "对外经济贸易大学",
+      },
+      sdufe: {
+        field: "山东财经大学",
+      },
+      xdu: {
+        field: "西安电子科技大学",
+      },
+      swjtu: {
+        field: "西南交通大学",
+      },
+      ruc: {
+        field: "中国人民大学",
+      },
+      xmu: {
+        field: "厦门大学",
+      },
+      sjtu: {
+        field: "上海交通大学",
+      },
+      fdu: {
+        field: "复旦大学",
+      },
+      hhu: {
+        field: "河海大学",
+      },
+      scu: {
+        field: "四川大学",
+      },
+      cqu: {
+        field: "重庆大学",
+      },
+      nju: {
+        field: "南京大学",
+      },
+      xju: {
+        field: "新疆大学",
+      },
+      cug: {
+        field: "中国地质大学",
+      },
+      cju: {
+        field: "长江大学",
+      },
+      zju: {
+        field: "浙江大学",
+      },
+      cpu: {
+        field: "中国药科大学",
+      },
+      njauCoreShow: {
+        pref: "njau.core",
+        dataKey: "njauCore",
+        field: "南农核心",
+      },
+      njauJourShow: {
+        pref: "njau.core",
+        dataKey: "njauJour",
+        field: "南农高质量",
+      },
+      // 自定义数据集
+      clsci: {
+        field: "CLSCI",
+      },
+      ami: {
+        field: "AMI",
+      },
+      nssf: {
+        field: "NSSF",
+      },
+      swupl: {
+        field: "SWUPL",
+      },
+      Scopus: {},
+      ABDC: {},
+      summary: {
+        field: "总结",
+      },
     }
 
-
-    // ssci
-    if (ssci) {
-      await ztoolkit.ItemTree.register(
-        "SSCI",
-        getString("SSCI"),
-        (
-          field: string,
-          unformatted: boolean,
-          includeBaseMapped: boolean,
-          item: Zotero.Item
-        ) => {
-          // return String(item.id);
-          var SSCI = ztoolkit.ExtraField.getExtraField(item, 'SSCI')
-          return String(SSCI == undefined ? '' : SSCI);
-        },
-      );
-    } else {
-      await ztoolkit.ItemTree.unregister("SSCI");
+    for (const key in columnConfig) {
+      const opt = columnConfig[key]
+      if (getPref(opt.pref || key)) {
+        const result = await Zotero.ItemTreeManager.registerColumns(
+          {
+            dataKey: opt.dataKey || key,
+            label: getString(opt.dataKey || key),
+            pluginID: config.addonID,
+            dataProvider: (item) => {
+              return ztoolkit.ExtraField.getExtraField(item, opt.field || key) || "";
+            }
+          }
+        );
+        if (result) {
+          opt.registeredKey = result;
+        }
+      }
+      else {
+        opt.registeredKey && await Zotero.ItemTreeManager.unregisterColumns(opt.registeredKey);
+      }
     }
-    // ajg
-    if (ajg) {
-      await ztoolkit.ItemTree.register(
-        "AJG",
-        getString("AJG"),
-        (
-          field: string,
-          unformatted: boolean,
-          includeBaseMapped: boolean,
-          item: Zotero.Item
-        ) => {
-          // return String(item.id);
-          var AJG = ztoolkit.ExtraField.getExtraField(item, 'AJG')
-          return String(AJG == undefined ? '' : AJG);
-        },
-      );
-    } else {
-      await ztoolkit.ItemTree.unregister("AJG");
-    }
-
-    // utd24
-    if (utd24) {
-      await ztoolkit.ItemTree.register(
-        "UTD24",
-        getString("UTD24"),
-        (
-          field: string,
-          unformatted: boolean,
-          includeBaseMapped: boolean,
-          item: Zotero.Item
-        ) => {
-          // return String(item.id);
-          var UTD24 = ztoolkit.ExtraField.getExtraField(item, 'UTD24')
-          return String(UTD24 == undefined ? '' : UTD24);
-        },
-      );
-    } else {
-      await ztoolkit.ItemTree.unregister("UTD24");
-    }
-
-    // ft50
-    if (ft50) {
-      await ztoolkit.ItemTree.register(
-        "FT50",
-        getString("FT50"),
-        (
-          field: string,
-          unformatted: boolean,
-          includeBaseMapped: boolean,
-          item: Zotero.Item
-        ) => {
-          // return String(item.id);
-          var FT50 = ztoolkit.ExtraField.getExtraField(item, 'FT50')
-          return String(FT50 == undefined ? '' : FT50);
-        },
-      );
-    } else {
-      await ztoolkit.ItemTree.unregister("FT50");
-    }
-
-    // ccf
-    if (ccf) {
-      await ztoolkit.ItemTree.register(
-        "CCF",
-        getString("CCF"),
-        (
-          field: string,
-          unformatted: boolean,
-          includeBaseMapped: boolean,
-          item: Zotero.Item
-        ) => {
-          // return String(item.id);
-          var CCF = ztoolkit.ExtraField.getExtraField(item, 'CCF')
-          return String(CCF == undefined ? '' : CCF);
-        },
-      );
-    } else {
-      await ztoolkit.ItemTree.unregister("CCF");
-    }
-
-    // fms
-    if (fms) {
-      await ztoolkit.ItemTree.register(
-        "FMS",
-        getString("FMS"),
-        (
-          field: string,
-          unformatted: boolean,
-          includeBaseMapped: boolean,
-          item: Zotero.Item
-        ) => {
-          // return String(item.id);
-          var FMS = ztoolkit.ExtraField.getExtraField(item, 'FMS')
-          return String(FMS == undefined ? '' : FMS);
-        },
-      );
-    } else {
-      await ztoolkit.ItemTree.unregister("FMS");
-    }
-
-    // jci
-    if (jci) {
-      await ztoolkit.ItemTree.register(
-        "JCI",
-        getString("JCI"),
-        (
-          field: string,
-          unformatted: boolean,
-          includeBaseMapped: boolean,
-          item: Zotero.Item
-        ) => {
-          // return String(item.id);
-          var JCI = ztoolkit.ExtraField.getExtraField(item, 'JCI')
-          return String(JCI == undefined ? '' : JCI);
-        },
-      );
-    } else {
-      await ztoolkit.ItemTree.unregister("JCI");
-    }
-
-    // sci warning预警期刊
-    if (sciwarn) {
-      await ztoolkit.ItemTree.register(
-        "sciwarn",
-        getString("sciwarn"),
-        (
-          field: string,
-          unformatted: boolean,
-          includeBaseMapped: boolean,
-          item: Zotero.Item
-        ) => {
-          // return String(item.id);
-          var sciwarn = ztoolkit.ExtraField.getExtraField(item, '中科院预警')
-          return String(sciwarn == undefined ? '' : sciwarn);
-        },
-      );
-    } else {
-      await ztoolkit.ItemTree.unregister("sciwarn");
-    }
-    // ahci
-    if (ahci) {
-      await ztoolkit.ItemTree.register(
-        "AHCI",
-        getString("AHCI"),
-        (
-          field: string,
-          unformatted: boolean,
-          includeBaseMapped: boolean,
-          item: Zotero.Item
-        ) => {
-          // return String(item.id);
-          var AHCI = ztoolkit.ExtraField.getExtraField(item, 'AHCI')
-          return String(AHCI == undefined ? '' : AHCI);
-        },
-      );
-    } else {
-      await ztoolkit.ItemTree.unregister("AHCI");
-    }
-    // esi
-    if (esi) {
-      await ztoolkit.ItemTree.register(
-        "esi",
-        getString("esi"),
-        (
-          field: string,
-          unformatted: boolean,
-          includeBaseMapped: boolean,
-          item: Zotero.Item
-        ) => {
-          // return String(item.id);
-          var esi = ztoolkit.ExtraField.getExtraField(item, 'esi')
-          return String(esi == undefined ? '' : esi);
-        },
-      );
-    } else {
-      await ztoolkit.ItemTree.unregister("esi");
-    }
-
-    // 复合影响因子
-    if (compoundIFs) {
-      await ztoolkit.ItemTree.register(
-        "compoundIF",
-        getString("compoundIF"),
-        (
-          field: string,
-          unformatted: boolean,
-          includeBaseMapped: boolean,
-          item: Zotero.Item
-        ) => {
-          // return String(item.id);
-          var compoundIF = ztoolkit.ExtraField.getExtraField(item, '复合影响因子')
-          return String(compoundIF == undefined ? '' : compoundIF);
-        },
-      );
-    } else {
-      await ztoolkit.ItemTree.unregister("compoundIF");
-    }
-    // 综合影响因子
-    if (comprehensiveIFs) {
-      await ztoolkit.ItemTree.register(
-        "comprehensiveIF",
-        getString("comprehensiveIF"),
-        (
-          field: string,
-          unformatted: boolean,
-          includeBaseMapped: boolean,
-          item: Zotero.Item
-        ) => {
-          // return String(item.id);
-          var comprehensiveIF = ztoolkit.ExtraField.getExtraField(item, '综合影响因子')
-          return String(comprehensiveIF == undefined ? '' : comprehensiveIF);
-        },
-      );
-    } else {
-      await ztoolkit.ItemTree.unregister("comprehensiveIF");
-    }
-    // 南农核心期刊
-    if (njauCoreShow) {
-      await ztoolkit.ItemTree.register(
-        "njauCore",
-        getString("njauCore"),
-        (
-          field: string,
-          unformatted: boolean,
-          includeBaseMapped: boolean,
-          item: Zotero.Item
-        ) => {
-          // return String(item.id);
-          var njauCore = ztoolkit.ExtraField.getExtraField(item, '南农核心')
-          return String(njauCore == undefined ? '' : njauCore);
-        },
-      );
-    } else {
-      await ztoolkit.ItemTree.unregister("njauCore");
-    }
-    // 南农高质量期刊
-    if (njauJourShow) {
-      await ztoolkit.ItemTree.register(
-        "njauJour",
-        getString("njauJour"),
-        (
-          field: string,
-          unformatted: boolean,
-          includeBaseMapped: boolean,
-          item: Zotero.Item
-        ) => {
-          // return String(item.id);
-          var njauJourIF = ztoolkit.ExtraField.getExtraField(item, '南农高质量')
-          return String(njauJourIF == undefined ? '' : njauJourIF);
-        },
-      );
-    } else {
-      await ztoolkit.ItemTree.unregister("njauJour");
-    }
-
-    // 西南财经大学
-    if (swufe) {
-      await ztoolkit.ItemTree.register(
-        "swufe",
-        getString("swufe"),
-        (
-          field: string,
-          unformatted: boolean,
-          includeBaseMapped: boolean,
-          item: Zotero.Item
-        ) => {
-          // return String(item.id);
-          var IFswufe = ztoolkit.ExtraField.getExtraField(item, '西南财经大学')
-          return String(IFswufe == undefined ? '' : IFswufe);
-        },
-      );
-    } else {
-      await ztoolkit.ItemTree.unregister("swufe");
-    }
-
-
-    // 中央财经大学
-    if (cufe) {
-      await ztoolkit.ItemTree.register(
-        "cufe",
-        getString("cufe"),
-        (
-          field: string,
-          unformatted: boolean,
-          includeBaseMapped: boolean,
-          item: Zotero.Item
-        ) => {
-          // return String(item.id);
-          var IFcufe = ztoolkit.ExtraField.getExtraField(item, '中央财经大学')
-          return String(IFcufe == undefined ? '' : IFcufe);
-        },
-      );
-    } else {
-      await ztoolkit.ItemTree.unregister("cufe");
-    }
-
-    // 对外经济贸易大学
-    if (uibe) {
-      await ztoolkit.ItemTree.register(
-        "uibe",
-        getString("uibe"),
-        (
-          field: string,
-          unformatted: boolean,
-          includeBaseMapped: boolean,
-          item: Zotero.Item
-        ) => {
-          // return String(item.id);
-          var IFuibe = ztoolkit.ExtraField.getExtraField(item, '对外经济贸易大学')
-          return String(IFuibe == undefined ? '' : IFuibe);
-        },
-      );
-    } else {
-      await ztoolkit.ItemTree.unregister("uibe");
-    }
-
-    // 山东财经大学
-    if (sdufe) {
-      await ztoolkit.ItemTree.register(
-        "sdufe",
-        getString("sdufe"),
-        (
-          field: string,
-          unformatted: boolean,
-          includeBaseMapped: boolean,
-          item: Zotero.Item
-        ) => {
-          // return String(item.id);
-          var IFsdufe = ztoolkit.ExtraField.getExtraField(item, '山东财经大学')
-          return String(IFsdufe == undefined ? '' : IFsdufe);
-        },
-      );
-    } else {
-      await ztoolkit.ItemTree.unregister("sdufe");
-    }
-
-    // 西安电子科技大学
-    if (xdu) {
-      await ztoolkit.ItemTree.register(
-        "xdu",
-        getString("xdu"),
-        (
-          field: string,
-          unformatted: boolean,
-          includeBaseMapped: boolean,
-          item: Zotero.Item
-        ) => {
-          // return String(item.id);
-          var IFxdu = ztoolkit.ExtraField.getExtraField(item, '西安电子科技大学')
-          return String(IFxdu == undefined ? '' : IFxdu);
-        },
-      );
-    } else {
-      await ztoolkit.ItemTree.unregister("xdu");
-    }
-    // 西南交通大学
-    if (swjtu) {
-      await ztoolkit.ItemTree.register(
-        "swjtu",
-        getString("swjtu"),
-        (
-          field: string,
-          unformatted: boolean,
-          includeBaseMapped: boolean,
-          item: Zotero.Item
-        ) => {
-          // return String(item.id);
-          var IFswjtu = ztoolkit.ExtraField.getExtraField(item, '西南交通大学')
-          return String(IFswjtu == undefined ? '' : IFswjtu);
-        },
-      );
-    } else {
-      await ztoolkit.ItemTree.unregister("swjtu");
-    }
-
-    // 中国人民大学
-    if (ruc) {
-      await ztoolkit.ItemTree.register(
-        "ruc",
-        getString("ruc"),
-        (
-          field: string,
-          unformatted: boolean,
-          includeBaseMapped: boolean,
-          item: Zotero.Item
-        ) => {
-          // return String(item.id);
-          var IFruc = ztoolkit.ExtraField.getExtraField(item, '中国人民大学')
-          return String(IFruc == undefined ? '' : IFruc);
-        },
-      );
-    } else {
-      await ztoolkit.ItemTree.unregister("ruc");
-    }
-
-    // 厦门大学
-    if (xmu) {
-      await ztoolkit.ItemTree.register(
-        "xmu",
-        getString("xmu"),
-        (
-          field: string,
-          unformatted: boolean,
-          includeBaseMapped: boolean,
-          item: Zotero.Item
-        ) => {
-          // return String(item.id);
-          var IFxmu = ztoolkit.ExtraField.getExtraField(item, '厦门大学')
-          return String(IFxmu == undefined ? '' : IFxmu);
-        },
-      );
-    } else {
-      await ztoolkit.ItemTree.unregister("xmu");
-    }
-
-    // 上海交通大学
-    if (sjtu) {
-      await ztoolkit.ItemTree.register(
-        "sjtu",
-        getString("sjtu"),
-        (
-          field: string,
-          unformatted: boolean,
-          includeBaseMapped: boolean,
-          item: Zotero.Item
-        ) => {
-          // return String(item.id);
-          var IFsjtu = ztoolkit.ExtraField.getExtraField(item, '上海交通大学')
-          return String(IFsjtu == undefined ? '' : IFsjtu);
-        },
-      );
-    } else {
-      await ztoolkit.ItemTree.unregister("sjtu");
-    }
-
-    // 复旦大学
-    if (fdu) {
-      await ztoolkit.ItemTree.register(
-        "fdu",
-        getString("fdu"),
-        (
-          field: string,
-          unformatted: boolean,
-          includeBaseMapped: boolean,
-          item: Zotero.Item
-        ) => {
-          // return String(item.id);
-          var IFfdu = ztoolkit.ExtraField.getExtraField(item, '复旦大学')
-          return String(IFfdu == undefined ? '' : IFfdu);
-        },
-      );
-    } else {
-      await ztoolkit.ItemTree.unregister("fdu");
-    }
-
-    // 河海大学
-    if (hhu) {
-      await ztoolkit.ItemTree.register(
-        "hhu",
-        getString("hhu"),
-        (
-          field: string,
-          unformatted: boolean,
-          includeBaseMapped: boolean,
-          item: Zotero.Item
-        ) => {
-          // return String(item.id);
-          var IFhhu = ztoolkit.ExtraField.getExtraField(item, '河海大学')
-          return String(IFhhu == undefined ? '' : IFhhu);
-        },
-      );
-    } else {
-      await ztoolkit.ItemTree.unregister("hhu");
-    }
-
-    // 四川大学
-    if (scu) {
-      await ztoolkit.ItemTree.register(
-        "scu",
-        getString("scu"),
-        (
-          field: string,
-          unformatted: boolean,
-          includeBaseMapped: boolean,
-          item: Zotero.Item
-        ) => {
-          // return String(item.id);
-          var IFscu = ztoolkit.ExtraField.getExtraField(item, '四川大学')
-          return String(IFscu == undefined ? '' : IFscu);
-        },
-      );
-    } else {
-      await ztoolkit.ItemTree.unregister("scu");
-    }
-    // 重庆大学
-    if (cqu) {
-      await ztoolkit.ItemTree.register(
-        "cqu",
-        getString("cqu"),
-        (
-          field: string,
-          unformatted: boolean,
-          includeBaseMapped: boolean,
-          item: Zotero.Item
-        ) => {
-          // return String(item.id);
-          var IFcqu = ztoolkit.ExtraField.getExtraField(item, '重庆大学')
-          return String(IFcqu == undefined ? '' : IFcqu);
-        },
-      );
-    } else {
-      await ztoolkit.ItemTree.unregister("cqu");
-    }
-
-    // 南京大学
-    if (nju) {
-      await ztoolkit.ItemTree.register(
-        "nju",
-        getString("nju"),
-        (
-          field: string,
-          unformatted: boolean,
-          includeBaseMapped: boolean,
-          item: Zotero.Item
-        ) => {
-          // return String(item.id);
-          var IFnju = ztoolkit.ExtraField.getExtraField(item, '南京大学')
-          return String(IFnju == undefined ? '' : IFnju);
-        },
-      );
-    } else {
-      await ztoolkit.ItemTree.unregister("nju");
-    }
-
-    // 新疆大学
-    if (xju) {
-      await ztoolkit.ItemTree.register(
-        "xju",
-        getString("xju"),
-        (
-          field: string,
-          unformatted: boolean,
-          includeBaseMapped: boolean,
-          item: Zotero.Item
-        ) => {
-          // return String(item.id);
-          var IFxju = ztoolkit.ExtraField.getExtraField(item, '新疆大学')
-          return String(IFxju == undefined ? '' : IFxju);
-        },
-      );
-    } else {
-      await ztoolkit.ItemTree.unregister("xju");
-    }
-
-    // 中国地质大学
-    if (cug) {
-      await ztoolkit.ItemTree.register(
-        "cug",
-        getString("cug"),
-        (
-          field: string,
-          unformatted: boolean,
-          includeBaseMapped: boolean,
-          item: Zotero.Item
-        ) => {
-          // return String(item.id);
-          var IFcug = ztoolkit.ExtraField.getExtraField(item, '中国地质大学')
-          return String(IFcug == undefined ? '' : IFcug);
-        },
-      );
-    } else {
-      await ztoolkit.ItemTree.unregister("cug");
-    }
-
-    // 长江大学
-    if (cju) {
-      await ztoolkit.ItemTree.register(
-        "cju",
-        getString("cju"),
-        (
-          field: string,
-          unformatted: boolean,
-          includeBaseMapped: boolean,
-          item: Zotero.Item
-        ) => {
-          // return String(item.id);
-          var IFcju = ztoolkit.ExtraField.getExtraField(item, '长江大学')
-          return String(IFcju == undefined ? '' : IFcju);
-        },
-      );
-    } else {
-      await ztoolkit.ItemTree.unregister("cju");
-    }
-
-    // 浙江大学
-    if (zju) {
-      await ztoolkit.ItemTree.register(
-        "zju",
-        getString("zju"),
-        (
-          field: string,
-          unformatted: boolean,
-          includeBaseMapped: boolean,
-          item: Zotero.Item
-        ) => {
-          // return String(item.id);
-          var IFzju = ztoolkit.ExtraField.getExtraField(item, '浙江大学')
-          return String(IFzju == undefined ? '' : IFzju);
-        },
-      );
-    } else {
-      await ztoolkit.ItemTree.unregister("zju");
-    }
-    // 中国药科大学
-    if (cpu) {
-      await ztoolkit.ItemTree.register(
-        "cpu",
-        getString("cpu"),
-        (
-          field: string,
-          unformatted: boolean,
-          includeBaseMapped: boolean,
-          item: Zotero.Item
-        ) => {
-          // return String(item.id);
-          var cpu = ztoolkit.ExtraField.getExtraField(item, '中国药科大学')
-          return String(cpu == undefined ? '' : cpu);
-        },
-      );
-    } else {
-      await ztoolkit.ItemTree.unregister("cpu");
-    }
-
-    // CLSCI
-    if (clsci) {
-      await ztoolkit.ItemTree.register(
-        "clsci",
-        getString("clsci"),
-        (
-          field: string,
-          unformatted: boolean,
-          includeBaseMapped: boolean,
-          item: Zotero.Item
-        ) => {
-          // return String(item.id);
-          var IFclsci = ztoolkit.ExtraField.getExtraField(item, 'CLSCI')
-          return String(IFclsci == undefined ? '' : IFclsci);
-        },
-      );
-    } else {
-      await ztoolkit.ItemTree.unregister("clsci");
-    }
-
-    // AMI
-    if (ami) {
-      await ztoolkit.ItemTree.register(
-        "ami",
-        getString("ami"),
-        (
-          field: string,
-          unformatted: boolean,
-          includeBaseMapped: boolean,
-          item: Zotero.Item
-        ) => {
-          // return String(item.id);
-          var IFami = ztoolkit.ExtraField.getExtraField(item, 'AMI')
-          return String(IFami == undefined ? '' : IFami);
-        },
-      );
-    } else {
-      await ztoolkit.ItemTree.unregister("ami");
-    }
-    // 国家社科基金
-    if (nssf) {
-      await ztoolkit.ItemTree.register(
-        "nssf",
-        getString("nssf"),
-        (
-          field: string,
-          unformatted: boolean,
-          includeBaseMapped: boolean,
-          item: Zotero.Item
-        ) => {
-          // return String(item.id);
-          var IFnssf = ztoolkit.ExtraField.getExtraField(item, 'NSSF')
-          return String(IFnssf == undefined ? '' : IFnssf);
-        },
-      );
-    } else {
-      await ztoolkit.ItemTree.unregister("nssf");
-    }
-
-    // 西南政法大学 SWUPL
-    if (swupl) {
-      await ztoolkit.ItemTree.register(
-        "swupl",
-        getString("swupl"),
-        (
-          field: string,
-          unformatted: boolean,
-          includeBaseMapped: boolean,
-          item: Zotero.Item
-        ) => {
-          // return String(item.id);
-          var IFswupl = ztoolkit.ExtraField.getExtraField(item, 'SWUPL')
-          return String(IFswupl == undefined ? '' : IFswupl);
-        },
-      );
-    } else {
-      await ztoolkit.ItemTree.unregister("swupl");
-    }
-
-
-    //  ABDC
-    if (ABDC) {
-      await ztoolkit.ItemTree.register(
-        "ABDC",
-        getString("ABDC"),
-        (
-          field: string,
-          unformatted: boolean,
-          includeBaseMapped: boolean,
-          item: Zotero.Item
-        ) => {
-          // return String(item.id);
-          var IFABDC = ztoolkit.ExtraField.getExtraField(item, 'ABDC')
-          return String(IFABDC == undefined ? '' : IFABDC);
-        },
-      );
-    } else {
-      await ztoolkit.ItemTree.unregister("ABDC");
-    }
-
-    // Scopus
-    if (Scopus) {
-      await ztoolkit.ItemTree.register(
-        "Scopus",
-        getString("Scopus"),
-        (
-          field: string,
-          unformatted: boolean,
-          includeBaseMapped: boolean,
-          item: Zotero.Item
-        ) => {
-          // return String(item.id);
-          var IFScopus = ztoolkit.ExtraField.getExtraField(item, 'Scopus')
-          return String(IFScopus == undefined ? '' : IFScopus);
-        },
-      );
-    } else {
-      await ztoolkit.ItemTree.unregister("Scopus");
-    }
-
-    // 总结
-    if (summary) {
-      await ztoolkit.ItemTree.register(
-        "summary",
-        getString("summary"),
-        (
-          field: string,
-          unformatted: boolean,
-          includeBaseMapped: boolean,
-          item: Zotero.Item
-        ) => {
-          // return String(item.id);
-          var IFSummary = ztoolkit.ExtraField.getExtraField(item, '总结')
-          return String(IFSummary == undefined ? '' : IFSummary);
-        },
-      );
-    } else {
-      await ztoolkit.ItemTree.unregister("summary");
-    }
-
   }
 
   // @example
