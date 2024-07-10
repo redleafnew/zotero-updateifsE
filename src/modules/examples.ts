@@ -1651,6 +1651,7 @@ export class UIExampleFactory {
             dataKey: opt.dataKey || key,
             label: getString(opt.dataKey || key),
             pluginID: config.addonID,
+            zoteroPersist: ['width', 'hidden', 'sortDirection'],
             dataProvider: (item) => {
               return ztoolkit.ExtraField.getExtraField(item, opt.field || key) || "";
             }
