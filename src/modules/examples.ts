@@ -1872,7 +1872,7 @@ export class HelperExampleFactory {
       if (truthBeTold) {
         for (let item of items) {
 
-          if (item.isRegularItem() && !item.isCollection()) {
+          if (item.isRegularItem() && !(item instanceof Zotero.Collection)) {
             try {
               item.setField('extra', '');
               item.save();
