@@ -744,23 +744,22 @@ export class KeyExampleFactory {
             });
             return getHtml(resp.responseText);
           }
-          function updateField(field: any, newItem: Zotero.Item, oldItem: Zotero.Item) {
-            if (newItem.getField(field)) {
-              oldItem.setField(field, newItem.getField(field))
+          function updateField(field: any, newItem: any, oldItem: Zotero.Item) {
+            const newFieldValue = newItem[field],
+                oldFieldValue = oldItem.getField(field);
+            if (newFieldValue && newFieldValue !== oldFieldValue) {
+              oldItem.setField(field, newFieldValue);
             }
           }
           function updateINFO(newItem: any, oldItemID: any) {
-            newItem.saveTx();
             let oldItem = Zotero.Items.get(oldItemID)
-            oldItem.setCreators(newItem.getCreators());
+            oldItem.setCreators(newItem["creators"]);
             // 可根据下述网址增减需要更新的Field.
             // https://www.zotero.org/support/dev/client_coding/javascript_api/search_fields
             let fields = ["title", "publicationTitle", "journalAbbreviation", "volume", "issue", "date", "pages", "ISSN", "url", "abstractNote", "DOI", "type", "publisher"]
             for (let field of fields) {
               updateField(field, newItem, oldItem);
             }
-            newItem.deleted = true;
-            newItem.saveTx();
             oldItem.saveTx();
             Zotero.debug("succeeded!");
           }
@@ -795,7 +794,8 @@ export class KeyExampleFactory {
               let translate = new Zotero.Translate.Web();
               translate.setDocument(doc);
               translate.setTranslator("5c95b67b-41c5-4f55-b71a-48d5d7183063");
-              let items = await translate.translate();
+              let items = await translate.translate({ libraryID: false });
+              if (items.length == 0) return;
               updateINFO(items[0], ItemID)
             }
           );
@@ -811,15 +811,18 @@ export class KeyExampleFactory {
             translate.setIdentifier(identifier);
             let translators = await translate.getTranslators();
             translate.setTranslator(translators);
-            let newItems = await translate.translate();
+            const newItems = await translate.translate({libraryID: false});
+            if (newItems.length == 0) continue;
             let newItem = newItems[0];
 
             function update(field: any) {
-              if (newItem.getField(field)) {
-                item.setField(field, newItem.getField(field))
-              }
+              const newFieldValue = newItem[field],
+                  oldFieldValue = item.getField(field);
+                if (newFieldValue && newFieldValue !== oldFieldValue) {
+                    item.setField(field, newFieldValue);
+                }
             }
-            item.setCreators(newItem.getCreators());
+            item.setCreators(newItem["creators"]);
 
             // 可根据下述网址增减需要更新的Field.
             // https://www.zotero.org/support/dev/client_coding/javascript_api/search_fields
@@ -832,9 +835,7 @@ export class KeyExampleFactory {
               update(field);
             }
 
-            newItem.deleted = true;
             await item.saveTx();
-            newItem.saveTx();
           }
         }
         n++
