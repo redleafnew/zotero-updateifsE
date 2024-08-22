@@ -216,6 +216,8 @@ export class KeyExampleFactory {
         var ABDC = getPref(`ABDC`);
         var Scopus = getPref(`Scopus`);
 
+        var HX = getPref(`HX`);
+
         // 自定义数据集
         var clsciJourID = '1642199434173014016'; // CLSCI UUID
         var amiJourID = '1648920625629810688'; //AMI UUID
@@ -224,6 +226,7 @@ export class KeyExampleFactory {
         var ScopusJourID = '1635615726460694528';//Scopus  UUID
         var ABDCJourID = '1613183594358972416';//ABDC  UUID
         var CCFJourID = '1614919989423271936';//CCF  UUID
+        var HXJourID = '1630107627939360768';
 
         //  加: any为了后面不报错
         if (clsci) {
@@ -248,6 +251,9 @@ export class KeyExampleFactory {
         if (ABDC) {
           var ABDCLevel: any = await KeyExampleFactory.getCustomIFs(item, ABDCJourID);
         }
+        if (HX) {
+          var HXLevel: any = await KeyExampleFactory.getCustomIFs(item, HXJourID);
+        }
         if (njauJourShow) {
           var njauHighQuality = await njauJournal(item)
         }
@@ -256,6 +262,7 @@ export class KeyExampleFactory {
         if (easyscholarData || chineseIFs ||
           clsciLevel || amiLevel || nssfLevel ||
           (Scopus && ScopusLevel) || (ABDC && ABDCLevel) ||
+          (HX && HXLevel) ||
           njauCore(item) || njauHighQuality) {
           if (emptyExtra) { item.setField('extra', '') }
           n++
@@ -462,6 +469,10 @@ export class KeyExampleFactory {
         // Scopus
         if (Scopus && ScopusLevel != undefined) {
           ztoolkit.ExtraField.setExtraField(item, 'Scopus', "是");
+        }
+        // HX
+        if (HX && HXLevel != undefined) {
+          ztoolkit.ExtraField.setExtraField(item, 'HX', HXLevel);
         }
 
         Zotero.debug('swupl是' + swupl + 'swuplLevel是' + swuplLevel);
