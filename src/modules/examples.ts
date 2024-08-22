@@ -1650,6 +1650,7 @@ export class UIExampleFactory {
       },
       Scopus: {},
       ABDC: {},
+      HX: {},
       summary: {
         field: "总结",
       },
