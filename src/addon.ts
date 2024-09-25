@@ -1,4 +1,4 @@
-import { ColumnOptions, VirtualizedTableHelper } from "zotero-plugin-toolkit/dist/helpers/virtualizedTable";
+import { ColumnOptions } from "zotero-plugin-toolkit";
 import hooks from "./hooks";
 
 class Addon {
@@ -49,21 +49,20 @@ class Addon {
  * You can now add the modules under the `MyToolkit` class.
  */
 
-import { BasicTool, makeHelperTool, unregister } from "zotero-plugin-toolkit/dist/basic";
-import { UITool } from "zotero-plugin-toolkit/dist/tools/ui";
-import { DialogHelper } from "zotero-plugin-toolkit/dist/helpers/dialog";
-import { ProgressWindowHelper } from "zotero-plugin-toolkit/dist/helpers/progressWindow";
-import { MenuManager } from "zotero-plugin-toolkit/dist/managers/menu";
-import { ExtraFieldTool } from "zotero-plugin-toolkit/dist/tools/extraField";
-import { ShortcutManager } from "zotero-plugin-toolkit/dist/managers/shortcut";
-import { PreferencePaneManager } from "zotero-plugin-toolkit/dist/managers/preferencePane";
+import { BasicTool, makeHelperTool, unregister } from "zotero-plugin-toolkit";
+import { UITool } from "zotero-plugin-toolkit";
+import { DialogHelper } from "zotero-plugin-toolkit";
+import { ProgressWindowHelper } from "zotero-plugin-toolkit";
+import { MenuManager } from "zotero-plugin-toolkit";
+import { KeyboardManager } from "zotero-plugin-toolkit";
+import { ExtraFieldTool } from "zotero-plugin-toolkit";
+import { VirtualizedTableHelper } from "zotero-plugin-toolkit";
 
 export class MyToolkit extends BasicTool {
   UI: UITool;
   ExtraField: ExtraFieldTool;
-  Shortcut: ShortcutManager;
   Menu: MenuManager;
-  PreferencePane: PreferencePaneManager;
+  Keyboard: KeyboardManager;
   Dialog: typeof DialogHelper;
   ProgressWindow: typeof ProgressWindowHelper;
   VirtualizedTable: typeof VirtualizedTableHelper;
@@ -72,9 +71,8 @@ export class MyToolkit extends BasicTool {
     super();
     this.UI = new UITool(this);
     this.ExtraField = new ExtraFieldTool(this);
-    this.Shortcut = new ShortcutManager(this);
     this.Menu = new MenuManager(this);
-    this.PreferencePane = new PreferencePaneManager(this);
+    this.Keyboard = new KeyboardManager(this);
     this.Dialog = makeHelperTool(DialogHelper, this);
     this.ProgressWindow = makeHelperTool(ProgressWindowHelper, this);
     this.VirtualizedTable = makeHelperTool(VirtualizedTableHelper, this);
