@@ -112,7 +112,7 @@ export class BasicExampleFactory {
       image: `chrome://${config.addonRef}/content/icons/favicon.png`,
       defaultXUL: true,
     };
-    ztoolkit.PreferencePane.register(prefOptions);
+    Zotero.PreferencePanes.register(prefOptions);
   }
 }
 
@@ -853,7 +853,11 @@ export class KeyExampleFactory {
   }
   // 注册快捷键
   @example
-  static registerShortcuts() {
+  static registerShortcuts(win?: Window) {
+    if (!win) {
+      win = Zotero.getMainWindow();
+    }
+    ztoolkit.Keyboard.unregisterAll();
     // const keysetId = `${config.addonRef}-keyset`;
     // const cmdsetId = `${config.addonRef}-cmdset`;
     // const cmdSmallerId = `${config.addonRef}-cmd-smaller`;
@@ -875,66 +879,52 @@ export class KeyExampleFactory {
 
     // 题目大小写改为句首字母大小写
     if (ifTitleSentence) {
-      ztoolkit.Shortcut.register("event", {
-        id: `${config.addonRef}-key-title-sentence`,
-        key: keyTitleSentence as string,
-        //key: 'D',
-        // modifiers: "accel",
-        modifiers: keyControl,
-        callback: (keyOptions) => {
-          ztoolkit.log(`${ifPubTitleCase}${keyPubTitleCase}`);
-          // addon.hooks.onShortcuts("larger");
-          // HelperExampleFactory.progressWindow(`${ifProfileDir} ${keyProfileDir} `, 'success');
-          HelperExampleFactory.chanItemTitleCase();
-        },
+      ztoolkit.Keyboard.register((event, { keyboard }) => {
+        if (!keyboard?.equals(`${keyControl},${keyTitleSentence}`)) {
+          return;
+        }
+        ztoolkit.log(`${ifPubTitleCase}${keyPubTitleCase}`);
+        // addon.hooks.onShortcuts("larger");
+        // HelperExampleFactory.progressWindow(`${ifProfileDir} ${keyProfileDir} `, 'success');
+        HelperExampleFactory.chanItemTitleCase();
       });
     }
 
     // 期刊名称大小写
     if (ifPubTitleCase) {
-      ztoolkit.Shortcut.register("event", {
-        id: `${config.addonRef}-key-change-pub-title-case`,
-        key: keyPubTitleCase as string,
-        //key: 'D',
-        // modifiers: "accel",
-        modifiers: keyControl,
-        callback: (keyOptions) => {
-          ztoolkit.log(`${ifPubTitleCase}${keyPubTitleCase}`);
-          // addon.hooks.onShortcuts("larger");
-          // HelperExampleFactory.progressWindow(`${ifProfileDir} ${keyProfileDir} `, 'success');
-          HelperExampleFactory.chPubTitleCase();
-        },
+      ztoolkit.Keyboard.register((event, { keyboard }) => {
+        if (!keyboard?.equals(`${keyControl},${keyPubTitleCase}`)) {
+          return;
+        }
+        ztoolkit.log(`${ifPubTitleCase}${keyPubTitleCase}`);
+        // addon.hooks.onShortcuts("larger");
+        // HelperExampleFactory.progressWindow(`${ifProfileDir} ${keyProfileDir} `, 'success');
+        HelperExampleFactory.chPubTitleCase();
       });
     }
 
     // 显示数据目录
     if (ifDataDir) {
-      ztoolkit.Shortcut.register("event", {
-        id: `${config.addonRef}-key-data-dir`,
-        key: keyDataDir as string,
-        //key: 'D',
-        modifiers: "alt",
-        callback: (keyOptions) => {
-
-          // HelperExampleFactory.progressWindow(`${ifPubTitleCase}${keyPubTitleCase}`, 'success')
-          // addon.hooks.onShortcuts("larger");
-          // HelperExampleFactory.progressWindow(`${ifPubTitleCase} ${keyPubTitleCase} `, 'success');
-          HelperExampleFactory.progressWindow(`${getString('dataDir')} ${Zotero.DataDirectory.dir}`, 'success')
-        },
+      ztoolkit.Keyboard.register((event, { keyboard }) => {
+        if (!keyboard?.equals(`alt,${keyDataDir}`)) {
+          return;
+        }
+        
+        // HelperExampleFactory.progressWindow(`${ifPubTitleCase}${keyPubTitleCase}`, 'success')
+        // addon.hooks.onShortcuts("larger");
+        // HelperExampleFactory.progressWindow(`${ifPubTitleCase} ${keyPubTitleCase} `, 'success');
+        HelperExampleFactory.progressWindow(`${getString('dataDir')} ${Zotero.DataDirectory.dir}`, 'success')
       });
     }
 
     // Register an event key for Alt+P 配置目录
     if (ifProfileDir) {
-      ztoolkit.Shortcut.register("event", {
-        id: `${config.addonRef}-key-profile-dir`,
-        // key: "L",
-        key: keyProfileDir as string,
-        modifiers: "alt",
-        callback: (keyOptions) => {
-          // addon.hooks.onShortcuts("larger");
-          HelperExampleFactory.progressWindow(`${getString('proDir')} ${Zotero.Profile.dir}`, 'success')
-        },
+      ztoolkit.Keyboard.register((event, { keyboard }) => {
+        if (!keyboard?.equals(`alt,${keyProfileDir}`)) {
+          return;
+        }
+        // addon.hooks.onShortcuts("larger");
+        HelperExampleFactory.progressWindow(`${getString('proDir')} ${Zotero.Profile.dir}`, 'success')
       });
     }
 
@@ -1014,18 +1004,19 @@ export class KeyExampleFactory {
 */
   @example
   static exampleShortcutConflictionCallback() {
-    const conflictionGroups = ztoolkit.Shortcut.checkAllKeyConflicting();
-    new ztoolkit.ProgressWindow("Check Key Confliction")
-      .createLine({
-        text: `${conflictionGroups.length} groups of confliction keys found. Details are in the debug output/console.`,
-      })
-      .show(-1);
-    ztoolkit.log(
-      "Conflictions:",
-      conflictionGroups,
-      "All keys:",
-      ztoolkit.Shortcut.getAll()
-    );
+    return;
+    // const conflictionGroups = ztoolkit.Shortcut.checkAllKeyConflicting();
+    // new ztoolkit.ProgressWindow("Check Key Confliction")
+    //   .createLine({
+    //     text: `${conflictionGroups.length} groups of confliction keys found. Details are in the debug output/console.`,
+    //   })
+    //   .show(-1);
+    // ztoolkit.log(
+    //   "Conflictions:",
+    //   conflictionGroups,
+    //   "All keys:",
+    //   ztoolkit.Shortcut.getAll()
+    // );
   }
 }
 

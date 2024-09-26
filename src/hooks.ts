@@ -36,8 +36,6 @@ async function onStartup() {
 
   BasicExampleFactory.registerNotifier();
 
-  KeyExampleFactory.registerShortcuts();
-
   //await Zotero.Promise.delay(1000);
   popupWin.changeLine({
     progress: 30,
@@ -89,6 +87,18 @@ async function onStartup() {
   popupWin.startCloseTimer(5000);
 
   // addon.hooks.onDialogEvents("dialogExample");
+
+  await Promise.all(
+    Zotero.getMainWindows().map((win) => onMainWindowLoad(win)),
+  );
+}
+
+async function onMainWindowLoad(win: Window) {
+  KeyExampleFactory.registerShortcuts(win);
+}
+
+async function onMainWindowUnload() {
+  ztoolkit.Keyboard.unregisterAll();
 }
 
 // 设置自定义列
@@ -180,6 +190,8 @@ async function onPrefsEvent(type: string, data: { [key: string]: any }) {
 // }
 export default {
   onStartup,
+  onMainWindowLoad,
+  onMainWindowUnload,
   onShutdown,
   onNotify,
   onPrefsEvent,

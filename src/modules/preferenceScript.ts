@@ -573,7 +573,6 @@ function bindPrefEvents() {
     )
     ?.addEventListener("command", (e) => {
       ztoolkit.log(e);
-      ztoolkit.Shortcut.unregisterAll();
       KeyExampleFactory.registerShortcuts();
 
     });
@@ -584,7 +583,6 @@ function bindPrefEvents() {
     )
     ?.addEventListener("change", (e) => {
       ztoolkit.log(e);
-      ztoolkit.Shortcut.unregisterAll();
       KeyExampleFactory.registerShortcuts();
 
     });
@@ -597,7 +595,6 @@ function bindPrefEvents() {
     )
     ?.addEventListener("command", (e) => {
       ztoolkit.log(e);
-      ztoolkit.Shortcut.unregisterAll();
       KeyExampleFactory.registerShortcuts();
 
     });
@@ -608,7 +605,6 @@ function bindPrefEvents() {
     )
     ?.addEventListener("change", (e) => {
       ztoolkit.log(e);
-      ztoolkit.Shortcut.unregisterAll();
       KeyExampleFactory.registerShortcuts();
 
     });
@@ -621,7 +617,6 @@ function bindPrefEvents() {
     )
     ?.addEventListener("command", (e) => {
       ztoolkit.log(e);
-      ztoolkit.Shortcut.unregisterAll();
       KeyExampleFactory.registerShortcuts();
 
     });
@@ -632,7 +627,6 @@ function bindPrefEvents() {
     )
     ?.addEventListener("change", (e) => {
       ztoolkit.log(e);
-      ztoolkit.Shortcut.unregisterAll();
       KeyExampleFactory.registerShortcuts();
 
     });
@@ -645,7 +639,6 @@ function bindPrefEvents() {
     )
     ?.addEventListener("command", (e) => {
       ztoolkit.log(e);
-      ztoolkit.Shortcut.unregisterAll();
       KeyExampleFactory.registerShortcuts();
 
     });
@@ -656,7 +649,6 @@ function bindPrefEvents() {
     )
     ?.addEventListener("change", (e) => {
       ztoolkit.log(e);
-      ztoolkit.Shortcut.unregisterAll();
       KeyExampleFactory.registerShortcuts();
 
     });
