@@ -1,7 +1,10 @@
 <linkset>
   <html:link rel="localization" href="__addonRef__-preferences.ftl" />
 </linkset>
-<vbox id="zotero-prefpane-__addonRef__" onload="Zotero.__addonInstance__.hooks.onPrefsEvent('load', {window})">
+<vbox
+  id="zotero-prefpane-__addonRef__"
+  onload="Zotero.__addonInstance__.hooks.onPrefsEvent('load', {window})"
+>
   <groupbox>
     <!-- 期刊设置  -->
     <label>
@@ -9,33 +12,69 @@
     </label>
     <hbox align="center">
       <label value=" "></label>
-      <html:label style="width:135px" for="zotero-prefpane-__addonRef__-secretkey" data-l10n-id="pref-secretkey-label">
+      <html:label
+        style="width: 135px"
+        for="zotero-prefpane-__addonRef__-secretkey"
+        data-l10n-id="pref-secretkey-label"
+      >
       </html:label>
-      <html:input type="password" id="zotero-prefpane-__addonRef__-secretkey" value="" width='500'
-        preference="extensions.zotero.__addonRef__.secretkey" size="30" style="margin-right: 15px">
+      <html:input
+        type="password"
+        id="zotero-prefpane-__addonRef__-secretkey"
+        value=""
+        width="500"
+        preference="extensions.zotero.__addonRef__.secretkey"
+        size="30"
+        style="margin-right: 15px"
+      >
       </html:input>
       <!-- 空格 -->
       <!-- <label value="  "></label> -->
-      <label data-l10n-id="pref-secretkey-apply-label" is="zotero-text-link" href="https://easyscholar.cc/"></label>
+      <label
+        data-l10n-id="pref-secretkey-apply-label"
+        is="zotero-text-link"
+        href="https://easyscholar.cc/"
+      ></label>
     </hbox>
 
     <!-- 更新前清空Extra -->
-    <checkbox id="zotero-prefpane-__addonRef__-update-empty-extra" data-l10n-id="update-empty-extra"
-      preference="extensions.zotero.__addonRef__.update.empty.extra" />
+    <checkbox
+      id="zotero-prefpane-__addonRef__-update-empty-extra"
+      data-l10n-id="update-empty-extra"
+      preference="extensions.zotero.__addonRef__.update.empty.extra"
+    />
     <!-- 更新条目时自动修改题目为首字母大写 -->
-    <checkbox id="zotero-prefpane-__addonRef__-update-title-sentence-case" data-l10n-id="update-title-sentence-case"
-      preference="extensions.zotero.__addonRef__.update.title.sentence.case" />
+    <checkbox
+      id="zotero-prefpane-__addonRef__-update-title-sentence-case"
+      data-l10n-id="update-title-sentence-case"
+      preference="extensions.zotero.__addonRef__.update.title.sentence.case"
+    />
 
-    <checkbox id="zotero-prefpane-__addonRef__-add-update" data-l10n-id="add-update"
-      preference="extensions.zotero.__addonRef__.add.update" />
-    <checkbox id="zotero-prefpane-__addonRef__-update-abbr" data-l10n-id="update-abbr"
-      preference="extensions.zotero.__addonRef__.update.abbr" />
-    <checkbox id="zotero-prefpane-__addonRef__-update-abbr-dot" data-l10n-id="update-abbr-dot"
-      preference="extensions.zotero.__addonRef__.update.abbr.dot" />
-    <checkbox id="zotero-prefpane-__addonRef__-en-abbr" data-l10n-id="en-abbr"
-      preference="extensions.zotero.__addonRef__.en.abbr" />
-    <checkbox id="zotero-prefpane-__addonRef__-ch-abbr" data-l10n-id="ch-abbr"
-      preference="extensions.zotero.__addonRef__.ch.abbr" />
+    <checkbox
+      id="zotero-prefpane-__addonRef__-add-update"
+      data-l10n-id="add-update"
+      preference="extensions.zotero.__addonRef__.add.update"
+    />
+    <checkbox
+      id="zotero-prefpane-__addonRef__-update-abbr"
+      data-l10n-id="update-abbr"
+      preference="extensions.zotero.__addonRef__.update.abbr"
+    />
+    <checkbox
+      id="zotero-prefpane-__addonRef__-update-abbr-dot"
+      data-l10n-id="update-abbr-dot"
+      preference="extensions.zotero.__addonRef__.update.abbr.dot"
+    />
+    <checkbox
+      id="zotero-prefpane-__addonRef__-en-abbr"
+      data-l10n-id="en-abbr"
+      preference="extensions.zotero.__addonRef__.en.abbr"
+    />
+    <checkbox
+      id="zotero-prefpane-__addonRef__-ch-abbr"
+      data-l10n-id="ch-abbr"
+      preference="extensions.zotero.__addonRef__.ch.abbr"
+    />
     <!-- 英文期刊 -->
     <!--还需要写入 preferenceScript.ts function bindPrefEvents函数-->
     <!-- 还需要写入examples.ts   static async registerExtraColumn 注册显示列-->
@@ -46,75 +85,167 @@
       <html:h2 data-l10n-id="ifs-setting"> </html:h2>
     </label>
     <hbox>
-      <checkbox style='width:250px' id="zotero-prefpane-__addonRef__-jcr-qu" data-l10n-id="jcr-qu"
-        preference="extensions.zotero.__addonRef__.jcr.qu" />
-      <checkbox id="zotero-prefpane-__addonRef__-basic" data-l10n-id="basic"
-        preference="extensions.zotero.__addonRef__.basic" />
+      <checkbox
+        style="width: 250px"
+        id="zotero-prefpane-__addonRef__-jcr-qu"
+        data-l10n-id="jcr-qu"
+        preference="extensions.zotero.__addonRef__.jcr.qu"
+      />
+      <checkbox
+        id="zotero-prefpane-__addonRef__-basic"
+        data-l10n-id="basic"
+        preference="extensions.zotero.__addonRef__.basic"
+      />
     </hbox>
     <hbox>
-      <checkbox style="width:250px" id="zotero-prefpane-__addonRef__-updated" data-l10n-id="updated"
-        preference="extensions.zotero.__addonRef__.updated" />
-      <checkbox id="zotero-prefpane-__addonRef__-sci-if" data-l10n-id="sci-if"
-        preference="extensions.zotero.__addonRef__.sci.if" />
+      <checkbox
+        style="width: 250px"
+        id="zotero-prefpane-__addonRef__-updated"
+        data-l10n-id="updated"
+        preference="extensions.zotero.__addonRef__.updated"
+      />
+      <checkbox
+        id="zotero-prefpane-__addonRef__-sci-if"
+        data-l10n-id="sci-if"
+        preference="extensions.zotero.__addonRef__.sci.if"
+      />
     </hbox>
     <hbox>
-      <checkbox style="width:250px" id="zotero-prefpane-__addonRef__-sci-if5" data-l10n-id="sci-if5"
-        preference="extensions.zotero.__addonRef__.sci.if5" />
-      <checkbox id="zotero-prefpane-__addonRef__-ei" data-l10n-id="ei" preference="extensions.zotero.__addonRef__.ei" />
+      <checkbox
+        style="width: 250px"
+        id="zotero-prefpane-__addonRef__-sci-if5"
+        data-l10n-id="sci-if5"
+        preference="extensions.zotero.__addonRef__.sci.if5"
+      />
+      <checkbox
+        id="zotero-prefpane-__addonRef__-ei"
+        data-l10n-id="ei"
+        preference="extensions.zotero.__addonRef__.ei"
+      />
     </hbox>
     <hbox>
-      <checkbox style="width:250px" id="zotero-prefpane-__addonRef__-sci-up-top" data-l10n-id="sci-up-top"
-        preference="extensions.zotero.__addonRef__.sci.up.top" />
-      <checkbox id="zotero-prefpane-__addonRef__-sci-up-small" data-l10n-id="sci-up-small"
-        preference="extensions.zotero.__addonRef__.sci.up.small" />
+      <checkbox
+        style="width: 250px"
+        id="zotero-prefpane-__addonRef__-sci-up-top"
+        data-l10n-id="sci-up-top"
+        preference="extensions.zotero.__addonRef__.sci.up.top"
+      />
+      <checkbox
+        id="zotero-prefpane-__addonRef__-sci-up-small"
+        data-l10n-id="sci-up-small"
+        preference="extensions.zotero.__addonRef__.sci.up.small"
+      />
     </hbox>
     <hbox>
-      <checkbox style="width:250px" id="zotero-prefpane-__addonRef__-chjcscd" data-l10n-id="chjcscd"
-        preference="extensions.zotero.__addonRef__.chjcscd" />
-      <checkbox id="zotero-prefpane-__addonRef__-pku-core" data-l10n-id="pku-core"
-        preference="extensions.zotero.__addonRef__.pku.core" />
+      <checkbox
+        style="width: 250px"
+        id="zotero-prefpane-__addonRef__-chjcscd"
+        data-l10n-id="chjcscd"
+        preference="extensions.zotero.__addonRef__.chjcscd"
+      />
+      <checkbox
+        id="zotero-prefpane-__addonRef__-pku-core"
+        data-l10n-id="pku-core"
+        preference="extensions.zotero.__addonRef__.pku.core"
+      />
     </hbox>
     <hbox>
-      <checkbox style="width:250px" id="zotero-prefpane-__addonRef__-nju-core" data-l10n-id="nju-core"
-        preference="extensions.zotero.__addonRef__.nju.core" />
-      <checkbox style="width:250px" id="zotero-prefpane-__addonRef__-sci-core" data-l10n-id="sci-core"
-        preference="extensions.zotero.__addonRef__.sci.core" />
+      <checkbox
+        style="width: 250px"
+        id="zotero-prefpane-__addonRef__-nju-core"
+        data-l10n-id="nju-core"
+        preference="extensions.zotero.__addonRef__.nju.core"
+      />
+      <checkbox
+        style="width: 250px"
+        id="zotero-prefpane-__addonRef__-sci-core"
+        data-l10n-id="sci-core"
+        preference="extensions.zotero.__addonRef__.sci.core"
+      />
     </hbox>
     <hbox>
-      <checkbox style="width:250px" id="zotero-prefpane-__addonRef__-ssci" data-l10n-id="ssci"
-        preference="extensions.zotero.__addonRef__.ssci" />
-      <checkbox style="width:250px" id="zotero-prefpane-__addonRef__-ajg" data-l10n-id="ajg"
-        preference="extensions.zotero.__addonRef__.ajg" />
+      <checkbox
+        style="width: 250px"
+        id="zotero-prefpane-__addonRef__-ssci"
+        data-l10n-id="ssci"
+        preference="extensions.zotero.__addonRef__.ssci"
+      />
+      <checkbox
+        style="width: 250px"
+        id="zotero-prefpane-__addonRef__-ajg"
+        data-l10n-id="ajg"
+        preference="extensions.zotero.__addonRef__.ajg"
+      />
     </hbox>
     <hbox>
-      <checkbox style="width:250px" id="zotero-prefpane-__addonRef__-utd24" data-l10n-id="utd24"
-        preference="extensions.zotero.__addonRef__.utd24" />
-      <checkbox style="width:250px" id="zotero-prefpane-__addonRef__-ft50" data-l10n-id="ft50"
-        preference="extensions.zotero.__addonRef__.ft50" />
+      <checkbox
+        style="width: 250px"
+        id="zotero-prefpane-__addonRef__-utd24"
+        data-l10n-id="utd24"
+        preference="extensions.zotero.__addonRef__.utd24"
+      />
+      <checkbox
+        style="width: 250px"
+        id="zotero-prefpane-__addonRef__-ft50"
+        data-l10n-id="ft50"
+        preference="extensions.zotero.__addonRef__.ft50"
+      />
     </hbox>
     <hbox>
-      <checkbox style="width:250px" id="zotero-prefpane-__addonRef__-ccf" data-l10n-id="ccf"
-        preference="extensions.zotero.__addonRef__.ccf" />
-      <checkbox style="width:250px" id="zotero-prefpane-__addonRef__-fms" data-l10n-id="fms"
-        preference="extensions.zotero.__addonRef__.fms" />
+      <checkbox
+        style="width: 250px"
+        id="zotero-prefpane-__addonRef__-ccf"
+        data-l10n-id="ccf"
+        preference="extensions.zotero.__addonRef__.ccf"
+      />
+      <checkbox
+        style="width: 250px"
+        id="zotero-prefpane-__addonRef__-fms"
+        data-l10n-id="fms"
+        preference="extensions.zotero.__addonRef__.fms"
+      />
     </hbox>
     <hbox>
-      <checkbox style="width:250px" id="zotero-prefpane-__addonRef__-jci" data-l10n-id="jci"
-        preference="extensions.zotero.__addonRef__.jci" />
-      <checkbox style="width:250px" id="zotero-prefpane-__addonRef__-ahci" data-l10n-id="ahci"
-        preference="extensions.zotero.__addonRef__.ahci" />
+      <checkbox
+        style="width: 250px"
+        id="zotero-prefpane-__addonRef__-jci"
+        data-l10n-id="jci"
+        preference="extensions.zotero.__addonRef__.jci"
+      />
+      <checkbox
+        style="width: 250px"
+        id="zotero-prefpane-__addonRef__-ahci"
+        data-l10n-id="ahci"
+        preference="extensions.zotero.__addonRef__.ahci"
+      />
     </hbox>
     <hbox>
-      <checkbox style="width:250px" id="zotero-prefpane-__addonRef__-sciwarn" data-l10n-id="sciwarn"
-        preference="extensions.zotero.__addonRef__.sciwarn" />
-      <checkbox style="width:250px" id="zotero-prefpane-__addonRef__-esi" data-l10n-id="esi"
-        preference="extensions.zotero.__addonRef__.esi" />
+      <checkbox
+        style="width: 250px"
+        id="zotero-prefpane-__addonRef__-sciwarn"
+        data-l10n-id="sciwarn"
+        preference="extensions.zotero.__addonRef__.sciwarn"
+      />
+      <checkbox
+        style="width: 250px"
+        id="zotero-prefpane-__addonRef__-esi"
+        data-l10n-id="esi"
+        preference="extensions.zotero.__addonRef__.esi"
+      />
     </hbox>
     <hbox>
-      <checkbox style="width:250px" id="zotero-prefpane-__addonRef__-com-if" data-l10n-id="com-if"
-        preference="extensions.zotero.__addonRef__.com.if" />
-      <checkbox style="width:250px" id="zotero-prefpane-__addonRef__-agg-if" data-l10n-id="agg-if"
-        preference="extensions.zotero.__addonRef__.agg.if" />
+      <checkbox
+        style="width: 250px"
+        id="zotero-prefpane-__addonRef__-com-if"
+        data-l10n-id="com-if"
+        preference="extensions.zotero.__addonRef__.com.if"
+      />
+      <checkbox
+        style="width: 250px"
+        id="zotero-prefpane-__addonRef__-agg-if"
+        data-l10n-id="agg-if"
+        preference="extensions.zotero.__addonRef__.agg.if"
+      />
     </hbox>
     <!-- 大学期刊分类 -->
     <label>
@@ -122,78 +253,162 @@
     </label>
     <!-- 南农核心期刊 -->
     <hbox>
-      <checkbox style="width:250px" id="zotero-prefpane-__addonRef__-njau-core" data-l10n-id="njau-core"
-        preference="extensions.zotero.__addonRef__.njau.core" />
-      <checkbox style="width:250px" id="zotero-prefpane-__addonRef__-njau-high-quality" data-l10n-id="njau-high-quality"
-        preference="extensions.zotero.__addonRef__.njau.high.quality" />
+      <checkbox
+        style="width: 250px"
+        id="zotero-prefpane-__addonRef__-njau-core"
+        data-l10n-id="njau-core"
+        preference="extensions.zotero.__addonRef__.njau.core"
+      />
+      <checkbox
+        style="width: 250px"
+        id="zotero-prefpane-__addonRef__-njau-high-quality"
+        data-l10n-id="njau-high-quality"
+        preference="extensions.zotero.__addonRef__.njau.high.quality"
+      />
     </hbox>
     <!-- 西南财经大学，中央财经大学  -->
     <hbox>
-      <checkbox style="width:250px" id="zotero-prefpane-__addonRef__-swufe" data-l10n-id="swufe"
-        preference="extensions.zotero.__addonRef__.swufe" />
-      <checkbox style="width:250px" id="zotero-prefpane-__addonRef__-cufe" data-l10n-id="cufe"
-        preference="extensions.zotero.__addonRef__.cufe" />
+      <checkbox
+        style="width: 250px"
+        id="zotero-prefpane-__addonRef__-swufe"
+        data-l10n-id="swufe"
+        preference="extensions.zotero.__addonRef__.swufe"
+      />
+      <checkbox
+        style="width: 250px"
+        id="zotero-prefpane-__addonRef__-cufe"
+        data-l10n-id="cufe"
+        preference="extensions.zotero.__addonRef__.cufe"
+      />
     </hbox>
     <!-- 对外经济贸易大学，山东财经大学 -->
     <hbox>
-      <checkbox style="width:250px" id="zotero-prefpane-__addonRef__-uibe" data-l10n-id="uibe"
-        preference="extensions.zotero.__addonRef__.uibe" />
-      <checkbox style="width:250px" id="zotero-prefpane-__addonRef__-sdufe" data-l10n-id="sdufe"
-        preference="extensions.zotero.__addonRef__.sdufe" />
+      <checkbox
+        style="width: 250px"
+        id="zotero-prefpane-__addonRef__-uibe"
+        data-l10n-id="uibe"
+        preference="extensions.zotero.__addonRef__.uibe"
+      />
+      <checkbox
+        style="width: 250px"
+        id="zotero-prefpane-__addonRef__-sdufe"
+        data-l10n-id="sdufe"
+        preference="extensions.zotero.__addonRef__.sdufe"
+      />
     </hbox>
     <!-- 西安电子科技大学，西南交通大学 -->
     <hbox>
-      <checkbox style="width:250px" id="zotero-prefpane-__addonRef__-xdu" data-l10n-id="xdu"
-        preference="extensions.zotero.__addonRef__.xdu" />
-      <checkbox style="width:250px" id="zotero-prefpane-__addonRef__-swjtu" data-l10n-id="swjtu"
-        preference="extensions.zotero.__addonRef__.swjtu" />
+      <checkbox
+        style="width: 250px"
+        id="zotero-prefpane-__addonRef__-xdu"
+        data-l10n-id="xdu"
+        preference="extensions.zotero.__addonRef__.xdu"
+      />
+      <checkbox
+        style="width: 250px"
+        id="zotero-prefpane-__addonRef__-swjtu"
+        data-l10n-id="swjtu"
+        preference="extensions.zotero.__addonRef__.swjtu"
+      />
     </hbox>
     <!-- 中国人民大学，厦门大学 -->
     <hbox>
-      <checkbox style="width:250px" id="zotero-prefpane-__addonRef__-ruc" data-l10n-id="ruc"
-        preference="extensions.zotero.__addonRef__.ruc" />
-      <checkbox style="width:250px" id="zotero-prefpane-__addonRef__-xmu" data-l10n-id="xmu"
-        preference="extensions.zotero.__addonRef__.xmu" />
+      <checkbox
+        style="width: 250px"
+        id="zotero-prefpane-__addonRef__-ruc"
+        data-l10n-id="ruc"
+        preference="extensions.zotero.__addonRef__.ruc"
+      />
+      <checkbox
+        style="width: 250px"
+        id="zotero-prefpane-__addonRef__-xmu"
+        data-l10n-id="xmu"
+        preference="extensions.zotero.__addonRef__.xmu"
+      />
     </hbox>
     <!-- 上海交通大学，复旦大学 -->
     <hbox>
-      <checkbox style="width:250px" id="zotero-prefpane-__addonRef__-sjtu" data-l10n-id="sjtu"
-        preference="extensions.zotero.__addonRef__.sjtu" />
-      <checkbox style="width:250px" id="zotero-prefpane-__addonRef__-fdu" data-l10n-id="fdu"
-        preference="extensions.zotero.__addonRef__.fdu" />
+      <checkbox
+        style="width: 250px"
+        id="zotero-prefpane-__addonRef__-sjtu"
+        data-l10n-id="sjtu"
+        preference="extensions.zotero.__addonRef__.sjtu"
+      />
+      <checkbox
+        style="width: 250px"
+        id="zotero-prefpane-__addonRef__-fdu"
+        data-l10n-id="fdu"
+        preference="extensions.zotero.__addonRef__.fdu"
+      />
     </hbox>
     <!-- 河海大学，四川大学 -->
     <hbox>
-      <checkbox style="width:250px" id="zotero-prefpane-__addonRef__-hhu" data-l10n-id="hhu"
-        preference="extensions.zotero.__addonRef__.hhu" />
-      <checkbox style="width:250px" id="zotero-prefpane-__addonRef__-scu" data-l10n-id="scu"
-        preference="extensions.zotero.__addonRef__.scu" />
+      <checkbox
+        style="width: 250px"
+        id="zotero-prefpane-__addonRef__-hhu"
+        data-l10n-id="hhu"
+        preference="extensions.zotero.__addonRef__.hhu"
+      />
+      <checkbox
+        style="width: 250px"
+        id="zotero-prefpane-__addonRef__-scu"
+        data-l10n-id="scu"
+        preference="extensions.zotero.__addonRef__.scu"
+      />
     </hbox>
     <!-- 重庆大学，南京大学 -->
     <hbox>
-      <checkbox style="width:250px" id="zotero-prefpane-__addonRef__-cqu" data-l10n-id="cqu"
-        preference="extensions.zotero.__addonRef__.cqu" />
-      <checkbox style="width:250px" id="zotero-prefpane-__addonRef__-nju" data-l10n-id="nju"
-        preference="extensions.zotero.__addonRef__.nju" />
+      <checkbox
+        style="width: 250px"
+        id="zotero-prefpane-__addonRef__-cqu"
+        data-l10n-id="cqu"
+        preference="extensions.zotero.__addonRef__.cqu"
+      />
+      <checkbox
+        style="width: 250px"
+        id="zotero-prefpane-__addonRef__-nju"
+        data-l10n-id="nju"
+        preference="extensions.zotero.__addonRef__.nju"
+      />
     </hbox>
     <!-- 新疆大学，中国地质大学 -->
     <hbox>
-      <checkbox style="width:250px" id="zotero-prefpane-__addonRef__-xju" data-l10n-id="xju"
-        preference="extensions.zotero.__addonRef__.xju" />
-      <checkbox style="width:250px" id="zotero-prefpane-__addonRef__-cug" data-l10n-id="cug"
-        preference="extensions.zotero.__addonRef__.cug" />
+      <checkbox
+        style="width: 250px"
+        id="zotero-prefpane-__addonRef__-xju"
+        data-l10n-id="xju"
+        preference="extensions.zotero.__addonRef__.xju"
+      />
+      <checkbox
+        style="width: 250px"
+        id="zotero-prefpane-__addonRef__-cug"
+        data-l10n-id="cug"
+        preference="extensions.zotero.__addonRef__.cug"
+      />
     </hbox>
     <!-- 长江大学，浙江大学 -->
     <hbox>
-      <checkbox style="width:250px" id="zotero-prefpane-__addonRef__-cju" data-l10n-id="cju"
-        preference="extensions.zotero.__addonRef__.cju" />
-      <checkbox style="width:250px" id="zotero-prefpane-__addonRef__-zju" data-l10n-id="zju"
-        preference="extensions.zotero.__addonRef__.zju" />
+      <checkbox
+        style="width: 250px"
+        id="zotero-prefpane-__addonRef__-cju"
+        data-l10n-id="cju"
+        preference="extensions.zotero.__addonRef__.cju"
+      />
+      <checkbox
+        style="width: 250px"
+        id="zotero-prefpane-__addonRef__-zju"
+        data-l10n-id="zju"
+        preference="extensions.zotero.__addonRef__.zju"
+      />
     </hbox>
     <!-- 中国药科大学 -->
     <hbox>
-      <checkbox style="width:250px" id="zotero-prefpane-__addonRef__-cpu" data-l10n-id="cpu"
-        preference="extensions.zotero.__addonRef__.cpu" />
+      <checkbox
+        style="width: 250px"
+        id="zotero-prefpane-__addonRef__-cpu"
+        data-l10n-id="cpu"
+        preference="extensions.zotero.__addonRef__.cpu"
+      />
     </hbox>
 
     <!-- 自定义数据集 -->
@@ -201,71 +416,150 @@
       <html:h2 data-l10n-id="custom-data"></html:h2>
     </label>
     <hbox>
-      <checkbox style="width:250px" id="zotero-prefpane-__addonRef__-clsci" data-l10n-id="clsci"
-        preference="extensions.zotero.__addonRef__.clsci" />
-      <checkbox style="width:250px" id="zotero-prefpane-__addonRef__-ami" data-l10n-id="ami"
-        preference="extensions.zotero.__addonRef__.ami" />
+      <checkbox
+        style="width: 250px"
+        id="zotero-prefpane-__addonRef__-clsci"
+        data-l10n-id="clsci"
+        preference="extensions.zotero.__addonRef__.clsci"
+      />
+      <checkbox
+        style="width: 250px"
+        id="zotero-prefpane-__addonRef__-ami"
+        data-l10n-id="ami"
+        preference="extensions.zotero.__addonRef__.ami"
+      />
     </hbox>
     <hbox>
-      <checkbox style="width:250px" id="zotero-prefpane-__addonRef__-nssf" data-l10n-id="nssf"
-        preference="extensions.zotero.__addonRef__.nssf" />
-      <checkbox style="width:250px" id="zotero-prefpane-__addonRef__-swupl" data-l10n-id="swupl"
-        preference="extensions.zotero.__addonRef__.swupl" />
-    </hbox>
-    
-    <hbox>
-      <checkbox style="width:250px" id="zotero-prefpane-__addonRef__-ABDC" data-l10n-id="ABDC"
-        preference="extensions.zotero.__addonRef__.ABDC" />
-      <checkbox style="width:250px" id="zotero-prefpane-__addonRef__-Scopus" data-l10n-id="Scopus"
-        preference="extensions.zotero.__addonRef__.Scopus" />
+      <checkbox
+        style="width: 250px"
+        id="zotero-prefpane-__addonRef__-nssf"
+        data-l10n-id="nssf"
+        preference="extensions.zotero.__addonRef__.nssf"
+      />
+      <checkbox
+        style="width: 250px"
+        id="zotero-prefpane-__addonRef__-swupl"
+        data-l10n-id="swupl"
+        preference="extensions.zotero.__addonRef__.swupl"
+      />
     </hbox>
 
+    <hbox>
+      <checkbox
+        style="width: 250px"
+        id="zotero-prefpane-__addonRef__-ABDC"
+        data-l10n-id="ABDC"
+        preference="extensions.zotero.__addonRef__.ABDC"
+      />
+      <checkbox
+        style="width: 250px"
+        id="zotero-prefpane-__addonRef__-Scopus"
+        data-l10n-id="Scopus"
+        preference="extensions.zotero.__addonRef__.Scopus"
+      />
+    </hbox>
 
     <!--  菜单隐藏设置 -->
     <label>
       <html:h2 data-l10n-id="menu-setting"></html:h2>
     </label>
     <hbox>
-      <checkbox style="width:250px" id="zotero-prefpane-__addonRef__-bold-star" data-l10n-id="bold-star"
-        preference="extensions.zotero.__addonRef__.bold.star" />
-      <checkbox style="width:250px" id="zotero-prefpane-__addonRef__-remove-bold" data-l10n-id="remove-bold"
-        preference="extensions.zotero.__addonRef__.remove.bold" />
+      <checkbox
+        style="width: 250px"
+        id="zotero-prefpane-__addonRef__-bold-star"
+        data-l10n-id="bold-star"
+        preference="extensions.zotero.__addonRef__.bold.star"
+      />
+      <checkbox
+        style="width: 250px"
+        id="zotero-prefpane-__addonRef__-remove-bold"
+        data-l10n-id="remove-bold"
+        preference="extensions.zotero.__addonRef__.remove.bold"
+      />
     </hbox>
     <hbox>
-      <checkbox style="width:250px" id="zotero-prefpane-__addonRef__-remove-star" data-l10n-id="remove-star"
-        preference="extensions.zotero.__addonRef__.remove.star" />
-      <checkbox style="width:250px" id="zotero-prefpane-__addonRef__-remove-bold-star" data-l10n-id="remove-bold-star"
-        preference="extensions.zotero.__addonRef__.remove.bold.star" />
+      <checkbox
+        style="width: 250px"
+        id="zotero-prefpane-__addonRef__-remove-star"
+        data-l10n-id="remove-star"
+        preference="extensions.zotero.__addonRef__.remove.star"
+      />
+      <checkbox
+        style="width: 250px"
+        id="zotero-prefpane-__addonRef__-remove-bold-star"
+        data-l10n-id="remove-bold-star"
+        preference="extensions.zotero.__addonRef__.remove.bold.star"
+      />
     </hbox>
     <hbox>
-      <checkbox style="width:250px" id="zotero-prefpane-__addonRef__-chang-author-case" data-l10n-id="chang-author-case"
-        preference="extensions.zotero.__addonRef__.chang.author.case" />
-      <checkbox style="width:250px" id="zotero-prefpane-__addonRef__-swap-author" data-l10n-id="swap-author"
-        preference="extensions.zotero.__addonRef__.swap.author" />
+      <checkbox
+        style="width: 250px"
+        id="zotero-prefpane-__addonRef__-chang-author-case"
+        data-l10n-id="chang-author-case"
+        preference="extensions.zotero.__addonRef__.chang.author.case"
+      />
+      <checkbox
+        style="width: 250px"
+        id="zotero-prefpane-__addonRef__-swap-author"
+        data-l10n-id="swap-author"
+        preference="extensions.zotero.__addonRef__.swap.author"
+      />
     </hbox>
     <hbox>
-      <checkbox style="width:250px" id="zotero-prefpane-__addonRef__-chang-title" data-l10n-id="chang-title"
-        preference="extensions.zotero.__addonRef__.chang.title" />
-      <checkbox style="width:250px" id="zotero-prefpane-__addonRef__-chang-pub-title" data-l10n-id="chang-pub-title"
-        preference="extensions.zotero.__addonRef__.chang.pub.title" />
+      <checkbox
+        style="width: 250px"
+        id="zotero-prefpane-__addonRef__-chang-title"
+        data-l10n-id="chang-title"
+        preference="extensions.zotero.__addonRef__.chang.title"
+      />
+      <checkbox
+        style="width: 250px"
+        id="zotero-prefpane-__addonRef__-chang-pub-title"
+        data-l10n-id="chang-pub-title"
+        preference="extensions.zotero.__addonRef__.chang.pub.title"
+      />
     </hbox>
     <hbox>
-      <checkbox style="width:250px" id="zotero-prefpane-__addonRef__-chang-pub-title-case"
-        data-l10n-id="chang-pub-title-case" preference="extensions.zotero.__addonRef__.chang.pub.title.case" />
-      <checkbox style="width:250px" id="zotero-prefpane-__addonRef__-item-title-find-replace"
-        data-l10n-id="item-title-find-replace" preference="extensions.zotero.__addonRef__.item.title.find.replace" />
+      <checkbox
+        style="width: 250px"
+        id="zotero-prefpane-__addonRef__-chang-pub-title-case"
+        data-l10n-id="chang-pub-title-case"
+        preference="extensions.zotero.__addonRef__.chang.pub.title.case"
+      />
+      <checkbox
+        style="width: 250px"
+        id="zotero-prefpane-__addonRef__-item-title-find-replace"
+        data-l10n-id="item-title-find-replace"
+        preference="extensions.zotero.__addonRef__.item.title.find.replace"
+      />
     </hbox>
     <hbox>
-      <checkbox style="width:250px" id="zotero-prefpane-__addonRef__-show-profile-dir" data-l10n-id="show-profile-dir"
-        preference="extensions.zotero.__addonRef__.show.profile.dir" />
-      <checkbox style="width:250px" id="zotero-prefpane-__addonRef__-show-data-dir" data-l10n-id="show-data-dir"
-        preference="extensions.zotero.__addonRef__.show.data.dir" />
+      <checkbox
+        style="width: 250px"
+        id="zotero-prefpane-__addonRef__-show-profile-dir"
+        data-l10n-id="show-profile-dir"
+        preference="extensions.zotero.__addonRef__.show.profile.dir"
+      />
+      <checkbox
+        style="width: 250px"
+        id="zotero-prefpane-__addonRef__-show-data-dir"
+        data-l10n-id="show-data-dir"
+        preference="extensions.zotero.__addonRef__.show.data.dir"
+      />
     </hbox>
     <hbox>
-      <checkbox style="width:250px" id="zotero-prefpane-__addonRef__-menu-sep1" data-l10n-id="menu-sep-1"
-        preference="extensions.zotero.__addonRef__.sep1" />
-      <checkbox style="width:250px" id="zotero-prefpane-__addonRef__-menu-sep2" data-l10n-id="menu-sep-2"
-        preference="extensions.zotero.__addonRef__.sep2" />
+      <checkbox
+        style="width: 250px"
+        id="zotero-prefpane-__addonRef__-menu-sep1"
+        data-l10n-id="menu-sep-1"
+        preference="extensions.zotero.__addonRef__.sep1"
+      />
+      <checkbox
+        style="width: 250px"
+        id="zotero-prefpane-__addonRef__-menu-sep2"
+        data-l10n-id="menu-sep-2"
+        preference="extensions.zotero.__addonRef__.sep2"
+      />
     </hbox>
 
     <!-- 快捷键设置 -->
@@ -275,49 +569,92 @@
     </label>
     <!-- 题目改为句首字母大写 -->
     <hbox align="center">
-      <checkbox style="width:400px" id="zotero-prefpane-__addonRef__-shortcut-title-sentence"
-        data-l10n-id="shortcut-title-sentence" preference="extensions.zotero.__addonRef__.shortcut.title.sentence" />
+      <checkbox
+        style="width: 400px"
+        id="zotero-prefpane-__addonRef__-shortcut-title-sentence"
+        data-l10n-id="shortcut-title-sentence"
+        preference="extensions.zotero.__addonRef__.shortcut.title.sentence"
+      />
       <label value="Ctrl + "></label>
-      <html:input type="text" id="zotero-prefpane-__addonRef__-shortcut-input-title-sentence" value="T" width='5'
-        preference="extensions.zotero.__addonRef__.shortcut.input.title.sentence" size="4" style="margin-right: 15px">
+      <html:input
+        type="text"
+        id="zotero-prefpane-__addonRef__-shortcut-input-title-sentence"
+        value="T"
+        width="5"
+        preference="extensions.zotero.__addonRef__.shortcut.input.title.sentence"
+        size="4"
+        style="margin-right: 15px"
+      >
       </html:input>
     </hbox>
     <!-- 期刊名称改为词首字母大写 -->
     <hbox align="center">
-      <checkbox style="width:400px" id="zotero-prefpane-__addonRef__-shortcut-publication-title-case"
+      <checkbox
+        style="width: 400px"
+        id="zotero-prefpane-__addonRef__-shortcut-publication-title-case"
         data-l10n-id="shortcut-publication-title-case"
-        preference="extensions.zotero.__addonRef__.shortcut.publication.title.case" />
+        preference="extensions.zotero.__addonRef__.shortcut.publication.title.case"
+      />
       <label value="Ctrl + "></label>
-      <html:input type="text" id="zotero-prefpane-__addonRef__-shortcut-input-publication-title-case" value="U"
-        width='5' preference="extensions.zotero.__addonRef__.shortcut.input.publication.title.case" size="4"
-        style="margin-right: 15px">
+      <html:input
+        type="text"
+        id="zotero-prefpane-__addonRef__-shortcut-input-publication-title-case"
+        value="U"
+        width="5"
+        preference="extensions.zotero.__addonRef__.shortcut.input.publication.title.case"
+        size="4"
+        style="margin-right: 15px"
+      >
       </html:input>
     </hbox>
     <!-- 显示数据目录 -->
     <hbox align="center">
-      <checkbox style="width:400px" id="zotero-prefpane-__addonRef__-shortcut-data-dir" data-l10n-id="shortcut-data-dir"
-        preference="extensions.zotero.__addonRef__.shortcut.data.dir" />
+      <checkbox
+        style="width: 400px"
+        id="zotero-prefpane-__addonRef__-shortcut-data-dir"
+        data-l10n-id="shortcut-data-dir"
+        preference="extensions.zotero.__addonRef__.shortcut.data.dir"
+      />
       <label value="Alt  + "></label>
-      <html:input type="text" id="zotero-prefpane-__addonRef__-shortcut-input-data-dir" value="D" width='5'
-        preference="extensions.zotero.__addonRef__.shortcut.input.data.dir" size="4" style="margin-right: 15px">
+      <html:input
+        type="text"
+        id="zotero-prefpane-__addonRef__-shortcut-input-data-dir"
+        value="D"
+        width="5"
+        preference="extensions.zotero.__addonRef__.shortcut.input.data.dir"
+        size="4"
+        style="margin-right: 15px"
+      >
       </html:input>
     </hbox>
     <!-- 显示配置目录 -->
     <hbox align="center">
-      <checkbox style="width:400px" id="zotero-prefpane-__addonRef__-shortcut-profile-dir"
-        data-l10n-id="shortcut-profile-dir" preference="extensions.zotero.__addonRef__.shortcut.profile.dir" />
+      <checkbox
+        style="width: 400px"
+        id="zotero-prefpane-__addonRef__-shortcut-profile-dir"
+        data-l10n-id="shortcut-profile-dir"
+        preference="extensions.zotero.__addonRef__.shortcut.profile.dir"
+      />
       <label value="Alt  + "></label>
-      <html:input type="text" id="zotero-prefpane-__addonRef__-shortcut-input-profile-dir" value="P" width='5'
-        preference="extensions.zotero.__addonRef__.shortcut.input.profile.dir" size="4" style="margin-right: 15px">
+      <html:input
+        type="text"
+        id="zotero-prefpane-__addonRef__-shortcut-input-profile-dir"
+        value="P"
+        width="5"
+        preference="extensions.zotero.__addonRef__.shortcut.input.profile.dir"
+        size="4"
+        style="margin-right: 15px"
+      >
       </html:input>
     </hbox>
-
   </groupbox>
 </vbox>
 <separator id="storage-separator" class="thick" />
 <vbox>
-  <html:label data-l10n-id="pref-help"
-    data-l10n-args='{"time": "__buildTime__","name": "__addonName__","version":"__buildVersion__"}'></html:label>
+  <html:label
+    data-l10n-id="pref-help"
+    data-l10n-args='{"time": "__buildTime__","name": "__addonName__","version":"__buildVersion__"}'
+  ></html:label>
 </vbox>
 <!-- <script type="text/javascript">
   function disable() {

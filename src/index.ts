@@ -20,7 +20,9 @@ if (!basicTool.getGlobal("Zotero")[config.addonInstance]) {
     addon.data.env === "development";
   ztoolkit.basicOptions.debug.disableDebugBridgePassword =
     addon.data.env === "development";
+  ztoolkit.ProgressWindow.setIconURI(
+    "default",
+    `chrome://${config.addonRef}/content/icons/favicon.png`,
+  );
   Zotero[config.addonInstance] = addon;
-  // Trigger addon hook for initialization
-  addon.hooks.onStartup();
 }

@@ -73,7 +73,7 @@ async function updatePrefsUI() {
         addon.data.prefs?.rows[index] || {
           title: "no data",
           detail: "no data",
-        }
+        },
     )
     // Show a progress window when selection changes
     .setProp("onSelectionChange", (selection) => {
@@ -93,7 +93,7 @@ async function updatePrefsUI() {
       if (event.key == "Delete" || (Zotero.isMac && event.key == "Backspace")) {
         addon.data.prefs!.rows =
           addon.data.prefs?.rows.filter(
-            (v, i) => !tableHelper.treeInstance.selection.isSelected(i)
+            (v, i) => !tableHelper.treeInstance.selection.isSelected(i),
           ) || [];
         tableHelper.render();
         return false;
@@ -103,7 +103,7 @@ async function updatePrefsUI() {
     // For find-as-you-type
     .setProp(
       "getRowString",
-      (index) => addon.data.prefs?.rows[index].title || ""
+      (index) => addon.data.prefs?.rows[index].title || "",
     )
     // Render the table.
     .render(-1, () => {
@@ -114,36 +114,33 @@ async function updatePrefsUI() {
 }
 
 function bindPrefEvents() {
-
   // 监听首选项中各个checkbox的变化
 
   // update journal abbr
   // 当更新期刊禁用时，禁用期刊是否带点选项
   addon.data
     .prefs!.window.document.querySelector(
-      `#zotero-prefpane-${config.addonRef}-update-abbr`
+      `#zotero-prefpane-${config.addonRef}-update-abbr`,
     )
     ?.addEventListener("command", (e) => {
       ztoolkit.log(e);
       UIExampleFactory.disableUppJourAbbDot();
-
     });
 
   // JCR
   addon.data
     .prefs!.window.document.querySelector(
-      `#zotero-prefpane-${config.addonRef}-jcr-qu`
+      `#zotero-prefpane-${config.addonRef}-jcr-qu`,
     )
     ?.addEventListener("command", (e) => {
       ztoolkit.log(e);
       UIExampleFactory.registerExtraColumn();
-
     });
 
   // CAS基础版
   addon.data
     .prefs!.window.document.querySelector(
-      `#zotero-prefpane-${config.addonRef}-basic`
+      `#zotero-prefpane-${config.addonRef}-basic`,
     )
     ?.addEventListener("command", (e) => {
       ztoolkit.log(e);
@@ -152,7 +149,7 @@ function bindPrefEvents() {
   // CAS升级
   addon.data
     .prefs!.window.document.querySelector(
-      `#zotero-prefpane-${config.addonRef}-updated`
+      `#zotero-prefpane-${config.addonRef}-updated`,
     )
     ?.addEventListener("command", (e) => {
       ztoolkit.log(e);
@@ -161,7 +158,7 @@ function bindPrefEvents() {
   // IF5
   addon.data
     .prefs!.window.document.querySelector(
-      `#zotero-prefpane-${config.addonRef}-sci-if5`
+      `#zotero-prefpane-${config.addonRef}-sci-if5`,
     )
     ?.addEventListener("command", (e) => {
       ztoolkit.log(e);
@@ -170,7 +167,7 @@ function bindPrefEvents() {
   // CSCD
   addon.data
     .prefs!.window.document.querySelector(
-      `#zotero-prefpane-${config.addonRef}-chjcscd`
+      `#zotero-prefpane-${config.addonRef}-chjcscd`,
     )
     ?.addEventListener("command", (e) => {
       ztoolkit.log(e);
@@ -179,7 +176,7 @@ function bindPrefEvents() {
   // NJU 核心，CSSCI
   addon.data
     .prefs!.window.document.querySelector(
-      `#zotero-prefpane-${config.addonRef}-nju-core`
+      `#zotero-prefpane-${config.addonRef}-nju-core`,
     )
     ?.addEventListener("command", (e) => {
       ztoolkit.log(e);
@@ -188,7 +185,7 @@ function bindPrefEvents() {
   // EI
   addon.data
     .prefs!.window.document.querySelector(
-      `#zotero-prefpane-${config.addonRef}-ei`
+      `#zotero-prefpane-${config.addonRef}-ei`,
     )
     ?.addEventListener("command", (e) => {
       ztoolkit.log(e);
@@ -197,7 +194,7 @@ function bindPrefEvents() {
   // 中文核心期刊
   addon.data
     .prefs!.window.document.querySelector(
-      `#zotero-prefpane-${config.addonRef}-pku-core`
+      `#zotero-prefpane-${config.addonRef}-pku-core`,
     )
     ?.addEventListener("command", (e) => {
       ztoolkit.log(e);
@@ -206,7 +203,7 @@ function bindPrefEvents() {
   // 科技核心
   addon.data
     .prefs!.window.document.querySelector(
-      `#zotero-prefpane-${config.addonRef}-sci-core`
+      `#zotero-prefpane-${config.addonRef}-sci-core`,
     )
     ?.addEventListener("command", (e) => {
       ztoolkit.log(e);
@@ -215,7 +212,7 @@ function bindPrefEvents() {
   // ssci
   addon.data
     .prefs!.window.document.querySelector(
-      `#zotero-prefpane-${config.addonRef}-ssci`
+      `#zotero-prefpane-${config.addonRef}-ssci`,
     )
     ?.addEventListener("command", (e) => {
       ztoolkit.log(e);
@@ -224,7 +221,7 @@ function bindPrefEvents() {
   // ajg
   addon.data
     .prefs!.window.document.querySelector(
-      `#zotero-prefpane-${config.addonRef}-ajg`
+      `#zotero-prefpane-${config.addonRef}-ajg`,
     )
     ?.addEventListener("command", (e) => {
       ztoolkit.log(e);
@@ -233,7 +230,7 @@ function bindPrefEvents() {
   // utd24
   addon.data
     .prefs!.window.document.querySelector(
-      `#zotero-prefpane-${config.addonRef}-utd24`
+      `#zotero-prefpane-${config.addonRef}-utd24`,
     )
     ?.addEventListener("command", (e) => {
       ztoolkit.log(e);
@@ -242,7 +239,7 @@ function bindPrefEvents() {
   // ft50
   addon.data
     .prefs!.window.document.querySelector(
-      `#zotero-prefpane-${config.addonRef}-ft50`
+      `#zotero-prefpane-${config.addonRef}-ft50`,
     )
     ?.addEventListener("command", (e) => {
       ztoolkit.log(e);
@@ -252,7 +249,7 @@ function bindPrefEvents() {
   // ccf
   addon.data
     .prefs!.window.document.querySelector(
-      `#zotero-prefpane-${config.addonRef}-ccf`
+      `#zotero-prefpane-${config.addonRef}-ccf`,
     )
     ?.addEventListener("command", (e) => {
       ztoolkit.log(e);
@@ -261,7 +258,7 @@ function bindPrefEvents() {
   // fms
   addon.data
     .prefs!.window.document.querySelector(
-      `#zotero-prefpane-${config.addonRef}-fms`
+      `#zotero-prefpane-${config.addonRef}-fms`,
     )
     ?.addEventListener("command", (e) => {
       ztoolkit.log(e);
@@ -270,7 +267,7 @@ function bindPrefEvents() {
   // jci
   addon.data
     .prefs!.window.document.querySelector(
-      `#zotero-prefpane-${config.addonRef}-jci`
+      `#zotero-prefpane-${config.addonRef}-jci`,
     )
     ?.addEventListener("command", (e) => {
       ztoolkit.log(e);
@@ -280,7 +277,7 @@ function bindPrefEvents() {
   // sci warn sci预警
   addon.data
     .prefs!.window.document.querySelector(
-      `#zotero-prefpane-${config.addonRef}-sciwarn`
+      `#zotero-prefpane-${config.addonRef}-sciwarn`,
     )
     ?.addEventListener("command", (e) => {
       ztoolkit.log(e);
@@ -290,7 +287,7 @@ function bindPrefEvents() {
   // ahci
   addon.data
     .prefs!.window.document.querySelector(
-      `#zotero-prefpane-${config.addonRef}-ahci`
+      `#zotero-prefpane-${config.addonRef}-ahci`,
     )
     ?.addEventListener("command", (e) => {
       ztoolkit.log(e);
@@ -300,7 +297,7 @@ function bindPrefEvents() {
   // 复合影响因子
   addon.data
     .prefs!.window.document.querySelector(
-      `#zotero-prefpane-${config.addonRef}-com-if`
+      `#zotero-prefpane-${config.addonRef}-com-if`,
     )
     ?.addEventListener("command", (e) => {
       ztoolkit.log(e);
@@ -309,7 +306,7 @@ function bindPrefEvents() {
   // 综合影响因子
   addon.data
     .prefs!.window.document.querySelector(
-      `#zotero-prefpane-${config.addonRef}-agg-if`
+      `#zotero-prefpane-${config.addonRef}-agg-if`,
     )
     ?.addEventListener("command", (e) => {
       ztoolkit.log(e);
@@ -319,7 +316,7 @@ function bindPrefEvents() {
   // 南农核心
   addon.data
     .prefs!.window.document.querySelector(
-      `#zotero-prefpane-${config.addonRef}-njau-core`
+      `#zotero-prefpane-${config.addonRef}-njau-core`,
     )
     ?.addEventListener("command", (e) => {
       ztoolkit.log(e);
@@ -328,7 +325,7 @@ function bindPrefEvents() {
   // 南农高质量期刊
   addon.data
     .prefs!.window.document.querySelector(
-      `#zotero-prefpane-${config.addonRef}-njau-high-quality`
+      `#zotero-prefpane-${config.addonRef}-njau-high-quality`,
     )
     ?.addEventListener("command", (e) => {
       ztoolkit.log(e);
@@ -338,7 +335,7 @@ function bindPrefEvents() {
   // swufe
   addon.data
     .prefs!.window.document.querySelector(
-      `#zotero-prefpane-${config.addonRef}-swufe`
+      `#zotero-prefpane-${config.addonRef}-swufe`,
     )
     ?.addEventListener("command", (e) => {
       ztoolkit.log(e);
@@ -347,7 +344,7 @@ function bindPrefEvents() {
   // cufe
   addon.data
     .prefs!.window.document.querySelector(
-      `#zotero-prefpane-${config.addonRef}-cufe`
+      `#zotero-prefpane-${config.addonRef}-cufe`,
     )
     ?.addEventListener("command", (e) => {
       ztoolkit.log(e);
@@ -356,7 +353,7 @@ function bindPrefEvents() {
   // uibe
   addon.data
     .prefs!.window.document.querySelector(
-      `#zotero-prefpane-${config.addonRef}-uibe`
+      `#zotero-prefpane-${config.addonRef}-uibe`,
     )
     ?.addEventListener("command", (e) => {
       ztoolkit.log(e);
@@ -365,7 +362,7 @@ function bindPrefEvents() {
   // sdufe
   addon.data
     .prefs!.window.document.querySelector(
-      `#zotero-prefpane-${config.addonRef}-sdufe`
+      `#zotero-prefpane-${config.addonRef}-sdufe`,
     )
     ?.addEventListener("command", (e) => {
       ztoolkit.log(e);
@@ -374,7 +371,7 @@ function bindPrefEvents() {
   // xdu
   addon.data
     .prefs!.window.document.querySelector(
-      `#zotero-prefpane-${config.addonRef}-xdu`
+      `#zotero-prefpane-${config.addonRef}-xdu`,
     )
     ?.addEventListener("command", (e) => {
       ztoolkit.log(e);
@@ -383,7 +380,7 @@ function bindPrefEvents() {
   // swjtu
   addon.data
     .prefs!.window.document.querySelector(
-      `#zotero-prefpane-${config.addonRef}-swjtu`
+      `#zotero-prefpane-${config.addonRef}-swjtu`,
     )
     ?.addEventListener("command", (e) => {
       ztoolkit.log(e);
@@ -392,7 +389,7 @@ function bindPrefEvents() {
   // ruc
   addon.data
     .prefs!.window.document.querySelector(
-      `#zotero-prefpane-${config.addonRef}-ruc`
+      `#zotero-prefpane-${config.addonRef}-ruc`,
     )
     ?.addEventListener("command", (e) => {
       ztoolkit.log(e);
@@ -401,7 +398,7 @@ function bindPrefEvents() {
   // xmu
   addon.data
     .prefs!.window.document.querySelector(
-      `#zotero-prefpane-${config.addonRef}-xmu`
+      `#zotero-prefpane-${config.addonRef}-xmu`,
     )
     ?.addEventListener("command", (e) => {
       ztoolkit.log(e);
@@ -410,7 +407,7 @@ function bindPrefEvents() {
   // sjtu
   addon.data
     .prefs!.window.document.querySelector(
-      `#zotero-prefpane-${config.addonRef}-sjtu`
+      `#zotero-prefpane-${config.addonRef}-sjtu`,
     )
     ?.addEventListener("command", (e) => {
       ztoolkit.log(e);
@@ -419,7 +416,7 @@ function bindPrefEvents() {
   // fdu
   addon.data
     .prefs!.window.document.querySelector(
-      `#zotero-prefpane-${config.addonRef}-fdu`
+      `#zotero-prefpane-${config.addonRef}-fdu`,
     )
     ?.addEventListener("command", (e) => {
       ztoolkit.log(e);
@@ -428,7 +425,7 @@ function bindPrefEvents() {
   // hhu
   addon.data
     .prefs!.window.document.querySelector(
-      `#zotero-prefpane-${config.addonRef}-hhu`
+      `#zotero-prefpane-${config.addonRef}-hhu`,
     )
     ?.addEventListener("command", (e) => {
       ztoolkit.log(e);
@@ -437,7 +434,7 @@ function bindPrefEvents() {
   // scu
   addon.data
     .prefs!.window.document.querySelector(
-      `#zotero-prefpane-${config.addonRef}-scu`
+      `#zotero-prefpane-${config.addonRef}-scu`,
     )
     ?.addEventListener("command", (e) => {
       ztoolkit.log(e);
@@ -446,7 +443,7 @@ function bindPrefEvents() {
   // cqu
   addon.data
     .prefs!.window.document.querySelector(
-      `#zotero-prefpane-${config.addonRef}-cqu`
+      `#zotero-prefpane-${config.addonRef}-cqu`,
     )
     ?.addEventListener("command", (e) => {
       ztoolkit.log(e);
@@ -455,7 +452,7 @@ function bindPrefEvents() {
   // nju
   addon.data
     .prefs!.window.document.querySelector(
-      `#zotero-prefpane-${config.addonRef}-nju`
+      `#zotero-prefpane-${config.addonRef}-nju`,
     )
     ?.addEventListener("command", (e) => {
       ztoolkit.log(e);
@@ -464,7 +461,7 @@ function bindPrefEvents() {
   // xju
   addon.data
     .prefs!.window.document.querySelector(
-      `#zotero-prefpane-${config.addonRef}-xju`
+      `#zotero-prefpane-${config.addonRef}-xju`,
     )
     ?.addEventListener("command", (e) => {
       ztoolkit.log(e);
@@ -473,7 +470,7 @@ function bindPrefEvents() {
   // cug
   addon.data
     .prefs!.window.document.querySelector(
-      `#zotero-prefpane-${config.addonRef}-cug`
+      `#zotero-prefpane-${config.addonRef}-cug`,
     )
     ?.addEventListener("command", (e) => {
       ztoolkit.log(e);
@@ -482,7 +479,7 @@ function bindPrefEvents() {
   // cju
   addon.data
     .prefs!.window.document.querySelector(
-      `#zotero-prefpane-${config.addonRef}-cju`
+      `#zotero-prefpane-${config.addonRef}-cju`,
     )
     ?.addEventListener("command", (e) => {
       ztoolkit.log(e);
@@ -491,7 +488,7 @@ function bindPrefEvents() {
   // zju
   addon.data
     .prefs!.window.document.querySelector(
-      `#zotero-prefpane-${config.addonRef}-zju`
+      `#zotero-prefpane-${config.addonRef}-zju`,
     )
     ?.addEventListener("command", (e) => {
       ztoolkit.log(e);
@@ -502,7 +499,7 @@ function bindPrefEvents() {
   // CLSCI
   addon.data
     .prefs!.window.document.querySelector(
-      `#zotero-prefpane-${config.addonRef}-clsci`
+      `#zotero-prefpane-${config.addonRef}-clsci`,
     )
     ?.addEventListener("command", (e) => {
       ztoolkit.log(e);
@@ -511,7 +508,7 @@ function bindPrefEvents() {
   //AMI
   addon.data
     .prefs!.window.document.querySelector(
-      `#zotero-prefpane-${config.addonRef}-ami`
+      `#zotero-prefpane-${config.addonRef}-ami`,
     )
     ?.addEventListener("command", (e) => {
       ztoolkit.log(e);
@@ -520,7 +517,7 @@ function bindPrefEvents() {
   // 国家社科基金
   addon.data
     .prefs!.window.document.querySelector(
-      `#zotero-prefpane-${config.addonRef}-nssf`
+      `#zotero-prefpane-${config.addonRef}-nssf`,
     )
     ?.addEventListener("command", (e) => {
       ztoolkit.log(e);
@@ -529,27 +526,27 @@ function bindPrefEvents() {
   // SWUPL西南政法大学
   addon.data
     .prefs!.window.document.querySelector(
-      `#zotero-prefpane-${config.addonRef}-swupl`
+      `#zotero-prefpane-${config.addonRef}-swupl`,
     )
     ?.addEventListener("command", (e) => {
       ztoolkit.log(e);
       UIExampleFactory.registerExtraColumn();
     });
-    
+
   // ABDC
   addon.data
     .prefs!.window.document.querySelector(
-      `#zotero-prefpane-${config.addonRef}-ABDC`
+      `#zotero-prefpane-${config.addonRef}-ABDC`,
     )
     ?.addEventListener("command", (e) => {
       ztoolkit.log(e);
       UIExampleFactory.registerExtraColumn();
     });
-    
+
   // Scopus
   addon.data
     .prefs!.window.document.querySelector(
-      `#zotero-prefpane-${config.addonRef}-Scopus`
+      `#zotero-prefpane-${config.addonRef}-Scopus`,
     )
     ?.addEventListener("command", (e) => {
       ztoolkit.log(e);
@@ -559,7 +556,7 @@ function bindPrefEvents() {
   // 影响因子
   addon.data
     .prefs!.window.document.querySelector(
-      `#zotero-prefpane-${config.addonRef}-sci-if`
+      `#zotero-prefpane-${config.addonRef}-sci-if`,
     )
     ?.addEventListener("command", (e) => {
       ztoolkit.log(e);
@@ -569,116 +566,105 @@ function bindPrefEvents() {
   // 题目改为句首字母大写
   addon.data
     .prefs!.window.document.querySelector(
-      `#zotero-prefpane-${config.addonRef}-shortcut-title-sentence`
+      `#zotero-prefpane-${config.addonRef}-shortcut-title-sentence`,
     )
     ?.addEventListener("command", (e) => {
       ztoolkit.log(e);
       KeyExampleFactory.registerShortcuts();
-
     });
   // 题目改为句首字母大写快捷键
   addon.data
     .prefs!.window.document.querySelector(
-      `#zotero-prefpane-${config.addonRef}-shortcut-input-title-sentence`
+      `#zotero-prefpane-${config.addonRef}-shortcut-input-title-sentence`,
     )
     ?.addEventListener("change", (e) => {
       ztoolkit.log(e);
       KeyExampleFactory.registerShortcuts();
-
     });
-
 
   // 期刊名称改为词首字母大写
   addon.data
     .prefs!.window.document.querySelector(
-      `#zotero-prefpane-${config.addonRef}-shortcut-publication-title-case`
+      `#zotero-prefpane-${config.addonRef}-shortcut-publication-title-case`,
     )
     ?.addEventListener("command", (e) => {
       ztoolkit.log(e);
       KeyExampleFactory.registerShortcuts();
-
     });
   // 期刊名称改为词首字母大写快捷键
   addon.data
     .prefs!.window.document.querySelector(
-      `#zotero-prefpane-${config.addonRef}-shortcut-input-publication-title-case`
+      `#zotero-prefpane-${config.addonRef}-shortcut-input-publication-title-case`,
     )
     ?.addEventListener("change", (e) => {
       ztoolkit.log(e);
       KeyExampleFactory.registerShortcuts();
-
     });
-
 
   // 数据目录
   addon.data
     .prefs!.window.document.querySelector(
-      `#zotero-prefpane-${config.addonRef}-shortcut-data-dir`
+      `#zotero-prefpane-${config.addonRef}-shortcut-data-dir`,
     )
     ?.addEventListener("command", (e) => {
       ztoolkit.log(e);
       KeyExampleFactory.registerShortcuts();
-
     });
   // 数据目录快捷键
   addon.data
     .prefs!.window.document.querySelector(
-      `#zotero-prefpane-${config.addonRef}-shortcut-input-data-dir`
+      `#zotero-prefpane-${config.addonRef}-shortcut-input-data-dir`,
     )
     ?.addEventListener("change", (e) => {
       ztoolkit.log(e);
       KeyExampleFactory.registerShortcuts();
-
     });
-
 
   // 显示配置目录快捷键
   addon.data
     .prefs!.window.document.querySelector(
-      `#zotero-prefpane-${config.addonRef}-shortcut-profile-dir`
+      `#zotero-prefpane-${config.addonRef}-shortcut-profile-dir`,
     )
     ?.addEventListener("command", (e) => {
       ztoolkit.log(e);
       KeyExampleFactory.registerShortcuts();
-
     });
   // 显示配置目录快捷键
   addon.data
     .prefs!.window.document.querySelector(
-      `#zotero-prefpane-${config.addonRef}-shortcut-input-profile-dir`
+      `#zotero-prefpane-${config.addonRef}-shortcut-input-profile-dir`,
     )
     ?.addEventListener("change", (e) => {
       ztoolkit.log(e);
       KeyExampleFactory.registerShortcuts();
-
     });
 
-
   // 禁用添加新条目自动更新
-  (addon.data
-    .prefs!.window.document.getElementById(
-      `zotero-prefpane-${config.addonRef}-add-update`
-    ) as any).disabled = false;
+  (
+    addon.data.prefs!.window.document.getElementById(
+      `zotero-prefpane-${config.addonRef}-add-update`,
+    ) as any
+  ).disabled = false;
 
   addon.data
     .prefs!.window.document.querySelector(
-      `#zotero-prefpane-${config.addonRef}-enable`
+      `#zotero-prefpane-${config.addonRef}-enable`,
     )
     ?.addEventListener("command", (e) => {
       ztoolkit.log(e);
       addon.data.prefs!.window.alert(
-        `Successfully changed to ${(e.target as XUL.Checkbox).checked}!`
+        `Successfully changed to ${(e.target as XUL.Checkbox).checked}!`,
       );
     });
 
   addon.data
-    .prefs!!.window.document.querySelector(
-      `#zotero-prefpane-${config.addonRef}-input`
+    .prefs!.window.document.querySelector(
+      `#zotero-prefpane-${config.addonRef}-input`,
     )
     ?.addEventListener("change", (e) => {
       ztoolkit.log(e);
       addon.data.prefs!.window.alert(
-        `Successfully changed to ${(e.target as HTMLInputElement).value}!`
+        `Successfully changed to ${(e.target as HTMLInputElement).value}!`,
       );
     });
 }

@@ -1,12 +1,10 @@
 import {
   BasicExampleFactory,
-  HelperExampleFactory,
   KeyExampleFactory,
-  // PromptExampleFactory,
   UIExampleFactory,
 } from "./modules/examples";
 import { config } from "../package.json";
-import { getString, initLocale } from "./utils/locale";
+import { initLocale } from "./utils/locale";
 import { registerPrefsScripts } from "./modules/preferenceScript";
 
 async function onStartup() {
@@ -15,78 +13,12 @@ async function onStartup() {
     Zotero.unlockPromise,
     Zotero.uiReadyPromise,
   ]);
-  initLocale();
-  ztoolkit.ProgressWindow.setIconURI(
-    "default",
-    `chrome://${config.addonRef}/content/icons/favicon.png`
-  );
 
-  const popupWin = new ztoolkit.ProgressWindow(config.addonName, {
-    closeOnClick: true,
-    closeTime: -1,
-  })
-    .createLine({
-      text: getString("startup-begin"),
-      type: "default",
-      progress: 0,
-    })
-    .show();
+  initLocale();
 
   BasicExampleFactory.registerPrefs();
 
   BasicExampleFactory.registerNotifier();
-
-  //await Zotero.Promise.delay(1000);
-  popupWin.changeLine({
-    progress: 30,
-    text: `[30%] ${getString("startup-begin")}`,
-  });
-
-  // UIExampleFactory.registerStyleSheet();
-
-  // UIExampleFactory.disableMenu(); //禁用的菜单
-
-  UIExampleFactory.registerRightClickMenuItem(); // 右键菜单
-
-  // UIExampleFactory.registerRightClickMenuPopup(); // 右键弹出菜单
-
-  UIExampleFactory.registerWindowMenuWithSeprator();
-
-  await UIExampleFactory.registerExtraColumn();
-
-  //监听分类右键显示菜单
-  // @ts-ignore
-  ZoteroPane.collectionsView.onSelect.addListener(
-    UIExampleFactory.displayColMenuitem
-  ); //监听分类右键显示菜单
-
-  //监听右键显示菜单
-  // @ts-ignore
-  ZoteroPane.itemsView.onSelect.addListener(
-    UIExampleFactory.displayContexMenuitem
-  ); //监听右键显示菜单
-
-  // UIExampleFactory.refreshButton(); // 原想加按钮
-
-  // await UIExampleFactory.registerExtraColumnWithCustomCell();
-
-  // await UIExampleFactory.registerCustomCellRenderer();  // Title下黑色背景函数
-
-  // UIExampleFactory.registerLibraryTabPanel(); // LibraryTab
-
-  // await UIExampleFactory.registerReaderTabPanel(); // Reader
-
-  // PromptExampleFactory.registerAlertPromptExample();
-
-  //await Zotero.Promise.delay(1000);
-
-  popupWin.changeLine({
-    progress: 100,
-    text: `[100%] ${getString("startup-finish")}`,
-  });
-  popupWin.startCloseTimer(5000);
-
-  // addon.hooks.onDialogEvents("dialogExample");
 
   await Promise.all(
     Zotero.getMainWindows().map((win) => onMainWindowLoad(win)),
@@ -95,6 +27,23 @@ async function onStartup() {
 
 async function onMainWindowLoad(win: Window) {
   KeyExampleFactory.registerShortcuts(win);
+
+  UIExampleFactory.registerRightClickMenuItem(); // 右键菜单
+  // UIExampleFactory.registerRightClickMenuPopup(); // 右键弹出菜单
+  UIExampleFactory.registerWindowMenuWithSeprator();
+  await UIExampleFactory.registerExtraColumn();
+
+  //监听分类右键显示菜单
+  // @ts-ignore
+  ZoteroPane.collectionsView.onSelect.addListener(
+    UIExampleFactory.displayColMenuitem,
+  ); //监听分类右键显示菜单
+
+  //监听右键显示菜单
+  // @ts-ignore
+  ZoteroPane.itemsView.onSelect.addListener(
+    UIExampleFactory.displayContexMenuitem,
+  ); //监听右键显示菜单
 }
 
 async function onMainWindowUnload() {
@@ -124,7 +73,7 @@ async function onNotify(
   event: string,
   type: string,
   ids: Array<string | number>,
-  extraData: { [key: string]: any }
+  extraData: { [key: string]: any },
 ) {
   // You can add your code to the corresponding notify type
   ztoolkit.log("notify", event, type, ids, extraData);
@@ -136,13 +85,15 @@ async function onNotify(
         // @ts-ignore item has no isFeedItem
         !item.isFeedItem &&
         // @ts-ignore libraryID is got from item, so get() will never return false
-        Zotero.Libraries.get(item.libraryID)._libraryType == "user"
+        Zotero.Libraries.get(item.libraryID)._libraryType == "user",
     );
 
     if (regularItems.length !== 0) {
       // await KeyExampleFactory.setExtra(regularItems);
-      BasicExampleFactory.exampleNotifierCallback(regularItems)
-      Zotero.debug(`新增条目了。添加条目了${Zotero.ItemTypes.getName(regularItems[0].itemTypeID)}！`)
+      BasicExampleFactory.exampleNotifierCallback(regularItems);
+      Zotero.debug(
+        `新增条目了。添加条目了${Zotero.ItemTypes.getName(regularItems[0].itemTypeID)}！`,
+      );
       return;
     }
     //Zotero.debug(`添加条目了${ids}！`)

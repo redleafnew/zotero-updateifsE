@@ -1,31 +1,20 @@
 {
   "name": "greenfrog",
-  "version": "0.19.05",
+  "version": "0.19.5",
   "description": "Zotero plugin for update journal information from easyScholar",
   "config": {
     "addonName": "Green Frog",
     "addonID": "greenfrog@redleafnew.me",
     "addonRef": "greenfrog",
     "addonInstance": "greenfrog",
-    "prefsPrefix": "extensions.zotero.greenfrog",
-    "releasepage": "https://github.com/redleafnew/zotero-updateifsE/releases/latest/download/greenfrog.xpi",
-    "updaterdf": "https://raw.githubusercontent.com/redleafnew/zotero-updateifsE/bootstrap/update.json"
+    "prefsPrefix": "extensions.zotero.greenfrog"
   },
   "main": "src/index.ts",
   "scripts": {
-    "build-dev": "cross-env NODE_ENV=development node scripts/build.mjs",
-    "build-prod": "cross-env NODE_ENV=production node scripts/build.mjs",
-    "build": "concurrently -c auto npm:build-prod npm:tsc",
-    "tsc": "tsc --noEmit",
-    "start": "node scripts/start.mjs",
-    "start-watch": "concurrently -c auto npm:start npm:watch",
-    "stop": "node scripts/stop.mjs",
-    "restart-dev": "npm run build-dev && npm run stop && npm run start",
-    "restart-prod": "npm run build-prod && npm run stop && npm run start",
-    "restart": "npm run restart-dev",
-    "reload": "npm run build-dev && node scripts/reload.mjs",
-    "watch": "chokidar \"package.json\" \"src/**\" \"addon/**\" -c \"npm run reload\"",
-    "release": "release-it",
+    "start": "zotero-plugin serve",
+    "build": "tsc --noEmit && zotero-plugin build",
+    "lint": "prettier --write . && eslint . --fix",
+    "release": "zotero-plugin release",
     "test": "echo \"Error: no test specified\" && exit 1",
     "update-deps": "npm update --save"
   },
@@ -43,16 +32,14 @@
     "zotero-plugin-toolkit": "^4.0.1"
   },
   "devDependencies": {
-    "@types/node": "^20.11.28",
-    "chokidar-cli": "^3.0.0",
-    "compressing": "^1.10.0",
-    "concurrently": "^8.2.2",
-    "cross-env": "^7.0.3",
-    "esbuild": "^0.20.2",
-    "minimist": "^1.2.8",
-    "release-it": "^17.2.0",
-    "replace-in-file": "^7.1.0",
-    "typescript": "^5.4.2",
+    "@eslint/js": "^9.9.1",
+    "@types/node": "^22.6.1",
+    "eslint": "^9.11.1",
+    "prettier": "^3.3.3",
+    "typescript": "^5.6.2",
+    "typescript-eslint": "^8.7.0",
+    "zotero-plugin-scaffold": "^0.1.4",
     "zotero-types": "^1.3.20"
-  }
+  },
+  "prettier": {}
 }
