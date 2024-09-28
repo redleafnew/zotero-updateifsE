@@ -1,5 +1,6 @@
 import { defineConfig } from "zotero-plugin-scaffold";
 import pkg from "./package.json";
+import { copyFileSync } from "node:fs";
 
 export default defineConfig({
   source: ["src", "addon"],
@@ -35,6 +36,7 @@ export default defineConfig({
       },
     ],
     makeUpdateJson: {
+      hash: false,
       updates: [
         {
           version: "0.13.0",
@@ -47,6 +49,11 @@ export default defineConfig({
           },
         },
       ],
+    },
+    hooks: {
+      "build:makeUpdateJSON": (ctx) => {
+        copyFileSync("build/update.json", "update.json");
+      },
     },
   },
 
