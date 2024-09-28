@@ -12,12 +12,11 @@
           }
         },
         {
-          "version": "0.19.5",
-          "update_link": "https://github.com/redleafnew/zotero-updateifsE/releases/download/v0.19.5/green-frog.xpi",
+          "version": "0.19.05",
+          "update_link": "https://github.com/redleafnew/zotero-updateifsE/releases/latest/download/greenfrog.xpi",
           "applications": {
             "zotero": {
-              "strict_min_version": "6.999",
-              "strict_max_version": "7.0.*"
+              "strict_min_version": "6.999"
             }
           }
         }
