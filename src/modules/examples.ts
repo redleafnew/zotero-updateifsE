@@ -11,7 +11,7 @@ import { getAbbEx } from "./abb";
 function example(
   target: any,
   propertyKey: string | symbol,
-  descriptor: PropertyDescriptor
+  descriptor: PropertyDescriptor,
 ) {
   const original = descriptor.value;
   descriptor.value = function (...args: any) {
@@ -34,7 +34,7 @@ export class BasicExampleFactory {
         event: string,
         type: string,
         ids: Array<string | number>,
-        extraData: { [key: string]: any }
+        extraData: { [key: string]: any },
       ) => {
         if (!addon?.data.alive) {
           this.unregisterNotifier(notifierID);
@@ -60,7 +60,7 @@ export class BasicExampleFactory {
       (e: Event) => {
         this.unregisterNotifier(notifierID);
       },
-      false
+      false,
     );
   }
 
@@ -70,9 +70,9 @@ export class BasicExampleFactory {
     //  Zotero.Items.get(ids).filter(item => item.isRegularItem())
     // var items = Zotero.Items.get(ids);
     // 增加条目时 更新
-    var addUpdate = getPref(`add.update`);
+    const addUpdate = getPref(`add.update`);
     // 增加条目时 更新 条目题目改为句首字母大写
-    var addItemTieleSentenceCase = getPref('update.title.sentence.case');
+    const addItemTieleSentenceCase = getPref("update.title.sentence.case");
 
     if (addUpdate) {
       await KeyExampleFactory.setExtra(regularItems);
@@ -120,400 +120,604 @@ export class KeyExampleFactory {
   // 得到所选条目
   @example
   static getSelectedItems() {
-    var items = Zotero.getActiveZoteroPane().getSelectedItems();
+    const items = Zotero.getActiveZoteroPane().getSelectedItems();
     return items;
   }
   // 分类右击更新信息
   @example
   static async setExtraCol() {
-    var collection = ZoteroPane.getSelectedCollection();
-    var items = collection?.getChildItems();
+    const collection = ZoteroPane.getSelectedCollection();
+    const items = collection?.getChildItems();
     await KeyExampleFactory.setExtra(items);
   }
   // 条目右键更新信息 右键菜单执行函数
   @example
   static async setExtraItems() {
     // var secretKey: any = Zotero.Prefs.get(`extensions.zotero.${config.addonRef}.secretkey`, true);
-    var secretKey = getPref('secretkey')
+    const secretKey = getPref("secretkey");
     if (secretKey) {
-      var items = Zotero.getActiveZoteroPane().getSelectedItems();
+      const items = Zotero.getActiveZoteroPane().getSelectedItems();
       await KeyExampleFactory.setExtra(items);
     } else {
-      var alertInfo = getString('inputSecretkey');
-      HelperExampleFactory.progressWindow(alertInfo, 'fail');
-
+      const alertInfo = getString("inputSecretkey");
+      HelperExampleFactory.progressWindow(alertInfo, "fail");
     }
-
   }
   @example
   static async setExtra(items: any) {
-    var n = 0;
-    for (let item of items) {
-      if (UIExampleFactory.checkItem(item)) {  //如果是期刊或会议论文才继续
-        var easyscholarData = await KeyExampleFactory.getIFs(item); //得到easyscholar数据
-        var chineseIFs = await KeyExampleFactory.getChineseIFs(item); //综合影响因子、复合影响因子
+    let n = 0;
+    for (const item of items) {
+      if (UIExampleFactory.checkItem(item)) {
+        //如果是期刊或会议论文才继续
+        const easyscholarData = await KeyExampleFactory.getIFs(item); //得到easyscholar数据
+        const chineseIFs = await KeyExampleFactory.getChineseIFs(item); //综合影响因子、复合影响因子
 
         //Zotero.debug('swuplLevel是' + swuplLevel);
 
         // 更新前清空Extra
-        var emptyExtra = getPref(`update.empty.extra`);
-
+        const emptyExtra = getPref(`update.empty.extra`);
 
         // 加: any为了后面不报错
-        var jcr: any = getPref(`jcr.qu`);
-        var basic: any = getPref(`basic`);
-        var updated: any = getPref(`updated`);
-        var ifs: any = getPref(`sci.if`);
-        var if5: any = getPref(`sci.if5`);
-        var eii: any = getPref(`ei`);
-        var sciUpTop: any = getPref(`sci.up.top`);
-        var sciUpSmall: any = getPref(`sci.up.small`);
-        var chjcscd: any = getPref(`chjcscd`);
-        var pkucore: any = getPref(`pku.core`);
-        var njucore: any = getPref(`nju.core`);
-        var scicore: any = getPref(`sci.core`);
-        var ssci: any = getPref(`ssci`);
-        var ajg: any = getPref(`ajg`);
-        var utd24: any = getPref(`utd24`);
-        var ft50: any = getPref(`ft50`);
-        var ccf: any = getPref(`ccf`);
-        var fms: any = getPref(`fms`);
-        var jci: any = getPref(`jci`);
-        var ahci: any = getPref(`ahci`);
-        var sciwarn: any = getPref(`sciwarn`);
-        var esi: any = getPref(`esi`);
-        var compoundIFs: any = getPref(`com.if`);
-        var comprehensiveIFs: any = getPref(`agg.if`);
+        const jcr: any = getPref(`jcr.qu`);
+        const basic: any = getPref(`basic`);
+        const updated: any = getPref(`updated`);
+        const ifs: any = getPref(`sci.if`);
+        const if5: any = getPref(`sci.if5`);
+        const eii: any = getPref(`ei`);
+        const sciUpTop: any = getPref(`sci.up.top`);
+        const sciUpSmall: any = getPref(`sci.up.small`);
+        const chjcscd: any = getPref(`chjcscd`);
+        const pkucore: any = getPref(`pku.core`);
+        const njucore: any = getPref(`nju.core`);
+        const scicore: any = getPref(`sci.core`);
+        const ssci: any = getPref(`ssci`);
+        const ajg: any = getPref(`ajg`);
+        const utd24: any = getPref(`utd24`);
+        const ft50: any = getPref(`ft50`);
+        const ccf: any = getPref(`ccf`);
+        const fms: any = getPref(`fms`);
+        const jci: any = getPref(`jci`);
+        const ahci: any = getPref(`ahci`);
+        const sciwarn: any = getPref(`sciwarn`);
+        const esi: any = getPref(`esi`);
+        const compoundIFs: any = getPref(`com.if`);
+        const comprehensiveIFs: any = getPref(`agg.if`);
         //  大学期刊分类
-        var swufe = getPref(`swufe`);
-        var cufe = getPref(`cufe`);
-        var uibe = getPref(`uibe`);
-        var sdufe = getPref(`sdufe`);
-        var xdu = getPref(`xdu`);
-        var swjtu = getPref(`swjtu`);
-        var ruc = getPref(`ruc`);
-        var xmu = getPref(`xmu`);
-        var sjtu = getPref(`sjtu`);
-        var fdu = getPref(`fdu`);
-        var hhu = getPref(`hhu`);
-        var scu = getPref(`scu`);
-        var cqu = getPref(`cqu`);
-        var nju = getPref(`nju`);
-        var xju = getPref(`xju`);
-        var cug = getPref(`cug`);
-        var cju = getPref(`cju`);
-        var zju = getPref(`zju`);
-        var cpu = getPref(`cpu`);
-        var njauCoreShow = getPref(`njau.core`);
-        var njauJourShow = getPref(`njau.high.quality`);
+        const swufe = getPref(`swufe`);
+        const cufe = getPref(`cufe`);
+        const uibe = getPref(`uibe`);
+        const sdufe = getPref(`sdufe`);
+        const xdu = getPref(`xdu`);
+        const swjtu = getPref(`swjtu`);
+        const ruc = getPref(`ruc`);
+        const xmu = getPref(`xmu`);
+        const sjtu = getPref(`sjtu`);
+        const fdu = getPref(`fdu`);
+        const hhu = getPref(`hhu`);
+        const scu = getPref(`scu`);
+        const cqu = getPref(`cqu`);
+        const nju = getPref(`nju`);
+        const xju = getPref(`xju`);
+        const cug = getPref(`cug`);
+        const cju = getPref(`cju`);
+        const zju = getPref(`zju`);
+        const cpu = getPref(`cpu`);
+        const njauCoreShow = getPref(`njau.core`);
+        const njauJourShow = getPref(`njau.high.quality`);
         // 自定义数据集
-        var clsci = getPref(`clsci`);
-        var ccf_c = getPref(`ccf_c`); // better CCF
-        var ami = getPref(`ami`);
-        var nssf = getPref(`nssf`);
-        var swupl = getPref(`swupl`); //西南政法大学
+        const clsci = getPref(`clsci`);
+        const ccf_c = getPref(`ccf_c`); // better CCF
+        const ami = getPref(`ami`);
+        const nssf = getPref(`nssf`);
+        const swupl = getPref(`swupl`); //西南政法大学
 
-        var ABDC = getPref(`ABDC`);
-        var Scopus = getPref(`Scopus`);
+        const ABDC = getPref(`ABDC`);
+        const Scopus = getPref(`Scopus`);
 
         // 自定义数据集
-        var clsciJourID = '1642199434173014016'; // CLSCI UUID
-        var amiJourID = '1648920625629810688'; //AMI UUID
-        var nssfJourID = '1648936694851489792';//NSSF  UUID
-        var swuplJourID = '1652662162603773952';//SWUPL  UUID 西南政法大学
-        var ScopusJourID = '1635615726460694528';//Scopus  UUID
-        var ABDCJourID = '1613183594358972416';//ABDC  UUID
-        var CCFJourID = '1614919989423271936';//CCF  UUID
+        const clsciJourID = "1642199434173014016"; // CLSCI UUID
+        const amiJourID = "1648920625629810688"; //AMI UUID
+        const nssfJourID = "1648936694851489792"; //NSSF  UUID
+        const swuplJourID = "1652662162603773952"; //SWUPL  UUID 西南政法大学
+        const ScopusJourID = "1635615726460694528"; //Scopus  UUID
+        const ABDCJourID = "1613183594358972416"; //ABDC  UUID
+        const CCFJourID = "1614919989423271936"; //CCF  UUID
 
         //  加: any为了后面不报错
         if (clsci) {
-          var clsciLevel: any = await KeyExampleFactory.getCustomIFs(item, clsciJourID);
+          var clsciLevel: any = await KeyExampleFactory.getCustomIFs(
+            item,
+            clsciJourID,
+          );
         }
         if (ccf_c) {
           // get better CCF result from custom dataset
-          var ccfLevel: any = await KeyExampleFactory.getCustomIFs(item, CCFJourID); // better CCF
+          var ccfLevel: any = await KeyExampleFactory.getCustomIFs(
+            item,
+            CCFJourID,
+          ); // better CCF
         }
         if (ami) {
-          var amiLevel: any = await KeyExampleFactory.getCustomIFs(item, amiJourID);
+          var amiLevel: any = await KeyExampleFactory.getCustomIFs(
+            item,
+            amiJourID,
+          );
         }
         if (nssf) {
-          var nssfLevel: any = await KeyExampleFactory.getCustomIFs(item, nssfJourID);
+          var nssfLevel: any = await KeyExampleFactory.getCustomIFs(
+            item,
+            nssfJourID,
+          );
         }
         if (swupl) {
-          var swuplLevel: any = await KeyExampleFactory.getCustomIFs(item, swuplJourID);
+          var swuplLevel: any = await KeyExampleFactory.getCustomIFs(
+            item,
+            swuplJourID,
+          );
         }
         if (Scopus) {
-          var ScopusLevel: any = await KeyExampleFactory.getCustomIFs(item, ScopusJourID);
+          var ScopusLevel: any = await KeyExampleFactory.getCustomIFs(
+            item,
+            ScopusJourID,
+          );
         }
         if (ABDC) {
-          var ABDCLevel: any = await KeyExampleFactory.getCustomIFs(item, ABDCJourID);
+          var ABDCLevel: any = await KeyExampleFactory.getCustomIFs(
+            item,
+            ABDCJourID,
+          );
         }
         if (njauJourShow) {
-          var njauHighQuality = await njauJournal(item)
+          var njauHighQuality = await njauJournal(item);
         }
         // 如果得到easyScholar、影响因子、法学数据或南农数据才算更新成功
         // 增加Scopus和ABDC更新检测
-        if (easyscholarData || chineseIFs ||
-          clsciLevel || amiLevel || nssfLevel ||
-          (Scopus && ScopusLevel) || (ABDC && ABDCLevel) ||
-          njauCore(item) || njauHighQuality) {
-          if (emptyExtra) { item.setField('extra', '') }
-          n++
+        if (
+          easyscholarData ||
+          chineseIFs ||
+          clsciLevel ||
+          amiLevel ||
+          nssfLevel ||
+          (Scopus && ScopusLevel) ||
+          (ABDC && ABDCLevel) ||
+          njauCore(item) ||
+          njauHighQuality
+        ) {
+          if (emptyExtra) {
+            item.setField("extra", "");
+          }
+          n++;
         }
 
         try {
-          if (easyscholarData) { //如果得到easyscholar数据再写入
+          if (easyscholarData) {
+            //如果得到easyscholar数据再写入
             // n++ //如果得到easyScholar数据才算更新成功
             // HelperExampleFactory.progressWindow(easyscholarData['sci'], 'success')
-            if (jcr && easyscholarData['sci']) {
-              ztoolkit.ExtraField.setExtraField(item, 'JCR分区', easyscholarData['sci']);
+            if (jcr && easyscholarData["sci"]) {
+              ztoolkit.ExtraField.setExtraField(
+                item,
+                "JCR分区",
+                easyscholarData["sci"],
+              );
             }
-            if (updated && easyscholarData['sciUp']) {
-              ztoolkit.ExtraField.setExtraField(item, '中科院分区升级版', easyscholarData['sciUp']);
+            if (updated && easyscholarData["sciUp"]) {
+              ztoolkit.ExtraField.setExtraField(
+                item,
+                "中科院分区升级版",
+                easyscholarData["sciUp"],
+              );
             }
-            if (basic && easyscholarData['sciBase']) {
-              ztoolkit.ExtraField.setExtraField(item, '中科院分区基础版', easyscholarData['sciBase']);
+            if (basic && easyscholarData["sciBase"]) {
+              ztoolkit.ExtraField.setExtraField(
+                item,
+                "中科院分区基础版",
+                easyscholarData["sciBase"],
+              );
             }
-            if (ifs && easyscholarData['sciif']) {
-              ztoolkit.ExtraField.setExtraField(item, '影响因子', easyscholarData['sciif']);
+            if (ifs && easyscholarData["sciif"]) {
+              ztoolkit.ExtraField.setExtraField(
+                item,
+                "影响因子",
+                easyscholarData["sciif"],
+              );
             }
-            if (if5 && easyscholarData['sciif5']) {
-              ztoolkit.ExtraField.setExtraField(item, '5年影响因子', easyscholarData['sciif5']);
+            if (if5 && easyscholarData["sciif5"]) {
+              ztoolkit.ExtraField.setExtraField(
+                item,
+                "5年影响因子",
+                easyscholarData["sciif5"],
+              );
             }
-            if (eii && easyscholarData['eii']) {
-              ztoolkit.ExtraField.setExtraField(item, 'EI', '是');
+            if (eii && easyscholarData["eii"]) {
+              ztoolkit.ExtraField.setExtraField(item, "EI", "是");
             }
-            if (sciUpTop && easyscholarData['sciUpTop']) {
-              ztoolkit.ExtraField.setExtraField(item, '中科院升级版Top分区', easyscholarData['sciUpTop']);
+            if (sciUpTop && easyscholarData["sciUpTop"]) {
+              ztoolkit.ExtraField.setExtraField(
+                item,
+                "中科院升级版Top分区",
+                easyscholarData["sciUpTop"],
+              );
             }
-            if (sciUpSmall && easyscholarData['sciUpSmall']) {
-              ztoolkit.ExtraField.setExtraField(item, '中科院升级版小类分区', easyscholarData['sciUpSmall']);
+            if (sciUpSmall && easyscholarData["sciUpSmall"]) {
+              ztoolkit.ExtraField.setExtraField(
+                item,
+                "中科院升级版小类分区",
+                easyscholarData["sciUpSmall"],
+              );
             }
-            if (chjcscd && easyscholarData['cscd']) {
-              ztoolkit.ExtraField.setExtraField(item, 'CSCD', easyscholarData['cscd']);
+            if (chjcscd && easyscholarData["cscd"]) {
+              ztoolkit.ExtraField.setExtraField(
+                item,
+                "CSCD",
+                easyscholarData["cscd"],
+              );
             }
-            if (pkucore && easyscholarData['pku']) {
-              ztoolkit.ExtraField.setExtraField(item, '中文核心期刊/北大核心', '是');
+            if (pkucore && easyscholarData["pku"]) {
+              ztoolkit.ExtraField.setExtraField(
+                item,
+                "中文核心期刊/北大核心",
+                "是",
+              );
             }
-            if (njucore && easyscholarData['cssci']) {
-              ztoolkit.ExtraField.setExtraField(item, 'CSSCI/南大核心', easyscholarData['cssci']);
+            if (njucore && easyscholarData["cssci"]) {
+              ztoolkit.ExtraField.setExtraField(
+                item,
+                "CSSCI/南大核心",
+                easyscholarData["cssci"],
+              );
             }
-            if (scicore && easyscholarData['zhongguokejihexin']) {
-              ztoolkit.ExtraField.setExtraField(item, '中国科技核心期刊', '是');
+            if (scicore && easyscholarData["zhongguokejihexin"]) {
+              ztoolkit.ExtraField.setExtraField(item, "中国科技核心期刊", "是");
             }
-            if (ssci && easyscholarData['ssci']) {
-              ztoolkit.ExtraField.setExtraField(item, 'SSCI', easyscholarData['ssci']);
+            if (ssci && easyscholarData["ssci"]) {
+              ztoolkit.ExtraField.setExtraField(
+                item,
+                "SSCI",
+                easyscholarData["ssci"],
+              );
             }
-            if (ajg && easyscholarData['ajg']) {
-              ztoolkit.ExtraField.setExtraField(item, 'AJG', easyscholarData['ajg']);
+            if (ajg && easyscholarData["ajg"]) {
+              ztoolkit.ExtraField.setExtraField(
+                item,
+                "AJG",
+                easyscholarData["ajg"],
+              );
             }
-            if (utd24 && easyscholarData['utd24']) {
-              ztoolkit.ExtraField.setExtraField(item, 'UTD24', easyscholarData['utd24']);
+            if (utd24 && easyscholarData["utd24"]) {
+              ztoolkit.ExtraField.setExtraField(
+                item,
+                "UTD24",
+                easyscholarData["utd24"],
+              );
             }
-            if (ft50 && easyscholarData['ft50']) {
-              ztoolkit.ExtraField.setExtraField(item, 'FT50', easyscholarData['ft50']);
+            if (ft50 && easyscholarData["ft50"]) {
+              ztoolkit.ExtraField.setExtraField(
+                item,
+                "FT50",
+                easyscholarData["ft50"],
+              );
             }
-            if (ccf && easyscholarData['ccf']) {
-              ztoolkit.ExtraField.setExtraField(item, 'CCF', easyscholarData['ccf']);
+            if (ccf && easyscholarData["ccf"]) {
+              ztoolkit.ExtraField.setExtraField(
+                item,
+                "CCF",
+                easyscholarData["ccf"],
+              );
             }
-            if (fms && easyscholarData['fms']) {
-              ztoolkit.ExtraField.setExtraField(item, 'FMS', easyscholarData['fms']);
+            if (fms && easyscholarData["fms"]) {
+              ztoolkit.ExtraField.setExtraField(
+                item,
+                "FMS",
+                easyscholarData["fms"],
+              );
             }
-            if (jci && easyscholarData['jci']) {
-              ztoolkit.ExtraField.setExtraField(item, 'JCI', easyscholarData['jci']);
+            if (jci && easyscholarData["jci"]) {
+              ztoolkit.ExtraField.setExtraField(
+                item,
+                "JCI",
+                easyscholarData["jci"],
+              );
             }
-            if (ahci && easyscholarData['ahci']) {
-              ztoolkit.ExtraField.setExtraField(item, 'AHCI', easyscholarData['ahci']);
+            if (ahci && easyscholarData["ahci"]) {
+              ztoolkit.ExtraField.setExtraField(
+                item,
+                "AHCI",
+                easyscholarData["ahci"],
+              );
             }
             // SCI预警 sci warn
-            if (sciwarn && easyscholarData['sciwarn']) {
-              ztoolkit.ExtraField.setExtraField(item, '中科院预警', easyscholarData['sciwarn']);
+            if (sciwarn && easyscholarData["sciwarn"]) {
+              ztoolkit.ExtraField.setExtraField(
+                item,
+                "中科院预警",
+                easyscholarData["sciwarn"],
+              );
             }
             // esi
-            if (esi && easyscholarData['esi']) {
-              ztoolkit.ExtraField.setExtraField(item, 'ESI', easyscholarData['esi']);
+            if (esi && easyscholarData["esi"]) {
+              ztoolkit.ExtraField.setExtraField(
+                item,
+                "ESI",
+                easyscholarData["esi"],
+              );
             }
             // 西南财经大学
-            if (swufe && easyscholarData['swufe']) {
-              ztoolkit.ExtraField.setExtraField(item, '西南财经大学', easyscholarData['swufe']);
+            if (swufe && easyscholarData["swufe"]) {
+              ztoolkit.ExtraField.setExtraField(
+                item,
+                "西南财经大学",
+                easyscholarData["swufe"],
+              );
             }
             // 中央财经大学
-            if (cufe && easyscholarData['cufe']) {
-              ztoolkit.ExtraField.setExtraField(item, '中央财经大学', easyscholarData['cufe']);
+            if (cufe && easyscholarData["cufe"]) {
+              ztoolkit.ExtraField.setExtraField(
+                item,
+                "中央财经大学",
+                easyscholarData["cufe"],
+              );
             }
             // 对外经济贸易大学
-            if (uibe && easyscholarData['uibe']) {
-              ztoolkit.ExtraField.setExtraField(item, '对外经济贸易大学', easyscholarData['uibe']);
+            if (uibe && easyscholarData["uibe"]) {
+              ztoolkit.ExtraField.setExtraField(
+                item,
+                "对外经济贸易大学",
+                easyscholarData["uibe"],
+              );
             }
             // 山东财经大学
-            if (sdufe && easyscholarData['sdufe']) {
-              ztoolkit.ExtraField.setExtraField(item, '山东财经大学', easyscholarData['sdufe']);
+            if (sdufe && easyscholarData["sdufe"]) {
+              ztoolkit.ExtraField.setExtraField(
+                item,
+                "山东财经大学",
+                easyscholarData["sdufe"],
+              );
             }
             // 西安电子科技大学
-            if (xdu && easyscholarData['xdu']) {
-              ztoolkit.ExtraField.setExtraField(item, '西安电子科技大学', easyscholarData['xdu']);
+            if (xdu && easyscholarData["xdu"]) {
+              ztoolkit.ExtraField.setExtraField(
+                item,
+                "西安电子科技大学",
+                easyscholarData["xdu"],
+              );
             }
             // 西南交通大学
-            if (swjtu && easyscholarData['swjtu']) {
-              ztoolkit.ExtraField.setExtraField(item, '西南交通大学', easyscholarData['swjtu']);
+            if (swjtu && easyscholarData["swjtu"]) {
+              ztoolkit.ExtraField.setExtraField(
+                item,
+                "西南交通大学",
+                easyscholarData["swjtu"],
+              );
             }
             // 中国人民大学
-            if (ruc && easyscholarData['ruc']) {
-              ztoolkit.ExtraField.setExtraField(item, '中国人民大学', easyscholarData['ruc']);
+            if (ruc && easyscholarData["ruc"]) {
+              ztoolkit.ExtraField.setExtraField(
+                item,
+                "中国人民大学",
+                easyscholarData["ruc"],
+              );
             }
             // 厦门大学
-            if (xmu && easyscholarData['xmu']) {
-              ztoolkit.ExtraField.setExtraField(item, '厦门大学', easyscholarData['xmu']);
+            if (xmu && easyscholarData["xmu"]) {
+              ztoolkit.ExtraField.setExtraField(
+                item,
+                "厦门大学",
+                easyscholarData["xmu"],
+              );
             }
             // 上海交通大学
-            if (sjtu && easyscholarData['sjtu']) {
-              ztoolkit.ExtraField.setExtraField(item, '上海交通大学', easyscholarData['sjtu']);
+            if (sjtu && easyscholarData["sjtu"]) {
+              ztoolkit.ExtraField.setExtraField(
+                item,
+                "上海交通大学",
+                easyscholarData["sjtu"],
+              );
             }
             // 复旦大学
-            if (fdu && easyscholarData['fdu']) {
-              ztoolkit.ExtraField.setExtraField(item, '复旦大学', easyscholarData['fdu']);
+            if (fdu && easyscholarData["fdu"]) {
+              ztoolkit.ExtraField.setExtraField(
+                item,
+                "复旦大学",
+                easyscholarData["fdu"],
+              );
             }
             // 河海大学
-            if (hhu && easyscholarData['hhu']) {
-              ztoolkit.ExtraField.setExtraField(item, '河海大学', easyscholarData['hhu']);
+            if (hhu && easyscholarData["hhu"]) {
+              ztoolkit.ExtraField.setExtraField(
+                item,
+                "河海大学",
+                easyscholarData["hhu"],
+              );
             }
             // 四川大学
-            if (scu && easyscholarData['scu']) {
-              ztoolkit.ExtraField.setExtraField(item, '四川大学', easyscholarData['scu']);
+            if (scu && easyscholarData["scu"]) {
+              ztoolkit.ExtraField.setExtraField(
+                item,
+                "四川大学",
+                easyscholarData["scu"],
+              );
             }
             // 重庆大学
-            if (cqu && easyscholarData['cqu']) {
-              ztoolkit.ExtraField.setExtraField(item, '重庆大学', easyscholarData['cqu']);
+            if (cqu && easyscholarData["cqu"]) {
+              ztoolkit.ExtraField.setExtraField(
+                item,
+                "重庆大学",
+                easyscholarData["cqu"],
+              );
             }
             // 南京大学
-            if (nju && easyscholarData['nju']) {
-              ztoolkit.ExtraField.setExtraField(item, '南京大学', easyscholarData['nju']);
+            if (nju && easyscholarData["nju"]) {
+              ztoolkit.ExtraField.setExtraField(
+                item,
+                "南京大学",
+                easyscholarData["nju"],
+              );
             }
             // 新疆大学
-            if (xju && easyscholarData['xju']) {
-              ztoolkit.ExtraField.setExtraField(item, '新疆大学', easyscholarData['xju']);
+            if (xju && easyscholarData["xju"]) {
+              ztoolkit.ExtraField.setExtraField(
+                item,
+                "新疆大学",
+                easyscholarData["xju"],
+              );
             }
             // 中国地质大学
-            if (cug && easyscholarData['cug']) {
-              ztoolkit.ExtraField.setExtraField(item, '中国地质大学', easyscholarData['cug']);
+            if (cug && easyscholarData["cug"]) {
+              ztoolkit.ExtraField.setExtraField(
+                item,
+                "中国地质大学",
+                easyscholarData["cug"],
+              );
             }
             // 长江大学
-            if (cju && easyscholarData['cju']) {
-              ztoolkit.ExtraField.setExtraField(item, '长江大学', easyscholarData['cju']);
+            if (cju && easyscholarData["cju"]) {
+              ztoolkit.ExtraField.setExtraField(
+                item,
+                "长江大学",
+                easyscholarData["cju"],
+              );
             }
             // 浙江大学
-            if (zju && easyscholarData['zju']) {
-              ztoolkit.ExtraField.setExtraField(item, '浙江大学', easyscholarData['zju']);
+            if (zju && easyscholarData["zju"]) {
+              ztoolkit.ExtraField.setExtraField(
+                item,
+                "浙江大学",
+                easyscholarData["zju"],
+              );
             }
             // 中国药科大学
-            if (cpu && easyscholarData['cpu']) {
-              ztoolkit.ExtraField.setExtraField(item, '中国药科大学', easyscholarData['cpu']);
+            if (cpu && easyscholarData["cpu"]) {
+              ztoolkit.ExtraField.setExtraField(
+                item,
+                "中国药科大学",
+                easyscholarData["cpu"],
+              );
             }
           }
         } catch (error) {
-          Zotero.debug('影响因子设置失败！')
+          Zotero.debug("影响因子设置失败！");
         }
 
-
         //复合影响因子、综合影响因子
-        if (chineseIFs) { // 如果得到复合影响因子、综合影响因子再写入
+        if (chineseIFs) {
+          // 如果得到复合影响因子、综合影响因子再写入
           // if (!chineseIFs) { return } // 否则后面会报错
           if (compoundIFs) {
-            ztoolkit.ExtraField.setExtraField(item, '复合影响因子', chineseIFs[0]);
+            ztoolkit.ExtraField.setExtraField(
+              item,
+              "复合影响因子",
+              chineseIFs[0],
+            );
           }
           if (comprehensiveIFs) {
-            ztoolkit.ExtraField.setExtraField(item, '综合影响因子', chineseIFs[1]);
+            ztoolkit.ExtraField.setExtraField(
+              item,
+              "综合影响因子",
+              chineseIFs[1],
+            );
           }
         }
 
         // 大学期刊分类
         // 南农核心期刊分类、高水平高质量期刊
         if (njauCoreShow && njauCore(item) != undefined) {
-          ztoolkit.ExtraField.setExtraField(item, '南农核心', njauCore(item));
+          ztoolkit.ExtraField.setExtraField(item, "南农核心", njauCore(item));
         }
         if (njauJourShow && njauHighQuality != undefined) {
-          ztoolkit.ExtraField.setExtraField(item, '南农高质量', njauHighQuality);
+          ztoolkit.ExtraField.setExtraField(
+            item,
+            "南农高质量",
+            njauHighQuality,
+          );
         }
 
         // 自定义数据集
         // CLSCI
         if (clsci && clsciLevel != undefined) {
-          ztoolkit.ExtraField.setExtraField(item, 'CLSCI', '是');
+          ztoolkit.ExtraField.setExtraField(item, "CLSCI", "是");
         }
         if (ccf_c && ccfLevel != undefined) {
           // if field is already set, don't set it again
           // if not set, try to set it from custom dataset
-          if (ztoolkit.ExtraField.getExtraField(item, 'CCF') == undefined) {
-            ztoolkit.ExtraField.setExtraField(item, 'CCF', ccfLevel);
+          if (ztoolkit.ExtraField.getExtraField(item, "CCF") == undefined) {
+            ztoolkit.ExtraField.setExtraField(item, "CCF", ccfLevel);
           }
         }
         // AMI
         if (ami && amiLevel != undefined) {
-          ztoolkit.ExtraField.setExtraField(item, 'AMI', amiLevel);
+          ztoolkit.ExtraField.setExtraField(item, "AMI", amiLevel);
         }
         // NSSF
         if (nssf && nssfLevel != undefined) {
-          ztoolkit.ExtraField.setExtraField(item, 'NSSF', nssfLevel);
+          ztoolkit.ExtraField.setExtraField(item, "NSSF", nssfLevel);
         }
         // ABDC
         if (ABDC && ABDCLevel != undefined) {
-          ztoolkit.ExtraField.setExtraField(item, 'ABDC', ABDCLevel);
+          ztoolkit.ExtraField.setExtraField(item, "ABDC", ABDCLevel);
         }
         // Scopus
         if (Scopus && ScopusLevel != undefined) {
-          ztoolkit.ExtraField.setExtraField(item, 'Scopus', "是");
+          ztoolkit.ExtraField.setExtraField(item, "Scopus", "是");
         }
 
-        Zotero.debug('swupl是' + swupl + 'swuplLevel是' + swuplLevel);
+        Zotero.debug("swupl是" + swupl + "swuplLevel是" + swuplLevel);
         // 西南政法大学 SWUPL
         if (swupl && swuplLevel != undefined) {
-          ztoolkit.ExtraField.setExtraField(item, 'SWUPL', swuplLevel);
+          ztoolkit.ExtraField.setExtraField(item, "SWUPL", swuplLevel);
         }
-
 
         // 期刊缩写更新
         try {
           HelperExampleFactory.upJourAbb(item);
-
         } catch (error) {
-          Zotero.debug('期刊缩写更新失败！')
+          Zotero.debug("期刊缩写更新失败！");
         }
         item.saveTx();
 
         // 暂停1.x秒再抓取，随机等待时间1.xs
 
         await Zotero.Promise.delay(1000 + Math.round(Math.random() * 1000));
-
       }
     }
 
     // var whiteSpace = HelperExampleFactory.whiteSpace();
     if (n > 0) {
-      HelperExampleFactory.progressWindow(getString("upIfsSuccess", { args: { count: n } }), 'success');
+      HelperExampleFactory.progressWindow(
+        getString("upIfsSuccess", { args: { count: n } }),
+        "success",
+      );
       // Zotero.debug('okkkk' + getString('upIfsSuccess', { args: { count: n } }));
     } else {
-      HelperExampleFactory.progressWindow(`${getString('upIfsFail')}`, 'fail');
+      HelperExampleFactory.progressWindow(`${getString("upIfsFail")}`, "fail");
     }
   }
 
   @example
   // 从easyScholar获取数据 获得影响因子新接口函数
   static async getIFs(item: Zotero.Item) {
-    var secretKey: any = getPref(`secretkey`);
+    const secretKey: any = getPref(`secretkey`);
     //得到查询字段，期刊用期刊题目，会议论文用会议名称
-    var publicationTitle = Zotero.ItemTypes.getName(item.itemTypeID) == 'journalArticle' ?
-      encodeURIComponent(item.getField('publicationTitle') as any) :
-      encodeURIComponent(item.getField('conferenceName') as any);
+    let publicationTitle =
+      Zotero.ItemTypes.getName(item.itemTypeID) == "journalArticle"
+        ? encodeURIComponent(item.getField("publicationTitle") as any)
+        : encodeURIComponent(item.getField("conferenceName") as any);
 
     // 处理PANS, 期刊中包含Proceedings of the National Academy of Sciences即为Proceedings of the National Academy of Sciences
-    var pattPNAS = new RegExp(encodeURIComponent('Proceedings of the National Academy of Sciences'), 'i');
-    var resultPNAS = pattPNAS.test(publicationTitle);
-    publicationTitle = resultPNAS ? encodeURIComponent('Proceedings of the National Academy of Sciences of the United States of America') : publicationTitle
+    const pattPNAS = new RegExp(
+      encodeURIComponent("Proceedings of the National Academy of Sciences"),
+      "i",
+    );
+    const resultPNAS = pattPNAS.test(publicationTitle);
+    publicationTitle = resultPNAS
+      ? encodeURIComponent(
+          "Proceedings of the National Academy of Sciences of the United States of America",
+        )
+      : publicationTitle;
 
-
-    var url = `https://easyscholar.cc/open/getPublicationRank?secretKey=${secretKey}&publicationName=${publicationTitle}`;
+    const url = `https://easyscholar.cc/open/getPublicationRank?secretKey=${secretKey}&publicationName=${publicationTitle}`;
     try {
-      var resp = await Zotero.HTTP.request("GET", url);
+      const resp = await Zotero.HTTP.request("GET", url);
       var updateJson = JSON.parse(resp.responseText);
       if (updateJson["data"]["officialRank"]["all"]) {
         return updateJson["data"]["officialRank"]["all"];
@@ -527,69 +731,87 @@ export class KeyExampleFactory {
       Zotero.debug("获取easyScholar信息失败");
       Zotero.debug(updateJson["msg"]);
     }
-  };
+  }
 
   @example
   // 得到自定义期刊级别
   static async getCustomIFs(item: Zotero.Item, jourID: any) {
-    let secretKey = Zotero.Prefs.get('extensions.zotero.greenfrog.secretkey', true);
+    const secretKey = Zotero.Prefs.get(
+      "extensions.zotero.greenfrog.secretkey",
+      true,
+    );
     // var secretKey = getPref('secretkey');
     //publicationTitle =encodeURIComponent(item.getField('publicationTitle'));
     // var publicationTitle = Zotero.ItemTypes.getName(item.itemTypeID) == 'journalArticle' ?
     //   encodeURIComponent(item.getField('publicationTitle')) :
     //   encodeURIComponent(item.getField('conferenceName'));
 
-    Zotero.debug('publicationTitle: ' + item.getField('publicationTitle'));
-    Zotero.debug('conferenceName: ' + item.getField('conferenceName'));
-    Zotero.debug('proceedingsTitle: ' + item.getField('proceedingsTitle'));
+    Zotero.debug("publicationTitle: " + item.getField("publicationTitle"));
+    Zotero.debug("conferenceName: " + item.getField("conferenceName"));
+    Zotero.debug("proceedingsTitle: " + item.getField("proceedingsTitle"));
 
     // if journalArticle, get publicationTitle; if conferencePaper, get conferenceName and if conferencePaper and no conferenceName, get proceedingsTitle
-    var publicationTitle = Zotero.ItemTypes.getName(item.itemTypeID) == 'journalArticle' ?
-      encodeURIComponent(item.getField('publicationTitle') as any) :
-      item.getField('conferenceName') ? encodeURIComponent(item.getField('conferenceName') as any) :
-        item.getField('proceedingsTitle') ? encodeURIComponent(item.getField('proceedingsTitle') as any) : '';
+    let publicationTitle =
+      Zotero.ItemTypes.getName(item.itemTypeID) == "journalArticle"
+        ? encodeURIComponent(item.getField("publicationTitle") as any)
+        : item.getField("conferenceName")
+          ? encodeURIComponent(item.getField("conferenceName") as any)
+          : item.getField("proceedingsTitle")
+            ? encodeURIComponent(item.getField("proceedingsTitle") as any)
+            : "";
 
-    Zotero.debug('publication: ' + publicationTitle);
+    Zotero.debug("publication: " + publicationTitle);
 
     // 处理PANS, 期刊中包含Proceedings of the National Academy of Sciences即为Proceedings of the National Academy of Sciences
-    var pattPNAS = new RegExp(encodeURIComponent('Proceedings of the National Academy of Sciences'), 'i');
-    var resultPNAS = pattPNAS.test(publicationTitle);
-    publicationTitle = resultPNAS ?
-      encodeURIComponent('Proceedings of the National Academy of Sciences of the United States of America') : publicationTitle
+    const pattPNAS = new RegExp(
+      encodeURIComponent("Proceedings of the National Academy of Sciences"),
+      "i",
+    );
+    const resultPNAS = pattPNAS.test(publicationTitle);
+    publicationTitle = resultPNAS
+      ? encodeURIComponent(
+          "Proceedings of the National Academy of Sciences of the United States of America",
+        )
+      : publicationTitle;
 
-    var url = `https://easyscholar.cc/open/getPublicationRank?secretKey=${secretKey}&publicationName=${publicationTitle}`;
+    const url = `https://easyscholar.cc/open/getPublicationRank?secretKey=${secretKey}&publicationName=${publicationTitle}`;
     try {
-      let req = await Zotero.HTTP.request('GET', url, { responseType: 'json' });
+      const req = await Zotero.HTTP.request("GET", url, {
+        responseType: "json",
+      });
       // 得到all rank
       //var jourID = "1648920625629810688"
-      var allRank = req.response['data']["customRank"]["rankInfo"].
-        filter(function (e: any) { return e.uuid == jourID; });
+      const allRank = req.response["data"]["customRank"]["rankInfo"].filter(
+        function (e: any) {
+          return e.uuid == jourID;
+        },
+      );
       //Zotero.debug(allRank);
-      var allRankValues = Object.values(allRank[0]);
+      const allRankValues = Object.values(allRank[0]);
       // Zotero.debug(allRankValues);
       // 得到 rank
       try {
-        var rank = req.response['data']["customRank"]["rank"];
-        if (rank != '') {
-          var rankValue = rank.filter((item: any) => item.slice(0, -4) == jourID)[0].slice(-1);
+        const rank = req.response["data"]["customRank"]["rank"];
+        if (rank != "") {
+          var rankValue = rank
+            .filter((item: any) => item.slice(0, -4) == jourID)[0]
+            .slice(-1);
         }
-      }
-      catch (e) {
-        Zotero.debug('获取自定义数据集rank失败')
+      } catch (e) {
+        Zotero.debug("获取自定义数据集rank失败");
       }
 
       // rankValue转为数字加1得到期刊级别
       if (rankValue != undefined) {
-        var level = allRankValues[parseInt(rankValue) + 1];
+        const level = allRankValues[parseInt(rankValue) + 1];
         // Zotero.debug('level是' + level);
 
         return level;
       } else {
-        return undefined
+        return undefined;
       }
-    }
-    catch (error) {
-      Zotero.debug('获  取自定义数据集期刊级别失败！' + error);
+    } catch (error) {
+      Zotero.debug("获  取自定义数据集期刊级别失败！" + error);
     }
   }
 
@@ -597,55 +819,63 @@ export class KeyExampleFactory {
   // 设置复合影响因子及综合影响因子20220709
   // 代码源于@l0o0，感谢。
   static async getChineseIFs(item: Zotero.Item) {
-    var chineseIFs = [];
-    var pubT = item.getField('publicationTitle');
-    var pattern = new RegExp("[\u4E00-\u9FA5]+");
-    if (pattern.test(String(pubT))) { // 如果期刊名中含有中文才进行替换
+    const chineseIFs = [];
+    let pubT = item.getField("publicationTitle");
+    const pattern = new RegExp("[\u4E00-\u9FA5]+");
+    if (pattern.test(String(pubT))) {
+      // 如果期刊名中含有中文才进行替换
       try {
-        var body = `searchStateJson=%7B%22StateID%22%3A%22%22%2C%22Platfrom%22%3A%22%22%2C%22QueryTime%22%3A%22%22%2C%22Account%22%3A%22knavi%22%2C%22ClientToken%22%3A%22%22%2C%22Language%22%3A%22%22%2C%22CNode%22%3A%7B%22PCode%22%3A%22JOURNAL%22%2C%22SMode%22%3A%22%22%2C%22OperateT%22%3A%22%22%7D%2C%22QNode%22%3A%7B%22SelectT%22%3A%22%22%2C%22Select_Fields%22%3A%22%22%2C%22S_DBCodes%22%3A%22%22%2C%22QGroup%22%3A%5B%7B%22Key%22%3A%22subject%22%2C%22Logic%22%3A1%2C%22Items%22%3A%5B%5D%2C%22ChildItems%22%3A%5B%7B%22Key%22%3A%22txt%22%2C%22Logic%22%3A1%2C%22Items%22%3A%5B%7B%22Key%22%3A%22txt_1%22%2C%22Title%22%3A%22%22%2C%22Logic%22%3A1%2C%22Name%22%3A%22TI%22%2C%22Operate%22%3A%22%25%22%2C%22Value%22%3A%22'${encodeURIComponent(pubT)}'%22%2C%22ExtendType%22%3A0%2C%22ExtendValue%22%3A%22%22%2C%22Value2%22%3A%22%22%7D%5D%2C%22ChildItems%22%3A%5B%5D%7D%5D%7D%5D%2C%22OrderBy%22%3A%22OTA%7CDESC%22%2C%22GroupBy%22%3A%22%22%2C%22Additon%22%3A%22%22%7D%7D&displaymode=1&pageindex=1&pagecount=21&index=&searchType=%E5%88%8A%E5%90%8D(%E6%9B%BE%E7%94%A8%E5%88%8A%E5%90%8D)&clickName=&switchdata=search&random=0.2815758347350512`;
-        var resp = await Zotero.HTTP.request(
+        const body = `searchStateJson=%7B%22StateID%22%3A%22%22%2C%22Platfrom%22%3A%22%22%2C%22QueryTime%22%3A%22%22%2C%22Account%22%3A%22knavi%22%2C%22ClientToken%22%3A%22%22%2C%22Language%22%3A%22%22%2C%22CNode%22%3A%7B%22PCode%22%3A%22JOURNAL%22%2C%22SMode%22%3A%22%22%2C%22OperateT%22%3A%22%22%7D%2C%22QNode%22%3A%7B%22SelectT%22%3A%22%22%2C%22Select_Fields%22%3A%22%22%2C%22S_DBCodes%22%3A%22%22%2C%22QGroup%22%3A%5B%7B%22Key%22%3A%22subject%22%2C%22Logic%22%3A1%2C%22Items%22%3A%5B%5D%2C%22ChildItems%22%3A%5B%7B%22Key%22%3A%22txt%22%2C%22Logic%22%3A1%2C%22Items%22%3A%5B%7B%22Key%22%3A%22txt_1%22%2C%22Title%22%3A%22%22%2C%22Logic%22%3A1%2C%22Name%22%3A%22TI%22%2C%22Operate%22%3A%22%25%22%2C%22Value%22%3A%22'${encodeURIComponent(pubT)}'%22%2C%22ExtendType%22%3A0%2C%22ExtendValue%22%3A%22%22%2C%22Value2%22%3A%22%22%7D%5D%2C%22ChildItems%22%3A%5B%5D%7D%5D%7D%5D%2C%22OrderBy%22%3A%22OTA%7CDESC%22%2C%22GroupBy%22%3A%22%22%2C%22Additon%22%3A%22%22%7D%7D&displaymode=1&pageindex=1&pagecount=21&index=&searchType=%E5%88%8A%E5%90%8D(%E6%9B%BE%E7%94%A8%E5%88%8A%E5%90%8D)&clickName=&switchdata=search&random=0.2815758347350512`;
+        const resp = await Zotero.HTTP.request(
           "POST",
           "https://navi.cnki.net/knavi/all/searchbaseinfo",
           {
             headers: {
-              "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/103.0.5060.114 Safari/537.36 Edg/103.0.1264.49",
+              "User-Agent":
+                "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/103.0.5060.114 Safari/537.36 Edg/103.0.1264.49",
             },
             body: body,
-          }
+          },
         );
-        var AllJour = resp.responseText;
+        const AllJour = resp.responseText;
         // 如果期刊名中有半角括号 在括号前添加/，以匹配
         if (/\)/.test(String(pubT))) {
-          pubT = String(pubT).replace(/(\()(.*)(\))/, '\\$1$2\\$3')
+          pubT = String(pubT).replace(/(\()(.*)(\))/, "\\$1$2\\$3");
         }
-        var reg = ' ' + pubT + '\n(.*\n){10,40} .*复合影响因子：(.*)\n(.*\n){0,6} .*综合影响因子：(.*)'; //复合影响因子和综合影响因子正则，里面含有空格，\s不行
-        var patt = new RegExp(reg, 'i'); //
-        var jour = AllJour.match(patt) // [2]为复合影响因子，[4]为综合IF
+        const reg =
+          " " +
+          pubT +
+          "\n(.*\n){10,40} .*复合影响因子：(.*)\n(.*\n){0,6} .*综合影响因子：(.*)"; //复合影响因子和综合影响因子正则，里面含有空格，\s不行
+        const patt = new RegExp(reg, "i"); //
+        const jour = AllJour.match(patt); // [2]为复合影响因子，[4]为综合IF
         if (!jour) return;
-        var compoundIF = jour[2];
-        var comprehensiveIF = jour[4];
-        if (compoundIF !== undefined) { chineseIFs.push(compoundIF); }
-        if (comprehensiveIF !== undefined) { chineseIFs.push(comprehensiveIF); }
+        const compoundIF = jour[2];
+        const comprehensiveIF = jour[4];
+        if (compoundIF !== undefined) {
+          chineseIFs.push(compoundIF);
+        }
+        if (comprehensiveIF !== undefined) {
+          chineseIFs.push(comprehensiveIF);
+        }
         return chineseIFs;
-
       } catch (e) {
-        Zotero.debug('复合影响因子、综合影响因子获取失败！');
+        Zotero.debug("复合影响因子、综合影响因子获取失败！");
         return;
       }
     }
-  };
+  }
 
   //分类右击更新信息
   @example
   static async upMetaCol() {
-    var collection = ZoteroPane.getSelectedCollection();
-    var items = collection?.getChildItems();
+    const collection = ZoteroPane.getSelectedCollection();
+    const items = collection?.getChildItems();
     await KeyExampleFactory.upMeta(items);
   }
   //条目右键更新信息
   @example
   static async upMetaItems() {
-    var items = Zotero.getActiveZoteroPane().getSelectedItems();
+    const items = Zotero.getActiveZoteroPane().getSelectedItems();
     await KeyExampleFactory.upMeta(items);
   }
 
@@ -658,40 +888,51 @@ export class KeyExampleFactory {
   static async upMeta(items: any) {
     // var items = KeyExampleFactory.getSelectedItems();
     // var item = items[0];
-    var n = 0;
-    var pattern = new RegExp("[\u4E00-\u9FA5]+");
-    for (let item of items) {
-      if (UIExampleFactory.checkItem(item)) {//如果期刊或会议论文才继续
+    let n = 0;
+    const pattern = new RegExp("[\u4E00-\u9FA5]+");
+    for (const item of items) {
+      if (UIExampleFactory.checkItem(item)) {
+        //如果期刊或会议论文才继续
         var title: any = item.getField("title");
-        var doi = item.getField("DOI");
-        var lan = pattern.test(title) ? 'zh-CN' : 'en-US';
-        if (lan == 'zh-CN') { //中文条目
+        const doi = item.getField("DOI");
+        const lan = pattern.test(title) ? "zh-CN" : "en-US";
+        if (lan == "zh-CN") {
+          //中文条目
           async function getCNKIDetailURLByTitle(title: any) {
-            var queryJson = {
-              "Platform": "",
-              "DBCode": "CFLS",
-              "KuaKuCode": "CJFQ,CCND,CIPD,CDMD,BDZK,CISD,SNAD,CCJD,GXDB_SECTION,CJFN,CCVD",
-              "QNode": {
-                "QGroup": [{
-                  "Key": "Subject",
-                  "Title": "",
-                  "Logic": 1,
-                  "Items": [{ "Title": "篇名", "Name": "TI", "Value": title, "Operate": "%=", "BlurType": "" }],
-                  "ChildItems": []
-                }]
-              }
+            const queryJson = {
+              Platform: "",
+              DBCode: "CFLS",
+              KuaKuCode:
+                "CJFQ,CCND,CIPD,CDMD,BDZK,CISD,SNAD,CCJD,GXDB_SECTION,CJFN,CCVD",
+              QNode: {
+                QGroup: [
+                  {
+                    Key: "Subject",
+                    Title: "",
+                    Logic: 1,
+                    Items: [
+                      {
+                        Title: "篇名",
+                        Name: "TI",
+                        Value: title,
+                        Operate: "%=",
+                        BlurType: "",
+                      },
+                    ],
+                    ChildItems: [],
+                  },
+                ],
+              },
             };
 
-            var PostDATA =
+            const PostDATA =
               "IsSearch=true&QueryJson=" +
               encodeURIComponent(JSON.stringify(queryJson)) +
               `&PageName=defaultresult&DBCode=CFLS&KuaKuCodes=CJFQ%2CCCND%2CCIPD%2CCDMD%2CBDZK%2CCISD%2CSNAD%2CCCJD%2CGXDB_SECTION%2CCJFN%2CCCVD` +
               `&CurPage=1&RecordsCntPerPage=20&CurDisplayMode=listmode&CurrSortField=RELEVANT&CurrSortFieldType=desc&IsSentenceSearch=false&Subject=`;
 
-
             function getCookieSandbox() {
-              var cookieData =
-                `Ecp_ClientId=3210724131801671689;
+              const cookieData = `Ecp_ClientId=3210724131801671689;
             cnkiUserKey=2bf7144a-ddf6-3d32-afb8-d4bf82473d9f;
             RsPerPage=20;
             Ecp_ClientIp=58.154.105.222;
@@ -706,19 +947,21 @@ export class KeyExampleFactory {
             CurrSortField=%e7%9b%b8%e5%85%b3%e5%ba%a6%2frelevant%2c(%e5%8f%91%e8%a1%a8%e6%97%b6%e9%97%b4%2c%27time%27);
             CurrSortFieldType=DESC; dblang=ch`;
 
-              var userAgent = "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/107.0.0.0 Safari/537.36 Edg/107.0.1418.56";
-              var url = "https://cnki.net/";
+              const userAgent =
+                "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/107.0.0.0 Safari/537.36 Edg/107.0.1418.56";
+              const url = "https://cnki.net/";
               return new Zotero.CookieSandbox("", url, cookieData, userAgent);
-            };
+            }
 
-
-            var requestHeaders = {
+            const requestHeaders = {
               Accept: "text/html, */*; q=0.01",
               "Accept-Encoding": "gzip, deflate, br",
-              "Accept-Language": "zh-CN,zh;q=0.9,en;q=0.8,en-GB;q=0.7,en-US;q=0.6",
+              "Accept-Language":
+                "zh-CN,zh;q=0.9,en;q=0.8,en-GB;q=0.7,en-US;q=0.6",
               Connection: "keep-alive",
               "Content-Length": "992",
-              "Content-Type": "application/x-www-form-urlencoded; charset=UTF-8",
+              "Content-Type":
+                "application/x-www-form-urlencoded; charset=UTF-8",
               Host: "kns.cnki.net",
               Origin: "https://kns.cnki.net",
               Referer: `https://kns.cnki.net/kns8/defaultresult/index?kw=${encodeURIComponent(title)}&korder=TI`,
@@ -726,61 +969,85 @@ export class KeyExampleFactory {
               "Sec-Fetch-Mode": "cors",
               "Sec-ch-ua": `"Microsoft Edge"; v = "107", "Chromium"; v = "107", "Not=A?Brand"; v = "24"`,
               "Sec-Fetch-Site": "same-origin",
-              "X-Requested-With": "XMLHttpRequest"
+              "X-Requested-With": "XMLHttpRequest",
             };
 
-            var postUrl = "https://kns.cnki.net/kns8/Brief/GetGridTableHtml";
+            const postUrl = "https://kns.cnki.net/kns8/Brief/GetGridTableHtml";
 
             function getHtml(responseText: any) {
-              var parser = Components.classes["@mozilla.org/xmlextras/domparser;1"]
-                .createInstance(Components.interfaces.nsIDOMParser);
-              var html = parser.parseFromString(responseText, "text/html");
+              const parser = Components.classes[
+                "@mozilla.org/xmlextras/domparser;1"
+              ].createInstance(Components.interfaces.nsIDOMParser);
+              const html = parser.parseFromString(responseText, "text/html");
               return html;
-            };
-            var resp = await Zotero.HTTP.request("POST", postUrl, {
+            }
+            const resp = await Zotero.HTTP.request("POST", postUrl, {
               headers: requestHeaders,
               cookieSandbox: getCookieSandbox(),
-              body: PostDATA
+              body: PostDATA,
             });
             return getHtml(resp.responseText);
           }
           function updateField(field: any, newItem: any, oldItem: Zotero.Item) {
             const newFieldValue = newItem[field],
-                oldFieldValue = oldItem.getField(field);
+              oldFieldValue = oldItem.getField(field);
             if (newFieldValue && newFieldValue !== oldFieldValue) {
               oldItem.setField(field, newFieldValue);
             }
           }
           function updateINFO(newItem: any, oldItemID: any) {
-            let oldItem = Zotero.Items.get(oldItemID)
+            const oldItem = Zotero.Items.get(oldItemID);
             oldItem.setCreators(newItem["creators"]);
             // 可根据下述网址增减需要更新的Field.
             // https://www.zotero.org/support/dev/client_coding/javascript_api/search_fields
-            let fields = ["title", "publicationTitle", "journalAbbreviation", "volume", "issue", "date", "pages", "ISSN", "url", "abstractNote", "DOI", "type", "publisher"]
-            for (let field of fields) {
+            const fields = [
+              "title",
+              "publicationTitle",
+              "journalAbbreviation",
+              "volume",
+              "issue",
+              "date",
+              "pages",
+              "ISSN",
+              "url",
+              "abstractNote",
+              "DOI",
+              "type",
+              "publisher",
+            ];
+            for (const field of fields) {
               updateField(field, newItem, oldItem);
             }
             oldItem.saveTx();
             Zotero.debug("succeeded!");
           }
           //中文条目更新函数
-          var selectedItem = item;
+          const selectedItem = item;
           var ItemID = selectedItem.id;
           var title: any = selectedItem.getField("title");
-          var publicationTitle = selectedItem.getField("publicationTitle");
+          const publicationTitle = selectedItem.getField("publicationTitle");
           var html;
           var url;
           try {
             html = await getCNKIDetailURLByTitle(title);
             if (publicationTitle != "") {
-              url = (Zotero.Utilities as any).xpath(html, `//td[normalize-space(string(.))="${publicationTitle}"]/preceding-sibling::td[@class="name" and normalize-space(string(.))="${title}"]/a`)[0].href;
+              url = (Zotero.Utilities as any).xpath(
+                html,
+                `//td[normalize-space(string(.))="${publicationTitle}"]/preceding-sibling::td[@class="name" and normalize-space(string(.))="${title}"]/a`,
+              )[0].href;
             } else {
-              url = (Zotero.Utilities as any).xpath(html, `//td[@class="name" and normalize-space(string(.))="${title}"]/a`)[0].href;
+              url = (Zotero.Utilities as any).xpath(
+                html,
+                `//td[@class="name" and normalize-space(string(.))="${title}"]/a`,
+              )[0].href;
             }
 
-            url = url.replace("/kns8/Detail", "https://kns.cnki.net/kcms/detail/detail.aspx");
+            url = url.replace(
+              "/kns8/Detail",
+              "https://kns.cnki.net/kcms/detail/detail.aspx",
+            );
           } catch (error) {
-            var popw = new Zotero.ProgressWindow();
+            const popw = new Zotero.ProgressWindow();
             popw.changeHeadline("未找到文献, 或者遇到了网络问题！", "", "");
             popw.addDescription(`文献：${title}`);
             popw.show();
@@ -789,64 +1056,74 @@ export class KeyExampleFactory {
             return;
           }
           // @ts-ignore
-          Zotero.HTTP.loadDocuments(url,
-            async function (doc: any) {
-              let translate = new Zotero.Translate.Web();
-              translate.setDocument(doc);
-              translate.setTranslator("5c95b67b-41c5-4f55-b71a-48d5d7183063");
-              let items = await translate.translate({ libraryID: false });
-              if (items.length == 0) return;
-              updateINFO(items[0], ItemID)
-            }
-          );
-
-        } else if (lan == 'en-US') {//英文条目
-          if (doi != '') {
-            let identifier =
-            {
+          Zotero.HTTP.loadDocuments(url, async function (doc: any) {
+            const translate = new Zotero.Translate.Web();
+            translate.setDocument(doc);
+            translate.setTranslator("5c95b67b-41c5-4f55-b71a-48d5d7183063");
+            const items = await translate.translate({ libraryID: false });
+            if (items.length == 0) return;
+            updateINFO(items[0], ItemID);
+          });
+        } else if (lan == "en-US") {
+          //英文条目
+          if (doi != "") {
+            const identifier = {
               itemType: "journalArticle",
-              DOI: item.getField('DOI')
+              DOI: item.getField("DOI"),
             };
-            var translate = new Zotero.Translate.Search();
+            const translate = new Zotero.Translate.Search();
             translate.setIdentifier(identifier);
-            let translators = await translate.getTranslators();
+            const translators = await translate.getTranslators();
             translate.setTranslator(translators);
-            const newItems = await translate.translate({libraryID: false});
+            const newItems = await translate.translate({ libraryID: false });
             if (newItems.length == 0) continue;
-            let newItem = newItems[0];
+            const newItem = newItems[0];
 
             function update(field: any) {
               const newFieldValue = newItem[field],
-                  oldFieldValue = item.getField(field);
-                if (newFieldValue && newFieldValue !== oldFieldValue) {
-                    item.setField(field, newFieldValue);
-                }
+                oldFieldValue = item.getField(field);
+              if (newFieldValue && newFieldValue !== oldFieldValue) {
+                item.setField(field, newFieldValue);
+              }
             }
             item.setCreators(newItem["creators"]);
 
             // 可根据下述网址增减需要更新的Field.
             // https://www.zotero.org/support/dev/client_coding/javascript_api/search_fields
 
-            let fields = ["title", "publicationTitle", "journalAbbreviation", "volume",
-              "issue", "date", "pages", "issue", "ISSN", "url", "abstractNote"
-            ]
+            const fields = [
+              "title",
+              "publicationTitle",
+              "journalAbbreviation",
+              "volume",
+              "issue",
+              "date",
+              "pages",
+              "issue",
+              "ISSN",
+              "url",
+              "abstractNote",
+            ];
 
-            for (let field of fields) {
+            for (const field of fields) {
               update(field);
             }
 
             await item.saveTx();
           }
         }
-        n++
-        await Zotero.Promise.delay(1000 + Math.round(Math.random() * 1000));  // 暂停1s
+        n++;
+        await Zotero.Promise.delay(1000 + Math.round(Math.random() * 1000)); // 暂停1s
       }
     }
     if (n > 0) {
-      HelperExampleFactory.progressWindow(getString("upIfsSuccess", { args: { count: n } }), 'success');
+      HelperExampleFactory.progressWindow(
+        getString("upIfsSuccess", { args: { count: n } }),
+        "success",
+      );
       // Zotero.debug('okkkk' + getString('upIfsSuccess', { args: { count: n } }));
     } else {
-      HelperExampleFactory.progressWindow(`${getString('upIfsFail')}`, 'fail');
+      HelperExampleFactory.progressWindow(`${getString("upIfsFail")}`, "fail");
     }
     // var whiteSpace = HelperExampleFactory.whiteSpace();
     // HelperExampleFactory.progressWindow(`${n}${whiteSpace}${getString('upIfsSuccess')}`, 'success')
@@ -863,19 +1140,21 @@ export class KeyExampleFactory {
     // const cmdSmallerId = `${config.addonRef}-cmd-smaller`;
     // Register an event key for Alt+D 数据目录
     // 待使用新函数
-    var ifTitleSentence = getPref(`shortcut.title.sentence`);
-    var keyTitleSentence = getPref(`shortcut.input.title.sentence`);
-    var ifPubTitleCase = getPref(`shortcut.publication.title.case`);
-    var keyPubTitleCase = getPref(`shortcut.input.publication.title.case`);
-    var ifDataDir = getPref(`shortcut.data.dir`);
-    var keyDataDir = getPref(`shortcut.input.data.dir`);
-    var ifProfileDir = getPref(`shortcut.profile.dir`);
-    var keyProfileDir = getPref(`shortcut.input.profile.dir`);
+    const ifTitleSentence = getPref(`shortcut.title.sentence`);
+    const keyTitleSentence = getPref(`shortcut.input.title.sentence`);
+    const ifPubTitleCase = getPref(`shortcut.publication.title.case`);
+    const keyPubTitleCase = getPref(`shortcut.input.publication.title.case`);
+    const ifDataDir = getPref(`shortcut.data.dir`);
+    const keyDataDir = getPref(`shortcut.input.data.dir`);
+    const ifProfileDir = getPref(`shortcut.profile.dir`);
+    const keyProfileDir = getPref(`shortcut.input.profile.dir`);
 
     // win的control 键 mac的command键  accel是控制键，在mac对应command，在其他系统对应ctrl
     if (Zotero.isMac) {
-      var keyControl = 'meta'
-    } else { var keyControl = 'control' }
+      var keyControl = "meta";
+    } else {
+      var keyControl = "control";
+    }
 
     // 题目大小写改为句首字母大小写
     if (ifTitleSentence) {
@@ -909,11 +1188,14 @@ export class KeyExampleFactory {
         if (!keyboard?.equals(`alt,${keyDataDir}`)) {
           return;
         }
-        
+
         // HelperExampleFactory.progressWindow(`${ifPubTitleCase}${keyPubTitleCase}`, 'success')
         // addon.hooks.onShortcuts("larger");
         // HelperExampleFactory.progressWindow(`${ifPubTitleCase} ${keyPubTitleCase} `, 'success');
-        HelperExampleFactory.progressWindow(`${getString('dataDir')} ${Zotero.DataDirectory.dir}`, 'success')
+        HelperExampleFactory.progressWindow(
+          `${getString("dataDir")} ${Zotero.DataDirectory.dir}`,
+          "success",
+        );
       });
     }
 
@@ -924,7 +1206,10 @@ export class KeyExampleFactory {
           return;
         }
         // addon.hooks.onShortcuts("larger");
-        HelperExampleFactory.progressWindow(`${getString('proDir')} ${Zotero.Profile.dir}`, 'success')
+        HelperExampleFactory.progressWindow(
+          `${getString("proDir")} ${Zotero.Profile.dir}`,
+          "success",
+        );
       });
     }
 
@@ -1021,28 +1306,34 @@ export class KeyExampleFactory {
 }
 
 export class UIExampleFactory {
-
   // 是否显示菜单函数 类型为期刊才显示可用
   // 是否显示分类右键菜单 隐藏
   static displayColMenuitem() {
     const collection = ZoteroPane.getSelectedCollection(),
-      menuUpIFsCol = document.getElementById(`zotero-collectionmenu-${config.addonRef}-upifs`), // 删除分类及附件菜单
-      menuUpMeta = document.getElementById(`zotero-collectionmenu-${config.addonRef}-upmeta`); // 导出分类附件菜单
+      menuUpIFsCol = document.getElementById(
+        `zotero-collectionmenu-${config.addonRef}-upifs`,
+      ), // 删除分类及附件菜单
+      menuUpMeta = document.getElementById(
+        `zotero-collectionmenu-${config.addonRef}-upmeta`,
+      ); // 导出分类附件菜单
 
     // 非正常文件夹，如我的出版物、重复条目、未分类条目、回收站，为false，此时返回值为true，禁用菜单
     // 两个！！转表达式为逻辑值
-    var showmenuUpIFsCol = !!collection;
-    var showmenuUpMetaCol = !!collection;
+    let showmenuUpIFsCol = !!collection;
+    let showmenuUpMetaCol = !!collection;
 
-    if (!!collection) { // 如果是正常分类才显示
-      var items = collection.getChildItems();
+    if (collection) {
+      // 如果是正常分类才显示
+      const items = collection.getChildItems();
       showmenuUpIFsCol = items.some((item) => UIExampleFactory.checkItem(item)); //检查是否为期刊或会议论文
-      showmenuUpMetaCol = items.some((item) => UIExampleFactory.checkItemMeta(item)); // 更新元数据 中文有题目，英文检查是否有DOI
+      showmenuUpMetaCol = items.some((item) =>
+        UIExampleFactory.checkItemMeta(item),
+      ); // 更新元数据 中文有题目，英文检查是否有DOI
     } else {
       showmenuUpIFsCol = false;
     } // 检查分类是否有附件及是否为正常分类
-    menuUpIFsCol?.setAttribute('disabled', String(!showmenuUpIFsCol)); // 禁用更新期刊信息
-    menuUpMeta?.setAttribute('disabled', String(!showmenuUpMetaCol)); // 禁用更新元数据
+    menuUpIFsCol?.setAttribute("disabled", String(!showmenuUpIFsCol)); // 禁用更新期刊信息
+    menuUpMeta?.setAttribute("disabled", String(!showmenuUpMetaCol)); // 禁用更新元数据
   }
 
   // 禁用菜单
@@ -1055,49 +1346,59 @@ export class UIExampleFactory {
   // 是否显示条目右键菜单
   static displayContexMenuitem() {
     const items = ZoteroPane.getSelectedItems(),
-      menuUpIfs = document.getElementById(`zotero-itemmenu-${config.addonRef}-upifs`), // 更新期刊信息
-      menuUpMeta = document.getElementById(`zotero-itemmenu-${config.addonRef}-upmeta`), // 更新元数据
+      menuUpIfs = document.getElementById(
+        `zotero-itemmenu-${config.addonRef}-upifs`,
+      ), // 更新期刊信息
+      menuUpMeta = document.getElementById(
+        `zotero-itemmenu-${config.addonRef}-upmeta`,
+      ), // 更新元数据
+      showMenuUpIfs = items.some((item) => UIExampleFactory.checkItem(item)), // 更新期刊信息 检查是否为期刊或会议论文
+      showMenuUpMeta = items.some((item) =>
+        UIExampleFactory.checkItemMeta(item),
+      ); // 更新元数据 检查是否有DOI
 
-      showMenuUpIfs = items.some((item) => UIExampleFactory.checkItem(item)),// 更新期刊信息 检查是否为期刊或会议论文
-      showMenuUpMeta = items.some((item) => UIExampleFactory.checkItemMeta(item)); // 更新元数据 检查是否有DOI
-
-    menuUpIfs?.setAttribute('disabled', `${!showMenuUpIfs}`); // 禁用更新期刊信息
-    menuUpMeta?.setAttribute('disabled', `${!showMenuUpMeta}`); // 更新元数据
+    menuUpIfs?.setAttribute("disabled", `${!showMenuUpIfs}`); // 禁用更新期刊信息
+    menuUpMeta?.setAttribute("disabled", `${!showMenuUpMeta}`); // 更新元数据
   }
-
-
 
   // 检查条目是否符合 是否为期刊
   static checkItem(item: Zotero.Item) {
     if (item && !item.isNote()) {
-      if (item.isRegularItem()) { // not an attachment already
-        if (Zotero.ItemTypes.getName(item.itemTypeID) == 'journalArticle' ||// 文献类型为期刊
-          Zotero.ItemTypes.getName(item.itemTypeID) == 'conferencePaper'
-
-        ) { return true }
+      if (item.isRegularItem()) {
+        // not an attachment already
+        if (
+          Zotero.ItemTypes.getName(item.itemTypeID) == "journalArticle" || // 文献类型为期刊
+          Zotero.ItemTypes.getName(item.itemTypeID) == "conferencePaper"
+        ) {
+          return true;
+        }
       }
     }
-  };
+  }
 
   // 检查条目元数据是否符合 英文必须有DOI
   static checkItemMeta(item: Zotero.Item) {
-    var pattern = new RegExp("[\u4E00-\u9FA5]+");
+    const pattern = new RegExp("[\u4E00-\u9FA5]+");
     if (item && !item.isNote()) {
-      if (item.isRegularItem()) { // not an attachment already
-        var title: any = item.getField("title");
-        var doi = item.getField("DOI");
-        var lan = pattern.test(title) ? 'zh-CN' : 'en-US';
-        if (Zotero.ItemTypes.getName(item.itemTypeID) == 'journalArticle' // 文献类型必须为期刊
+      if (item.isRegularItem()) {
+        // not an attachment already
+        const title: any = item.getField("title");
+        const doi = item.getField("DOI");
+        const lan = pattern.test(title) ? "zh-CN" : "en-US";
+        if (
+          Zotero.ItemTypes.getName(item.itemTypeID) == "journalArticle" // 文献类型必须为期刊
         ) {
-          if (lan == 'zh-CN') { //中文条目
-            return title == '' ? false : true; // 题目为空时不能更新中文
-          } else if (lan == 'en-US') {//英文条目
-            return doi == '' ? false : true; // 英文DOI为空时不能更新英文
+          if (lan == "zh-CN") {
+            //中文条目
+            return title == "" ? false : true; // 题目为空时不能更新中文
+          } else if (lan == "en-US") {
+            //英文条目
+            return doi == "" ? false : true; // 英文DOI为空时不能更新英文
           }
         }
       }
     }
-  };
+  }
 
   /*
   @example
@@ -1219,7 +1520,7 @@ export class UIExampleFactory {
     ztoolkit.Menu.register("menuTools", {
       tag: "menu",
       label: getString("toolbox"),
-      onpopupshowing: `Zotero.${config.addonInstance}.hooks.hideMenu()`,// 显示隐藏菜单
+      onpopupshowing: `Zotero.${config.addonInstance}.hooks.hideMenu()`, // 显示隐藏菜单
 
       children: [
         // Author Bold and/ or Asterisk 作者加粗加星
@@ -1272,7 +1573,7 @@ export class UIExampleFactory {
         },
         {
           tag: "menuseparator",
-          id: "zotero-toolboxmenu-sep1"
+          id: "zotero-toolboxmenu-sep1",
         },
         // Change Title to Sentense Case 条目题目大小写
         {
@@ -1305,11 +1606,12 @@ export class UIExampleFactory {
           label: getString("itemTitleFindReplace"),
           // oncommand: "alert(KeyExampleFactory.getSelectedItems())",
           // oncommand: `ztoolkit.getGlobal('alert')(${KeyExampleFactory.getSelectedItems()})`,
-          commandListener: (ev) => HelperExampleFactory.dialogItemTitleProcess(),
+          commandListener: (ev) =>
+            HelperExampleFactory.dialogItemTitleProcess(),
         },
         {
           tag: "menuseparator",
-          id: "zotero-toolboxmenu-sep2"
+          id: "zotero-toolboxmenu-sep2",
         },
         // Show Porfile Directory
         {
@@ -1317,7 +1619,11 @@ export class UIExampleFactory {
           id: "zotero-toolboxmenu-showProfile",
           label: getString("showProfile"),
           // oncommand: "alert('Hello World! Sub Menuitem.')",
-          commandListener: (ev) => HelperExampleFactory.progressWindow(`${getString('proDir')} ${Zotero.Profile.dir}`, 'success'),
+          commandListener: (ev) =>
+            HelperExampleFactory.progressWindow(
+              `${getString("proDir")} ${Zotero.Profile.dir}`,
+              "success",
+            ),
         },
         // Show Data Directory
         {
@@ -1325,7 +1631,11 @@ export class UIExampleFactory {
           id: "zotero-toolboxmenu-showData",
           label: getString("showData"),
           // oncommand: "alert('Hello World! Sub Menuitem.')",
-          commandListener: (ev) => HelperExampleFactory.progressWindow(`${getString('dataDir')} ${Zotero.DataDirectory.dir}`, 'success'),
+          commandListener: (ev) =>
+            HelperExampleFactory.progressWindow(
+              `${getString("dataDir")} ${Zotero.DataDirectory.dir}`,
+              "success",
+            ),
         },
         //刷新自定义列
         // {
@@ -1340,27 +1650,38 @@ export class UIExampleFactory {
       tag: "menuitem",
       label: getString("cleanExtra"),
       commandListener: (ev) => HelperExampleFactory.emptyExtra(),
-
-    })
+    });
   }
 
   // 显示隐藏工具箱中的菜单
   @example
   static hideMenu() {
-    const menuboldStar = document.getElementById('zotero-toolboxmenu-auBoldStar'),  //
-      menucleanBold = document.getElementById('zotero-toolboxmenu-cleanBold'),  //
-      menucleanStar = document.getElementById('zotero-toolboxmenu-cleanStar'),  //
-      menucleanBoldStar = document.getElementById('zotero-toolboxmenu-cleanBoldStar'),  //
-      menuchAuTitle = document.getElementById('zotero-toolboxmenu-chAuTitle'),  //
-      menuswapAuName = document.getElementById('zotero-toolboxmenu-swapAuName'),  //
-      menusep1 = document.getElementById('zotero-toolboxmenu-sep1'),  //
-      menuchTitleCase = document.getElementById('zotero-toolboxmenu-chTitleCase'),  //
-      menuchPubTitle = document.getElementById('zotero-toolboxmenu-chPubTitle'),  //
-      menuchPubTitleCase = document.getElementById('zotero-toolboxmenu-chPubTitleCase'),  //
-      menuitemTitleFindReplace = document.getElementById('zotero-toolboxmenu-itemTitleFindReplace'),  //
-      menusep2 = document.getElementById('zotero-toolboxmenu-sep2'),  //
-      menushowProfile = document.getElementById('zotero-toolboxmenu-showProfile'),  //
-      menushowData = document.getElementById('zotero-toolboxmenu-showData');  //
+    const menuboldStar = document.getElementById(
+        "zotero-toolboxmenu-auBoldStar",
+      ), //
+      menucleanBold = document.getElementById("zotero-toolboxmenu-cleanBold"), //
+      menucleanStar = document.getElementById("zotero-toolboxmenu-cleanStar"), //
+      menucleanBoldStar = document.getElementById(
+        "zotero-toolboxmenu-cleanBoldStar",
+      ), //
+      menuchAuTitle = document.getElementById("zotero-toolboxmenu-chAuTitle"), //
+      menuswapAuName = document.getElementById("zotero-toolboxmenu-swapAuName"), //
+      menusep1 = document.getElementById("zotero-toolboxmenu-sep1"), //
+      menuchTitleCase = document.getElementById(
+        "zotero-toolboxmenu-chTitleCase",
+      ), //
+      menuchPubTitle = document.getElementById("zotero-toolboxmenu-chPubTitle"), //
+      menuchPubTitleCase = document.getElementById(
+        "zotero-toolboxmenu-chPubTitleCase",
+      ), //
+      menuitemTitleFindReplace = document.getElementById(
+        "zotero-toolboxmenu-itemTitleFindReplace",
+      ), //
+      menusep2 = document.getElementById("zotero-toolboxmenu-sep2"), //
+      menushowProfile = document.getElementById(
+        "zotero-toolboxmenu-showProfile",
+      ), //
+      menushowData = document.getElementById("zotero-toolboxmenu-showData"); //
 
     const boldStar = getPref(`bold.star`),
       cleanBold = getPref(`remove.bold`),
@@ -1378,26 +1699,26 @@ export class UIExampleFactory {
       showData = getPref(`show.data.dir`);
 
     // menuboldStar?.setAttribute('hidden', String(!boldStar));
-    menuboldStar?.setAttribute('hidden', String(!boldStar));
-    menucleanBold?.setAttribute('hidden', String(!cleanBold));
-    menucleanStar?.setAttribute('hidden', String(!cleanStar));
-    menucleanBoldStar?.setAttribute('hidden', String(!cleanBoldStar));
-    menuchAuTitle?.setAttribute('hidden', String(!chAuTitle));
-    menuswapAuName?.setAttribute('hidden', String(!swapAuName));
-    menusep1?.setAttribute('hidden', String(!sep1));
-    menuchTitleCase?.setAttribute('hidden', String(!chTitleCase));
-    menuchPubTitle?.setAttribute('hidden', String(!chPubTitle));
-    menuchPubTitleCase?.setAttribute('hidden', String(!chPubTitleCase));
-    menuitemTitleFindReplace?.setAttribute('hidden', String(!itemTitleFindReplace));
-    menusep2?.setAttribute('hidden', String(!sep2));
-    menushowProfile?.setAttribute('hidden', String(!showProfile));
-    menushowData?.setAttribute('hidden', String(!showData));
+    menuboldStar?.setAttribute("hidden", String(!boldStar));
+    menucleanBold?.setAttribute("hidden", String(!cleanBold));
+    menucleanStar?.setAttribute("hidden", String(!cleanStar));
+    menucleanBoldStar?.setAttribute("hidden", String(!cleanBoldStar));
+    menuchAuTitle?.setAttribute("hidden", String(!chAuTitle));
+    menuswapAuName?.setAttribute("hidden", String(!swapAuName));
+    menusep1?.setAttribute("hidden", String(!sep1));
+    menuchTitleCase?.setAttribute("hidden", String(!chTitleCase));
+    menuchPubTitle?.setAttribute("hidden", String(!chPubTitle));
+    menuchPubTitleCase?.setAttribute("hidden", String(!chPubTitleCase));
+    menuitemTitleFindReplace?.setAttribute(
+      "hidden",
+      String(!itemTitleFindReplace),
+    );
+    menusep2?.setAttribute("hidden", String(!sep2));
+    menushowProfile?.setAttribute("hidden", String(!showProfile));
+    menushowData?.setAttribute("hidden", String(!showData));
 
     // menuboldStar?.setAttribute('disabled', 'true');
     // (document.getElementById('zotero-toolboxmenu-auBoldStar') as HTMLElement).hidden = !boldStar;
-
-
-
   }
   // @example
   //添加工具栏按钮
@@ -1428,24 +1749,27 @@ export class UIExampleFactory {
   @example
   // 当更新期刊禁用时，禁用期刊是否带点选项
   static disableUppJourAbbDot() {
-    var cbUpJourAbbDot = addon.data.prefs!.window.document.getElementById(`zotero-prefpane-${config.addonRef}-update-abbr-dot`);
-    var upAbbr = getPref(`update.abbr`);
+    const cbUpJourAbbDot = addon.data.prefs!.window.document.getElementById(
+      `zotero-prefpane-${config.addonRef}-update-abbr-dot`,
+    );
+    const upAbbr = getPref(`update.abbr`);
     // HelperExampleFactory.progressWindow(`${upAbbr} check`, 'default');
-    cbUpJourAbbDot?.setAttribute('disabled', String(!upAbbr)); // 当更新期刊禁用时，禁用期刊是否带点选项
+    cbUpJourAbbDot?.setAttribute("disabled", String(!upAbbr)); // 当更新期刊禁用时，禁用期刊是否带点选项
     //
     //
-
   }
-
 
   @example //注册多余列
   static async registerExtraColumn() {
-    const columnConfig: Record<string, {
-      pref?: string;
-      dataKey?: string;
-      field?: string;
-      registeredKey?: string;
-    }> = {
+    const columnConfig: Record<
+      string,
+      {
+        pref?: string;
+        dataKey?: string;
+        field?: string;
+        registeredKey?: string;
+      }
+    > = {
       jcr: {
         pref: "jcr.qu",
         dataKey: "JCR",
@@ -1633,28 +1957,28 @@ export class UIExampleFactory {
       summary: {
         field: "总结",
       },
-    }
+    };
 
     for (const key in columnConfig) {
-      const opt = columnConfig[key]
+      const opt = columnConfig[key];
       if (getPref(opt.pref || key)) {
-        const result = await Zotero.ItemTreeManager.registerColumns(
-          {
-            dataKey: opt.dataKey || key,
-            label: getString(opt.dataKey || key),
-            pluginID: config.addonID,
-            zoteroPersist: ['width', 'hidden', 'sortDirection'],
-            dataProvider: (item) => {
-              return ztoolkit.ExtraField.getExtraField(item, opt.field || key) || "";
-            }
-          }
-        );
+        const result = await Zotero.ItemTreeManager.registerColumns({
+          dataKey: opt.dataKey || key,
+          label: getString(opt.dataKey || key),
+          pluginID: config.addonID,
+          zoteroPersist: ["width", "hidden", "sortDirection"],
+          dataProvider: (item) => {
+            return (
+              ztoolkit.ExtraField.getExtraField(item, opt.field || key) || ""
+            );
+          },
+        });
         if (result) {
           opt.registeredKey = result;
         }
-      }
-      else {
-        opt.registeredKey && await Zotero.ItemTreeManager.unregisterColumns(opt.registeredKey);
+      } else {
+        opt.registeredKey &&
+          (await Zotero.ItemTreeManager.unregisterColumns(opt.registeredKey));
       }
     }
   }
@@ -1843,39 +2167,37 @@ export class PromptExampleFactory {
 
 */
 export class HelperExampleFactory {
-
   // 生成空格，如果是中文是无空格，英文为空格
   static whiteSpace() {
-    var lanUI = Zotero.Prefs.get('intl.locale.requested'); // 得到当前Zotero界面语言
-    var whiteSpace = ' ';
-    if (lanUI == 'zh-CN') { whiteSpace = '' };
+    const lanUI = Zotero.Prefs.get("intl.locale.requested"); // 得到当前Zotero界面语言
+    let whiteSpace = " ";
+    if (lanUI == "zh-CN") {
+      whiteSpace = "";
+    }
     return whiteSpace;
-  };
+  }
 
   static async emptyExtra() {
-    var items: any = KeyExampleFactory.getSelectedItems();
+    const items: any = KeyExampleFactory.getSelectedItems();
     if (items.length == 0) {
-      var alertInfo = getString('zeroItem');
-      this.progressWindow(alertInfo, 'fail');
+      var alertInfo = getString("zeroItem");
+      this.progressWindow(alertInfo, "fail");
       return;
     } else {
-
-      var truthBeTold = window.confirm(getString('cleanExtraAlt'));
+      const truthBeTold = window.confirm(getString("cleanExtraAlt"));
       if (truthBeTold) {
-        for (let item of items) {
-
+        for (const item of items) {
           if (item.isRegularItem() && !(item instanceof Zotero.Collection)) {
             try {
-              item.setField('extra', '');
+              item.setField("extra", "");
               item.save();
-
             } catch (error) {
-              Zotero.debug('Extra清空失败！')
+              Zotero.debug("Extra清空失败！");
             }
           }
         }
         var alertInfo = getString("cleanExtraSuc");
-        HelperExampleFactory.progressWindow(alertInfo, 'success');
+        HelperExampleFactory.progressWindow(alertInfo, "success");
       }
     }
   }
@@ -1893,77 +2215,74 @@ export class HelperExampleFactory {
 
   // 更改期刊名称
   static async chPubTitle(oldTitle: string, newTitle: string) {
-
     // var oldTitle = document.getElementById('id-updateifs-old-title-textbox').value.trim();
     // var newTitle = document.getElementById('id-updateifs-new-title-textbox').value.trim();
     // 如果新或老题目为空则提示
-    if (oldTitle == '' || newTitle == '') {
-
-      var alertInfo = getString('pubTitleEmpty');
-      HelperExampleFactory.progressWindow(alertInfo, 'fail');
-
+    if (oldTitle == "" || newTitle == "") {
+      var alertInfo = getString("pubTitleEmpty");
+      HelperExampleFactory.progressWindow(alertInfo, "fail");
     } else {
-      var items = KeyExampleFactory.getSelectedItems();
-      var n = 0;
-      var itemOldTitle = '';
+      const items = KeyExampleFactory.getSelectedItems();
+      let n = 0;
+      let itemOldTitle = "";
       if (items.length == 0) {
-        var alertInfo = getString('zeroItem');
-        this.progressWindow(alertInfo, 'fail');
+        var alertInfo = getString("zeroItem");
+        this.progressWindow(alertInfo, "fail");
         return;
       } else {
-        for (let item of items) {
-          itemOldTitle = (item.getField("publicationTitle") as any).trim();//原题目
-          if (oldTitle == itemOldTitle) { //如果和输入的相等则替换
+        for (const item of items) {
+          itemOldTitle = (item.getField("publicationTitle") as any).trim(); //原题目
+          if (oldTitle == itemOldTitle) {
+            //如果和输入的相等则替换
             item.setField("publicationTitle", newTitle);
             await item.saveTx();
             n++;
           }
         }
-        var statusInfo = n == 0 ? 'fail' : 'success';
-        var whiteSpace = HelperExampleFactory.whiteSpace();
-        alertInfo = n + whiteSpace + getString('successPubTitle');
+        const statusInfo = n == 0 ? "fail" : "success";
+        const whiteSpace = HelperExampleFactory.whiteSpace();
+        alertInfo = n + whiteSpace + getString("successPubTitle");
         HelperExampleFactory.progressWindow(alertInfo, statusInfo);
       }
     }
-
-  };
+  }
 
   // 更改期刊大小写
   static async chPubTitleCase() {
-    var items: any = KeyExampleFactory.getSelectedItems();
-    var whiteSpace = HelperExampleFactory.whiteSpace();
-    var n = 0;
-    var newPubTitle = '';
+    const items: any = KeyExampleFactory.getSelectedItems();
+    const whiteSpace = HelperExampleFactory.whiteSpace();
+    let n = 0;
+    let newPubTitle = "";
     if (items.length == 0) {
-      var alertInfo = getString('zeroItem');
-      this.progressWindow(alertInfo, 'fail');
+      var alertInfo = getString("zeroItem");
+      this.progressWindow(alertInfo, "fail");
       return;
     } else {
       HelperExampleFactory.chanItemTitleCaseDo(items);
-      for (let item of items) {
-        var oldPubTitle = item.getField("publicationTitle").trim();//原题目
-        newPubTitle = HelperExampleFactory.titleCase(oldPubTitle). //转为词首字母大写
-          replace(' And ', ' and '). // 替换And
-          replace(' For ', ' for '). // 替换For
-          replace(' In ', ' in '). // 替换In
-          replace(' Of ', ' of '). // 替换Of
-          replace('Plos One', 'PLOS ONE').
-          replace('Plos', 'PLOS').
-          replace('Msystems', 'mSystems').
-          replace('Lwt', 'LWT').
-          replace('LWT-food', 'LWT-Food').
-          replace('LWT - food', 'LWT - Food').
-          replace('Ieee', 'IEEE').
-          replace('Gida', 'GIDA').
-          replace('Pnas', 'PNAS').
-          replace('Iscience', 'iScience')
+      for (const item of items) {
+        const oldPubTitle = item.getField("publicationTitle").trim(); //原题目
+        newPubTitle = HelperExampleFactory.titleCase(oldPubTitle) //转为词首字母大写
+          .replace(" And ", " and ") // 替换And
+          .replace(" For ", " for ") // 替换For
+          .replace(" In ", " in ") // 替换In
+          .replace(" Of ", " of ") // 替换Of
+          .replace("Plos One", "PLOS ONE")
+          .replace("Plos", "PLOS")
+          .replace("Msystems", "mSystems")
+          .replace("Lwt", "LWT")
+          .replace("LWT-food", "LWT-Food")
+          .replace("LWT - food", "LWT - Food")
+          .replace("Ieee", "IEEE")
+          .replace("Gida", "GIDA")
+          .replace("Pnas", "PNAS")
+          .replace("Iscience", "iScience");
         item.setField("publicationTitle", newPubTitle);
         await item.saveTx();
         n++;
       }
-      var statusInfo = n == 0 ? 'fail' : 'success';
+      const statusInfo = n == 0 ? "fail" : "success";
       // var itemNo = n > 1 ? 'success.pub.title.mul' : 'success.pub.title.sig';
-      alertInfo = n + whiteSpace + getString('successPubTitleCase');
+      alertInfo = n + whiteSpace + getString("successPubTitleCase");
       this.progressWindow(alertInfo, statusInfo);
     }
   }
@@ -1971,17 +2290,15 @@ export class HelperExampleFactory {
   // 将题目改为句首字母大写
   @example
   static async chanItemTitleCase() {
-    var items: any = KeyExampleFactory.getSelectedItems();
-    var whiteSpace = HelperExampleFactory.whiteSpace();
-    var n = 0;
-
+    const items: any = KeyExampleFactory.getSelectedItems();
+    const whiteSpace = HelperExampleFactory.whiteSpace();
+    let n = 0;
 
     if (items.length == 0) {
-      var alertInfo = getString('zeroItem');
-      this.progressWindow(alertInfo, 'fail');
+      var alertInfo = getString("zeroItem");
+      this.progressWindow(alertInfo, "fail");
       return;
     } else {
-
       n = await HelperExampleFactory.chanItemTitleCaseDo(items);
       // for (let item of items) {
 
@@ -2010,218 +2327,220 @@ export class HelperExampleFactory {
       //   item.setField('title', new_title);
       //   await item.saveTx();
       // }
-
     }
-    var statusInfo = n == 0 ? 'fail' : 'success';
-    alertInfo = n + whiteSpace + getString('successItemTitleCase');
+    const statusInfo = n == 0 ? "fail" : "success";
+    alertInfo = n + whiteSpace + getString("successItemTitleCase");
     this.progressWindow(alertInfo, statusInfo);
   }
 
   // 将题目改为句首字母大写 具体执行函数
   @example
   static async chanItemTitleCaseDo(items: any) {
-    var n = 0;
+    let n = 0;
     // var whiteSpace = HelperExampleFactory.whiteSpace();
 
-    for (let item of items) {
-
-      var title = item.getField('title');
-      if (HelperExampleFactory.detectUpCase(title)) {//如果条目题目全部为大写，转换并提醒
+    for (const item of items) {
+      let title = item.getField("title");
+      if (HelperExampleFactory.detectUpCase(title)) {
+        //如果条目题目全部为大写，转换并提醒
         title = HelperExampleFactory.titleCase(title); // 转换为单词首字母大写
-        var alertInfo = getString('allUpcase');
-        HelperExampleFactory.progressWindow(alertInfo, 'infomation');
+        const alertInfo = getString("allUpcase");
+        HelperExampleFactory.progressWindow(alertInfo, "infomation");
       }
 
       // var new_title = title.replace(/\b([A-Z][a-z0-9]+|A)\b/g, function (x: any) { return x.toLowerCase(); });
 
       // new_title = new_title.replace(/(^|\?\s*)[a-z]/, function (x: any) { return x.toUpperCase(); }).
-      var new_title = Zotero.Utilities.sentenceCase(title). // 调用官方接口，转为句首字母大写
-        replace('china', 'China'). // 替换china  代码来源于fredericky123，感谢。
-        replace('chinese', 'Chinese'). // 替换chinese
-        replace('america', 'America'). // 替换america
-        replace('english', 'English'). // 替换english
-        replace('england', 'England'). // 替换england
-        replace('3d', '3D').
-        replace('india', 'India'). // 替换india
-        replace('dpph', 'DPPH'). // 专有名词
-        replace('abts', 'ABTS'). // 专有名词
-        replace('h2', 'H2'). // 专有名词
+      const new_title = Zotero.Utilities.sentenceCase(title) // 调用官方接口，转为句首字母大写
+        .replace("china", "China") // 替换china  代码来源于fredericky123，感谢。
+        .replace("chinese", "Chinese") // 替换chinese
+        .replace("america", "America") // 替换america
+        .replace("english", "English") // 替换english
+        .replace("england", "England") // 替换england
+        .replace("3d", "3D")
+        .replace("india", "India") // 替换india
+        .replace("dpph", "DPPH") // 专有名词
+        .replace("abts", "ABTS") // 专有名词
+        .replace("h2", "H2") // 专有名词
         // replace(' ni', ' Ni'). // 专有名词
         //20220510 增加冒号后面为大写字母
         // https://stackoverflow.com/questions/72180052/regexp-match-and-replace-to-its-uppercase-in-javascript#72180194
-        replace(/：|:\s*\w/, (fullMatch: string) => fullMatch.toUpperCase()); //匹配冒号后面的空格及一个字母，并转为大写
+        .replace(/：|:\s*\w/, (fullMatch: string) => fullMatch.toUpperCase()); //匹配冒号后面的空格及一个字母，并转为大写
       n++;
-      item.setField('title', new_title);
+      item.setField("title", new_title);
       await item.saveTx();
-
-
     }
     // var statusInfo = n == 0 ? 'fail' : 'success';
     // alertInfo = n + whiteSpace + getString('successItemTitleCase');
     // this.progressWindow(alertInfo, statusInfo);
-    return n
+    return n;
   }
 
   // 检查句子是否为全部大写
   static detectUpCase(word: string) {
-    var arr_is_uppercase = [];
-    for (var char of word) {
+    const arr_is_uppercase = [];
+    for (const char of word) {
       if (char.charCodeAt(0) < 97) {
-        arr_is_uppercase.push(1);   // 是大写就加入 1
+        arr_is_uppercase.push(1); // 是大写就加入 1
       } else {
-        arr_is_uppercase.push(0);   // 是小写就加入 0
+        arr_is_uppercase.push(0); // 是小写就加入 0
       }
     }
-    var uppercase_sum = arr_is_uppercase.reduce((x, y) => x + y);
+    const uppercase_sum = arr_is_uppercase.reduce((x, y) => x + y);
     if (
-      uppercase_sum === word.length   // 全部为大写
+      uppercase_sum === word.length // 全部为大写
     ) {
       return true;
     } else {
       return false;
     }
-  };
+  }
 
   // 更新期刊缩写
-  static async upJourAbb(item: Zotero.Item) {//
+  static async upJourAbb(item: Zotero.Item) {
+    //
     // var items = ZoteroPane.getSelectedItems();
     // var item = items[0];
-
 
     // 得到期刊缩写设置
     // getPref(`add.update`);
 
-    var upJourAbb = getPref(`update.abbr`);
-    var dotAbb = getPref(`update.abbr.dot`);
-    var enAbb = getPref(`en.abbr`);
-    var chAbb = getPref(`ch.abbr`);
+    const upJourAbb = getPref(`update.abbr`);
+    const dotAbb = getPref(`update.abbr.dot`);
+    const enAbb = getPref(`en.abbr`);
+    const chAbb = getPref(`ch.abbr`);
 
-    var pattern = new RegExp("[\u4E00-\u9FA5]+");
-    var title = String(item.getField("title"));
-    var lan = pattern.test(title) ? 'zh-CN' : 'en-US'; // 得到条目语言
+    const pattern = new RegExp("[\u4E00-\u9FA5]+");
+    const title = String(item.getField("title"));
+    const lan = pattern.test(title) ? "zh-CN" : "en-US"; // 得到条目语言
     // lan == 'en-US'英文条目
     // lan == 'zh-CN'中文条目
-
 
     // var lanItem = item.getField('language');
 
     // var enItem = /en|English/.test(lanItem as any)
     // var chItem = /ch|zh|中文|CN/.test(lanItem as any)
 
-    var pubT = item.getField('publicationTitle');
+    const pubT = item.getField("publicationTitle");
     if (upJourAbb) {
       try {
         var jourAbbs = await HelperExampleFactory.getJourAbb(pubT); // 得到带点和不带点的缩写
       } catch (e) {
-        Zotero.debug('获取期刊缩写失败');
+        Zotero.debug("获取期刊缩写失败");
       }
 
-      if (jourAbbs["record"] == 0) {  // 得到带点和不带点的缩写, 尝试& 替换为 and
+      if (jourAbbs["record"] == 0) {
+        // 得到带点和不带点的缩写, 尝试& 替换为 and
         try {
-          var jourAbbs = await HelperExampleFactory.getJourAbb((pubT as any).replace('&', 'and')); // 得到带点和不带点的缩写
+          var jourAbbs = await HelperExampleFactory.getJourAbb(
+            (pubT as any).replace("&", "and"),
+          ); // 得到带点和不带点的缩写
         } catch (e) {
-          Zotero.debug('获取期刊缩写失败');
+          Zotero.debug("获取期刊缩写失败");
         }
       }
 
-      if (jourAbbs["record"] == 0) {  // 自定义的期刊缩写
+      if (jourAbbs["record"] == 0) {
+        // 自定义的期刊缩写
         try {
           var jourAbbs = getAbbEx(pubT as any); // 得到带点和不带点的缩写
         } catch (e) {
-          Zotero.debug('获取自定义期刊缩写失败');
+          Zotero.debug("获取自定义期刊缩写失败");
         }
       }
 
-      if (jourAbbs["record"] == 0) {  // 得到带点和不带点的缩写, 尝试删除the空格
+      if (jourAbbs["record"] == 0) {
+        // 得到带点和不带点的缩写, 尝试删除the空格
         try {
-          var jourAbbs = await HelperExampleFactory.getJourAbb((pubT as any).replace(/the\s/i, '')); // 得到带点和不带点的缩写
+          var jourAbbs = await HelperExampleFactory.getJourAbb(
+            (pubT as any).replace(/the\s/i, ""),
+          ); // 得到带点和不带点的缩写
         } catch (e) {
-          Zotero.debug('获取期刊缩写失败');
+          Zotero.debug("获取期刊缩写失败");
         }
       }
 
       if (jourAbbs["record"] != 0) {
         try {
-          var jourAbb = dotAbb ? jourAbbs["abb_with_dot"] : jourAbbs["abb_no_dot"];
+          const jourAbb = dotAbb
+            ? jourAbbs["abb_with_dot"]
+            : jourAbbs["abb_no_dot"];
 
-          var abb = HelperExampleFactory.titleCase(jourAbb) //改为词首字母大写
-          abb = abb.replace('Ieee', 'IEEE').  //替换IEEE
-            replace('Acs', 'ACS').  //替换ACS
-            replace('Aip', 'AIP').  //替换AIP
-            replace('Apl', 'APL'). //替换APL
-            replace('Avs', 'AVS'). //替换AVS
-            replace('Bmc', 'BMC'). //替换AVS
-            replace('Iet', 'IET'). //替换IET
-            replace('Rsc', 'RSC'). //替换RSC
-            replace('U S A', 'USA'). //删除空格
-            replace('U. S. A.', 'U.S.A.') //删除空格
-          item.setField('journalAbbreviation', abb);
-
+          let abb = HelperExampleFactory.titleCase(jourAbb); //改为词首字母大写
+          abb = abb
+            .replace("Ieee", "IEEE") //替换IEEE
+            .replace("Acs", "ACS") //替换ACS
+            .replace("Aip", "AIP") //替换AIP
+            .replace("Apl", "APL") //替换APL
+            .replace("Avs", "AVS") //替换AVS
+            .replace("Bmc", "BMC") //替换AVS
+            .replace("Iet", "IET") //替换IET
+            .replace("Rsc", "RSC") //替换RSC
+            .replace("U S A", "USA") //删除空格
+            .replace("U. S. A.", "U.S.A."); //删除空格
+          item.setField("journalAbbreviation", abb);
         } catch (e) {
           return;
         }
         // 英文如果找不到缩写是否用全称代替
       } else {
-
-        if (enAbb && lan == 'en-US') {
-          item.setField('journalAbbreviation', pubT);
+        if (enAbb && lan == "en-US") {
+          item.setField("journalAbbreviation", pubT);
           // 中文如果找不到缩 写是否用全称代替
-        } else if (chAbb && lan == 'zh-CN') {
-          item.setField('journalAbbreviation', pubT);
+        } else if (chAbb && lan == "zh-CN") {
+          item.setField("journalAbbreviation", pubT);
         }
       }
     }
     //return jourAbbs
     item.saveTx();
-  };
+  }
 
   // 得到期刊缩写
   static async getJourAbb(pubT: any) {
     // var pubT = (item.getField('publicationTitle') as any).replace('&', 'and');
-    var url = "https://www.linxingzhong.top/journal";
-    var postData = {
+    const url = "https://www.linxingzhong.top/journal";
+    const postData = {
       key: "journal",
-      "fullname": pubT
+      fullname: pubT,
     };
-    var headers = { "Content-Type": "application/json" };
+    const headers = { "Content-Type": "application/json" };
     // Maybe need to set max retry in this post request.
-    var resp = await Zotero.HTTP.request("POST", url, {
+    const resp = await Zotero.HTTP.request("POST", url, {
       body: JSON.stringify(postData),
       headers: headers,
     });
     try {
-      var record = JSON.parse(resp.responseText);
+      const record = JSON.parse(resp.responseText);
       return record;
     } catch (e) {
       return;
     }
-  };
-
-
+  }
 
   // 作者处理函数 加粗加星
   @example
   static async auProcess(author: string, process: string) {
+    const oldName = HelperExampleFactory.newNames(author, process)![0];
+    const newFirstName = HelperExampleFactory.newNames(author, process)![1];
+    const newLastName = HelperExampleFactory.newNames(author, process)![2];
+    const newFieldMode = HelperExampleFactory.newNames(author, process)![3]; // 0: two-field, 1: one-field (with empty first name)
+    const mergeedName = HelperExampleFactory.newNames(author, process)![4];
+    const mergeedNameNew = HelperExampleFactory.newNames(author, process)![5];
 
-    var oldName = HelperExampleFactory.newNames(author, process)![0];
-    var newFirstName = HelperExampleFactory.newNames(author, process)![1];
-    var newLastName = HelperExampleFactory.newNames(author, process)![2];
-    var newFieldMode = HelperExampleFactory.newNames(author, process)![3]; // 0: two-field, 1: one-field (with empty first name)
-    var mergeedName = HelperExampleFactory.newNames(author, process)![4];
-    var mergeedNameNew = HelperExampleFactory.newNames(author, process)![5];
-
-    var rn = 0; //计数替换条目个数
+    let rn = 0; //计数替换条目个数
     //await Zotero.DB.executeTransaction(async function () {
 
-    var items = KeyExampleFactory.getSelectedItems();
-    if (items.length == 0) { // 如果没有选中条目则提示，中止
-      alertInfo = getString('zeroItem');
-      HelperExampleFactory.progressWindow(alertInfo, 'fail');
+    const items = KeyExampleFactory.getSelectedItems();
+    if (items.length == 0) {
+      // 如果没有选中条目则提示，中止
+      alertInfo = getString("zeroItem");
+      HelperExampleFactory.progressWindow(alertInfo, "fail");
     } else {
-      for (let item of items) {
-        let creators = item.getCreators();
-        let newCreators = [];
-        for (let creator of creators) {
+      for (const item of items) {
+        const creators = item.getCreators();
+        const newCreators = [];
+        for (const creator of creators) {
           if (`${creator.firstName} ${creator.lastName}`.trim() == oldName) {
             (creator as any).firstName = newFirstName;
             (creator.lastName as any) = newLastName;
@@ -2229,13 +2548,20 @@ export class HelperExampleFactory {
             rn++;
           }
 
-          if (`${HelperExampleFactory.replaceBoldStar(creator.lastName as any)}`.trim() == mergeedName) { // 针对已经合并姓名的
-            creator.firstName = '';
+          if (
+            `${HelperExampleFactory.replaceBoldStar(creator.lastName as any)}`.trim() ==
+            mergeedName
+          ) {
+            // 针对已经合并姓名的
+            creator.firstName = "";
             (creator.lastName as any) = mergeedNameNew;
             (creator.fieldMode as any) = newFieldMode;
             rn++;
           }
-          if (`${HelperExampleFactory.replaceBoldStar(creator.firstName as any)} ${HelperExampleFactory.replaceBoldStar(creator.lastName as any)}`.trim() == oldName) {
+          if (
+            `${HelperExampleFactory.replaceBoldStar(creator.firstName as any)} ${HelperExampleFactory.replaceBoldStar(creator.lastName as any)}`.trim() ==
+            oldName
+          ) {
             (creator.firstName as any) = newFirstName;
             (creator.lastName as any) = newLastName;
             (creator.fieldMode as any) = newFieldMode;
@@ -2247,228 +2573,247 @@ export class HelperExampleFactory {
         await item.save();
       }
 
-      var whiteSpace = HelperExampleFactory.whiteSpace();
-      var statusInfo = rn > 0 ? 'success' : 'fail';
-      var alertInfo = `${rn} ${whiteSpace} ${getString('authorChanged')}`;
+      const whiteSpace = HelperExampleFactory.whiteSpace();
+      const statusInfo = rn > 0 ? "success" : "fail";
+      var alertInfo = `${rn} ${whiteSpace} ${getString("authorChanged")}`;
       HelperExampleFactory.progressWindow(alertInfo, statusInfo);
     }
-  };
+  }
 
   @example
   // 返回新的名字用以替换
   static newNames(authorName: any, boldStar: any) {
-    var newName = [];
-    var splitName = '';
-    var oldName = '';
-    var newFirstName = '';
-    var newLastName = '';
+    const newName = [];
+    var splitName = "";
+    let oldName = "";
+    let newFirstName = "";
+    let newLastName = "";
     // var reg = /[一-龟]/; // 匹配所有汉字
-    var reg = new RegExp("[\u4E00-\u9FA5]+"); // 匹配所有汉字
-    var mergeedName = '';
-    var mergeedNameNew = '';
-    var alertInfo = '';
+    const reg = new RegExp("[\u4E00-\u9FA5]+"); // 匹配所有汉字
+    let mergeedName = "";
+    let mergeedNameNew = "";
+    let alertInfo = "";
 
-    if (authorName == '') { // 如果作者为空时提示
+    if (authorName == "") {
+      // 如果作者为空时提示
       alertInfo = getString("authorEmpty");
-      HelperExampleFactory.progressWindow(alertInfo, 'fail');
-    } else if (!/\s/.test(authorName)) {  //检测输入的姓名中是否有空格,无空格提示
+      HelperExampleFactory.progressWindow(alertInfo, "fail");
+    } else if (!/\s/.test(authorName)) {
+      //检测输入的姓名中是否有空格,无空格提示
       alertInfo = getString("authorNoSpace");
-      HelperExampleFactory.progressWindow(alertInfo, 'fail');
+      HelperExampleFactory.progressWindow(alertInfo, "fail");
     } else {
-
       var splitName: string = authorName.split(/\s/); // 用空格分为名和姓
-      var firstName = splitName[1];
-      var lastName = splitName[0];
-      oldName = firstName + ' ' + lastName;
-      Zotero.debug(reg.test(authorName) + ': ture 为中文')
+      const firstName = splitName[1];
+      const lastName = splitName[0];
+      oldName = firstName + " " + lastName;
+      Zotero.debug(reg.test(authorName) + ": ture 为中文");
       // 检测姓名是否为中文
-      if (reg.test(authorName)) { // 为真时匹配到中文
-        var newFieldMode = 1;  // 1中文时为合并
-        mergeedName = authorName.replace(/\s/, ''); // 中文姓名删除空格得到合并的姓名
+      if (reg.test(authorName)) {
+        // 为真时匹配到中文
+        var newFieldMode = 1; // 1中文时为合并
+        mergeedName = authorName.replace(/\s/, ""); // 中文姓名删除空格得到合并的姓名
       } else {
         newFieldMode = 0; // 0为拆分姓名，英文
         mergeedName = oldName; // 英文姓名与原姓名相同
-      };
+      }
 
       switch (boldStar) {
-        case 'boldStar':  // 加粗加星
-          mergeedNameNew = '<b>' + mergeedName + '*</b>';
-          newFirstName = '<b>' + firstName + '*</b>';
-          newLastName = '<b>' + lastName + '</b>';
-          if (reg.test(authorName)) { // 中文姓名
+        case "boldStar": // 加粗加星
+          mergeedNameNew = "<b>" + mergeedName + "*</b>";
+          newFirstName = "<b>" + firstName + "*</b>";
+          newLastName = "<b>" + lastName + "</b>";
+          if (reg.test(authorName)) {
+            // 中文姓名
             newFirstName = "";
-            newLastName = '<b>' + lastName + firstName + '*</b>';
-          };
+            newLastName = "<b>" + lastName + firstName + "*</b>";
+          }
           break;
-        case 'bold': // 仅加粗
-
-          mergeedNameNew = '<b>' + mergeedName + '</b>';
-          newFirstName = '<b>' + firstName + '</b>';
-          newLastName = '<b>' + lastName + '</b>';
-          if (reg.test(authorName)) { // 中文姓名
+        case "bold": // 仅加粗
+          mergeedNameNew = "<b>" + mergeedName + "</b>";
+          newFirstName = "<b>" + firstName + "</b>";
+          newLastName = "<b>" + lastName + "</b>";
+          if (reg.test(authorName)) {
+            // 中文姓名
             newFirstName = "";
-            newLastName = '<b>' + lastName + firstName + '</b>';
-          };
+            newLastName = "<b>" + lastName + firstName + "</b>";
+          }
           break;
-        case 'star':  // 加粗加星
-
-          mergeedNameNew = mergeedName + '*';
-          newFirstName = firstName + '*';
+        case "star": // 加粗加星
+          mergeedNameNew = mergeedName + "*";
+          newFirstName = firstName + "*";
           newLastName = lastName;
-          if (reg.test(authorName)) { // 中文姓名
+          if (reg.test(authorName)) {
+            // 中文姓名
             newFirstName = "";
-            newLastName = lastName + firstName + '*';
-          };
+            newLastName = lastName + firstName + "*";
+          }
           break;
-        case 'n':
+        case "n":
           break;
-
       }
-      newName.push(oldName, newFirstName, newLastName, newFieldMode, mergeedName, mergeedNameNew)
+      newName.push(
+        oldName,
+        newFirstName,
+        newLastName,
+        newFieldMode,
+        mergeedName,
+        mergeedNameNew,
+      );
       return newName;
     }
-
-  };
+  }
   @example
   //删除作者姓名中的粗体和星号标识
   static replaceBoldStar(auName: string) {
-    return auName.replace(/<b>/g, '').replace(/<\/b>/g, '').replace(/\*/g, '');
-  };
+    return auName.replace(/<b>/g, "").replace(/<\/b>/g, "").replace(/\*/g, "");
+  }
 
   // 清除加粗
   static async cleanBold() {
-    var rn = 0;
-    var items = KeyExampleFactory.getSelectedItems();
-    if (items.length == 0) { // 如果没有选中条目则提示，中止
-      alertInfo = getString('zeroItem');
-      HelperExampleFactory.progressWindow(alertInfo, 'fail');
+    let rn = 0;
+    const items = KeyExampleFactory.getSelectedItems();
+    if (items.length == 0) {
+      // 如果没有选中条目则提示，中止
+      alertInfo = getString("zeroItem");
+      HelperExampleFactory.progressWindow(alertInfo, "fail");
       return;
     }
-    for (let item of items) {
-      let creators = item.getCreators();
-      let newCreators = [];
+    for (const item of items) {
+      const creators = item.getCreators();
+      const newCreators = [];
 
-      for (let creator of creators) {
-        if (/<b>/.test(creator.firstName as any) || /<b>/.test(creator.lastName as any)) {  // 是否包含<b>
+      for (const creator of creators) {
+        if (
+          /<b>/.test(creator.firstName as any) ||
+          /<b>/.test(creator.lastName as any)
+        ) {
+          // 是否包含<b>
 
-          creator.firstName = creator.firstName!.replace(/<b>/g, '').replace(/<\/b>/g, '');
-          creator.lastName = creator.lastName!.replace(/<b>/g, '').replace(/<\/b>/g, '');
+          creator.firstName = creator
+            .firstName!.replace(/<b>/g, "")
+            .replace(/<\/b>/g, "");
+          creator.lastName = creator
+            .lastName!.replace(/<b>/g, "")
+            .replace(/<\/b>/g, "");
           creator.fieldMode = creator.fieldMode;
           rn++;
         }
         newCreators.push(creator);
-
       }
       item.setCreators(newCreators);
 
       await item.saveTx();
-
     }
-    var whiteSpace = HelperExampleFactory.whiteSpace();
-    var statusInfo = rn > 0 ? 'success' : 'fail';
-    var alertInfo = `${rn} ${whiteSpace} ${getString('authorChanged')}`;
+    const whiteSpace = HelperExampleFactory.whiteSpace();
+    const statusInfo = rn > 0 ? "success" : "fail";
+    var alertInfo = `${rn} ${whiteSpace} ${getString("authorChanged")}`;
     HelperExampleFactory.progressWindow(alertInfo, statusInfo);
-
-  };
-
-
+  }
 
   // 清除加星
   static async cleanStar() {
-    var rn = 0;
-    var items = KeyExampleFactory.getSelectedItems();
-    if (items.length == 0) { // 如果没有选中条目则提示，中止
-      alertInfo = getString('zeroItem');
-      HelperExampleFactory.progressWindow(alertInfo, 'fail');
+    let rn = 0;
+    const items = KeyExampleFactory.getSelectedItems();
+    if (items.length == 0) {
+      // 如果没有选中条目则提示，中止
+      alertInfo = getString("zeroItem");
+      HelperExampleFactory.progressWindow(alertInfo, "fail");
       return;
     }
-    for (let item of items) {
-      let creators = item.getCreators();
-      let newCreators = [];
+    for (const item of items) {
+      const creators = item.getCreators();
+      const newCreators = [];
 
-      for (let creator of creators) {
-        if (/\*/.test(creator.firstName as any) || /\*/.test(creator.lastName as any)) {
-
-          creator.firstName = creator.firstName!.replace(/\*/g, '');
-          creator.lastName = creator.lastName!.replace(/\*/g, '');
+      for (const creator of creators) {
+        if (
+          /\*/.test(creator.firstName as any) ||
+          /\*/.test(creator.lastName as any)
+        ) {
+          creator.firstName = creator.firstName!.replace(/\*/g, "");
+          creator.lastName = creator.lastName!.replace(/\*/g, "");
           creator.fieldMode = creator.fieldMode;
           rn++;
         }
         newCreators.push(creator);
-
       }
       item.setCreators(newCreators);
 
       // await item.save();
-      await item.saveTx()
-
+      await item.saveTx();
     }
-    var whiteSpace = HelperExampleFactory.whiteSpace();
-    var statusInfo = rn > 0 ? 'success' : 'fail';
-    var alertInfo = `${rn} ${whiteSpace} ${getString('authorChanged')}`;
+    const whiteSpace = HelperExampleFactory.whiteSpace();
+    const statusInfo = rn > 0 ? "success" : "fail";
+    var alertInfo = `${rn} ${whiteSpace} ${getString("authorChanged")}`;
     HelperExampleFactory.progressWindow(alertInfo, statusInfo);
-
-
-  };
+  }
 
   // 清除加粗加星
   static async cleanBoldAndStar() {
-    var rn = 0;
-    var items = KeyExampleFactory.getSelectedItems();
-    if (items.length == 0) { // 如果没有选中条目则提示，中止
-      alertInfo = getString('zeroItem');
-      HelperExampleFactory.progressWindow(alertInfo, 'fail');
+    let rn = 0;
+    const items = KeyExampleFactory.getSelectedItems();
+    if (items.length == 0) {
+      // 如果没有选中条目则提示，中止
+      alertInfo = getString("zeroItem");
+      HelperExampleFactory.progressWindow(alertInfo, "fail");
       return;
     }
-    for (let item of items) {
-      let creators = item.getCreators();
-      let newCreators = [];
+    for (const item of items) {
+      const creators = item.getCreators();
+      const newCreators = [];
 
-      for (let creator of creators) {
-        if (/<b>/.test(creator.firstName as any) || /<b>/.test(creator.lastName as any)
-          || /\*/.test(creator.firstName as any) || /\*/.test(creator.lastName as any)) {  // 是否包含<b>
+      for (const creator of creators) {
+        if (
+          /<b>/.test(creator.firstName as any) ||
+          /<b>/.test(creator.lastName as any) ||
+          /\*/.test(creator.firstName as any) ||
+          /\*/.test(creator.lastName as any)
+        ) {
+          // 是否包含<b>
 
-          creator.firstName = creator.firstName!.
-            replace(/<b>/g, '').replace(/<\/b>/g, '').replace(/\*/g, '');
-          creator.lastName = creator.lastName!.
-            replace(/<b>/g, '').replace(/<\/b>/g, '').replace(/\*/g, '');
+          creator.firstName = creator
+            .firstName!.replace(/<b>/g, "")
+            .replace(/<\/b>/g, "")
+            .replace(/\*/g, "");
+          creator.lastName = creator
+            .lastName!.replace(/<b>/g, "")
+            .replace(/<\/b>/g, "")
+            .replace(/\*/g, "");
 
           creator.fieldMode = creator.fieldMode;
           rn++;
         }
         newCreators.push(creator);
-
       }
       item.setCreators(newCreators);
 
       await item.saveTx();
-
     }
-    var whiteSpace = HelperExampleFactory.whiteSpace();
-    var statusInfo = rn > 0 ? 'success' : 'fail';
-    var alertInfo = `${rn} ${whiteSpace} ${getString('authorChanged')}`;
+    const whiteSpace = HelperExampleFactory.whiteSpace();
+    const statusInfo = rn > 0 ? "success" : "fail";
+    var alertInfo = `${rn} ${whiteSpace} ${getString("authorChanged")}`;
     HelperExampleFactory.progressWindow(alertInfo, statusInfo);
-
-  };
+  }
 
   @example
   // 交换作者姓和名
   static async swapAuthorName() {
-    var rn = 0; //计数替换条目个数
+    let rn = 0; //计数替换条目个数
     //var newFieldMode = 0; // 0: two-field, 1: one-field (with empty first name)
-    var items = KeyExampleFactory.getSelectedItems();
-    if (items.length == 0) { // 如果没有选中条目则提示，中止
-      alertInfo = getString('zeroItem');
-      HelperExampleFactory.progressWindow(alertInfo, 'fail');
+    const items = KeyExampleFactory.getSelectedItems();
+    if (items.length == 0) {
+      // 如果没有选中条目则提示，中止
+      alertInfo = getString("zeroItem");
+      HelperExampleFactory.progressWindow(alertInfo, "fail");
       return;
     } else {
-      for (let item of items) {
-        let creators = item.getCreators();
-        let newCreators = [];
-        for (let creator of creators) {
+      for (const item of items) {
+        const creators = item.getCreators();
+        const newCreators = [];
+        for (const creator of creators) {
           // if (`${creator.firstName} ${creator.lastName}`.trim() == oldName) {
-          let firstName = creator.firstName;
-          let lastName = creator.lastName;
+          const firstName = creator.firstName;
+          const lastName = creator.lastName;
 
           creator.firstName = lastName;
           creator.lastName = firstName;
@@ -2479,32 +2824,36 @@ export class HelperExampleFactory {
         rn++;
         await item.save();
       }
-
     }
-    var whiteSpace = HelperExampleFactory.whiteSpace();
-    var statusInfo = rn > 0 ? 'success' : 'fail';
-    var alertInfo = rn + whiteSpace + getString('itemAuSwapped');
+    const whiteSpace = HelperExampleFactory.whiteSpace();
+    const statusInfo = rn > 0 ? "success" : "fail";
+    var alertInfo = rn + whiteSpace + getString("itemAuSwapped");
     HelperExampleFactory.progressWindow(alertInfo, statusInfo);
-  };
+  }
 
   // 更改作者名称大小写
   @example
   static async changAuthorCase() {
-    var rn = 0; //计数替换条目个数
+    let rn = 0; //计数替换条目个数
     // var newFieldMode = 0; // 0: two-field, 1: one-field (with empty first name)
     //await Zotero.DB.executeTransaction(async function () {
-    var items = KeyExampleFactory.getSelectedItems();
-    if (items.length == 0) { // 如果没有选中条目则提示，中止
-      alertInfo = getString('zeroItem');
-      HelperExampleFactory.progressWindow(alertInfo, 'fail');
+    const items = KeyExampleFactory.getSelectedItems();
+    if (items.length == 0) {
+      // 如果没有选中条目则提示，中止
+      alertInfo = getString("zeroItem");
+      HelperExampleFactory.progressWindow(alertInfo, "fail");
       return;
     } else {
-      for (let item of items) {
-        var creators = item.getCreators();
-        let newCreators = [];
-        for (let creator of creators) {
-          creator.firstName = HelperExampleFactory.titleCase(creator.firstName!.trim());
-          creator.lastName = HelperExampleFactory.titleCase(creator.lastName!.trim());
+      for (const item of items) {
+        const creators = item.getCreators();
+        const newCreators = [];
+        for (const creator of creators) {
+          creator.firstName = HelperExampleFactory.titleCase(
+            creator.firstName!.trim(),
+          );
+          creator.lastName = HelperExampleFactory.titleCase(
+            creator.lastName!.trim(),
+          );
           creator.fieldMode = creator.fieldMode;
           newCreators.push(creator);
         }
@@ -2513,314 +2862,359 @@ export class HelperExampleFactory {
         rn++;
       }
     }
-    var whiteSpace = HelperExampleFactory.whiteSpace();
-    var statusInfo = rn > 0 ? 'success' : 'fail';
-    var alertInfo = `${rn} ${whiteSpace} ${getString('itemAuthorChanged')}`;
+    const whiteSpace = HelperExampleFactory.whiteSpace();
+    const statusInfo = rn > 0 ? "success" : "fail";
+    var alertInfo = `${rn} ${whiteSpace} ${getString("itemAuthorChanged")}`;
     HelperExampleFactory.progressWindow(alertInfo, statusInfo);
-  };
+  }
 
   // 将单词转为首字母大写
   static titleCase(str: string) {
-    var newStr = str.split(" ");
-    for (var i = 0; i < newStr.length; i++) {
-      newStr[i] = newStr[i].slice(0, 1).toUpperCase() + newStr[i].slice(1).toLowerCase();
+    const newStr = str.split(" ");
+    for (let i = 0; i < newStr.length; i++) {
+      newStr[i] =
+        newStr[i].slice(0, 1).toUpperCase() + newStr[i].slice(1).toLowerCase();
     }
     return newStr.join(" ");
-  };
-
+  }
 
   // 条目题目处理函数 条目查找替换
   @example
   static async itemTitleFindRep(oldTitle: string, newTitle: string) {
     // 如果新或老题目为空则提示
-    if (oldTitle == '' || newTitle == '') {
-      var alertInfo = getString('titleEmpty');
-      HelperExampleFactory.progressWindow(alertInfo, 'fail');
+    if (oldTitle == "" || newTitle == "") {
+      var alertInfo = getString("titleEmpty");
+      HelperExampleFactory.progressWindow(alertInfo, "fail");
     } else if (oldTitle == newTitle) {
-      alertInfo = getString('findRepSame');
-      HelperExampleFactory.progressWindow(alertInfo, 'fail');
+      alertInfo = getString("findRepSame");
+      HelperExampleFactory.progressWindow(alertInfo, "fail");
     } else {
-      var n = 0;
-      var itemOldTitle = ''; // 原题目
-      var replaced_title = ''; // 新题目
-      var items = KeyExampleFactory.getSelectedItems();
-      if (items.length == 0) { // 如果没有选中条目则提示，中止
-        alertInfo = getString('zeroItem');
-        HelperExampleFactory.progressWindow(alertInfo, 'fail');
+      let n = 0;
+      let itemOldTitle = ""; // 原题目
+      let replaced_title = ""; // 新题目
+      const items = KeyExampleFactory.getSelectedItems();
+      if (items.length == 0) {
+        // 如果没有选中条目则提示，中止
+        alertInfo = getString("zeroItem");
+        HelperExampleFactory.progressWindow(alertInfo, "fail");
         return;
       } else {
-        for (let item of items) {
-          itemOldTitle = (item.getField('title') as any).trim(); //原题目
-          if (itemOldTitle.indexOf(oldTitle) != -1) { //如果包含原字符
+        for (const item of items) {
+          itemOldTitle = (item.getField("title") as any).trim(); //原题目
+          if (itemOldTitle.indexOf(oldTitle) != -1) {
+            //如果包含原字符
             replaced_title = itemOldTitle.replace(oldTitle, newTitle);
-            item.setField('title', replaced_title);
+            item.setField("title", replaced_title);
             await item.saveTx();
             n++;
           }
         }
       }
-      var whiteSpace = HelperExampleFactory.whiteSpace();
-      var statusInfo = n > 0 ? 'success' : 'fail';
-      var alertInfo = `${n} ${whiteSpace} ${getString('itemTitleFindRepSuc')}`;
+      const whiteSpace = HelperExampleFactory.whiteSpace();
+      const statusInfo = n > 0 ? "success" : "fail";
+      var alertInfo = `${n} ${whiteSpace} ${getString("itemTitleFindRepSuc")}`;
       HelperExampleFactory.progressWindow(alertInfo, statusInfo);
     }
   }
 
-
   @example
   // 作者处理对话框{
   static async dialogAuProcess() {
-    var padding = '1px 1px 1px 1px';
-    var margin = '1px 1px 1px 30px';
-    var widthSmall = '60px';
-    var widthMiddle = '90px';
-    var widthLarge = '125px';
+    const padding = "1px 1px 1px 1px";
+    const margin = "1px 1px 1px 30px";
+    const widthSmall = "60px";
+    const widthMiddle = "90px";
+    const widthLarge = "125px";
     const dialog = new ztoolkit.Dialog(5, 3)
-      .addCell(0, 0, {
-        tag: "h4",
-        styles: {
-          height: "10px",
-          margin: margin,
-          // border: border,
-          padding: padding,
+      .addCell(
+        0,
+        0,
+        {
+          tag: "h4",
+          styles: {
+            height: "10px",
+            margin: margin,
+            // border: border,
+            padding: padding,
+          },
+          properties: { innerHTML: getString("authorProcess") },
         },
-        properties: { innerHTML: getString('authorProcess') },
-      },
-        false)
-      .addCell(1, 0, {
-        tag: "p",
-        styles: {
-          width: "460px",
-          padding: padding,
-          margin: margin,
-          // border: border,
-        },
-        properties: { innerHTML: getString('authorProcessName') },
-      },
-        false
+        false,
       )
-      .addCell(2, 0,
+      .addCell(
+        1,
+        0,
+        {
+          tag: "p",
+          styles: {
+            width: "460px",
+            padding: padding,
+            margin: margin,
+            // border: border,
+          },
+          properties: { innerHTML: getString("authorProcessName") },
+        },
+        false,
+      )
+      .addCell(
+        2,
+        0,
         {
           tag: "input",
           id: "dialog-input4",
           styles: {
             width: "300px",
-            margin: '10px 1px 1px 70px',
+            margin: "10px 1px 1px 70px",
             // border: border,
           },
         },
-        false
+        false,
       )
-      .addCell(3, 0, { //作者加粗对话框
-        tag: "button",
-        namespace: "html",
-        styles: {
-          padding: padding,
-          margin: '1px 1px 1px 40px',
-          // border: border,
-        },
-        attributes: {
-          type: "button",
-        },
-        listeners: [
-          {
-            type: "click",
-            listener: (e: Event) => {
-              var author = (dialog.window.document.getElementById('dialog-input4') as HTMLInputElement).value;
-              this.auProcess(author, 'bold');
-            },
+      .addCell(
+        3,
+        0,
+        {
+          //作者加粗对话框
+          tag: "button",
+          namespace: "html",
+          styles: {
+            padding: padding,
+            margin: "1px 1px 1px 40px",
+            // border: border,
           },
-        ],
-        children: [
-          {
-            tag: "div",
-            styles: {
-              width: widthSmall,
-              padding: padding,
-            },
-            properties: {
-              innerHTML: getString('boldLabel'),
-            },
+          attributes: {
+            type: "button",
           },
-        ],
-      },
-        false
+          listeners: [
+            {
+              type: "click",
+              listener: (e: Event) => {
+                const author = (
+                  dialog.window.document.getElementById(
+                    "dialog-input4",
+                  ) as HTMLInputElement
+                ).value;
+                this.auProcess(author, "bold");
+              },
+            },
+          ],
+          children: [
+            {
+              tag: "div",
+              styles: {
+                width: widthSmall,
+                padding: padding,
+              },
+              properties: {
+                innerHTML: getString("boldLabel"),
+              },
+            },
+          ],
+        },
+        false,
       )
-      .addCell(3, 1, { //作者加星对话框
-        tag: "button",
-        styles: {
-          padding: padding,
-          margin: margin,
-
-        },
-        namespace: "html",
-        attributes: {
-          type: "button",
-        },
-        listeners: [
-          {
-            type: "click",
-            listener: (e: Event) => {
-              var author = (dialog.window.document.getElementById('dialog-input4') as HTMLInputElement).value;
-              this.auProcess(author, 'star');
-            },
+      .addCell(
+        3,
+        1,
+        {
+          //作者加星对话框
+          tag: "button",
+          styles: {
+            padding: padding,
+            margin: margin,
           },
-        ],
-        children: [
-          {
-            tag: "div",
-            styles: {
-              width: widthMiddle,
-              padding: padding,
-            },
-            properties: {
-              innerHTML: getString('starLabel'),
-            },
+          namespace: "html",
+          attributes: {
+            type: "button",
           },
-        ],
-      },
-        false
+          listeners: [
+            {
+              type: "click",
+              listener: (e: Event) => {
+                const author = (
+                  dialog.window.document.getElementById(
+                    "dialog-input4",
+                  ) as HTMLInputElement
+                ).value;
+                this.auProcess(author, "star");
+              },
+            },
+          ],
+          children: [
+            {
+              tag: "div",
+              styles: {
+                width: widthMiddle,
+                padding: padding,
+              },
+              properties: {
+                innerHTML: getString("starLabel"),
+              },
+            },
+          ],
+        },
+        false,
       )
-      .addCell(3, 2, { //作者加粗加星对话框
-        tag: "button",
-        styles: {
-          padding: padding,
-          margin: margin,
-          // border: border,
-        },
-        namespace: "html",
-        attributes: {
-          type: "button",
-        },
-        listeners: [
-          {
-            type: "click",
-            listener: (e: Event) => {
-              var author = (dialog.window.document.getElementById('dialog-input4') as HTMLInputElement).value;
-              this.auProcess(author, 'boldStar');
-            },
+      .addCell(
+        3,
+        2,
+        {
+          //作者加粗加星对话框
+          tag: "button",
+          styles: {
+            padding: padding,
+            margin: margin,
+            // border: border,
           },
-        ],
-        children: [
-          {
-            tag: "div",
-            styles: {
-              width: widthLarge,
-              padding: padding,
-            },
-            properties: {
-              innerHTML: getString('boldStarLabel'),
-            },
+          namespace: "html",
+          attributes: {
+            type: "button",
           },
-        ],
-      },
-        false
+          listeners: [
+            {
+              type: "click",
+              listener: (e: Event) => {
+                const author = (
+                  dialog.window.document.getElementById(
+                    "dialog-input4",
+                  ) as HTMLInputElement
+                ).value;
+                this.auProcess(author, "boldStar");
+              },
+            },
+          ],
+          children: [
+            {
+              tag: "div",
+              styles: {
+                width: widthLarge,
+                padding: padding,
+              },
+              properties: {
+                innerHTML: getString("boldStarLabel"),
+              },
+            },
+          ],
+        },
+        false,
       )
-      .addCell(4, 0, { //作者去粗
-        tag: "button",
-        styles: {
-          padding: padding,
-          margin: '1px 1px 1px 40px',
-          // border: border,
-        },
-        namespace: "html",
-        attributes: {
-          type: "button",
-        },
-        listeners: [
-          {
-            type: "click",
-            listener: (e: Event) => {
-              // var author = (dialog.window.document.getElementById('dialog-input4') as HTMLInputElement).value;
-              HelperExampleFactory.cleanBold();
-            },
+      .addCell(
+        4,
+        0,
+        {
+          //作者去粗
+          tag: "button",
+          styles: {
+            padding: padding,
+            margin: "1px 1px 1px 40px",
+            // border: border,
           },
-        ],
-        children: [
-          {
-            tag: "div",
-            styles: {
-              width: widthSmall,
-              padding: padding,
-              // margin: '20px 20px 20px 20px',
-            },
-            properties: {
-              innerHTML: getString('cleanBoldLabel'),
-            },
+          namespace: "html",
+          attributes: {
+            type: "button",
           },
-        ],
-      },
-        false
+          listeners: [
+            {
+              type: "click",
+              listener: (e: Event) => {
+                // var author = (dialog.window.document.getElementById('dialog-input4') as HTMLInputElement).value;
+                HelperExampleFactory.cleanBold();
+              },
+            },
+          ],
+          children: [
+            {
+              tag: "div",
+              styles: {
+                width: widthSmall,
+                padding: padding,
+                // margin: '20px 20px 20px 20px',
+              },
+              properties: {
+                innerHTML: getString("cleanBoldLabel"),
+              },
+            },
+          ],
+        },
+        false,
       )
-      .addCell(4, 1, { //作者去星
-        tag: "button",
-        styles: {
-          padding: padding,
-          margin: margin,
-          // border: border,
-        },
-        namespace: "html",
-        attributes: {
-          type: "button",
-        },
-        listeners: [
-          {
-            type: "click",
-            listener: (e: Event) => {
-              // var author = (dialog.window.document.getElementById('dialog-input4') as HTMLInputElement).value;
-              HelperExampleFactory.cleanStar();
-            },
+      .addCell(
+        4,
+        1,
+        {
+          //作者去星
+          tag: "button",
+          styles: {
+            padding: padding,
+            margin: margin,
+            // border: border,
           },
-        ],
-        children: [
-          {
-            tag: "div",
-            styles: {
-              width: widthMiddle,
-              padding: padding,
-            },
-            properties: {
-              innerHTML: getString('cleanStarLabel'),
-            },
+          namespace: "html",
+          attributes: {
+            type: "button",
           },
-        ],
-      },
-        false
+          listeners: [
+            {
+              type: "click",
+              listener: (e: Event) => {
+                // var author = (dialog.window.document.getElementById('dialog-input4') as HTMLInputElement).value;
+                HelperExampleFactory.cleanStar();
+              },
+            },
+          ],
+          children: [
+            {
+              tag: "div",
+              styles: {
+                width: widthMiddle,
+                padding: padding,
+              },
+              properties: {
+                innerHTML: getString("cleanStarLabel"),
+              },
+            },
+          ],
+        },
+        false,
       )
-      .addCell(4, 2, { //作者去粗去星对话框
-        tag: "button",
-        styles: {
-          padding: padding,
-          margin: margin,
-          // border: border,
-        },
-        namespace: "html",
-        attributes: {
-          type: "button",
-        },
-        listeners: [
-          {
-            type: "click",
-            listener: (e: Event) => {
-              // var author = (dialog.window.document.getElementById('dialog-input4') as HTMLInputElement).value;
-              HelperExampleFactory.cleanBoldAndStar();
-            },
+      .addCell(
+        4,
+        2,
+        {
+          //作者去粗去星对话框
+          tag: "button",
+          styles: {
+            padding: padding,
+            margin: margin,
+            // border: border,
           },
-        ],
-        children: [
-          {
-            tag: "div",
-            styles: {
-              width: widthLarge,
-              padding: padding,
-            },
-            properties: {
-              innerHTML: getString('cleanBoldStarLabel'),
-            },
+          namespace: "html",
+          attributes: {
+            type: "button",
           },
-        ],
-      },
-        false
+          listeners: [
+            {
+              type: "click",
+              listener: (e: Event) => {
+                // var author = (dialog.window.document.getElementById('dialog-input4') as HTMLInputElement).value;
+                HelperExampleFactory.cleanBoldAndStar();
+              },
+            },
+          ],
+          children: [
+            {
+              tag: "div",
+              styles: {
+                width: widthLarge,
+                padding: padding,
+              },
+              properties: {
+                innerHTML: getString("cleanBoldStarLabel"),
+              },
+            },
+          ],
+        },
+        false,
       )
       // .addButton(getString('boldLabel'), "boldButton", {
       //   noClose: true,
@@ -2837,258 +3231,308 @@ export class HelperExampleFactory {
       //   },
       // })
       // .setDialogData(dialogData)
-      .open(getString('authorProcessDiaTitle'),
-        {
-          width: 500,
-          height: 250,
-          centerscreen: true,
-          // fitContent: true,
-        }
-      );
+      .open(getString("authorProcessDiaTitle"), {
+        width: 500,
+        height: 250,
+        centerscreen: true,
+        // fitContent: true,
+      });
   }
 
   @example
   // 条目题目查找替换
   static async dialogItemTitleProcess() {
-    var padding = '1px 1px 1px 1px';
+    const padding = "1px 1px 1px 1px";
     const dialog = new ztoolkit.Dialog(5, 2)
-      .addCell(0, 0, {
-        tag: "h4",
-        styles: {
-          height: "10px",
-          margin: '1px 1px 1px 30px',
-          // border: border,
-          padding: padding,
+      .addCell(
+        0,
+        0,
+        {
+          tag: "h4",
+          styles: {
+            height: "10px",
+            margin: "1px 1px 1px 30px",
+            // border: border,
+            padding: padding,
+          },
+          properties: { innerHTML: getString("itemTitleFindReplaceLabel") },
         },
-        properties: { innerHTML: getString('itemTitleFindReplaceLabel') },
-      },
-        false)
-      .addCell(1, 0, {
-        tag: "p",
-        styles: {
-          width: "460px",
-          padding: padding,
-          margin: '1px 1px 1px 30px',
-          // border: border,
-        },
-        properties: { innerHTML: getString('titleSearchReplaceLabel') },
-      },
-        false
+        false,
       )
-      .addCell(2, 0, {
-        tag: "p",
-        styles: {
-          width: "100px",
-          padding: padding,
-          margin: '5px 1px 1px 30px',
-          // border: border,
+      .addCell(
+        1,
+        0,
+        {
+          tag: "p",
+          styles: {
+            width: "460px",
+            padding: padding,
+            margin: "1px 1px 1px 30px",
+            // border: border,
+          },
+          properties: { innerHTML: getString("titleSearchReplaceLabel") },
         },
-        properties: { innerHTML: getString('titleSearLabel') },
-      },
-        false
+        false,
       )
-      .addCell(2, 1,
+      .addCell(
+        2,
+        0,
+        {
+          tag: "p",
+          styles: {
+            width: "100px",
+            padding: padding,
+            margin: "5px 1px 1px 30px",
+            // border: border,
+          },
+          properties: { innerHTML: getString("titleSearLabel") },
+        },
+        false,
+      )
+      .addCell(
+        2,
+        1,
         {
           tag: "input",
           id: "item-title-search-input",
           styles: {
             width: "300px",
-            margin: '10px 1px 1px 8px',
+            margin: "10px 1px 1px 8px",
             // border: border,
           },
         },
-        false
+        false,
       )
-      .addCell(3, 0, {
-        tag: "p",
-        styles: {
-          width: "100px",
-          padding: padding,
-          margin: '5px 1px 1px 30px',
-          // border: border,
+      .addCell(
+        3,
+        0,
+        {
+          tag: "p",
+          styles: {
+            width: "100px",
+            padding: padding,
+            margin: "5px 1px 1px 30px",
+            // border: border,
+          },
+          properties: { innerHTML: getString("titleReplaceLabel") },
         },
-        properties: { innerHTML: getString('titleReplaceLabel') },
-      },
-        false
+        false,
       )
-      .addCell(3, 1,
+      .addCell(
+        3,
+        1,
         {
           tag: "input",
           id: "item-title-replace-input",
           styles: {
             width: "300px",
-            margin: '10px 1px 1px 8px',
+            margin: "10px 1px 1px 8px",
             // border: border,
           },
         },
-        false
+        false,
       )
-      .addCell(4, 0, {
-        tag: "button",
-        styles: {
-          padding: padding,
-          margin: '1px 1px 1px 200px',
-          // border: border,
-        },
-        namespace: "html",
-        attributes: {
-          type: "button",
-        },
-        listeners: [
-          {
-            type: "click",
-            listener: (e: Event) => {
-              var searchText = (dialog.window.document.getElementById('item-title-search-input') as HTMLInputElement).value;
-              var repText = (dialog.window.document.getElementById('item-title-replace-input') as HTMLInputElement).value;
-              this.itemTitleFindRep(searchText, repText);
-            },
-          },
-        ],
-        children: [
-          {
-            tag: "div",
-            styles: {
-              width: '100px',
-              padding: padding,
-            },
-            properties: {
-              innerHTML: getString('titleReplaceButton'),
-            },
-          },
-        ],
-      },
-        false
-      )
-      .open(getString('titleSearchReplaceWin'),
+      .addCell(
+        4,
+        0,
         {
-          width: 510,
-          height: 250,
-          centerscreen: true,
-          // fitContent: true,
-        }
-      );
+          tag: "button",
+          styles: {
+            padding: padding,
+            margin: "1px 1px 1px 200px",
+            // border: border,
+          },
+          namespace: "html",
+          attributes: {
+            type: "button",
+          },
+          listeners: [
+            {
+              type: "click",
+              listener: (e: Event) => {
+                const searchText = (
+                  dialog.window.document.getElementById(
+                    "item-title-search-input",
+                  ) as HTMLInputElement
+                ).value;
+                const repText = (
+                  dialog.window.document.getElementById(
+                    "item-title-replace-input",
+                  ) as HTMLInputElement
+                ).value;
+                this.itemTitleFindRep(searchText, repText);
+              },
+            },
+          ],
+          children: [
+            {
+              tag: "div",
+              styles: {
+                width: "100px",
+                padding: padding,
+              },
+              properties: {
+                innerHTML: getString("titleReplaceButton"),
+              },
+            },
+          ],
+        },
+        false,
+      )
+      .open(getString("titleSearchReplaceWin"), {
+        width: 510,
+        height: 250,
+        centerscreen: true,
+        // fitContent: true,
+      });
   }
 
   @example
   // 更改期刊题目对话框
   static async dialogChPubTitle() {
-    var padding = '1px 1px 1px 1px';
+    const padding = "1px 1px 1px 1px";
     const dialog = new ztoolkit.Dialog(7, 1)
-      .addCell(0, 0, {
-        tag: "h4",
-        styles: {
-          height: "10px",
-          margin: '1px 1px 1px 30px',
-          // border: border,
-          padding: padding,
+      .addCell(
+        0,
+        0,
+        {
+          tag: "h4",
+          styles: {
+            height: "10px",
+            margin: "1px 1px 1px 30px",
+            // border: border,
+            padding: padding,
+          },
+          properties: { innerHTML: getString("change-pub-title") },
         },
-        properties: { innerHTML: getString('change-pub-title') },
-      },
-        false)
-      .addCell(1, 0, {
-        tag: "p",
-        styles: {
-          width: "460px",
-          padding: padding,
-          margin: '1px 1px 1px 30px',
-          // border: border,
-        },
-        properties: { innerHTML: getString('change-pub-title-desc') },
-      },
-        false
+        false,
       )
-      .addCell(2, 0, {
-        tag: "p",
-        styles: {
-          width: "400px",
-          padding: padding,
-          margin: '15px 1px 1px 80px',
-          // border: border,
+      .addCell(
+        1,
+        0,
+        {
+          tag: "p",
+          styles: {
+            width: "460px",
+            padding: padding,
+            margin: "1px 1px 1px 30px",
+            // border: border,
+          },
+          properties: { innerHTML: getString("change-pub-title-desc") },
         },
-        properties: { innerHTML: getString('old-pub-title') },
-      },
-        false
+        false,
       )
-      .addCell(3, 0,
+      .addCell(
+        2,
+        0,
+        {
+          tag: "p",
+          styles: {
+            width: "400px",
+            padding: padding,
+            margin: "15px 1px 1px 80px",
+            // border: border,
+          },
+          properties: { innerHTML: getString("old-pub-title") },
+        },
+        false,
+      )
+      .addCell(
+        3,
+        0,
         {
           tag: "input",
           id: "change-pub-title-old",
           styles: {
             width: "300px",
-            margin: '10px 1px 1px 80px',
+            margin: "10px 1px 1px 80px",
             // border: border,
           },
         },
-        false
+        false,
       )
-      .addCell(4, 0, {
-        tag: "p",
-        styles: {
-          width: "400px",
-          padding: padding,
-          margin: '10px 1px 1px 80px',
-          // border: border,
+      .addCell(
+        4,
+        0,
+        {
+          tag: "p",
+          styles: {
+            width: "400px",
+            padding: padding,
+            margin: "10px 1px 1px 80px",
+            // border: border,
+          },
+          properties: { innerHTML: getString("new-pub-title") },
         },
-        properties: { innerHTML: getString('new-pub-title') },
-      },
-        false
+        false,
       )
-      .addCell(5, 0,
+      .addCell(
+        5,
+        0,
         {
           tag: "input",
           id: "change-pub-title-new",
           styles: {
             width: "300px",
-            margin: '10px 1px 1px 80px',
+            margin: "10px 1px 1px 80px",
             // border: border,
           },
         },
-        false
+        false,
       )
-      .addCell(6, 0, {
-        tag: "button",
-        styles: {
-          padding: padding,
-          margin: '15px 1px 1px 150px',
-          // border: border,
-        },
-        namespace: "html",
-        attributes: {
-          type: "button",
-        },
-        listeners: [
-          {
-            type: "click",
-            listener: (e: Event) => {
-              var searchText = (dialog.window.document.getElementById('change-pub-title-old') as HTMLInputElement).value;
-              var repText = (dialog.window.document.getElementById('change-pub-title-new') as HTMLInputElement).value;
-              this.chPubTitle(searchText, repText);
-            },
-          },
-        ],
-        children: [
-          {
-            tag: "div",
-            styles: {
-              width: '150px',
-              padding: padding,
-            },
-            properties: {
-              innerHTML: getString('change-title-bn'),
-            },
-          },
-        ],
-      },
-        false
-      )
-      .open(getString('change-pub-title'),
+      .addCell(
+        6,
+        0,
         {
-          width: 510,
-          height: 300,
-          centerscreen: true,
-          // fitContent: true,
-        }
-      );
+          tag: "button",
+          styles: {
+            padding: padding,
+            margin: "15px 1px 1px 150px",
+            // border: border,
+          },
+          namespace: "html",
+          attributes: {
+            type: "button",
+          },
+          listeners: [
+            {
+              type: "click",
+              listener: (e: Event) => {
+                const searchText = (
+                  dialog.window.document.getElementById(
+                    "change-pub-title-old",
+                  ) as HTMLInputElement
+                ).value;
+                const repText = (
+                  dialog.window.document.getElementById(
+                    "change-pub-title-new",
+                  ) as HTMLInputElement
+                ).value;
+                this.chPubTitle(searchText, repText);
+              },
+            },
+          ],
+          children: [
+            {
+              tag: "div",
+              styles: {
+                width: "150px",
+                padding: padding,
+              },
+              properties: {
+                innerHTML: getString("change-title-bn"),
+              },
+            },
+          ],
+        },
+        false,
+      )
+      .open(getString("change-pub-title"), {
+        width: 510,
+        height: 300,
+        centerscreen: true,
+        // fitContent: true,
+      });
   }
 
   @example
@@ -3139,7 +3583,7 @@ export class HelperExampleFactory {
           },
           properties: { label: "Cell 1,0" },
         },
-        false
+        false,
       )
       .addCell(4, 0, {
         tag: "label",
@@ -3149,7 +3593,9 @@ export class HelperExampleFactory {
         },
         properties: { innerHTML: "bind:input" },
       })
-      .addCell(4, 1,
+      .addCell(
+        4,
+        1,
         {
           tag: "input",
           id: "dialog-input4",
@@ -3159,12 +3605,16 @@ export class HelperExampleFactory {
           //   type: "text",
           // },
         },
-        false
+        false,
       )
       .addButton("Replace", "replace", {
         noClose: true,
         callback: (e) => {
-          var text = (dialog.window.document.getElementById('dialog-input4') as HTMLInputElement).value;
+          const text = (
+            dialog.window.document.getElementById(
+              "dialog-input4",
+            ) as HTMLInputElement
+          ).value;
           new ztoolkit.ProgressWindow(config.addonName)
             .createLine({
               text: text,
@@ -3182,7 +3632,7 @@ export class HelperExampleFactory {
         noClose: false,
         callback: (e) => {
           ztoolkit.getGlobal("alert")(
-            `Close dialog with ${dialogData._lastButtonId}.\nCheckbox: ${dialogData.checkboxValue}\nInput: ${dialogData.inputValue}.`
+            `Close dialog with ${dialogData._lastButtonId}.\nCheckbox: ${dialogData.checkboxValue}\nInput: ${dialogData.inputValue}.`,
           );
         },
       })
@@ -3197,16 +3647,12 @@ export class HelperExampleFactory {
       //   },
       // })
       .setDialogData(dialogData)
-      .open("Dialog Example",
-        {
-          // width: 200,
-          // height: 100,
-          centerscreen: true,
-          fitContent: true,
-        }
-
-
-      );
+      .open("Dialog Example", {
+        // width: 200,
+        // height: 100,
+        centerscreen: true,
+        fitContent: true,
+      });
     // await dialogData.unloadLock.promise;
     // ztoolkit.getGlobal("alert")(
     //   `Close dialog with ${dialogData._lastButtonId}.\nCheckbox: ${dialogData.checkboxValue}\nInput: ${dialogData.inputValue}.`
