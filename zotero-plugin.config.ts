@@ -36,7 +36,6 @@ export default defineConfig({
       },
     ],
     makeUpdateJson: {
-      hash: false,
       updates: [
         {
           version: "0.13.0",
@@ -49,11 +48,6 @@ export default defineConfig({
           },
         },
       ],
-    },
-    hooks: {
-      "build:makeUpdateJSON": (ctx) => {
-        copyFileSync("build/update.json", "update.json");
-      },
     },
   },
 
