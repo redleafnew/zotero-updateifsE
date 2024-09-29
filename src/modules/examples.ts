@@ -225,14 +225,14 @@ export class KeyExampleFactory {
 
         //  加: any为了后面不报错
         if (clsci) {
-          const clsciLevel: any = await KeyExampleFactory.getCustomIFs(
+          var clsciLevel: any = await KeyExampleFactory.getCustomIFs(
             item,
             clsciJourID,
           );
         }
         if (ccf_c) {
           // get better CCF result from custom dataset
-          const ccfLevel: any = await KeyExampleFactory.getCustomIFs(
+          var ccfLevel: any = await KeyExampleFactory.getCustomIFs(
             item,
             CCFJourID,
           ); // better CCF
