@@ -1,3 +1,4 @@
+/* eslint-disable no-undef */
 pref("extensions.zotero.__addonRef__.enable", true);
 pref("extensions.zotero.__addonRef__.enable1", false);
 pref("extensions.zotero.__addonRef__.input", "This is input");
@@ -41,8 +42,7 @@ pref("extensions.zotero.__addonRef__.clsci", false);
 pref("extensions.zotero.__addonRef__.ccf_c", true); //better ccf
 pref("extensions.zotero.__addonRef__.ami", false);
 pref("extensions.zotero.__addonRef__.nssf", false);
-pref("extensions.zotero.__addonRef__.swupl", false);  //西南政法大学
-
+pref("extensions.zotero.__addonRef__.swupl", false); //西南政法大学
 
 // 影响因子
 pref("extensions.zotero.__addonRef__.jcr.qu", true);
@@ -88,10 +88,13 @@ pref("extensions.zotero.__addonRef__.sep2", true);
 
 // 快捷键设置
 pref("extensions.zotero.__addonRef__.shortcut.title.sentence", true);
-pref("extensions.zotero.__addonRef__.shortcut.input.title.sentence", 'T');
+pref("extensions.zotero.__addonRef__.shortcut.input.title.sentence", "T");
 pref("extensions.zotero.__addonRef__.shortcut.publication.title.case", true);
-pref("extensions.zotero.__addonRef__.shortcut.input.publication.title.case", 'U');
+pref(
+  "extensions.zotero.__addonRef__.shortcut.input.publication.title.case",
+  "U",
+);
 pref("extensions.zotero.__addonRef__.shortcut.data.dir", true);
-pref("extensions.zotero.__addonRef__.shortcut.input.data.dir", 'D');
+pref("extensions.zotero.__addonRef__.shortcut.input.data.dir", "D");
 pref("extensions.zotero.__addonRef__.shortcut.profile.dir", true);
-pref("extensions.zotero.__addonRef__.shortcut.input.profile.dir", 'P');
+pref("extensions.zotero.__addonRef__.shortcut.input.profile.dir", "P");
