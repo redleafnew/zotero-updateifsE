@@ -19,15 +19,13 @@ async function onStartup() {
   BasicExampleFactory.registerPrefs();
 
   BasicExampleFactory.registerNotifier();
-
+  KeyExampleFactory.registerShortcuts();
   await Promise.all(
     Zotero.getMainWindows().map((win) => onMainWindowLoad(win)),
   );
 }
 
 async function onMainWindowLoad(win: Window) {
-  KeyExampleFactory.registerShortcuts(win);
-
   UIExampleFactory.registerRightClickMenuItem(); // 右键菜单
   // UIExampleFactory.registerRightClickMenuPopup(); // 右键弹出菜单
   UIExampleFactory.registerWindowMenuWithSeprator();
