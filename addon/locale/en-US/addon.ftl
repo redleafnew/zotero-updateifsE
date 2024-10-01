@@ -129,6 +129,7 @@ nssf = NSSF
 swupl = SWUPL
 ABDC = ABDC
 Scopus = Scopus
+HX = HX
 
 summary = Summary
 

@@ -134,6 +134,8 @@ ABDC =
     .label = ABDC
 Scopus =
     .label = Scopus
+HX =
+    .label = HX
 
 
 ## 菜单显示隐藏设置

@@ -552,6 +552,16 @@ function bindPrefEvents() {
       ztoolkit.log(e);
       UIExampleFactory.registerExtraColumn();
     });
+  
+  // HX
+  addon.data
+    .prefs!.window.document.querySelector(
+      `#zotero-prefpane-${config.addonRef}-HX`
+    )
+    ?.addEventListener("command", (e) => {
+      ztoolkit.log(e);
+      UIExampleFactory.registerExtraColumn();
+    });
 
   // 影响因子
   addon.data

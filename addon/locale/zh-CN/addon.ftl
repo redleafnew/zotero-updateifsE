@@ -131,6 +131,7 @@ nssf = 国家社科基金
 swupl = 西南政法大学
 ABDC = ABDC
 Scopus = Scopus
+HX = HX
 
 summary = 总结
 

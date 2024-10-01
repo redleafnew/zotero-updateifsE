@@ -214,14 +214,18 @@ export class KeyExampleFactory {
         const ABDC = getPref(`ABDC`);
         const Scopus = getPref(`Scopus`);
 
+        const HX = getPref(`HX`);
+
         // 自定义数据集
-        const clsciJourID = "1642199434173014016"; // CLSCI UUID
-        const amiJourID = "1648920625629810688"; //AMI UUID
-        const nssfJourID = "1648936694851489792"; //NSSF  UUID
-        const swuplJourID = "1652662162603773952"; //SWUPL  UUID 西南政法大学
-        const ScopusJourID = "1635615726460694528"; //Scopus  UUID
-        const ABDCJourID = "1613183594358972416"; //ABDC  UUID
-        const CCFJourID = "1614919989423271936"; //CCF  UUID
+        var clsciJourID = '1642199434173014016'; // CLSCI UUID
+        var amiJourID = '1648920625629810688'; //AMI UUID
+        var nssfJourID = '1648936694851489792';//NSSF  UUID
+        var swuplJourID = '1652662162603773952';//SWUPL  UUID 西南政法大学
+        var ScopusJourID = '1635615726460694528';//Scopus  UUID
+        var ABDCJourID = '1613183594358972416';//ABDC  UUID
+        var CCFJourID = '1614919989423271936';//CCF  UUID
+        var HXJourID = '1630107627939360768';
+
 
         //  加: any为了后面不报错
         if (clsci) {
@@ -267,6 +271,12 @@ export class KeyExampleFactory {
             ABDCJourID,
           );
         }
+        if (HX) {
+          var HXLevel: any = await KeyExampleFactory.getCustomIFs(
+            item, 
+            HXJourID,
+          );
+        }
         if (njauJourShow) {
           var njauHighQuality = await njauJournal(item);
         }
@@ -280,6 +290,7 @@ export class KeyExampleFactory {
           nssfLevel ||
           (Scopus && ScopusLevel) ||
           (ABDC && ABDCLevel) ||
+          (HX && HXLevel) ||
           njauCore(item) ||
           njauHighQuality
         ) {
@@ -287,6 +298,7 @@ export class KeyExampleFactory {
             item.setField("extra", "");
           }
           n++;
+
         }
 
         try {
@@ -659,6 +671,10 @@ export class KeyExampleFactory {
         // Scopus
         if (Scopus && ScopusLevel != undefined) {
           ztoolkit.ExtraField.setExtraField(item, "Scopus", "是");
+        }
+        // HX
+        if (HX && HXLevel != undefined) {
+          ztoolkit.ExtraField.setExtraField(item, 'HX', HXLevel);
         }
 
         Zotero.debug("swupl是" + swupl + "swuplLevel是" + swuplLevel);
@@ -1967,6 +1983,7 @@ export class UIExampleFactory {
       },
       Scopus: {},
       ABDC: {},
+      HX: {},
       summary: {
         field: "总结",
       },
