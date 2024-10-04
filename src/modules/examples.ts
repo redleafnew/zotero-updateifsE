@@ -306,11 +306,12 @@ export class KeyExampleFactory {
             //如果得到easyscholar数据再写入
             // n++ //如果得到easyScholar数据才算更新成功
             // HelperExampleFactory.progressWindow(easyscholarData['sci'], 'success')
-            if (jcr && easyscholarData["sci"]) {
+            if (jcr && (easyscholarData["sci"] || easyscholarData["ssci"] )) {
               ztoolkit.ExtraField.setExtraField(
                 item,
                 "JCR分区",
-                easyscholarData["sci"],
+                easyscholarData["sci"] != undefined ? //SCI JCR分区如果不存在用SSCI的JCR分区
+                easyscholarData["sci"] : easyscholarData["ssci"],
               );
             }
             if (updated && easyscholarData["sciUp"]) {
