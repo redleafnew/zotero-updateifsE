@@ -844,42 +844,25 @@ export class KeyExampleFactory {
     if (pattern.test(String(pubT))) {
       // 如果期刊名中含有中文才进行替换
       try {
-       // const body = `searchStateJson=%7B%22StateID%22%3A%22%22%2C%22Platfrom%22%3A%22%22%2C%22QueryTime%22%3A%22%22%2C%22Account%22%3A%22knavi%22%2C%22ClientToken%22%3A%22%22%2C%22Language%22%3A%22%22%2C%22CNode%22%3A%7B%22PCode%22%3A%22JOURNAL%22%2C%22SMode%22%3A%22%22%2C%22OperateT%22%3A%22%22%7D%2C%22QNode%22%3A%7B%22SelectT%22%3A%22%22%2C%22Select_Fields%22%3A%22%22%2C%22S_DBCodes%22%3A%22%22%2C%22QGroup%22%3A%5B%7B%22Key%22%3A%22subject%22%2C%22Logic%22%3A1%2C%22Items%22%3A%5B%5D%2C%22ChildItems%22%3A%5B%7B%22Key%22%3A%22txt%22%2C%22Logic%22%3A1%2C%22Items%22%3A%5B%7B%22Key%22%3A%22txt_1%22%2C%22Title%22%3A%22%22%2C%22Logic%22%3A1%2C%22Name%22%3A%22TI%22%2C%22Operate%22%3A%22%25%22%2C%22Value%22%3A%22'${encodeURIComponent(pubT)}'%22%2C%22ExtendType%22%3A0%2C%22ExtendValue%22%3A%22%22%2C%22Value2%22%3A%22%22%7D%5D%2C%22ChildItems%22%3A%5B%5D%7D%5D%7D%5D%2C%22OrderBy%22%3A%22OTA%7CDESC%22%2C%22GroupBy%22%3A%22%22%2C%22Additon%22%3A%22%22%7D%7D&displaymode=1&pageindex=1&pagecount=21&index=&searchType=%E5%88%8A%E5%90%8D(%E6%9B%BE%E7%94%A8%E5%88%8A%E5%90%8D)&clickName=&switchdata=search&random=0.2815758347350512`;
-       // const body = `searchStateJson=%7B%22StateID%22%3A%22%22%2C%22Platfrom%22%3A%22%22%2C%22QueryTime%22%3A%22%22%2C%22Account%22%3A%22knavi%22%2C%22ClientToken%22%3A%22%22%2C%22Language%22%3A%22%22%2C%22CNode%22%3A%7B%22PCode%22%3A%22SQN63324%22%2C%22SMode%22%3A%22%22%2C%22OperateT%22%3A%22%22%7D%2C%22QNode%22%3A%7B%22SelectT%22%3A%22%22%2C%22Select_Fields%22%3A%22%22%2C%22S_DBCodes%22%3A%22%22%2C%22QGroup%22%3A%5B%7B%22Key%22%3A%22subject%22%2C%22Logic%22%3A1%2C%22Items%22%3A%5B%5D%2C%22ChildItems%22%3A%5B%7B%22Key%22%3A%22txt%22%2C%22Logic%22%3A1%2C%22Items%22%3A%5B%7B%22Key%22%3A%22txt_1%22%2C%22Title%22%3A%22%22%2C%22Logic%22%3A1%2C%22Name%22%3A%22TI%22%2C%22Operate%22%3A%22%25%22%2C%22Value%22%3A%22'${encodeURIComponent(pubT)}'%22%2C%22ExtendType%22%3A0%2C%22ExtendValue%22%3A%22%22%2C%22Value2%22%3A%22%22%7D%5D%2C%22ChildItems%22%3A%5B%5D%7D%5D%7D%5D%2C%22OrderBy%22%3A%22OTA%7CDESC%22%2C%22GroupBy%22%3A%22%22%2C%22Additon%22%3A%22%22%7D%7D&displaymode=1&pageindex=1&pagecount=21&index=JSTMWT6S&searchType=%E5%88%8A%E5%90%8D(%E6%9B%BE%E7%94%A8%E5%88%8A%E5%90%8D)&clickName=&switchdata=search`;
-          const formData = new window.FormData();
-          formData.append("searchStateJson", `{"StateID":"","Platfrom":"","QueryTime":"","Account":"knavi","ClientToken":"","Language":"","CNode":{"PCode":"SQN63324","SMode":"","OperateT":""},"QNode":{"SelectT":"","Select_Fields":"","S_DBCodes":"","QGroup":[{"Key":"subject","Logic":1,"Items":[],"ChildItems":[{"Key":"txt","Logic":1,"Items":[{"Key":"txt_1","Title":"","Logic":1,"Name":"TI","Operate":"%","Value":"'${pubT}'","ExtendType":0,"ExtendValue":"","Value2":""}],"ChildItems":[]}]}],"OrderBy":"OTA|DESC","GroupBy":"","Additon":""}}`);
-          formData.append("displaymode", "1");
-          formData.append("pageindex", "1");
-          formData.append("pagecount", "10");
-           formData.append("index", "UXTGKYC2");
-          formData.append("searchType", "来源名称");
-           //formData.append("clickName", "");
-          formData.append("switchdata", "search");
+        const formData = new window.FormData();
+        formData.append("searchStateJson", `{"StateID":"","Platfrom":"","QueryTime":"","Account":"knavi","ClientToken":"","Language":"","CNode":{"PCode":"SQN63324","SMode":"","OperateT":""},"QNode":{"SelectT":"","Select_Fields":"","S_DBCodes":"","QGroup":[{"Key":"subject","Logic":1,"Items":[],"ChildItems":[{"Key":"txt","Logic":1,"Items":[{"Key":"txt_1","Title":"","Logic":1,"Name":"TI","Operate":"%","Value":"'${pubT}'","ExtendType":0,"ExtendValue":"","Value2":""}],"ChildItems":[]}]}],"OrderBy":"OTA|DESC","GroupBy":"","Additon":""}}`);
+        formData.append("displaymode", "1");
+        formData.append("pageindex", "1");
+        formData.append("pagecount", "21");
+        formData.append("searchType", "刊名(曾用刊名)");
+        formData.append("switchdata", "search");
 
-          const resp = await Zotero.HTTP.request(
-          "POST",
-          "https://navi.cnki.net/knavi/all/searchbaseinfo",
+        const res = await Zotero.HTTP.request("POST",
+          "https://kns.cnki.net/knavi/journals/searchbaseinfo",
           {
             headers: {
               "Content-Type": "multipart/form-data"
-                },
-            body: formData as any,
-          },
-        );
-        const AllJour = resp.responseText;
-        // 如果期刊名中有半角括号 在括号前添加/，以匹配
-        if (/\)/.test(String(pubT))) {
-          pubT = String(pubT).replace(/(\()(.*)(\))/, "\\$1$2\\$3");
-        }
-        const reg =
-          " " +
-          pubT +
-          "\n(.*\n){10,40} .*复合影响因子：(.*)\n(.*\n){0,6} .*综合影响因子：(.*)"; //复合影响因子和综合影响因子正则，里面含有空格，\s不行
-        const patt = new RegExp(reg, "i"); //
-        const jour = AllJour.match(patt); // [2]为复合影响因子，[4]为综合IF
-        if (!jour) return;
-        const compoundIF = jour[2];
-        const comprehensiveIF = jour[4];
+            },
+            body: formData as any
+          }
+        )
+        const compoundIF = res.responseText.match(/复合影响因子：([\d\.]+)/)?.[1]
+        const comprehensiveIF = res.responseText.match(/综合影响因子：([\d\.]+)/)?.[1]
         if (compoundIF !== undefined) {
           chineseIFs.push(compoundIF);
           Zotero.debug("复合影响因子是： " + compoundIF );
