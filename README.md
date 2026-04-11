@@ -1,6 +1,6 @@
 # Green Frog
 
-[![zotero target version](https://img.shields.io/badge/Zotero-7.*/8.*-green?style=flat-square&logo=zotero&logoColor=CC2936)](https://www.zotero.org)
+[![zotero target version](https://img.shields.io/badge/Zotero-7/8/9-green?style=flat-square&logo=zotero&logoColor=CC2936)](https://www.zotero.org)
 [![version](https://img.shields.io/github/package-json/v/redleafnew/zotero-updateifsE?style=flat-square)](https://github.com/redleafnew/zotero-updateifsE/releases/)
 [![download number](https://img.shields.io/github/downloads/redleafnew/zotero-updateifsE/latest/total?style=flat-square)](https://github.com/redleafnew/zotero-updateifsE/releases/)
 [![license](https://img.shields.io/github/license/redleafnew/zotero-updateifsE?style=flat-square)](#license)
