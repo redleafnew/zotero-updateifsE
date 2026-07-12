@@ -137,6 +137,8 @@ ABDC = ABDC
 Scopus = Scopus
 HX = HX
 CoreRankings = CORE评级
+ESCI = ESCI
+predatoryReports = 掠夺性期刊预警
 
 summary = 总结
 

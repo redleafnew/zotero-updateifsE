@@ -147,6 +147,10 @@ HX =
     .label = HX
 CoreRankings =
     .label = CORE评级
+ESCI =
+    .label = ESCI
+predatoryReports =
+    .label = 掠夺性期刊预警
 
 
 ## 菜单显示隐藏设置

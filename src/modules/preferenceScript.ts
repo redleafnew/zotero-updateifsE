@@ -642,6 +642,24 @@ function bindPrefEvents() {
       ztoolkit.log(e);
       UIExampleFactory.registerExtraColumn();
     });
+  // ESCI
+  addon.data
+    .prefs!.window.document.querySelector(
+      `#zotero-prefpane-${config.addonRef}-ESCI`
+    )
+    ?.addEventListener("command", (e) => {
+      ztoolkit.log(e);
+      UIExampleFactory.registerExtraColumn();
+    });
+  // Predatory Reports
+  addon.data
+    .prefs!.window.document.querySelector(
+      `#zotero-prefpane-${config.addonRef}-predatoryReports`
+    )
+    ?.addEventListener("command", (e) => {
+      ztoolkit.log(e);
+      UIExampleFactory.registerExtraColumn();
+    });
 
   // // 从easyScholar更新期刊信息
   // addon.data
