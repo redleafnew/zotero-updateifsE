@@ -309,6 +309,42 @@ function bindPrefEvents() {
       ztoolkit.log(e);
       UIExampleFactory.registerExtraColumn();
     });
+  // xr
+  addon.data
+    .prefs!.window.document.querySelector(
+      `#zotero-prefpane-${config.addonRef}-xr`,
+    )
+    ?.addEventListener("command", (e) => {
+      ztoolkit.log(e);
+      UIExampleFactory.registerExtraColumn();
+    });
+  // xrTop
+  addon.data
+    .prefs!.window.document.querySelector(
+      `#zotero-prefpane-${config.addonRef}-xrTop`,
+    )
+    ?.addEventListener("command", (e) => {
+      ztoolkit.log(e);
+      UIExampleFactory.registerExtraColumn();
+    });
+  // xrSmall
+  addon.data
+    .prefs!.window.document.querySelector(
+      `#zotero-prefpane-${config.addonRef}-xrSmall`,
+    )
+    ?.addEventListener("command", (e) => {
+      ztoolkit.log(e);
+      UIExampleFactory.registerExtraColumn();
+    });
+  // xrWarn
+  addon.data
+    .prefs!.window.document.querySelector(
+      `#zotero-prefpane-${config.addonRef}-xrWarn`,
+    )
+    ?.addEventListener("command", (e) => {
+      ztoolkit.log(e);
+      UIExampleFactory.registerExtraColumn();
+    });
   // sci warn sci预警
   addon.data
     .prefs!.window.document.querySelector(

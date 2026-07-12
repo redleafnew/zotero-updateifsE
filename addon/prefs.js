@@ -70,6 +70,10 @@ pref("extensions.zotero.__addonRef__.esi", false);
 pref("extensions.zotero.__addonRef__.com.if", true);
 pref("extensions.zotero.__addonRef__.agg.if", true);
 pref("extensions.zotero.__addonRef__.summary", false);
+pref("extensions.zotero.__addonRef__.xr", false);
+pref("extensions.zotero.__addonRef__.xrTop", false);
+pref("extensions.zotero.__addonRef__.xrSmall", false);
+pref("extensions.zotero.__addonRef__.xrWarn", false);
 
 pref("extensions.zotero.__addonRef__.bold.star", true);
 pref("extensions.zotero.__addonRef__.remove.bold", true);

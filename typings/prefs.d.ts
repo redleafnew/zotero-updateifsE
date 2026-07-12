@@ -72,6 +72,10 @@ declare namespace _ZoteroTypes {
       "com.if": boolean;
       "agg.if": boolean;
       "summary": boolean;
+      "xr": boolean;
+      "xrTop": boolean;
+      "xrSmall": boolean;
+      "xrWarn": boolean;
       "bold.star": boolean;
       "remove.bold": boolean;
       "remove.star": boolean;

@@ -193,6 +193,10 @@ export class KeyExampleFactory {
         const ahci: any = getPref(`ahci`);
         const sciwarn: any = getPref(`sciwarn`);
         const esi: any = getPref(`esi`);
+        const xr: any = getPref(`xr`);
+        const xrTop: any = getPref(`xrTop`);
+        const xrSmall: any = getPref(`xrSmall`);
+        const xrWarn: any = getPref(`xrWarn`);
         const compoundIFs: any = getPref(`com.if`);
         const comprehensiveIFs: any = getPref(`agg.if`);
         //  大学期刊分类
@@ -478,6 +482,35 @@ export class KeyExampleFactory {
                 item,
                 "ESI",
                 easyscholarData["esi"],
+              );
+            }
+            // 新锐分区
+            if (xr && easyscholarData["xr"]) {
+              ztoolkit.ExtraField.setExtraField(
+                item,
+                "新锐分区",
+                easyscholarData["xr"],
+              );
+            }
+            if (xrTop && easyscholarData["xrTop"]) {
+              ztoolkit.ExtraField.setExtraField(
+                item,
+                "新锐Top分区",
+                easyscholarData["xrTop"],
+              );
+            }
+            if (xrSmall && easyscholarData["xrSmall"]) {
+              ztoolkit.ExtraField.setExtraField(
+                item,
+                "新锐小类分区",
+                easyscholarData["xrSmall"],
+              );
+            }
+            if (xrWarn && easyscholarData["xrWarn"]) {
+              ztoolkit.ExtraField.setExtraField(
+                item,
+                "新锐预警",
+                easyscholarData["xrWarn"],
               );
             }
             // 西南财经大学
@@ -1764,6 +1797,18 @@ export class UIExampleFactory {
         field: "中科院预警",
       },
       esi: {},
+      xr: {
+        field: "新锐分区",
+      },
+      xrTop: {
+        field: "新锐Top分区",
+      },
+      xrSmall: {
+        field: "新锐小类分区",
+      },
+      xrWarn: {
+        field: "新锐预警",
+      },
       compoundIFs: {
         pref: "com.if",
         dataKey: "compoundIF",
