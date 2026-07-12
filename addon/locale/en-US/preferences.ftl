@@ -147,6 +147,10 @@ HX =
     .label = HX
 CoreRankings =
     .label = CORE Rankings
+ESCI =
+    .label = ESCI
+predatoryReports =
+    .label = Predatory Journal
 
 
 ## 菜单显示隐藏设置

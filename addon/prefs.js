@@ -43,6 +43,8 @@ pref("extensions.zotero.__addonRef__.ccf_c", true); //better ccf
 pref("extensions.zotero.__addonRef__.ami", false);
 pref("extensions.zotero.__addonRef__.nssf", false);
 pref("extensions.zotero.__addonRef__.swupl", false); //西南政法大学
+pref("extensions.zotero.__addonRef__.ESCI", false);
+pref("extensions.zotero.__addonRef__.predatoryReports", false);
 
 // 影响因子
 pref("extensions.zotero.__addonRef__.jcr.qu", true);

@@ -47,6 +47,8 @@ declare namespace _ZoteroTypes {
       "ami": boolean;
       "nssf": boolean;
       "swupl": boolean;
+      "ESCI": boolean;
+      "predatoryReports": boolean;
       "jcr.qu": boolean;
       "basic": boolean;
       "updated": boolean;

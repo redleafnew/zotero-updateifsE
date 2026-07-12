@@ -233,6 +233,8 @@ export class KeyExampleFactory {
 
         const HX = getPref(`HX`);
         const CoreRankings = getPref(`CoreRankings`);
+        const ESCI = getPref(`ESCI`);
+        const predatoryReports = getPref(`predatoryReports`);
 
         // 自定义数据集
         var clsciJourID = '1642199434173014016'; // CLSCI UUID
@@ -244,6 +246,8 @@ export class KeyExampleFactory {
         var CCFJourID = '1614919989423271936';//CCF  UUID
         var HXJourID = '1630107627939360768';//HX  UUID
         var CoreRankingsJourID = '1671898121325117440';//CORE-Rankings  UUID
+        var ESCIJourID = '1704511887208226816';//ESCI  UUID
+        var predatoryReportsJourID = '1667045962800594944';//Predatory Reports  UUID
 
 
         //  加: any为了后面不报错
@@ -303,6 +307,18 @@ export class KeyExampleFactory {
             CoreRankingsJourID,
           );
         }
+        if (ESCI) {
+          var ESCILevel: any = await KeyExampleFactory.getCustomIFs(
+            item,
+            ESCIJourID,
+          );
+        }
+        if (predatoryReports) {
+          var predatoryReportsLevel: any = await KeyExampleFactory.getCustomIFs(
+            item,
+            predatoryReportsJourID,
+          );
+        }
         if (njauJourShow) {
           var njauHighQuality = await njauJournal(item);
         }
@@ -318,6 +334,8 @@ export class KeyExampleFactory {
           (ABDC && ABDCLevel) ||
           (HX && HXLevel) ||
           (CoreRankings && CoreRankingsLevel) ||
+          (ESCI && ESCILevel) ||
+          (predatoryReports && predatoryReportsLevel) ||
           njauCore(item) ||
           njauHighQuality
         ) {
@@ -738,6 +756,14 @@ export class KeyExampleFactory {
         // CoreRankings
         if (CoreRankings && CoreRankingsLevel != undefined) {
           ztoolkit.ExtraField.setExtraField(item, 'CORE评级', CoreRankingsLevel);
+        }
+        // ESCI
+        if (ESCI && ESCILevel != undefined) {
+          ztoolkit.ExtraField.setExtraField(item, 'ESCI', "是");
+        }
+        // Predatory Reports
+        if (predatoryReports && predatoryReportsLevel != undefined) {
+          ztoolkit.ExtraField.setExtraField(item, '掠夺性期刊预警', "是");
         }
 
         Zotero.debug("swupl是" + swupl + "swuplLevel是" + swuplLevel);
@@ -1904,6 +1930,8 @@ export class UIExampleFactory {
       ABDC: {},
       HX: {},
       CoreRankings: {},
+      ESCI: {},
+      predatoryReports: {},
       summary: {
         field: "总结",
       },

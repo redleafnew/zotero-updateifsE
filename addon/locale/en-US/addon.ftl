@@ -133,6 +133,8 @@ ABDC = ABDC
 Scopus = Scopus
 HX = HX
 CoreRankings = CORE Rankings
+ESCI = ESCI
+predatoryReports = Predatory Journal
 
 summary = Summary
 
