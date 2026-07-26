@@ -884,23 +884,19 @@ export class KeyExampleFactory {
       const req = await Zotero.HTTP.request("GET", url, {
         responseType: "json",
       });
-      // 得到all rank
-      //var jourID = "1648920625629810688"
-      const allRank = req.response["data"]["customRank"]["rankInfo"].filter(
-        function (e: any) {
-          return e.uuid == jourID;
-        },
+      const rankInfo = req.response?.data?.customRank?.rankInfo?.find(
+        (e: any) => e.uuid == jourID,
       );
-      //Zotero.debug(allRank);
-      const allRankValues = Object.values(allRank[0]);
-      // Zotero.debug(allRankValues);
+      if (!rankInfo) {
+        return undefined;
+      }
       // 得到 rank
       try {
-        const rank = req.response["data"]["customRank"]["rank"];
+        const rank = req.response?.data?.customRank?.rank;
         if (rank != "") {
           var rankValue = rank
-            .filter((item: any) => item.slice(0, -4) == jourID)[0]
-            .slice(-1);
+            .find((item: any) => item.slice(0, -4) == jourID)
+            ?.slice(-1);
         }
       } catch (e) {
         Zotero.debug("获取自定义数据集rank失败");
@@ -908,7 +904,16 @@ export class KeyExampleFactory {
 
       // rankValue转为数字加1得到期刊级别
       if (rankValue != undefined) {
-        const level = allRankValues[parseInt(rankValue) + 1];
+        const levelField =
+          parseInt(rankValue) == 1
+            ? "oneRankText"
+            : parseInt(rankValue) == 2
+              ? "twoRankText"
+              : undefined;
+        if (!levelField) {
+          return undefined;
+        }
+        const level = rankInfo[levelField];
         // Zotero.debug('level是' + level);
 
         return level;
