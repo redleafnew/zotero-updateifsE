@@ -139,8 +139,10 @@ export class KeyExampleFactory {
   // 分类右击更新信息
   @example
   static async setExtraCol() {
-    const collection = ZoteroPane.getSelectedCollection();
-    const items = collection?.getChildItems();
+    const collections = typeof ZoteroPane.getSelectedCollections === 'function'
+    ? ZoteroPane.getSelectedCollections()
+    : [ZoteroPane.getSelectedCollection()].filter(Boolean);
+    const items = collections.flatMap((c: Zotero.Collection) => c.getChildItems());
     await KeyExampleFactory.setExtra(items);
   }
   // 条目右键更新信息 右键菜单执行函数
@@ -986,8 +988,10 @@ export class KeyExampleFactory {
   //分类右击更新信息
   @example
   static async upMetaCol() {
-    const collection = ZoteroPane.getSelectedCollection();
-    const items = collection?.getChildItems();
+    const collections = typeof ZoteroPane.getSelectedCollections === 'function'
+    ? ZoteroPane.getSelectedCollections()
+    : [ZoteroPane.getSelectedCollection()].filter(Boolean);
+    const items = collections.flatMap((c: Zotero.Collection) => c.getChildItems());
     await KeyExampleFactory.upMeta(items);
   }
   //条目右键更新信息
@@ -1272,7 +1276,10 @@ export class UIExampleFactory {
   // 是否显示菜单函数 类型为期刊才显示可用
   // 是否显示分类右键菜单 隐藏
   static displayColMenuitem() {
-    const collection = ZoteroPane.getSelectedCollection(),
+    const collections = typeof ZoteroPane.getSelectedCollections === 'function'
+      ? ZoteroPane.getSelectedCollections()
+      : [ZoteroPane.getSelectedCollection()].filter(Boolean),
+
       menuUpIFsCol = document.getElementById(
         `zotero-collectionmenu-${config.addonRef}-upifs`,
       ), // 删除分类及附件菜单
@@ -1282,18 +1289,19 @@ export class UIExampleFactory {
 
     // 非正常文件夹，如我的出版物、重复条目、未分类条目、回收站，为false，此时返回值为true，禁用菜单
     // 两个！！转表达式为逻辑值
-    let showmenuUpIFsCol = !!collection;
-    let showmenuUpMetaCol = !!collection;
+    let showmenuUpIFsCol = collections.length > 0;
+    let showmenuUpMetaCol = collections.length > 0;
 
-    if (collection) {
+    if (collections.length) {
       // 如果是正常分类才显示
-      const items = collection.getChildItems();
-      showmenuUpIFsCol = items.some((item) => UIExampleFactory.checkItem(item)); //检查是否为期刊或会议论文
-      showmenuUpMetaCol = items.some((item) =>
+      const items = collections.flatMap((c: Zotero.Collection) => c.getChildItems());
+      showmenuUpIFsCol = items.some((item: Zotero.Item) => UIExampleFactory.checkItem(item)); //检查是否为期刊或会议论文
+      showmenuUpMetaCol = items.some((item: Zotero.Item) =>
         UIExampleFactory.checkItemMeta(item),
       ); // 更新元数据 中文有题目，英文检查是否有DOI
     } else {
       showmenuUpIFsCol = false;
+      showmenuUpMetaCol = false;
     } // 检查分类是否有附件及是否为正常分类
     menuUpIFsCol?.setAttribute("disabled", String(!showmenuUpIFsCol)); // 禁用更新期刊信息
     menuUpMeta?.setAttribute("disabled", String(!showmenuUpMetaCol)); // 禁用更新元数据
