@@ -176,8 +176,9 @@ export function njauCore(item: Zotero.Item): any {
 export async function njauJournal(item: Zotero.Item) {
   const pubT = item.getField("publicationTitle");
   const body = `keyword=${encodeURIComponent(pubT)}`;
+  let resp: any;
   try {
-    var resp = await Zotero.HTTP.request(
+    resp = await Zotero.HTTP.request(
       "POST",
       "http://phq.njau.edu.cn/admin_getJournal2024.action",
       {

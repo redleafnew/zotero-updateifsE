@@ -239,91 +239,58 @@ export class KeyExampleFactory {
         const predatoryReports = getPref(`predatoryReports`);
 
         // 自定义数据集
-        var clsciJourID = '1642199434173014016'; // CLSCI UUID
-        var amiJourID = '1648920625629810688'; //AMI UUID
-        var nssfJourID = '1648936694851489792';//NSSF  UUID
-        var swuplJourID = '1652662162603773952';//SWUPL  UUID 西南政法大学
-        var ScopusJourID = '1635615726460694528';//Scopus  UUID
-        var ABDCJourID = '1613183594358972416';//ABDC  UUID
-        var CCFJourID = '1614919989423271936';//CCF  UUID
-        var HXJourID = '1630107627939360768';//HX  UUID
-        var CoreRankingsJourID = '1671898121325117440';//CORE-Rankings  UUID
-        var ESCIJourID = '1704511887208226816';//ESCI  UUID
-        var predatoryReportsJourID = '1667045962800594944';//Predatory Reports  UUID
+        const clsciJourID = '1642199434173014016'; // CLSCI UUID
+        const amiJourID = '1648920625629810688'; //AMI UUID
+        const nssfJourID = '1648936694851489792';//NSSF  UUID
+        const swuplJourID = '1652662162603773952';//SWUPL  UUID 西南政法大学
+        const ScopusJourID = '1635615726460694528';//Scopus  UUID
+        const ABDCJourID = '1613183594358972416';//ABDC  UUID
+        const CCFJourID = '1614919989423271936';//CCF  UUID
+        const HXJourID = '1630107627939360768';//HX  UUID
+        const CoreRankingsJourID = '1671898121325117440';//CORE-Rankings  UUID
+        const ESCIJourID = '1704511887208226816';//ESCI  UUID
+        const predatoryReportsJourID = '1667045962800594944';//Predatory Reports  UUID
 
 
         //  加: any为了后面不报错
-        if (clsci) {
-          var clsciLevel: any = await KeyExampleFactory.getCustomIFs(
-            item,
-            clsciJourID,
-          );
-        }
-        if (ccf_c) {
-          // get better CCF result from custom dataset
-          var ccfLevel: any = await KeyExampleFactory.getCustomIFs(
-            item,
-            CCFJourID,
-          ); // better CCF
-        }
-        if (ami) {
-          var amiLevel: any = await KeyExampleFactory.getCustomIFs(
-            item,
-            amiJourID,
-          );
-        }
-        if (nssf) {
-          var nssfLevel: any = await KeyExampleFactory.getCustomIFs(
-            item,
-            nssfJourID,
-          );
-        }
-        if (swupl) {
-          var swuplLevel: any = await KeyExampleFactory.getCustomIFs(
-            item,
-            swuplJourID,
-          );
-        }
-        if (Scopus) {
-          var ScopusLevel: any = await KeyExampleFactory.getCustomIFs(
-            item,
-            ScopusJourID,
-          );
-        }
-        if (ABDC) {
-          var ABDCLevel: any = await KeyExampleFactory.getCustomIFs(
-            item,
-            ABDCJourID,
-          );
-        }
-        if (HX) {
-          var HXLevel: any = await KeyExampleFactory.getCustomIFs(
-            item,
-            HXJourID,
-          );
-        }
+        const clsciLevel: any = clsci
+          ? await KeyExampleFactory.getCustomIFs(item, clsciJourID)
+          : undefined;
+        // get better CCF result from custom dataset
+        const ccfLevel: any = ccf_c
+          ? await KeyExampleFactory.getCustomIFs(item, CCFJourID)
+          : undefined; // better CCF
+        const amiLevel: any = ami
+          ? await KeyExampleFactory.getCustomIFs(item, amiJourID)
+          : undefined;
+        const nssfLevel: any = nssf
+          ? await KeyExampleFactory.getCustomIFs(item, nssfJourID)
+          : undefined;
+        const swuplLevel: any = swupl
+          ? await KeyExampleFactory.getCustomIFs(item, swuplJourID)
+          : undefined;
+        const ScopusLevel: any = Scopus
+          ? await KeyExampleFactory.getCustomIFs(item, ScopusJourID)
+          : undefined;
+        const ABDCLevel: any = ABDC
+          ? await KeyExampleFactory.getCustomIFs(item, ABDCJourID)
+          : undefined;
+        const HXLevel: any = HX
+          ? await KeyExampleFactory.getCustomIFs(item, HXJourID)
+          : undefined;
         //CORE Rankings
-        if (CoreRankings) {
-          var CoreRankingsLevel: any = await KeyExampleFactory.getCustomIFs(
-            item,
-            CoreRankingsJourID,
-          );
-        }
-        if (ESCI) {
-          var ESCILevel: any = await KeyExampleFactory.getCustomIFs(
-            item,
-            ESCIJourID,
-          );
-        }
-        if (predatoryReports) {
-          var predatoryReportsLevel: any = await KeyExampleFactory.getCustomIFs(
-            item,
-            predatoryReportsJourID,
-          );
-        }
-        if (njauJourShow) {
-          var njauHighQuality = await njauJournal(item);
-        }
+        const CoreRankingsLevel: any = CoreRankings
+          ? await KeyExampleFactory.getCustomIFs(item, CoreRankingsJourID)
+          : undefined;
+        const ESCILevel: any = ESCI
+          ? await KeyExampleFactory.getCustomIFs(item, ESCIJourID)
+          : undefined;
+        const predatoryReportsLevel: any = predatoryReports
+          ? await KeyExampleFactory.getCustomIFs(item, predatoryReportsJourID)
+          : undefined;
+        const njauHighQuality = njauJourShow
+          ? await njauJournal(item)
+          : undefined;
         // 如果得到easyScholar、影响因子、法学数据或南农数据才算更新成功
         // 增加Scopus和ABDC更新检测
         if (
@@ -825,7 +792,7 @@ export class KeyExampleFactory {
     const url = `https://easyscholar.cc/open/getPublicationRank?secretKey=${secretKey}&publicationName=${publicationTitle}`;
     try {
       const resp = await Zotero.HTTP.request("GET", url);
-      var updateJson = JSON.parse(resp.responseText);
+      const updateJson = JSON.parse(resp.responseText);
       if (updateJson["data"]["officialRank"]["all"]) {
         return updateJson["data"]["officialRank"]["all"];
       } else {
@@ -836,7 +803,7 @@ export class KeyExampleFactory {
     } catch (e) {
       // HelperExampleFactory.progressWindow(`${getString('upIfsFail')}`, 'fail');
       Zotero.debug("获取easyScholar信息失败");
-      Zotero.debug(updateJson["msg"]);
+      Zotero.debug(String(e));
     }
   }
 
@@ -893,10 +860,11 @@ export class KeyExampleFactory {
         return undefined;
       }
       // 得到 rank
+      let rankValue: string | undefined;
       try {
         const rank = req.response?.data?.customRank?.rank;
         if (rank != "") {
-          var rankValue = rank
+          rankValue = rank
             .find((item: any) => item.slice(0, -4) == jourID)
             ?.slice(-1);
         }
@@ -1015,7 +983,7 @@ export class KeyExampleFactory {
     for (const item of items) {
       if (UIExampleFactory.checkItem(item)) {
         //如果期刊或会议论文才继续
-        var title: any = item.getField("title");
+        const title: any = item.getField("title");
         const doi = item.getField("DOI");
         const lan = pattern.test(title) ? "zh-CN" : "en-US";
         if (lan == "zh-CN") {
@@ -1149,11 +1117,11 @@ export class KeyExampleFactory {
           }
           //中文条目更新函数
           const selectedItem = item;
-          var ItemID = selectedItem.id;
-          var title: any = selectedItem.getField("title");
+          const ItemID = selectedItem.id;
+          const title: any = selectedItem.getField("title");
           const publicationTitle = selectedItem.getField("publicationTitle");
-          var html;
-          var url;
+          let html: any;
+          let url: any;
           try {
             html = await getCNKIDetailURLByTitle(title);
             if (publicationTitle != "") {
@@ -2119,7 +2087,7 @@ export class HelperExampleFactory {
   static async emptyExtra() {
     const items: any = KeyExampleFactory.getSelectedItems();
     if (items.length == 0) {
-      var alertInfo = getString("zeroItem");
+      const alertInfo = getString("zeroItem");
       this.progressWindow(alertInfo, "fail");
       return;
     } else {
@@ -2135,7 +2103,7 @@ export class HelperExampleFactory {
             }
           }
         }
-        var alertInfo = getString("cleanExtraSuc");
+        const alertInfo = getString("cleanExtraSuc");
         HelperExampleFactory.progressWindow(alertInfo, "success");
       }
     }
@@ -2157,15 +2125,16 @@ export class HelperExampleFactory {
     // var oldTitle = document.getElementById('id-updateifs-old-title-textbox').value.trim();
     // var newTitle = document.getElementById('id-updateifs-new-title-textbox').value.trim();
     // 如果新或老题目为空则提示
+    let alertInfo: string;
     if (oldTitle == "" || newTitle == "") {
-      var alertInfo = getString("pubTitleEmpty");
+      alertInfo = getString("pubTitleEmpty");
       HelperExampleFactory.progressWindow(alertInfo, "fail");
     } else {
       const items = KeyExampleFactory.getSelectedItems();
       let n = 0;
       let itemOldTitle = "";
       if (items.length == 0) {
-        var alertInfo = getString("zeroItem");
+        alertInfo = getString("zeroItem");
         this.progressWindow(alertInfo, "fail");
         return;
       } else {
@@ -2192,8 +2161,9 @@ export class HelperExampleFactory {
     const whiteSpace = HelperExampleFactory.whiteSpace();
     let n = 0;
     let newPubTitle = "";
+    let alertInfo: string;
     if (items.length == 0) {
-      var alertInfo = getString("zeroItem");
+      alertInfo = getString("zeroItem");
       this.progressWindow(alertInfo, "fail");
       return;
     } else {
@@ -2233,8 +2203,9 @@ export class HelperExampleFactory {
     const whiteSpace = HelperExampleFactory.whiteSpace();
     let n = 0;
 
+    let alertInfo: string;
     if (items.length == 0) {
-      var alertInfo = getString("zeroItem");
+      alertInfo = getString("zeroItem");
       this.progressWindow(alertInfo, "fail");
       return;
     } else {
@@ -2362,8 +2333,9 @@ export class HelperExampleFactory {
 
     const pubT = item.getField("publicationTitle");
     if (upJourAbb) {
+      let jourAbbWithDot: any;
       try {
-        var jourAbbWithDot = await HelperExampleFactory.getJourAbb(pubT); // 得到带点和不带点的缩写
+        jourAbbWithDot = await HelperExampleFactory.getJourAbb(pubT); // 得到带点和不带点的缩写
       } catch (e) {
         Zotero.debug("获取期刊缩写失败");
       }
@@ -2371,7 +2343,7 @@ export class HelperExampleFactory {
       if (jourAbbWithDot == null) {
         // 得到带点和不带点的缩写, 尝试& 替换为 and
         try {
-          var jourAbbWithDot = await HelperExampleFactory.getJourAbb(
+          jourAbbWithDot = await HelperExampleFactory.getJourAbb(
             (pubT as any).replace("&", "and"),
           ); // 得到带点和不带点的缩写
         } catch (e) {
@@ -2382,7 +2354,7 @@ export class HelperExampleFactory {
       if (jourAbbWithDot == null) {
         // 自定义的期刊缩写
         try {
-          var jourAbbWithDot = getAbbEx(pubT as any); // 得到带点和不带点的缩写
+          jourAbbWithDot = getAbbEx(pubT as any); // 得到带点和不带点的缩写
         } catch (e) {
           Zotero.debug("获取自定义期刊缩写失败");
         }
@@ -2391,7 +2363,7 @@ export class HelperExampleFactory {
       if (jourAbbWithDot == null) {
         // 得到带点和不带点的缩写, 尝试删除the空格
         try {
-          var jourAbbWithDot = await HelperExampleFactory.getJourAbb(
+          jourAbbWithDot = await HelperExampleFactory.getJourAbb(
             (pubT as any).replace(/the\s/i, ""),
           ); // 得到带点和不带点的缩写
         } catch (e) {
@@ -2439,7 +2411,7 @@ export class HelperExampleFactory {
   // 得到期刊缩写 带点缩写 代码From @l0o0,感谢小林。
   static async getJourAbb(pubT: any) {
     // var pubT = (item.getField('publicationTitle') as any).replace('&', 'and');
-    var resp = await Zotero.HTTP.request(
+    const resp = await Zotero.HTTP.request(
     "GET",
     `http://121.196.229.180:8080/v1/journals/abbreviation/${encodeURI(pubT)}`,
     {headers: {pluginID: "greenfrog@redleafnew.me"}}
@@ -2466,6 +2438,7 @@ export class HelperExampleFactory {
     const mergeedNameNew = HelperExampleFactory.newNames(author, process)![5];
 
     let rn = 0; //计数替换条目个数
+    let alertInfo: string;
     //await Zotero.DB.executeTransaction(async function () {
 
     const items = KeyExampleFactory.getSelectedItems();
@@ -2512,7 +2485,7 @@ export class HelperExampleFactory {
 
       const whiteSpace = HelperExampleFactory.whiteSpace();
       const statusInfo = rn > 0 ? "success" : "fail";
-      var alertInfo = `${rn} ${whiteSpace} ${getString("authorChanged")}`;
+      alertInfo = `${rn} ${whiteSpace} ${getString("authorChanged")}`;
       HelperExampleFactory.progressWindow(alertInfo, statusInfo);
     }
   }
@@ -2521,7 +2494,6 @@ export class HelperExampleFactory {
   // 返回新的名字用以替换
   static newNames(authorName: any, boldStar: any) {
     const newName = [];
-    var splitName = "";
     let oldName = "";
     let newFirstName = "";
     let newLastName = "";
@@ -2540,15 +2512,15 @@ export class HelperExampleFactory {
       alertInfo = getString("authorNoSpace");
       HelperExampleFactory.progressWindow(alertInfo, "fail");
     } else {
-      var splitName: string = authorName.split(/\s/); // 用空格分为名和姓
+      const splitName: string[] = authorName.split(/\s/); // 用空格分为名和姓
       const firstName = splitName[1];
       const lastName = splitName[0];
       oldName = firstName + " " + lastName;
       Zotero.debug(reg.test(authorName) + ": ture 为中文");
       // 检测姓名是否为中文
+      let newFieldMode = 1; // 1中文时为合并
       if (reg.test(authorName)) {
         // 为真时匹配到中文
-        var newFieldMode = 1; // 1中文时为合并
         mergeedName = authorName.replace(/\s/, ""); // 中文姓名删除空格得到合并的姓名
       } else {
         newFieldMode = 0; // 0为拆分姓名，英文
@@ -2609,6 +2581,7 @@ export class HelperExampleFactory {
   // 清除加粗
   static async cleanBold() {
     let rn = 0;
+    let alertInfo: string;
     const items = KeyExampleFactory.getSelectedItems();
     if (items.length == 0) {
       // 如果没有选中条目则提示，中止
@@ -2644,13 +2617,14 @@ export class HelperExampleFactory {
     }
     const whiteSpace = HelperExampleFactory.whiteSpace();
     const statusInfo = rn > 0 ? "success" : "fail";
-    var alertInfo = `${rn} ${whiteSpace} ${getString("authorChanged")}`;
+    alertInfo = `${rn} ${whiteSpace} ${getString("authorChanged")}`;
     HelperExampleFactory.progressWindow(alertInfo, statusInfo);
   }
 
   // 清除加星
   static async cleanStar() {
     let rn = 0;
+    let alertInfo: string;
     const items = KeyExampleFactory.getSelectedItems();
     if (items.length == 0) {
       // 如果没有选中条目则提示，中止
@@ -2681,13 +2655,14 @@ export class HelperExampleFactory {
     }
     const whiteSpace = HelperExampleFactory.whiteSpace();
     const statusInfo = rn > 0 ? "success" : "fail";
-    var alertInfo = `${rn} ${whiteSpace} ${getString("authorChanged")}`;
+    alertInfo = `${rn} ${whiteSpace} ${getString("authorChanged")}`;
     HelperExampleFactory.progressWindow(alertInfo, statusInfo);
   }
 
   // 清除加粗加星
   static async cleanBoldAndStar() {
     let rn = 0;
+    let alertInfo: string;
     const items = KeyExampleFactory.getSelectedItems();
     if (items.length == 0) {
       // 如果没有选中条目则提示，中止
@@ -2728,7 +2703,7 @@ export class HelperExampleFactory {
     }
     const whiteSpace = HelperExampleFactory.whiteSpace();
     const statusInfo = rn > 0 ? "success" : "fail";
-    var alertInfo = `${rn} ${whiteSpace} ${getString("authorChanged")}`;
+    alertInfo = `${rn} ${whiteSpace} ${getString("authorChanged")}`;
     HelperExampleFactory.progressWindow(alertInfo, statusInfo);
   }
 
@@ -2736,6 +2711,7 @@ export class HelperExampleFactory {
   // 交换作者姓和名
   static async swapAuthorName() {
     let rn = 0; //计数替换条目个数
+    let alertInfo: string;
     //var newFieldMode = 0; // 0: two-field, 1: one-field (with empty first name)
     const items = KeyExampleFactory.getSelectedItems();
     if (items.length == 0) {
@@ -2764,7 +2740,7 @@ export class HelperExampleFactory {
     }
     const whiteSpace = HelperExampleFactory.whiteSpace();
     const statusInfo = rn > 0 ? "success" : "fail";
-    var alertInfo = rn + whiteSpace + getString("itemAuSwapped");
+    alertInfo = rn + whiteSpace + getString("itemAuSwapped");
     HelperExampleFactory.progressWindow(alertInfo, statusInfo);
   }
 
@@ -2772,6 +2748,7 @@ export class HelperExampleFactory {
   @example
   static async changAuthorCase() {
     let rn = 0; //计数替换条目个数
+    let alertInfo: string;
     // var newFieldMode = 0; // 0: two-field, 1: one-field (with empty first name)
     //await Zotero.DB.executeTransaction(async function () {
     const items = KeyExampleFactory.getSelectedItems();
@@ -2801,7 +2778,7 @@ export class HelperExampleFactory {
     }
     const whiteSpace = HelperExampleFactory.whiteSpace();
     const statusInfo = rn > 0 ? "success" : "fail";
-    var alertInfo = `${rn} ${whiteSpace} ${getString("itemAuthorChanged")}`;
+    alertInfo = `${rn} ${whiteSpace} ${getString("itemAuthorChanged")}`;
     HelperExampleFactory.progressWindow(alertInfo, statusInfo);
   }
 
@@ -2818,9 +2795,10 @@ export class HelperExampleFactory {
   // 条目题目处理函数 条目查找替换
   @example
   static async itemTitleFindRep(oldTitle: string, newTitle: string) {
+    let alertInfo: string;
     // 如果新或老题目为空则提示
     if (oldTitle == "" || newTitle == "") {
-      var alertInfo = getString("titleEmpty");
+      alertInfo = getString("titleEmpty");
       HelperExampleFactory.progressWindow(alertInfo, "fail");
     } else if (oldTitle == newTitle) {
       alertInfo = getString("findRepSame");
@@ -2849,7 +2827,7 @@ export class HelperExampleFactory {
       }
       const whiteSpace = HelperExampleFactory.whiteSpace();
       const statusInfo = n > 0 ? "success" : "fail";
-      var alertInfo = `${n} ${whiteSpace} ${getString("itemTitleFindRepSuc")}`;
+      alertInfo = `${n} ${whiteSpace} ${getString("itemTitleFindRepSuc")}`;
       HelperExampleFactory.progressWindow(alertInfo, statusInfo);
     }
   }
