@@ -53,7 +53,6 @@ import { BasicTool, makeHelperTool, unregister } from "zotero-plugin-toolkit";
 import { UITool } from "zotero-plugin-toolkit";
 import { DialogHelper } from "zotero-plugin-toolkit";
 import { ProgressWindowHelper } from "zotero-plugin-toolkit";
-import { MenuManager } from "zotero-plugin-toolkit";
 import { KeyboardManager } from "zotero-plugin-toolkit";
 import { ExtraFieldTool } from "zotero-plugin-toolkit";
 import { VirtualizedTableHelper } from "zotero-plugin-toolkit";
@@ -61,7 +60,6 @@ import { VirtualizedTableHelper } from "zotero-plugin-toolkit";
 export class MyToolkit extends BasicTool {
   UI: UITool;
   ExtraField: ExtraFieldTool;
-  Menu: MenuManager;
   Keyboard: KeyboardManager;
   Dialog: typeof DialogHelper;
   ProgressWindow: typeof ProgressWindowHelper;
@@ -71,7 +69,6 @@ export class MyToolkit extends BasicTool {
     super();
     this.UI = new UITool(this);
     this.ExtraField = new ExtraFieldTool(this);
-    this.Menu = new MenuManager(this);
     this.Keyboard = new KeyboardManager(this);
     this.Dialog = makeHelperTool(DialogHelper, this);
     this.ProgressWindow = makeHelperTool(ProgressWindowHelper, this);

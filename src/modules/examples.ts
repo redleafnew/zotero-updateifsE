@@ -133,7 +133,7 @@ export class KeyExampleFactory {
   // 得到所选条目
   @example
   static getSelectedItems() {
-    const items = Zotero.getActiveZoteroPane().getSelectedItems();
+    const items = Zotero.getActiveZoteroPane()?.getSelectedItems() ?? [];
     return items;
   }
   // 分类右击更新信息
@@ -151,7 +151,7 @@ export class KeyExampleFactory {
     // var secretKey: any = Zotero.Prefs.get(`extensions.zotero.${config.addonRef}.secretkey`, true);
     const secretKey = getPref("secretkey");
     if (secretKey) {
-      const items = Zotero.getActiveZoteroPane().getSelectedItems();
+      const items = Zotero.getActiveZoteroPane()?.getSelectedItems() ?? [];
       await KeyExampleFactory.setExtra(items);
     } else {
       const alertInfo = getString("inputSecretkey");
@@ -997,7 +997,7 @@ export class KeyExampleFactory {
   //条目右键更新信息
   @example
   static async upMetaItems() {
-    const items = Zotero.getActiveZoteroPane().getSelectedItems();
+    const items = Zotero.getActiveZoteroPane()?.getSelectedItems() ?? [];
     await KeyExampleFactory.upMeta(items);
   }
 
@@ -1120,8 +1120,9 @@ export class KeyExampleFactory {
               oldItem.setField(field, newFieldValue);
             }
           }
-          function updateINFO(newItem: any, oldItemID: any) {
+          function updateINFO(newItem: any, oldItemID: number) {
             const oldItem = Zotero.Items.get(oldItemID);
+            if (!oldItem) return;
             oldItem.setCreators(newItem["creators"]);
             // 可根据下述网址增减需要更新的Field.
             // https://www.zotero.org/support/dev/client_coding/javascript_api/search_fields
@@ -1273,63 +1274,44 @@ export class KeyExampleFactory {
 }
 
 export class UIExampleFactory {
-  // 是否显示菜单函数 类型为期刊才显示可用
-  // 是否显示分类右键菜单 隐藏
-  static displayColMenuitem() {
-    const collections = typeof ZoteroPane.getSelectedCollections === 'function'
-      ? ZoteroPane.getSelectedCollections()
-      : [ZoteroPane.getSelectedCollection()].filter(Boolean),
-
-      menuUpIFsCol = document.getElementById(
-        `zotero-collectionmenu-${config.addonRef}-upifs`,
-      ), // 删除分类及附件菜单
-      menuUpMeta = document.getElementById(
-        `zotero-collectionmenu-${config.addonRef}-upmeta`,
-      ); // 导出分类附件菜单
-
-    // 非正常文件夹，如我的出版物、重复条目、未分类条目、回收站，为false，此时返回值为true，禁用菜单
-    // 两个！！转表达式为逻辑值
-    let showmenuUpIFsCol = collections.length > 0;
-    let showmenuUpMetaCol = collections.length > 0;
-
-    if (collections.length) {
-      // 如果是正常分类才显示
-      const items = collections.flatMap((c: Zotero.Collection) => c.getChildItems());
-      showmenuUpIFsCol = items.some((item: Zotero.Item) => UIExampleFactory.checkItem(item)); //检查是否为期刊或会议论文
-      showmenuUpMetaCol = items.some((item: Zotero.Item) =>
-        UIExampleFactory.checkItemMeta(item),
-      ); // 更新元数据 中文有题目，英文检查是否有DOI
-    } else {
-      showmenuUpIFsCol = false;
-      showmenuUpMetaCol = false;
-    } // 检查分类是否有附件及是否为正常分类
-    menuUpIFsCol?.setAttribute("disabled", String(!showmenuUpIFsCol)); // 禁用更新期刊信息
-    menuUpMeta?.setAttribute("disabled", String(!showmenuUpMetaCol)); // 禁用更新元数据
+  // 保存 Zotero.MenuManager.registerMenu 返回的注册 ID，供 onShutdown 注销
+  static menuRegistrationIDs: string[] = [];
+  // 防止多主窗口场景下重复注册菜单（registerMenu 是全局 API）
+  static menuRegistered = false;
+  // 统一注册右键菜单与 Tools 菜单；多主窗口只注册一次
+  static registerAllMenus() {
+    if (UIExampleFactory.menuRegistered) return;
+    UIExampleFactory.registerRightClickMenuItem();
+    UIExampleFactory.registerWindowMenuWithSeprator();
+    UIExampleFactory.menuRegistered = true;
   }
-
-  // 禁用菜单
-  // static disableMenu() {
-  //   // 禁用添加条目更新期刊信息
-  //   var menuUpAdd = document.getElementById('zotero-prefpane-greenfrog-add-update');
-  //   menuUpAdd?.setAttribute('disabled', 'ture');
-  //   menuUpAdd?.setAttribute('hidden', 'ture');
-  // }
-  // 是否显示条目右键菜单
-  static displayContexMenuitem() {
-    const items = ZoteroPane.getSelectedItems(),
-      menuUpIfs = document.getElementById(
-        `zotero-itemmenu-${config.addonRef}-upifs`,
-      ), // 更新期刊信息
-      menuUpMeta = document.getElementById(
-        `zotero-itemmenu-${config.addonRef}-upmeta`,
-      ), // 更新元数据
-      showMenuUpIfs = items.some((item) => UIExampleFactory.checkItem(item)), // 更新期刊信息 检查是否为期刊或会议论文
-      showMenuUpMeta = items.some((item) =>
-        UIExampleFactory.checkItemMeta(item),
-      ); // 更新元数据 检查是否有DOI
-
-    menuUpIfs?.setAttribute("disabled", `${!showMenuUpIfs}`); // 禁用更新期刊信息
-    menuUpMeta?.setAttribute("disabled", `${!showMenuUpMeta}`); // 更新元数据
+  // 注销本插件注册的全部 Zotero 菜单（卸载时调用）
+  static unregisterAllMenus() {
+    for (const id of UIExampleFactory.menuRegistrationIDs) {
+      try {
+        Zotero.MenuManager.unregisterMenu(id);
+      } catch (e) {
+        // 即使个别注销失败也不阻塞流程
+      }
+    }
+    UIExampleFactory.menuRegistrationIDs = [];
+    UIExampleFactory.menuRegistered = false;
+  }
+  // 是否显示菜单函数 类型为期刊才显示可用
+  // 判断分类是否可以执行 upifs/upmeta 操作（原 displayColMenuitem 内逻辑，
+  // 新 API 下在每个菜单项的 onShowing 中调用）
+  static canUpdateCol(collections: Zotero.Collection[], kind: "ifs" | "meta") {
+    if (!collections || collections.length === 0) return false;
+    // 如果是正常分类才显示
+    const items = collections.flatMap((c) => c.getChildItems());
+    if (kind === "ifs") {
+      return items.some((item: Zotero.Item) =>
+        UIExampleFactory.checkItem(item),
+      ); // 检查是否为期刊或会议论文
+    }
+    return items.some((item: Zotero.Item) =>
+      UIExampleFactory.checkItemMeta(item),
+    ); // 更新元数据 中文有题目，英文检查是否有DOI
   }
 
   // 检查条目是否符合 是否为期刊
@@ -1393,57 +1375,88 @@ export class UIExampleFactory {
   static registerRightClickMenuItem() {
     const menuIconUpIFs = `chrome://${config.addonRef}/content/icons/favicon@0.5x.png`;
     const menuIconUpMeta = `chrome://${config.addonRef}/content/icons/upmeta.png`;
-    // ztoolkit.Menu.register("item", {
-    //   tag: "menuseparator",
-    // });
-    // item menuitem with icon
-    // ztoolkit.Menu.register("item", {
-    //   tag: "menuitem",
-    //   id: "zotero-itemmenu-addontemplate-test",
-    //   label: getString("menuitem-label"),
-    //   commandListener: (ev) => addon.hooks.onDialogEvents("dialogExample"),
-    //   icon: menuIcon,
-    // });
-    ztoolkit.Menu.register("item", {
-      tag: "menuseparator",
-    });
+    const addonRef = config.addonRef;
+    const pluginID = config.addonID;
 
-    // 分类右键
-    ztoolkit.Menu.register("collection", {
-      tag: "menuseparator",
+    // item 右键：更新期刊信息 / 更新元数据
+    // 注意：main/library/item 是 grouped target，顶层不允许 separator（Zotero 自动加分隔）。
+    const itemID = Zotero.MenuManager.registerMenu({
+      menuID: `${addonRef}-item-menu`,
+      pluginID,
+      target: "main/library/item",
+      menus: [
+        {
+          menuType: "menuitem",
+          l10nID: `${addonRef}-upifs`,
+          icon: menuIconUpIFs,
+          onCommand: (ev: any, context: any) =>
+            KeyExampleFactory.setExtraItems(),
+          onShowing: (ev: any, context: any) => {
+            const items = context.items ?? ZoteroPane.getSelectedItems();
+            context.setEnabled(
+              items.some((item: Zotero.Item) =>
+                UIExampleFactory.checkItem(item),
+              ),
+            );
+          },
+        },
+        {
+          menuType: "menuitem",
+          l10nID: `${addonRef}-upmeta`,
+          icon: menuIconUpMeta,
+          onCommand: (ev: any, context: any) =>
+            KeyExampleFactory.upMetaItems(),
+          onShowing: (ev: any, context: any) => {
+            const items = context.items ?? ZoteroPane.getSelectedItems();
+            context.setEnabled(
+              items.some((item: Zotero.Item) =>
+                UIExampleFactory.checkItemMeta(item),
+              ),
+            );
+          },
+        },
+      ],
     });
-    // 分类更新条目信息
-    ztoolkit.Menu.register("collection", {
-      tag: "menuitem",
-      id: `zotero-collectionmenu-${config.addonRef}-upifs`,
-      label: getString("upifs"),
-      commandListener: (ev) => KeyExampleFactory.setExtraCol(),
-      icon: menuIconUpIFs,
+    if (itemID) this.menuRegistrationIDs.push(itemID);
+
+    // collection 右键：更新期刊信息 / 更新元数据
+    const collectionID = Zotero.MenuManager.registerMenu({
+      menuID: `${addonRef}-collection-menu`,
+      pluginID,
+      target: "main/library/collection",
+      menus: [
+        {
+          menuType: "menuitem",
+          l10nID: `${addonRef}-upifs`,
+          icon: menuIconUpIFs,
+          onCommand: (ev: any, context: any) =>
+            KeyExampleFactory.setExtraCol(),
+          onShowing: (ev: any, context: any) => {
+            const collections = typeof ZoteroPane.getSelectedCollections === 'function'
+              ? ZoteroPane.getSelectedCollections()
+              : [ZoteroPane.getSelectedCollection()].filter(Boolean);
+            context.setEnabled(
+              UIExampleFactory.canUpdateCol(collections, "ifs"),
+            );
+          },
+        },
+        {
+          menuType: "menuitem",
+          l10nID: `${addonRef}-upmeta`,
+          icon: menuIconUpMeta,
+          onCommand: (ev: any, context: any) => KeyExampleFactory.upMetaCol(),
+          onShowing: (ev: any, context: any) => {
+            const collections = typeof ZoteroPane.getSelectedCollections === 'function'
+              ? ZoteroPane.getSelectedCollections()
+              : [ZoteroPane.getSelectedCollection()].filter(Boolean);
+            context.setEnabled(
+              UIExampleFactory.canUpdateCol(collections, "meta"),
+            );
+          },
+        },
+      ],
     });
-    // 分类更新元数据
-    ztoolkit.Menu.register("collection", {
-      tag: "menuitem",
-      id: `zotero-collectionmenu-${config.addonRef}-upmeta`,
-      label: getString("upmeta"),
-      commandListener: (ev) => KeyExampleFactory.upMetaCol(),
-      icon: menuIconUpMeta,
-    });
-    // 更新条目信息
-    ztoolkit.Menu.register("item", {
-      tag: "menuitem",
-      id: `zotero-itemmenu-${config.addonRef}-upifs`,
-      label: getString("upifs"),
-      commandListener: (ev) => KeyExampleFactory.setExtraItems(),
-      icon: menuIconUpIFs,
-    });
-    // 条目更新元数据
-    ztoolkit.Menu.register("item", {
-      tag: "menuitem",
-      id: `zotero-itemmenu-${config.addonRef}-upmeta`,
-      label: getString("upmeta"),
-      commandListener: (ev) => KeyExampleFactory.upMetaItems(),
-      icon: menuIconUpMeta,
-    });
+    if (collectionID) this.menuRegistrationIDs.push(collectionID);
   }
   // @example
   // static registerRightClickMenuPopup() {
@@ -1470,231 +1483,166 @@ export class UIExampleFactory {
   @example //Tools菜单
   static registerWindowMenuWithSeprator() {
     const menuIconUpIFs = `chrome://${config.addonRef}/content/icons/favicon@0.5x.png`;
-    ztoolkit.Menu.register("menuTools", {
-      tag: "menuseparator",
-    });
-    // menu->Tools menuitem
-    // ztoolkit.Menu.register("menuTools", {
-    //   tag: "menu",
-    //   label: getString("menuitem-filemenulabel"),
+    const addonRef = config.addonRef;
+    const pluginID = config.addonID;
 
-    // onpopupshowing:  `Zotero.${config.addonInstance}.hooks.hideMenu()`,// 显示隐藏菜单
-    // children: [
-    //   {
-    //     tag: "menuitem",
-    //     label: getString("menuitem.submenulabel"),
-    //     // oncommand: "alert('Hello World! Sub Menuitem.')",
-    //     commandListener: (ev) => HelperExampleFactory.dialogAuBoldStar(),
-    //   },
-
-    // ],
-    //oncommand: "alert('Hello World! File Menuitem.')",
-    ztoolkit.Menu.register("menuTools", {
-      tag: "menu",
-      label: getString("toolbox"),
-      icon: menuIconUpIFs,
-      onpopupshowing: `Zotero.${config.addonInstance}.hooks.hideMenu()`, // 显示隐藏菜单
-
-      children: [
-        // Author Bold and/ or Asterisk 作者加粗加星
+    // main/menubar/tools 非 grouped target，顶层可含 separator。
+    const id = Zotero.MenuManager.registerMenu({
+      menuID: `${addonRef}-tools-menu`,
+      pluginID,
+      target: "main/menubar/tools",
+      menus: [
+        { menuType: "separator" },
         {
-          tag: "menuitem",
-          id: "zotero-toolboxmenu-auBoldStar",
-          label: getString("auBoldStar"),
-          // oncommand: "alert('Hello World! Sub Menuitem.')",
-          commandListener: (ev) => HelperExampleFactory.dialogAuProcess(),
+          // 工具箱子菜单
+          menuType: "submenu",
+          l10nID: `${addonRef}-toolbox`,
+          icon: menuIconUpIFs,
+          menus: [
+            // Author Bold and/ or Asterisk 作者加粗加星
+            {
+              menuType: "menuitem",
+              l10nID: `${addonRef}-auBoldStar`,
+              onCommand: (ev: any, context: any) =>
+                HelperExampleFactory.dialogAuProcess(),
+              onShowing: (ev: any, context: any) =>
+                context.setVisible(Boolean(getPref(`bold.star`))),
+            },
+            // Clean Author Bold 清除作者加粗
+            {
+              menuType: "menuitem",
+              l10nID: `${addonRef}-cleanBold`,
+              onCommand: (ev: any, context: any) =>
+                HelperExampleFactory.cleanBold(),
+              onShowing: (ev: any, context: any) =>
+                context.setVisible(Boolean(getPref(`remove.bold`))),
+            },
+            // Clean Author Asterisk清除作者加星
+            {
+              menuType: "menuitem",
+              l10nID: `${addonRef}-cleanStar`,
+              onCommand: (ev: any, context: any) =>
+                HelperExampleFactory.cleanStar(),
+              onShowing: (ev: any, context: any) =>
+                context.setVisible(Boolean(getPref(`remove.star`))),
+            },
+            // Clean Author Bold and Asterisk 清除作者加粗加星
+            {
+              menuType: "menuitem",
+              l10nID: `${addonRef}-cleanBoldStar`,
+              onCommand: (ev: any, context: any) =>
+                HelperExampleFactory.cleanBoldAndStar(),
+              onShowing: (ev: any, context: any) =>
+                context.setVisible(Boolean(getPref(`remove.bold.star`))),
+            },
+            // Change Author Name to Title Case 更改作者大小写
+            {
+              menuType: "menuitem",
+              l10nID: `${addonRef}-chAuTitle`,
+              onCommand: (ev: any, context: any) =>
+                HelperExampleFactory.changAuthorCase(),
+              onShowing: (ev: any, context: any) =>
+                context.setVisible(Boolean(getPref(`chang.author.case`))),
+            },
+            // Swap Authors First and Last Name 交换作者姓和名
+            {
+              menuType: "menuitem",
+              l10nID: `${addonRef}-swapAuName`,
+              onCommand: (ev: any, context: any) =>
+                HelperExampleFactory.swapAuthorName(),
+              onShowing: (ev: any, context: any) =>
+                context.setVisible(Boolean(getPref(`swap.author`))),
+            },
+            {
+              menuType: "separator",
+              onShowing: (ev: any, context: any) =>
+                context.setVisible(Boolean(getPref(`sep1`))),
+            },
+            // Change Title to Sentense Case 条目题目大小写
+            {
+              menuType: "menuitem",
+              l10nID: `${addonRef}-chTitleCase`,
+              onCommand: (ev: any, context: any) =>
+                HelperExampleFactory.chanItemTitleCase(),
+              onShowing: (ev: any, context: any) =>
+                context.setVisible(Boolean(getPref(`chang.title`))),
+            },
+            // Item Title Find and Replace 条目题目查找替换
+            {
+              menuType: "menuitem",
+              l10nID: `${addonRef}-itemTitleFindReplace`,
+              onCommand: (ev: any, context: any) =>
+                HelperExampleFactory.dialogItemTitleProcess(),
+              onShowing: (ev: any, context: any) =>
+                context.setVisible(
+                  Boolean(getPref(`item.title.find.replace`)),
+                ),
+            },
+            // Change Publication Title Case 更改期刊大小写
+            {
+              menuType: "menuitem",
+              l10nID: `${addonRef}-chPubTitleCase`,
+              onCommand: (ev: any, context: any) =>
+                HelperExampleFactory.chPubTitleCase(),
+              onShowing: (ev: any, context: any) =>
+                context.setVisible(
+                  Boolean(getPref(`chang.pub.title.case`)),
+                ),
+            },
+            // Change Publication Title
+            {
+              menuType: "menuitem",
+              l10nID: `${addonRef}-chPubTitle`,
+              onCommand: (ev: any, context: any) =>
+                HelperExampleFactory.dialogChPubTitle(),
+              onShowing: (ev: any, context: any) =>
+                context.setVisible(Boolean(getPref(`chang.pub.title`))),
+            },
+            {
+              menuType: "separator",
+              onShowing: (ev: any, context: any) =>
+                context.setVisible(Boolean(getPref(`sep2`))),
+            },
+            // Show Profile Directory
+            {
+              menuType: "menuitem",
+              l10nID: `${addonRef}-showProfile`,
+              onCommand: (ev: any, context: any) =>
+                HelperExampleFactory.progressWindow(
+                  // @ts-ignore - Plugin instance is not typed
+                  `${getString("proDir")} ${Zotero.Profile.dir}`,
+                  "success",
+                ),
+              onShowing: (ev: any, context: any) =>
+                context.setVisible(Boolean(getPref(`show.profile.dir`))),
+            },
+            // Show Data Directory
+            {
+              menuType: "menuitem",
+              l10nID: `${addonRef}-showData`,
+              onCommand: (ev: any, context: any) =>
+                HelperExampleFactory.progressWindow(
+                  `${getString("dataDir")} ${Zotero.DataDirectory.dir}`,
+                  "success",
+                ),
+              onShowing: (ev: any, context: any) =>
+                context.setVisible(Boolean(getPref(`show.data.dir`))),
+            },
+          ],
         },
-        // Clean Author Bold 清除作者加粗
         {
-          tag: "menuitem",
-          id: "zotero-toolboxmenu-cleanBold",
-          label: getString("cleanBold"),
-          // oncommand: "alert('Hello World! Sub Menuitem.')",
-          commandListener: (ev) => HelperExampleFactory.cleanBold(),
+          // 清除自定义字段
+          menuType: "menuitem",
+          l10nID: `${addonRef}-cleanExtra`,
+          icon: menuIconUpIFs,
+          onCommand: (ev: any, context: any) =>
+            HelperExampleFactory.emptyExtra(),
         },
-        // Clean Author Asterisk清除作者加星
-        {
-          tag: "menuitem",
-          id: "zotero-toolboxmenu-cleanStar",
-          label: getString("cleanStar"),
-          // oncommand: "alert('Hello World! Sub Menuitem.')",
-          commandListener: (ev) => HelperExampleFactory.cleanStar(),
-        },
-        // Clean Author Bold and Asterisk 清除作者加粗加星
-        {
-          tag: "menuitem",
-          id: "zotero-toolboxmenu-cleanBoldStar",
-          label: getString("cleanBoldStar"),
-          // oncommand: "alert('Hello World! Sub Menuitem.')",
-          commandListener: (ev) => HelperExampleFactory.cleanBoldAndStar(),
-        },
-        // Change Author Name to Title Case 更改作者大小写
-        {
-          tag: "menuitem",
-          id: "zotero-toolboxmenu-chAuTitle",
-          label: getString("chAuTitle"),
-          // oncommand: "alert('Hello World! Sub Menuitem.')",
-          commandListener: (ev) => HelperExampleFactory.changAuthorCase(),
-        },
-        // Swap Authors First and Last Name 交换作者姓和名
-        {
-          tag: "menuitem",
-          id: "zotero-toolboxmenu-swapAuName",
-          label: getString("swapAuName"),
-          // oncommand: "alert('Hello World! Sub Menuitem.')",
-          commandListener: (ev) => HelperExampleFactory.swapAuthorName(),
-        },
-        {
-          tag: "menuseparator",
-          id: "zotero-toolboxmenu-sep1",
-        },
-        // Change Title to Sentense Case 条目题目大小写
-        {
-          tag: "menuitem",
-          id: "zotero-toolboxmenu-chTitleCase",
-          label: getString("chTitleCase"),
-          // oncommand: "alert('Hello World! Sub Menuitem.')",
-          commandListener: (ev) => HelperExampleFactory.chanItemTitleCase(),
-        },
-        // Item Title Find and Replace 条目题目查找替换
-        {
-          tag: "menuitem",
-          id: "zotero-toolboxmenu-itemTitleFindReplace",
-          label: getString("itemTitleFindReplace"),
-          // oncommand: "alert(KeyExampleFactory.getSelectedItems())",
-          // oncommand: `ztoolkit.getGlobal('alert')(${KeyExampleFactory.getSelectedItems()})`,
-          commandListener: (ev) =>
-            HelperExampleFactory.dialogItemTitleProcess(),
-        },
-        // Change Publication Title Case 更改期刊大小写
-        {
-          tag: "menuitem",
-          id: "zotero-toolboxmenu-chPubTitleCase",
-          label: getString("chPubTitleCase"),
-          // oncommand: "alert('Hello World! Sub Menuitem.')",
-          commandListener: (ev) => HelperExampleFactory.chPubTitleCase(),
-        },
-        // Change Publication Title
-        {
-          tag: "menuitem",
-          id: "zotero-toolboxmenu-chPubTitle",
-          label: getString("chPubTitle"),
-          // oncommand: "alert('Hello World! Sub Menuitem.')",
-          commandListener: (ev) => HelperExampleFactory.dialogChPubTitle(),
-        },
-        {
-          tag: "menuseparator",
-          id: "zotero-toolboxmenu-sep2",
-        },
-        // Show Porfile Directory
-        {
-          tag: "menuitem",
-          id: "zotero-toolboxmenu-showProfile",
-          label: getString("showProfile"),
-          // oncommand: "alert('Hello World! Sub Menuitem.')",
-          commandListener: (ev) =>
-            HelperExampleFactory.progressWindow(
-              // @ts-ignore - Plugin instance is not typed
-              `${getString("proDir")} ${Zotero.Profile.dir}`,
-              "success",
-            ),
-        },
-        // Show Data Directory
-        {
-          tag: "menuitem",
-          id: "zotero-toolboxmenu-showData",
-          label: getString("showData"),
-          // oncommand: "alert('Hello World! Sub Menuitem.')",
-          commandListener: (ev) =>
-            HelperExampleFactory.progressWindow(
-              `${getString("dataDir")} ${Zotero.DataDirectory.dir}`,
-              "success",
-            ),
-        },
-        //刷新自定义列
-        // {
-        //   tag: "menuitem",
-        //   id: "zotero-toolboxmenu-refresh",
-        //   label: '缩写',
-        //   commandListener: (ev) => HelperExampleFactory.upJourAbb(),
-        // },
       ],
     });
-    ztoolkit.Menu.register("menuTools", {
-      tag: "menuitem",
-      label: getString("cleanExtra"),
-      commandListener: (ev) => HelperExampleFactory.emptyExtra(),
-      icon: menuIconUpIFs,
-    });
+    if (id) this.menuRegistrationIDs.push(id);
   }
 
-  // 显示隐藏工具箱中的菜单
-  @example
-  static hideMenu() {
-    const menuboldStar = document.getElementById(
-        "zotero-toolboxmenu-auBoldStar",
-      ), //
-      menucleanBold = document.getElementById("zotero-toolboxmenu-cleanBold"), //
-      menucleanStar = document.getElementById("zotero-toolboxmenu-cleanStar"), //
-      menucleanBoldStar = document.getElementById(
-        "zotero-toolboxmenu-cleanBoldStar",
-      ), //
-      menuchAuTitle = document.getElementById("zotero-toolboxmenu-chAuTitle"), //
-      menuswapAuName = document.getElementById("zotero-toolboxmenu-swapAuName"), //
-      menusep1 = document.getElementById("zotero-toolboxmenu-sep1"), //
-      menuchTitleCase = document.getElementById(
-        "zotero-toolboxmenu-chTitleCase",
-      ), //
-      menuchPubTitle = document.getElementById("zotero-toolboxmenu-chPubTitle"), //
-      menuchPubTitleCase = document.getElementById(
-        "zotero-toolboxmenu-chPubTitleCase",
-      ), //
-      menuitemTitleFindReplace = document.getElementById(
-        "zotero-toolboxmenu-itemTitleFindReplace",
-      ), //
-      menusep2 = document.getElementById("zotero-toolboxmenu-sep2"), //
-      menushowProfile = document.getElementById(
-        "zotero-toolboxmenu-showProfile",
-      ), //
-      menushowData = document.getElementById("zotero-toolboxmenu-showData"); //
-
-    const boldStar = getPref(`bold.star`),
-      cleanBold = getPref(`remove.bold`),
-      cleanStar = getPref(`remove.star`),
-      cleanBoldStar = getPref(`remove.bold.star`),
-      chAuTitle = getPref(`chang.author.case`),
-      swapAuName = getPref(`swap.author`),
-      sep1 = getPref(`sep1`),
-      chTitleCase = getPref(`chang.title`),
-      chPubTitle = getPref(`chang.pub.title`),
-      chPubTitleCase = getPref(`chang.pub.title.case`),
-      itemTitleFindReplace = getPref(`item.title.find.replace`),
-      sep2 = getPref(`sep2`),
-      showProfile = getPref(`show.profile.dir`),
-      showData = getPref(`show.data.dir`);
-
-    // menuboldStar?.setAttribute('hidden', String(!boldStar));
-    menuboldStar?.setAttribute("hidden", String(!boldStar));
-    menucleanBold?.setAttribute("hidden", String(!cleanBold));
-    menucleanStar?.setAttribute("hidden", String(!cleanStar));
-    menucleanBoldStar?.setAttribute("hidden", String(!cleanBoldStar));
-    menuchAuTitle?.setAttribute("hidden", String(!chAuTitle));
-    menuswapAuName?.setAttribute("hidden", String(!swapAuName));
-    menusep1?.setAttribute("hidden", String(!sep1));
-    menuchTitleCase?.setAttribute("hidden", String(!chTitleCase));
-    menuchPubTitle?.setAttribute("hidden", String(!chPubTitle));
-    menuchPubTitleCase?.setAttribute("hidden", String(!chPubTitleCase));
-    menuitemTitleFindReplace?.setAttribute(
-      "hidden",
-      String(!itemTitleFindReplace),
-    );
-    menusep2?.setAttribute("hidden", String(!sep2));
-    menushowProfile?.setAttribute("hidden", String(!showProfile));
-    menushowData?.setAttribute("hidden", String(!showData));
-
-    // menuboldStar?.setAttribute('disabled', 'true');
-    // (document.getElementById('zotero-toolboxmenu-auBoldStar') as HTMLElement).hidden = !boldStar;
-  }
   // @example
   //添加工具栏按钮
   // static refreshButton() {

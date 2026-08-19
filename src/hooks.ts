@@ -8,6 +8,8 @@ import { initLocale } from "./utils/locale";
 import { registerPrefsScripts } from "./modules/preferenceScript";
 import { registerShortcuts } from "./modules/shortcuts";
 
+const addonFTL = `${config.addonRef}-addon.ftl`;
+
 async function onStartup() {
   await Promise.all([
     Zotero.initializationPromise,
@@ -28,37 +30,29 @@ async function onStartup() {
 }
 
 async function onMainWindowLoad(win: Window) {
-  UIExampleFactory.registerRightClickMenuItem(); // 右键菜单
+  (win as any).MozXULElement.insertFTLIfNeeded(addonFTL);
+  UIExampleFactory.registerAllMenus(); // 右键菜单 + Tools 菜单（多主窗口只注册一次）
   // UIExampleFactory.registerRightClickMenuPopup(); // 右键弹出菜单
-  UIExampleFactory.registerWindowMenuWithSeprator();
   await UIExampleFactory.registerExtraColumn();
-
-  //监听分类右键显示菜单
-  // @ts-ignore
-  ZoteroPane.collectionsView.onSelect.addListener(
-    UIExampleFactory.displayColMenuitem,
-  ); //监听分类右键显示菜单
-
-  //监听右键显示菜单
-  // @ts-ignore
-  ZoteroPane.itemsView.onSelect.addListener(
-    UIExampleFactory.displayContexMenuitem,
-  ); //监听右键显示菜单
 }
 
-async function onMainWindowUnload() {
+async function onMainWindowUnload(win: Window) {
   ztoolkit.Keyboard.unregisterAll();
+  unloadAddonFTL(win);
+}
+
+function unloadAddonFTL(win: Window) {
+  win.document.querySelector(`[href="${addonFTL}"]`)?.remove();
 }
 
 // 设置自定义列
 // async function setExtraColumn() {
 //   await UIExampleFactory.registerExtraColumn()
 // }
-function hideMenu(): void {
-  UIExampleFactory.hideMenu();
-}
 
 function onShutdown(): void {
+  Zotero.getMainWindows().forEach((win) => unloadAddonFTL(win));
+  UIExampleFactory.unregisterAllMenus(); // 注销 Zotero 官方菜单
   ztoolkit.unregisterAll();
   // Remove addon object
   addon.data.alive = false;
@@ -148,7 +142,6 @@ export default {
   onNotify,
   onPrefsEvent,
   // onShortcuts,
-  hideMenu,
   // setExtraColumn,
   // getSelectedItems,
 };
