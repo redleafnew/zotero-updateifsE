@@ -53,6 +53,7 @@ function unloadAddonFTL(win: Window) {
 function onShutdown(): void {
   Zotero.getMainWindows().forEach((win) => unloadAddonFTL(win));
   UIExampleFactory.unregisterAllMenus(); // 注销 Zotero 官方菜单
+  UIExampleFactory.unregisterExtraColumns();
   ztoolkit.unregisterAll();
   // Remove addon object
   addon.data.alive = false;

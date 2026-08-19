@@ -1246,6 +1246,10 @@ export class UIExampleFactory {
   static menuRegistrationIDs: string[] = [];
   // 防止多主窗口场景下重复注册菜单（registerMenu 是全局 API）
   static menuRegistered = false;
+  // 保存 Zotero.ItemTreeManager.registerColumn 返回的 dataKey
+  static extraColumnRegistrationKeys: Record<string, string> = {};
+  // 防止启动和首选项事件同时触发列注册
+  static extraColumnRegistrationPromise?: Promise<void>;
   // 统一注册右键菜单与 Tools 菜单；多主窗口只注册一次
   static registerAllMenus() {
     if (UIExampleFactory.menuRegistered) return;
@@ -1652,6 +1656,11 @@ export class UIExampleFactory {
 
   @example //注册多余列
   static async registerExtraColumn() {
+    if (UIExampleFactory.extraColumnRegistrationPromise) {
+      return UIExampleFactory.extraColumnRegistrationPromise;
+    }
+
+    const registrationPromise = (async () => {
     const columnConfig: Record<
       string,
       {
@@ -1868,10 +1877,18 @@ export class UIExampleFactory {
 
     for (const key in columnConfig) {
       const opt = columnConfig[key];
+      const dataKey = opt.dataKey || key;
+      const registeredKey =
+        UIExampleFactory.extraColumnRegistrationKeys[key] ||
+        `${config.addonID}-${dataKey}`;
       if (getPref(opt.pref || key)) {
+        if (Zotero.ItemTreeManager.isCustomColumn(registeredKey)) {
+          UIExampleFactory.extraColumnRegistrationKeys[key] = registeredKey;
+          continue;
+        }
         const result = await Zotero.ItemTreeManager.registerColumn({
-          dataKey: opt.dataKey || key,
-          label: getString(opt.dataKey || key),
+          dataKey,
+          label: getString(dataKey),
           pluginID: config.addonID,
           zoteroPersist: ["width", "hidden", "sortDirection"],
           dataProvider: (item) => {
@@ -1881,13 +1898,39 @@ export class UIExampleFactory {
           },
         });
         if (result) {
-          opt.registeredKey = result;
+          UIExampleFactory.extraColumnRegistrationKeys[key] = result;
         }
       } else {
-        opt.registeredKey &&
-          (await Zotero.ItemTreeManager.unregisterColumn(opt.registeredKey));
+        if (Zotero.ItemTreeManager.isCustomColumn(registeredKey)) {
+          Zotero.ItemTreeManager.unregisterColumn(registeredKey);
+        }
+        delete UIExampleFactory.extraColumnRegistrationKeys[key];
       }
     }
+    })();
+
+    UIExampleFactory.extraColumnRegistrationPromise = registrationPromise;
+    try {
+      await registrationPromise;
+    } finally {
+      if (
+        UIExampleFactory.extraColumnRegistrationPromise ===
+        registrationPromise
+      ) {
+        UIExampleFactory.extraColumnRegistrationPromise = undefined;
+      }
+    }
+  }
+
+  static unregisterExtraColumns() {
+    for (const registeredKey of Object.values(
+      UIExampleFactory.extraColumnRegistrationKeys,
+    )) {
+      if (Zotero.ItemTreeManager.isCustomColumn(registeredKey)) {
+        Zotero.ItemTreeManager.unregisterColumn(registeredKey);
+      }
+    }
+    UIExampleFactory.extraColumnRegistrationKeys = {};
   }
 
   // @example
