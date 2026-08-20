@@ -1,6 +1,6 @@
 {
   "name": "greenfrog",
-  "version": "0.22.1",
+  "version": "0.22.2",
   "type": "module",
   "description": "Zotero plugin for update journal information from easyScholar",
   "config": {
