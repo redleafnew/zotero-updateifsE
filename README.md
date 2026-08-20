@@ -1,6 +1,6 @@
 # Green Frog
 
-[![zotero target version](https://img.shields.io/badge/Zotero-7/8/9/10-green?style=flat-square&logo=zotero&logoColor=CC2936)](https://www.zotero.org)
+[![zotero target version](https://img.shields.io/badge/Zotero-8/9/10-green?style=flat-square&logo=zotero&logoColor=CC2936)](https://www.zotero.org)
 [![version](https://img.shields.io/github/package-json/v/redleafnew/zotero-updateifsE?style=flat-square)](https://github.com/redleafnew/zotero-updateifsE/releases/)
 [![download number](https://img.shields.io/github/downloads/redleafnew/zotero-updateifsE/latest/total?style=flat-square)](https://github.com/redleafnew/zotero-updateifsE/releases/)
 [![license](https://img.shields.io/github/license/redleafnew/zotero-updateifsE?style=flat-square)](#license)
@@ -10,7 +10,7 @@
 
 # 注意：
 
-[最新版](https://github.com/redleafnew/zotero-updateifsE/releases/latest)仅支持Zotero 7.0及以上版本, Zotero 6.0请下载[0.13.0](https://github.com/redleafnew/zotero-updateifsE/releases/tag/0.13.0)。
+[最新版](https://github.com/redleafnew/zotero-updateifsE/releases/latest)仅支持Zotero 8.0及以上版本，Zotero 6.0请下载[0.13.0](https://github.com/redleafnew/zotero-updateifsE/releases/tag/0.13.0)，Zotero 7.0请下载[0.22.0](https://github.com/redleafnew/zotero-updateifsE/releases/tag/v0.22.0)。
 
 ## 主要功能
 
@@ -69,7 +69,7 @@
 
 # Reminder：
 
-The [latest version](https://github.com/redleafnew/zotero-updateifsE/releases/latest) only supports Zotero 7.0 (or later versions), Zotero 6.0 users could download [0.13.0](https://github.com/redleafnew/zotero-updateifsE/releases/tag/0.13.0).
+The [latest version](https://github.com/redleafnew/zotero-updateifsE/releases/latest) only supports Zotero 8.0 (or later versions), Zotero 6.0 users could download [0.13.0](https://github.com/redleafnew/zotero-updateifsE/releases/tag/0.13.0), Zotero 7.0 users could download [0.22.0](https://github.com/redleafnew/zotero-updateifsE/releases/tag/v0.22.0).
 
 ## Features
 
