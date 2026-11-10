@@ -30,7 +30,7 @@
   },
   "homepage": "https://github.com/redleafnew/zotero-updateifsE#readme",
   "dependencies": {
-    "zotero-plugin-toolkit": "^5.2.0"
+    "zotero-plugin-toolkit": "^6.0.0"
   },
   "devDependencies": {
     "@eslint/js": "^9.23.0",
